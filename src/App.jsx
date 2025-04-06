@@ -7,6 +7,7 @@ import {
 
 import 'aos/dist/aos.css';
 import './css/style.css';
+import {Helmet} from "react-helmet";
 
 import AOS from 'aos';
 
@@ -14,6 +15,8 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
+import Transaction from './pages/Payment';
+import Jenjang from './pages/Jenjang';
 
 function App() {
 
@@ -37,11 +40,32 @@ function App() {
   return (
     <>
       <Routes>
+        {/* <Route exact path="/" element={<Jenjang />} /> */}
         <Route exact path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/bayar" element={<Transaction />} />
+        {/* <Route path="/:code" element={<Home />} /> */}
       </Routes>
+
+      <Helmet>
+        <script src='https://app-sandbox.duitku.com/lib/js/duitku.js'></script>
+        {/* <Helmet> */}
+          <script>
+            {/* document.getElementById('cek').scrollLeft += 35; */}
+            {/* const btnLeft = document.getElementById('slideLeft');
+            btnRight.addEventListener('click', function() {
+              document.getElementById('cek').scrollLeft += 35
+            }); */}
+            {/* btnRight.onclick = (function() {
+            })()
+            btnLeft.onclick = function() {
+              document.getElementById('stepper-container').scrollLeft -= 35
+            } */}
+          </script>
+      {/* </Helmet> */}
+      </Helmet>
     </>
   );
 }

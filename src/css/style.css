@@ -22,3 +22,15 @@
 [x-cloak=""] {
     display: none;
 }
+
+.scroll-container {
+    overflow-x: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    white-space: nowrap;
+    overflow:scroll;
+  }
+  
+::-webkit-scrollbar {
+display: none; /* Safari and Chrome */
+}

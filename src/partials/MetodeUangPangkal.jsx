@@ -1,7 +1,7 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
-function VerifikasiKeluargaForm() {
+function MetodeUangPangkal() {
 
 
 
@@ -13,14 +13,16 @@ function VerifikasiKeluargaForm() {
                         <form action="">
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-3xl font-semibold text-gray-900 !inline">Verifikasi Keluarga Rabbaanii</h2>
-                                <p className="my-5 text-sm/6 text-gray-700">
-                                <b>Keluarga Rabbaanii :</b> calon peserta didik adalah alumni RIS atau mempunyai kakak/adik yang bersekolah di RIS.
-                                <br /><br /> <b>Non Keluarga Rabbaanii :</b> calon peserta didik belum menjadi alumni RIS atau belum memiliki kakak/adik yang bersekolah di RIS.
+                                <h2 className="text-3xl font-semibold text-gray-900">Konfirmasi Metode Uang Pangkal</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600">
+                                {/* Keluarga Rabbaanii : calon peserta didik adalah alumni RIS atau mempunyai kakak/adik yang bersekolah di RIS.
+                                Non Keluarga Rabbaanii : calon peserta didik belum menjadi  alumni RIS atau belum memiliki kakak/adik yang bersekolah di RIS. */}
                                     {/* Silakan upload dokumen berikut, mohon Scan/Foto setiap dokumen dengan jelas. */}
                                     {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
                                 <div className="border-b border-gray-900/10 py-3"></div>
+
+                                <h2 className="text-3xl font-semibold text-gray-900"></h2>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             
@@ -40,17 +42,6 @@ function VerifikasiKeluargaForm() {
                                     {/* if () {
                                         
                                     } */}
-
-                                    <div class="sm:col-span-4">
-                                    <label htmlFor="photo_sampul_ijazah" class="block text-sm/6 font-medium text-gray-900">Upload foto sampul depan Raport/Ijazah Rabbaanii</label>
-                                    <span className="text-sm italic">Bagi calon santri yang memiliki keluarga terdaftar dalam satu Kartu Keluarga</span>
-                                    <p className="text-xs/5 text-gray-600">JPG, maks 2MB</p>
-                                    <div className="mt-2">
-                                        <input id="photo_sampul_ijazah" name="photo_sampul_ijazah" type="file" autoComplete="photo_sampul_ijazah" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-                                    </div>
-                                    </div>
-
-                    
                                    
                                     
 
@@ -67,4 +58,4 @@ function VerifikasiKeluargaForm() {
     )
 }
 
-export default VerifikasiKeluargaForm;
+export default MetodeUangPangkal;

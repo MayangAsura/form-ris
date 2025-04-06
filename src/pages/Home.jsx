@@ -12,11 +12,13 @@ import Stepper from '../partials/Stepper';
 import IdentitasForm from '../partials/IdentitasForm';
 import DataAyahForm from '../partials/DataAyahForm'
 import ProfileCard from '../partials/ProfileCard';
-import Jenjang from '../partials/Jenjang';
+import Jenjang from './Jenjang';
+import HorizontalStepper from '../partials/HorizontalStepper'
+
 
 function Home() {
   return (
-    <div className="flex flex-col min-w-screen overflow-hidden">
+    <div className="flex flex-col  max-w-lg my-0 mx-auto min-w-screen overflow-hidden">
 
       {/*  Site header */}
       <Header />
@@ -27,9 +29,10 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard/>
+        <HorizontalStepper/>
         <Jenjang/>
         {/* <HeroHome /> */}
-        <Stepper/>
+        {/* <Stepper/> */}
         {/* <IdentitasForm/> */}
         {/* <DataAyahForm/> */}
         {/* <FeaturesHome /> */}

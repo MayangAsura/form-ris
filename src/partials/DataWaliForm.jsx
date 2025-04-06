@@ -1,21 +1,23 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
-function DataAyahForm() {
+function DataWaliForm() {
 
     return (
         <section className="relative">
             <div className='max-w-6xl mx-auto px-4 sm:px-6'>
-                <div className='py-12 md:py-20'>
+                <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
                         <form action="">
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-base/7 font-semibold text-gray-900">Data Wali</h2>
+                                <h2 className="text-3xl font-semibold text-gray-900">Data Wali</h2>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
-                                    Jika Ananda tinggal dengan wali.
+                                    (Diisi jika Calon Peserta Didik diasuh oleh Wali)
+                                    {/* Jika Ananda tinggal dengan wali. */}
                                     {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
+                                <div className="border-b border-gray-900/20 py-3"></div>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div class="sm:col-span-4">
@@ -53,12 +55,12 @@ function DataAyahForm() {
                                         <label for="wali_salary" class="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
                                         <div class="mt-2 grid grid-cols-1">
                                             <select id="wali_salary" name="wali_salary" autocomplete="wali_salary" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                            <option>kurang dari Rp 2 Jt</option>
-                                            <option>kurang dari Rp 2 Jt</option>
-                                            <option>Rp 5 Jt - 10 Jt</option>
-                                            <option>Rp 10 Jt - Rp 15 Jt</option>
-                                            <option>Rp 15 Jt - Rp 20 Jt</option>
-                                            <option>Lebih dari Rp 20 Jt</option>
+                                            <option>Kurang dari Rp2 Jt</option>
+                                            <option>Kurang dari Rp2 Jt</option>
+                                            <option>Rp5 Jt - Rp10 Jt</option>
+                                            <option>Rp10 Jt - Rp15 Jt</option>
+                                            <option>Rp15 Jt - Rp20 Jt</option>
+                                            <option>Lebih dari Rp20 Jt</option>
                                             <option>Other</option>
 
                                             </select>
@@ -81,4 +83,4 @@ function DataAyahForm() {
     )
 }
 
-export default DataAyahForm;
+export default DataWaliForm;
