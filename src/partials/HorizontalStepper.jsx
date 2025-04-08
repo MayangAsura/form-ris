@@ -1,12 +1,13 @@
-import { useRef,useState } from 'react';
+import { useEffect, useRef,useState } from 'react';
 import { TiTick } from "react-icons/ti";
 import IdentitasForm from './IdentitasForm';
 import DataAyahForm from './DataAyahForm';
 import DataIbuForm from './DataIbuForm';
-// import DataWaliForm from '/DataWaliForm';
+import DataWaliForm from './DataWaliForm';
 import BerkasForm from './BerkasForm';
 import VerifikasiKeluargaForm from './VerifikasiKeluargaForm';
 import Payment from '../pages/Payment';
+import Pembayaran from '../partials/Pembayaran';
 import Status from './Status';
 import MetodeUangPangkal from './MetodeUangPangkal';
 
@@ -32,8 +33,9 @@ const HorizontalStepper = () => {
   const getIdentitas = (data) => {
     console.log(data)
   }
-  const getDataAyah = (value) => {
 
+  const getDataAyah = (data) => {
+    console.log("Data Ayah >", data)
   }
   const getDataIbu = (value) => {
 
@@ -51,13 +53,21 @@ const HorizontalStepper = () => {
 
   }
 
+  const getCurrentStep = (value) => {
+    setCurrentStep(value)
+  }
+  const getComplete = (value) => {
+    setComplete(value)
+  }
+
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status"];
-    const form = [<Payment /> , <IdentitasForm onSubmit={getIdentitas}/>, <DataAyahForm/>, <DataIbuForm/>, <BerkasForm/>, <VerifikasiKeluargaForm/>, <MetodeUangPangkal/>,<Status/>];
+    const form = [<Pembayaran /> , <IdentitasForm onSubmit={getIdentitas} complete={complete} currentStep={currentStep} handledCurrentStep={setCurrentStep}/>, <DataAyahForm onSubmit={getDataAyah} complete={complete} currentStep={currentStep} setComplete={setComplete} handledCurrentStep={setCurrentStep} scroll={scroll} />, <DataIbuForm/>, <DataWaliForm/>,  <BerkasForm/>, <VerifikasiKeluargaForm/>, <MetodeUangPangkal/>,<Status/>];
 
   return (
-    <>
-    <div className="flex items-center justify-center p-4">
+    <>setComplete
+    <div className="flex items-center justify-center shadow-md p-4 ">
+
       {/* Left Scroll Button */}
       <button 
         onClick={() => scroll('left')}
@@ -71,7 +81,7 @@ const HorizontalStepper = () => {
       {/* Stepper Container */}
       <div 
         ref={stepperRef}
-        className="flex overflow-x-auto space-x-4 p-2 scrollbar-hide" // scrollbar-hide requires plugin
+        className="flex overflow-x-auto space-x-4 scrollbar-hide" // scrollbar-hide requires plugin
       >
         {steps.map((step, index) => (
           <div 
@@ -90,8 +100,9 @@ const HorizontalStepper = () => {
           </div>
           
         ))}
+        
       </div>
-
+      
       {/* Right Scroll Button */}
       <button 
         onClick={() => scroll('right')}
@@ -102,28 +113,30 @@ const HorizontalStepper = () => {
         </svg>
       </button>
     </div>
+    <div className="border-b border-gray-900/10 py-0"></div>
 
     {steps.map((step, index) => (
       <div className={`flex justify-center ${currentStep !== index  + 1 && "hide"}`}>
-          {form[currentStep]}
+          {form[currentStep-1]}
       </div>
       ))}
       {!complete && (
         <button
-          className={`btn w-full `}
+          className={`btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3`}
           onClick={() => {
             // currentStep === steps.length
             //   ? setComplete(true)
             //   : setCurrentStep((prev) => prev + 1); 
             if(currentStep === steps.length){
               setComplete(true)
-              handleSubmit
             }else{
               setCurrentStep((prev) => prev + 1);
               // callback(data)
             }
+            // handleSubmit
             scroll('right')
           }}
+          type='submit'
           
         >
           {currentStep === steps.length ? "Finish" : "Next"}

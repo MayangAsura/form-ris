@@ -1,10 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 
 function SignIn() {
+  
   return (
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative">
 

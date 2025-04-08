@@ -14,11 +14,11 @@ import DataAyahForm from '../partials/DataAyahForm'
 import ProfileCard from '../partials/ProfileCard';
 import Jenjang from './Jenjang';
 import HorizontalStepper from '../partials/HorizontalStepper'
-
+import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 function Home() {
   return (
-    <div className="flex flex-col  max-w-lg my-0 mx-auto min-w-screen overflow-hidden">
+    <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
 
       {/*  Site header */}
       <Header />
@@ -30,17 +30,17 @@ function Home() {
         {/* <Pro */}
         <ProfileCard/>
         <HorizontalStepper/>
-        <Jenjang/>
+        {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}
         {/* <IdentitasForm/> */}
         {/* <DataAyahForm/> */}
-        {/* <FeaturesHome /> */}
-        {/* <FeaturesBlocks />
+        {/* <FeaturesHome />
+        <FeaturesBlocks />
         <Testimonials /> */}
-        {/* 
         
-        <Newsletter /> */}
+        
+        {/* <Newsletter /> */}
 
       </main>
 

@@ -4,142 +4,32 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <footer>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-
-        {/* Top area: Blocks */}
-        <div className="grid sm:grid-cols-12 gap-8 py-8 md:py-12 border-t border-gray-200">
-
-          {/* 1st block */}
-          <div className="sm:col-span-12 lg:col-span-3">
-            <div className="mb-2">
-              {/* Logo */}
-              <Link to="/" className="inline-block" aria-label="Cruip">
-                <svg className="w-8 h-8" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <radialGradient cx="21.152%" cy="86.063%" fx="21.152%" fy="86.063%" r="79.941%" id="footer-logo">
-                      <stop stopColor="#4FD1C5" offset="0%" />
-                      <stop stopColor="#81E6D9" offset="25.871%" />
-                      <stop stopColor="#338CF5" offset="100%" />
-                    </radialGradient>
-                  </defs>
-                  <rect width="32" height="32" rx="16" fill="url(#footer-logo)" fillRule="nonzero" />
-                </svg>
-              </Link>
-            </div>
-            <div className="text-sm text-gray-600">
-              <Link to="#" className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out">Terms</Link> · <Link to="#" className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out">Privacy Policy</Link>
-            </div>
-          </div>
-
-          {/* 2nd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Products</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Web Studio</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">DynamicBox Flex</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Programming Forms</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Integrations</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Command-line</Link>
-              </li>                            
-            </ul>
-          </div>
-
-          {/* 3rd block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Resources</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Documentation</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Tutorials & Guides</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Blog</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Support Center</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Partners</Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* 4th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Company</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Home</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">About us</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Company values</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Pricing</Link>
-              </li>
-              <li className="mb-2">
-                <Link to="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Privacy Policy</Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* 5th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-3">
-            <h6 className="text-gray-800 font-medium mb-2">Subscribe</h6>
-            <p className="text-sm text-gray-600 mb-4">Get the latest news and articles to your inbox every month.</p>
-            <form>
-              <div className="flex flex-wrap mb-4">
-                <div className="w-full">
-                  <label className="block text-sm sr-only" htmlFor="newsletter">Email</label>
-                  <div className="relative flex items-center max-w-xs">
-                    <input id="newsletter" type="email" className="form-input w-full text-gray-800 px-3 py-2 pr-12 text-sm" placeholder="Your email" required />
-                    <button type="submit" className="absolute inset-0 left-auto" aria-label="Subscribe">
-                      <span className="absolute inset-0 right-auto w-px -ml-px my-2 bg-gray-300" aria-hidden="true"></span>
-                      <svg className="w-3 h-3 fill-current text-blue-600 mx-3 flex-shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                      </svg>
-                    </button>
-                  </div>
-                  {/* Success message */}
-                  {/* <p className="mt-2 text-green-600 text-sm">Thanks for subscribing!</p> */}
-                </div>
-              </div>
-            </form>
-          </div>          
-
-        </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 bg-green-700 bg-opacity-30 w-full my-5">
 
         {/* Bottom area */}
         <div className="md:flex md:items-center md:justify-between py-4 md:py-8 border-t border-gray-200">
 
           {/* Social links */}
           <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
-            <li>
+            {/* <li>
               <Link to="#" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Twitter">
                 <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24 11.5c-.6.3-1.2.4-1.9.5.7-.4 1.2-1 1.4-1.8-.6.4-1.3.6-2.1.8-.6-.6-1.5-1-2.4-1-1.7 0-3.2 1.5-3.2 3.3 0 .3 0 .5.1.7-2.7-.1-5.2-1.4-6.8-3.4-.3.5-.4 1-.4 1.7 0 1.1.6 2.1 1.5 2.7-.5 0-1-.2-1.5-.4 0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.3 3.1 2.3-1.1.9-2.5 1.4-4.1 1.4H8c1.5.9 3.2 1.5 5 1.5 6 0 9.3-5 9.3-9.3v-.4c.7-.5 1.3-1.1 1.7-1.8z" />
                 </svg>
               </Link>
-            </li>
+            </li> */}
             <li className="ml-4">
-              <Link to="#" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Github">
-                <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <Link to="https://instagram.com/rabbaanii_official" className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out" aria-label="Instagram">
+              <svg 
+                className="w-8 h-8 fill-current" 
+                viewBox="0 0 52 52" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M24 12.881c4.275 0 4.781.019 6.462.094 1.563.069 2.406.325 2.969.544.731.287 1.25.631 1.8 1.181.55.55.894 1.069 1.181 1.8.219.563.475 1.406.544 2.969.075 1.681.094 2.187.094 6.462s-.019 4.781-.094 6.462c-.069 1.563-.325 2.406-.544 2.969-.287.731-.631 1.25-1.181 1.8-.55.55-1.069.894-1.8 1.181-.563.219-1.406.475-2.969.544-1.681.075-2.187.094-6.462.094s-4.781-.019-6.462-.094c-1.563-.069-2.406-.325-2.969-.544-.731-.287-1.25-.631-1.8-1.181-.55-.55-.894-1.069-1.181-1.8-.219-.563-.475-1.406-.544-2.969-.075-1.681-.094-2.187-.094-6.462s.019-4.781.094-6.462c.069-1.563.325-2.406.544-2.969.287-.731.631-1.25 1.181-1.8.55-.55 1.069-.894 1.8-1.181.563-.219 1.406-.475 2.969-.544 1.681-.075 2.187-.094 6.462-.094zm0-2.881c-4.344 0-4.887.019-6.594.094-1.7.075-2.869.344-3.881.731-1.056.4-1.944.931-2.831 1.819-.888.887-1.419 1.775-1.819 2.831-.387 1.012-.656 2.181-.731 3.881-.075 1.707-.094 2.25-.094 6.594s.019 4.887.094 6.594c.075 1.7.344 2.869.731 3.881.4 1.056.931 1.944 1.819 2.831.887.888 1.775 1.419 2.831 1.819 1.012.387 2.181.656 3.881.731 1.707.075 2.25.094 6.594.094s4.887-.019 6.594-.094c1.7-.075 2.869-.344 3.881-.731 1.056-.4 1.944-.931 2.831-1.819.888-.887 1.419-1.775 1.819-2.831.387-1.012.656-2.181.731-3.881.075-1.707.094-2.25.094-6.594s-.019-4.887-.094-6.594c-.075-1.7-.344-2.869-.731-3.881-.4-1.056-.931-1.944-1.819-2.831-.887-.888-1.775-1.419-2.831-1.819-1.012-.387-2.181-.656-3.881-.731-1.707-.075-2.25-.094-6.594-.094zm0 7.788c-4.031 0-7.313 3.281-7.313 7.313s3.281 7.313 7.313 7.313 7.313-3.281 7.313-7.313-3.281-7.313-7.313-7.313zm0 12.006c-2.581 0-4.694-2.106-4.694-4.694s2.106-4.694 4.694-4.694 4.694 2.106 4.694 4.694-2.113 4.694-4.694 4.694zm8.463-12.4c0 .938-.763 1.7-1.7 1.7-.938 0-1.7-.763-1.7-1.7 0-.938.763-1.7 1.7-1.7.938 0 1.7.763 1.7 1.7z"/>
+              </svg>
+                {/* <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                   <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
-                </svg>
+                </svg> */}
               </Link>
             </li>
             <li className="ml-4">
@@ -152,7 +42,8 @@ function Footer() {
           </ul>
 
           {/* Copyrights note */}
-          <div className="text-sm text-gray-600 mr-4">Made by <a className="text-blue-600 hover:underline" href="https://cruip.com/">Cruip</a>. All rights reserved.</div>
+          <div className="text-sm text-gray-600 mr-4">Copyright © 2025  <br /><a className="text-blue-600 hover:underline" href="https://rabbaanii.sch.id/">Rabbaanii Islamic School</a>.</div>
+          
 
         </div>
 

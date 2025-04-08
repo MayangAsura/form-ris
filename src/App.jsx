@@ -15,7 +15,7 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
-import Transaction from './pages/Payment';
+import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
 
 function App() {
@@ -41,11 +41,12 @@ function App() {
     <>
       <Routes>
         {/* <Route exact path="/" element={<Jenjang />} /> */}
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Jenjang />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/bayar" element={<Transaction />} />
+        <Route path="/pay" element={<Payment />} />
         {/* <Route path="/:code" element={<Home />} /> */}
       </Routes>
 

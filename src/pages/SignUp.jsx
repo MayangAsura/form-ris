@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import {Helmet} from "react-helmet";
-// import supabase from '../client/supabase_client'
+import supabase from '../client/supabase_client'
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js'
 // import {Toaster, Position} from  @blue
@@ -17,14 +17,15 @@ function SignUp() {
 
   // console.log(process.env.SUPA_PROJECT_URL)
 
-  const [applicants, setApplicants] = useState([]);
-  const [full_name, setFull_name] = useState("");
-  const [gender, setGender] = useState("");
-  const [phone_number, setPhone_number] = useState("");
-  const [email, setEmail] = useState("");
-  const [school_id, setSchool_id] = useState("");
-  const [password, setPassword] = useState("");
-  const [media, setMedia] = useState("");
+  const [applicants, setApplicants] = useState([])
+  const [full_name, setFullName] = useState("")
+  const [gender, setGender] = useState("")
+  const [phone_number, setPhoneNumber] = useState("")
+  const [email, setEmail] = useState("")
+  const [school_id, setSchoolId] = useState("")
+  const [school_name, setSchoolName] = useState("")
+  const [password, setPassword] = useState("")
+  const [media, setMedia] = useState("")
   
 
   // const [applicants, setApplicants] = useState({
@@ -32,35 +33,71 @@ function SignUp() {
   //   gender: "",
   //   phone_number
   // })
+  // let {code} = useParams()
+  // console.log(code)
   
-  const {code_jenjang} = useParams()
-  if (code_jenjang==='tk-a'){
-    setSchool_id(1)
-  }
-  if (code_jenjang==='tk-b'){
-    setSchool_id(1)
-  }
-  if (code_jenjang==='sdit'){
-    setSchool_id(2)
-  }
-  if (code_jenjang==='smpi'){
-    setSchool_id(3)
-  }
-  if (code_jenjang==='smai'){
-    setSchool_id(4)
-  }
-  if (code_jenjang==='smp-pesantren'){
-    setSchool_id(5)
-  }
-  if (code_jenjang==='sma-pesantren'){
-    setSchool_id(6)
-  }
-  if (code_jenjang==='rabbaanii-ciwidey'){
-    setSchool_id(7)
-  }
+  // switch (code) {
+  //   case 'tkit-a': setSchoolId(1); setSchoolName('TKIT A Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'tkit-b': setSchoolId(1); setSchoolName('TKIT B Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'sdit': setSchoolId(2); setSchoolName('SDIT Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'smpi': setSchoolId(3); setSchoolName('SMPI Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'smai': setSchoolId(4); setSchoolName('SMAI Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'smp-pesantren': setSchoolId(5); setSchoolName('SMP Pesantren Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'sma-pesantren': setSchoolId(6); setSchoolName('SMA Pesantren  Rabbaanii Islamic School'); 
+  //   break;
+  //   case 'rabbaanii-ciwidey': setSchoolId(7); setSchoolName('Rabbaanii Ciwidey'); 
+  //   break;
+  //   default: setSchoolId(0); setSchoolName(''); 
+  //     break;
+  // }
+  
+    function getSchoolIdSchoolName() {
+      let code_jenjang = useParams()
+      console.log(code_jenjang)
+      if (code_jenjang==='tkit-a'){
+        setSchoolId(1) 
+        setSchoolName('TKIT A Rabbaanii Islamic School'); 
+        
+      }
+      if (code_jenjang==='tkit-b'){
+        setSchoolId(1)
+        setSchoolName('TKIT B Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='sdit'){
+        setSchoolId(2)
+        setSchoolName('SDIT Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='smpi'){
+        setSchoolId(3)
+        setSchoolName('SMPI Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='smai'){
+        setSchoolId(4)
+        setSchoolName('SMPI Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='smp-pesantren'){
+        setSchoolId(5)
+        setSchoolName('SMPI Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='sma-pesantren'){
+        setSchoolId(6)
+        setSchoolName('SMPI Rabbaanii Islamic School'); 
+      }
+      if (code_jenjang==='rabbaanii-ciwidey'){
+        setSchoolId(7)
+        setSchoolName('SMPI Rabbaanii Islamic School'); 
+      }
 
+    }
   console.log(school_id)
-  console.log(password, code_jenjang)
+  console.log(school_name)
+  console.log(password)
   // useEffect(() => {
 
   //   // fetch(process.env.SUPA_PROJECT_URL+"/rest/v1/applicants?select=*",{
@@ -108,7 +145,7 @@ function SignUp() {
     //     console.log(data)
     //   }
 
-    let { data_applicants, error_applicants } = await supabase.rpc("add_new_applicantssss", {
+    let { data_applicant, error_applicants } = await supabase.rpc("add_new_applicant", {
       _full_name: full_name,
       _gender: gender,
       _phone_number: phone_number,
@@ -118,7 +155,7 @@ function SignUp() {
       _media: media
     });
 
-    console.log('data_applicants =>', data_applicants)
+    console.log('data_applicant =>', data_applicant)
     
     // const user_id = data_applicants.f1.toISOString()
     // const created_at = data_applicants.f2.toISOString()
@@ -220,7 +257,7 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFull_name(e.target.value)} value={full_name} type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name} type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -233,7 +270,7 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="phone_number">No. WhatsApp <span className="text-red-600">*</span></label>
-                      <input id="phone_number" name='phone_number' onChange={(e) => setPhone_number(e.target.value)} value={phone_number} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} value={phone_number} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -245,7 +282,8 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
-                      <input id="school_id" name='school_id' type="number" onChange={(e) => setSchool_id(e.target.value)} value={school_id} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_id" name='school_id' type="number" hidden disabled onChange={(e) => setSchoolId(e.target.value)} value={school_id} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_name" name='school_name' type="text" disabled onChange={(e) => setSchoolName(e.target.value)} value={school_name} className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -263,7 +301,7 @@ function SignUp() {
                   <div className="sm:col-span-4">
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
-                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                          <select id="media" name="media" value={media} onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                           <option value="website">Website Rabbaanii </option>
                           <option value="teman/saudara" >Teman / Saudara</option>
                           <option value="karyawan/guru">Karyawan/Guru </option>
@@ -296,7 +334,7 @@ function SignUp() {
                                           {/* <svg className="w-4 h-4 fill-current text-white opacity-75 flex-shrink-0 mx-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.95 0C3.578 0 0 3.578 0 7.95c0 3.479 2.286 6.46 5.466 7.553.397.1.497-.199.497-.397v-1.392c-2.187.497-2.683-.993-2.683-.993-.398-.895-.895-1.193-.895-1.193-.696-.497.1-.497.1-.497.795.1 1.192.795 1.192.795.696 1.292 1.888.895 2.286.696.1-.497.298-.895.497-1.093-1.79-.2-3.578-.895-3.578-3.975 0-.895.298-1.59.795-2.087-.1-.2-.397-.994.1-2.087 0 0 .695-.2 2.186.795a6.408 6.408 0 011.987-.299c.696 0 1.392.1 1.988.299 1.49-.994 2.186-.795 2.186-.795.398 1.093.199 1.888.1 2.087.496.596.795 1.291.795 2.087 0 3.08-1.889 3.677-3.677 3.875.298.398.596.895.596 1.59v2.187c0 .198.1.497.596.397C13.714 14.41 16 11.43 16 7.95 15.9 3.578 12.323 0 7.95 0z" />
                                           </svg> */}
-                                          <span className="">Pembelian Formulir</span>
+                                          <span className="">PENDAFTARAN</span>
                                           {/* <svg className="w-4 h-4 fill-current text-gray-400 " viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                                           </svg> */}

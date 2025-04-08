@@ -30,14 +30,14 @@ function DataWaliForm() {
                                         <label for="wali_academic" class="block text-sm/6 font-medium text-gray-900">Pendidikan Wali</label>
                                         <div class="mt-2 grid grid-cols-1">
                                             <select id="wali_academic" name="wali_academic" autocomplete="wali_academic" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                            <option>SMA/sederajat</option>
-                                            <option>D1</option>
-                                            <option>D2</option>
-                                            <option>D3</option>
-                                            <option>S1</option>
-                                            <option>S2</option>
-                                            <option>S3</option>
-                                            <option>Other</option>
+                                            <option value="sma_sederajat">SMA/sederajat</option>
+                                            <option value="d1">D1</option>
+                                            <option value="d2">D2</option>
+                                            <option value="d3">D3</option>
+                                            <option value="s1">S1</option>
+                                            <option value="s2">S2</option>
+                                            <option value="s3">S3</option>
+                                            <option value="other">Other</option>
 
                                             </select>
                                             {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "../css/additional-styles/stepper.css"
 import { TiTick } from "react-icons/ti";
 import IdentitasForm from "./IdentitasForm.jsx";
-import DataAyahForm from "./DataAyahForm.jsx";
+// import DataAyahForm from "./DataAyahForm.jsx";
 import DataIbuForm from "./DataIbuForm.jsx";
 import DataWaliForm from "./DataWaliForm.jsx";
 import BerkasForm from "./BerkasForm.jsx";

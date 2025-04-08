@@ -2,7 +2,7 @@ import React from 'react'
 import {TiInputCheckedOutline  } from 'react-icons/ti'
 
 
-function Status() {
+function Pembayaran() {
   return (
    
         <section className="relative">
@@ -21,9 +21,9 @@ function Status() {
                       {/* <PhotoIcon aria-hidden="true" className="mx-auto size-4 text-gray-300" /> */}
                       {/* bg-green-100 dark:bg-green-900 */}
                       <div className=" text-sm/6 text-gray-600">
-                        <div class="w-24 h-24 rounded-full outline-dashed outline-blue-500/25 outline-2 opacity p-2 flex items-center justify-center mx-40 mt-10 mb-5">
-                            <svg aria-hidden="true" class="w-24 h-24 text-blue-500 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Success</span>
+                        <div className="w-24 h-24 rounded-full outline-dashed outline-blue-500/25 outline-2 opacity p-2 flex items-center justify-center mx-40 mt-10 mb-5">
+                            <svg aria-hidden="true" className="w-24 h-24 text-blue-500 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>
+                            <span className="sr-only">Success</span>
                         </div>
                           {/* <TiInputCheckedOutline  size={512} className='items-center'/> */}
                           <p className="pb-1">Status Pembayaran</p>
@@ -37,6 +37,24 @@ function Status() {
                       </div>
                       {/* <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p> */}
                       </div>
+                      {!props.complete && (
+
+                        <button type="submit" className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3'
+                                onClick={() => {
+                                    // currentStep === steps.length
+                                    //   ? setComplete(true)
+                                    //   : setCurrentStep((prev) => prev + 1); 
+                                    if(props.currentStep === 9){
+                                    props.handledComplete(true)
+                                    }else{
+                                    props.handledCurrentStep(props.currentStep + 1) ;
+                                    // props.setCurrentStep((prev) => prev + 1);
+                                    // callback(data)
+                                    }
+                                    // handleSubmit
+                                    props.scroll('right')
+                                }}>Submit</button>
+                        )}
                   </div>
                   {/* <div className="p-4">
       
@@ -63,4 +81,4 @@ function Status() {
   )
 }
 
-export default Status
+export default Pembayaran
