@@ -31,6 +31,7 @@ function Payment() {
     }
 
     setApplicantOrderData ({item_id: 123123, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'})
+    console.log("applicantOrder > ",applicantOrder)
 
     const create_order = (e) => {
       e.preventDefault()

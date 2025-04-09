@@ -14,7 +14,7 @@ import supabase from '../client/supabase_client';
 // import { createClient } from '@supabase/supabase-js';
 
 const HorizontalStepper = () => {
-  // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
+  
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
