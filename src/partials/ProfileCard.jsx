@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import supabase from '../client/supabase_client'
 
-import { createClient } from '@supabase/supabase-js'
+// import { createClient } from '@supabase/supabase-js'
 
 
 function ProfileCard() {
 
-  const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
+  console.log(supabase)
+  // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
   const [profileData, setProfileData] = useState({})
   useEffect( () => {
     getProfileData()
@@ -20,6 +21,23 @@ function ProfileCard() {
       console.log(data) 
       setProfileData(data)
     }
+  }
+
+  const formatDate = (date) => {
+    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    date = new Date(date);
+    const dayName = dayNames[date.getDay()];
+    const day = date.getDate();
+    const monthName = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+    return indonesianFormat
   }
 
   
@@ -108,7 +126,11 @@ function ProfileCard() {
                                 <tr>
                                     <td>Tanggal Pendaftaran </td>
                                     <td>:</td>
-                                    <td>{profileData[0]?.created_at}</td>
+                                    <td>{
+                                    
+                                    formatDate(profileData[0]?.created_at)
+                                    
+                                    }</td>
                                 </tr>
                                 <tr>
                                     <td>Cita - Cita </td>

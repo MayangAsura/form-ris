@@ -9,12 +9,61 @@ function IdentitasForm(props) {
     const [gender, setGender] = useState("")
     const [phone_number, setPhoneNumber] = useState("")
     const [email, setEmail] = useState("")
+    const [school_id, setSchoolId] = useState("")
+    const [school_name, setSchoolName] = useState("")
+    const [prev_school, setPrevSchool] = useState("")
+    const [prev_school_address, setPrevSchoolAddress] = useState("")
+    const [kk_number, setKKNumber] = useState("")
+    const [nik, setNIK] = useState("")
+    const [nisn, setNISN] = useState("")
+    const [pob, setPob] = useState("")
+    const [dob, setDob] = useState("")
     const [medical_history, setMedicalHistory] = useState("")
+    const [sickness_history, setSicknessHistory] = useState("")
+    const [home_address, setAddress] = useState("")
+    const [child_number, setChildNumber] = useState("")
+    const [child_status, setChildStatus] = useState("")
+    const [live_with, setLiveWith] = useState("")
+    const [parent_email, setParentEmail] = useState("")
+    // const [parent_ktp, setParentKTP] = useState("")
+    const [parent_phone_number, setParentPhoneNumber] = useState("")
+    const [distance, setDistance] = useState("")
+    const [nationality, setNationality] = useState("")
+    const [province, setProvince] = useState("")
+    const [region, setRegion] = useState("")
+    const [postal_code, setPostalCode] = useState("")
+    const [aspiration, setAspiration] = useState("")
     const [dataWilayahProvinces, setDataWilayahProvinces] = useState([])
     const [dataWilayahRegencies, setDataWilayahRegencies] = useState([])
     const [dataWilayahDistricts, setDataWilayahDistricts] = useState([])
 
-    const data = { full_name:full_name}
+    const data = { 
+        full_name, 
+        gender,
+        phone_number,
+        email,
+        prev_school,
+        prev_school_address,
+        kk_number,
+        nik,
+        nisn,
+        pob,
+        dob,
+        medical_history,
+        sickness_history,
+        home_address,
+        child_number,
+        child_status,
+        live_with,
+        parent_email,
+        parent_phone_number,
+        distance,
+        nationality,
+        province,
+        region,
+        postal_code,
+        aspiration
+    }
 
     const saveData = (e) => {
         e.preventDefault()
@@ -88,58 +137,59 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email</label>
                                     <div className="mt-2">
-                                        <input id="email" name="email" onChange={(e) => setEmail(e.target.value)}type="email" autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="email" name="email" onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school" className="block text-sm/6 font-medium text-gray-900">Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school" name="prev_school" type="text" autoComplete="prev_school" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="prev_school" name="prev_school" onChange={(e) => setPrevSchool(e.target.value)} type="text" autoComplete="prev_school" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school_address" className="block text-sm/6 font-medium text-gray-900">Alamat Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school_address" name="prev_school_address" type="text" autoComplete="prev_school_address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="prev_school_address" name="prev_school_address" onChange={(e) => setPrevSchoolAddress(e.target.value)} type="text" autoComplete="prev_school_address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="school" className="block text-sm/6 font-medium text-gray-900">Mendaftar Jenjang</label>
                                     <div className="mt-2">
-                                        <input id="school_id" name="school_id" type="text" autoComplete="school_id" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="school_id" name="school_id" disabled style={{ display: 'none' }} type="text" autoComplete="school_id" value={school_id} className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="school_name" name="school_name" type="text" disabled autoComplete="school_name" value={school_name} className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="nisn" className="block text-sm/6 font-medium text-gray-900">NISN  (Nomor Induk Siswa Nasional)</label>
                                     <span className='text-sm italic'>Jika tidak memiliki silahkan dikosongkan</span>
                                     <div className="mt-2">
-                                        <input id="nisn" name="nisn" type="text" autoComplete="nisn" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="nisn" name="nisn" type="text" autoComplete="nisn" onChange={(e) => setNISN(e.target.value)} className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="kk_number" className="block text-sm/6 font-medium text-gray-900">Nomor KK <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="kk_number" name="kk_number" type="text" autoComplete="kk_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="kk_number" name="kk_number" onChange={(e) => setKKNumber(e.target.value)} type="text" autoComplete="kk_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="nik" className="block text-sm/6 font-medium text-gray-900">NIK <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="nik" name="nik" type="text" autoComplete="nik" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="nik" name="nik" onChange={(e) => setNIK(e.target.value)} type="text" autoComplete="nik" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="pob" className="block text-sm/6 font-medium text-gray-900">Tempat Lahir <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku</span>
                                     <div className="mt-2">
-                                        <input id="pob" name="pob" type="text" autoComplete="pob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="pob" name="pob" onChange={(e) => setPob(e.target.value)} type="text" autoComplete="pob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="dob" className="block text-sm/6 font-medium text-gray-900">Tanggal Lahir <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku</span>
                                     <div className="mt-2">
-                                        <input id="dob" name="dob" type="date" autoComplete="dob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} type="date" autoComplete="dob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
@@ -156,20 +206,20 @@ function IdentitasForm(props) {
                                     <label htmlFor="sickness_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Penyakit Tertentu</label>
                                     <span className="text-sm italic">Sebutkan riwayat penyakit yang diderita (jika ada)</span>
                                     <div className="mt-2">
-                                        <input id="sickness_history" name="sickness_history" type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="sickness_history" name="sickness_history" onChange={(e) => setSicknessHistory(e.target.value)} type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">Alamat Rumah Lengkap <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Contoh: JL. Cimandiri 8B No. 34 A Perum Graha Asri, Desa Jatireja, Kec Cikarang Timur, Kab Bekasi 17530</span>
                                     <div className="mt-2">
-                                        <input id="address" name="address" type="text" autoComplete="address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="address" name="address" onChange={(e) => setAddress(e.target.value)} type="text" autoComplete="address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="child_status" className="block text-sm/6 font-medium text-gray-900">Status Anak <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="child_status" name="child_status" autoComplete="child_status" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                        <select id="child_status" name="child_status" onChange={(e) => setChildStatus(e.target.value)} autoComplete="child_status" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="anak_kandung">Anak Kandung</option>
                                             <option value="anak_angkat">Anak Angkat</option>
                                             <option value="anak_asuh">Anak Asuh</option>
@@ -179,15 +229,15 @@ function IdentitasForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="x_child" className="block text-sm/6 font-medium text-gray-900">Anak ke- <span className="text-red-600">*</span></label>
+                                    <label htmlFor="child_number" className="block text-sm/6 font-medium text-gray-900">Anak ke- <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="x_child" name="x_child" type="text" autoComplete="x_child" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="child_number" name="child_number" onChange={(e) => setChildNumber(e.target.value)} type="text" autoComplete="child_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="live_with" className="block text-sm/6 font-medium text-gray-900">Tinggal Bersama <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="live_with" name="live_with" autoComplete="live_with" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                        <select id="live_with" name="live_with" onChange={(e) => setLiveWith(e.target.value)} autoComplete="live_with" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="orang_tua">Orang Tua</option>
                                             <option value="wali">Wali</option>
                                             <option value="kost">Anak Asuh</option>
@@ -200,24 +250,24 @@ function IdentitasForm(props) {
                                     <label htmlFor="parent_phone_numb" className="block text-sm/6 font-medium text-gray-900">No HP/WA Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi No. telepon seluler yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih salah satu yang paling mudah dihubungi.</span>
                                     <div className="mt-2">
-                                        <input id="parent_phone_numb" name="parent_phone_numb" type="text" autoComplete="parent_phone_numb" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="parent_phone_numb" name="parent_phone_numb" onChange={(e) => setParentPhoneNumber(e.target.value)} type="text" autoComplete="parent_phone_numb" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="parent_email" className="block text-sm/6 font-medium text-gray-900">No HP/WA Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi email yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih yang paling aktif dan ingat passwordnya.</span>
                                     <div className="mt-2">
-                                        <input id="parent_email" name="parent_email" type="text" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="parent_email" name="parent_email" onChange={(e) => setParentEmail(e.target.value)} type="text" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="distance" className="block text-sm/6 font-medium text-gray-900">Jarak <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="distance" name="distance" autoComplete="distance" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                        <select id="distance" name="distance" onChange={(e) => setDistance(e.target.value)} autoComplete="distance" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="less_than_1km">Kurang dari 1 Km</option>
                                             <option value="1_-_5km">1 - 5 Km</option>
                                             <option value="more_than_5k">Lebih dari 5 Km</option>
-                                            <option value="lainnya">Lainnya</option>
+                                            <option value="other">Lainnya</option>
                                         </select>
                                         {/* <input id="live_with" name="live_with" type="text" autoComplete="live_with" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
@@ -225,7 +275,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="nationality" className="block text-sm/6 font-medium text-gray-900">Kewarganegaraan <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="nationality" name="nationality" type="text" autoComplete="nationality" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="nationality" name="nationality" onChange={(e) => setNationality(e.target.value)} type="text" autoComplete="nationality" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     {/* <div className="sm:col-span-4">
@@ -260,21 +310,21 @@ function IdentitasForm(props) {
                                                     
                                                 })}
                                             </select> */}
-                                            <input type="text" name="province" id="province" autoComplete="province-level2" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                            <input type="text" name="province" id="province" onChange={(e) => setProvince(e.target.value)} autoComplete="province-level2" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                         </div>
                                         </div>
 
                                         <div className="sm:col-span-2">
                                         <label htmlFor="region" className="block text-sm/6 font-medium text-gray-900">Kabupaten <span className="text-red-600">*</span></label>
                                         <div className="mt-2">
-                                            <input type="text" name="region" id="region" autoComplete="address-level1" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                            <input type="text" name="region" id="region" onChange={(e) => setRegion(e.target.value)} autoComplete="address-level1" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                         </div>
                                         </div>
 
                                         <div className="sm:col-span-2">
                                         <label htmlFor="postal-code" className="block text-sm/6 font-medium text-gray-900">Kode Pos <span className="text-red-600">*</span></label>
                                         <div className="mt-2">
-                                            <input type="text" name="postal-code" id="postal-code" autoComplete="postal-code" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                            <input type="text" name="postal-code" id="postal-code" onChange={(e) => setPostalCode(e.target.value)} autoComplete="postal-code" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                         </div>
                                         </div>
                                   
@@ -289,6 +339,7 @@ function IdentitasForm(props) {
                                         <textarea
                                         id="aspiration"
                                         name="aspiration"
+                                        onChange={(e) => setAspiration(e.target.value)}
                                         rows={5}
                                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                         defaultValue={''}
@@ -296,27 +347,31 @@ function IdentitasForm(props) {
                                     </div>
                                     <p className="mt-3 text-sm/6 text-gray-600 italic">Tulis cita-cita dan harapan ananda bersekolah di Rabbaanii Islamic School.</p>
                                     </div>
-                                    {!props.complete && (
-
-                                        <button type="submit" className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3'
-                                                onClick={() => {
-                                                    // currentStep === steps.length
-                                                    //   ? setComplete(true)
-                                                    //   : setCurrentStep((prev) => prev + 1); 
-                                                    if(props.currentStep === 9){
-                                                    props.handledComplete(true)
-                                                    }else{
-                                                    props.handledCurrentStep(props.currentStep + 1) ;
-                                                    // props.setCurrentStep((prev) => prev + 1);
-                                                    // callback(data)
-                                                    }
-                                                    // handleSubmit
-                                                    props.scroll('right')
-                                                }}>Submit</button>
-                                        )}
-
+                                   
                                     
                                 </div>
+                                <div className='flex justify-center text-center my-5'>
+                                     
+                                     {!props.complete && (
+                                         <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                 // onClick={() => {
+                                                 //     // currentStep === steps.length
+                                                 //     //   ? setComplete(true)
+                                                 //     //   : setCurrentStep((prev) => prev + 1); 
+                                                 //     if(props.currentStep === 9){
+                                                 //     props.handledComplete(true)
+                                                 //     }else{
+                                                 //     // props.handledCurrentStep(props.currentStep + 1) ;
+                                                 //     // props.setCurrentStep((prev) => prev + 1);
+                                                 //     // callback(data)
+                                                 //     }
+                                                 //     // handleSubmit
+     
+                                                     
+                                                 // }}
+                                                 >Submit</button>
+                                         )}
+                                 </div>
                                 </div>
                             </div>
                         </form>

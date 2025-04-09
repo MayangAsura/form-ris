@@ -37,9 +37,8 @@ function Pembayaran() {
                       </div>
                       {/* <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p> */}
                       </div>
-                      {!props.complete && (
-
-                        <button type="submit" className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3'
+                      {/* {!props.complete && ( */}
+                      {/* <button className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3'
                                 onClick={() => {
                                     // currentStep === steps.length
                                     //   ? setComplete(true)
@@ -53,8 +52,9 @@ function Pembayaran() {
                                     }
                                     // handleSubmit
                                     props.scroll('right')
-                                }}>Submit</button>
-                        )}
+                                }}>Next</button> */}
+                        {/* )} */}
+                        
                   </div>
                   {/* <div className="p-4">
       

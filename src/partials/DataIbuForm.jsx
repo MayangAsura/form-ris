@@ -1,14 +1,28 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import React, {useState} from 'react'
 
-function DataIbuForm() {
+function DataIbuForm(props) {
+    const [mother_name, setMotherName] = useState("")
+    const [mother_academic, setMotherAcademic] = useState("")
+    const [mother_job, setMotherJob] = useState("")
+    const [mother_salary, setMotherSalary] = useState("")
+
+    const data = { mother_name:mother_name, mother_academic:mother_academic, mother_job:mother_job, mother_salary:mother_salary}
+
+    const saveData = (e) => {
+        e.preventDefault()
+        console.log(data)
+        props.onSubmit(data)
+        
+    }
 
     return (
         <section className="relative">
-            <div className='max-w-6xl mx-auto px-4 sm:px-6'>
+            <div className='max-w-6xl mx-auto px-4 sm:px-6 my-5'>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
-                        <form action="">
+                        <form action="" onSubmit={saveData}>
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Data Ibu</h2>
@@ -22,13 +36,13 @@ function DataIbuForm() {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="mother_name" className="block text-sm/6 font-medium text-gray-900">Nama Ibu Kandung</label>
                                     <div className="mt-2">
-                                        <input id="mother_name" name="mother_name" type="text" autoComplete="mother_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="mother_name" name="mother_name" onChange={(e) => setMotherName(e.target.value)} type="text" autoComplete="mother_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                         <label htmlFor="mother_academic" className="block text-sm/6 font-medium text-gray-900">Pendidikan Ibu</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="mother_academic" name="mother_academic" autoComplete="mother_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            <select id="mother_academic" name="mother_academic" onChange={(e) => setMotherAcademic(e.target.value)} autoComplete="mother_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
                                             <option value="d2">D2</option>
@@ -47,20 +61,20 @@ function DataIbuForm() {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="mother_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ibu</label><span className='text-sm italic'>Pekerjaan utama ibu kandung</span>
                                     <div className="mt-2">
-                                        <input id="mother_job" name="mother_job" type="text" autoComplete="mother_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="mother_job" name="mother_job" onChange={(e) => setMotherJob(e.target.value)} type="text" autoComplete="mother_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                         <label htmlFor="mother_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Ibu</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="mother_salary" name="mother_salary" autoComplete="mother_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                            <option>Kurang dari Rp2 Jt</option>
-                                            <option>Kurang dari Rp2 Jt</option>
-                                            <option>Rp5 Jt - Rp10 Jt</option>
-                                            <option>Rp10 Jt - Rp15 Jt</option>
-                                            <option>Rp15 Jt - Rp20 Jt</option>
-                                            <option>Lebih dari Rp20 Jt</option>
-                                            <option>Other</option>
+                                            <select id="mother_salary" name="mother_salary" onChange={(e) => setMotherSalary(e.target.value)} autoComplete="mother_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
+                                            <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
+                                            <option value="5jt_-_10jt">Rp5 Jt - Rp10 Jt</option>
+                                            <option value="10jt_-_15jt">Rp10 Jt - Rp15 Jt</option>
+                                            <option value="15jt_-_20jt">Rp15 Jt - Rp20 Jt</option>
+                                            <option value="more_than_20jt">Lebih dari Rp20 Jt</option>
+                                            <option value="other">Other</option>
 
                                             </select>
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -71,6 +85,29 @@ function DataIbuForm() {
                                     
                                     
                                 </div>
+                                <div className='flex justify-center text-center'>
+                                     
+                                        {!props.complete && (
+                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                    // onClick={() => {
+                                                    //     // currentStep === steps.length
+                                                    //     //   ? setComplete(true)
+                                                    //     //   : setCurrentStep((prev) => prev + 1); 
+                                                    //     if(props.currentStep === 9){
+                                                    //     props.handledComplete(true)
+                                                    //     }else{
+                                                    //     // props.handledCurrentStep(props.currentStep + 1) ;
+                                                    //     // props.setCurrentStep((prev) => prev + 1);
+                                                    //     // callback(data)
+                                                    //     }
+                                                    //     // handleSubmit
+        
+                                                        
+                                                    // }}
+                                                    >Submit</button>
+                                            )}
+                                    </div>
+
                                 </div>
                             </div>
                         </form>
