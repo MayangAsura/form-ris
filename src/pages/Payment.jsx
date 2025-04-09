@@ -6,7 +6,6 @@ import axios from 'axios';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
-import { TiArrowRightThick  } from "react-icons/ti";
 // import { useState } from 'react';
 
 
