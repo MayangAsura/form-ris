@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TestimonialImage from '../images/testimonial.jpg';
+import TestimonialImage from '../../public/images/testimonial.jpg';
 
 function Testimonials() {
   return (
