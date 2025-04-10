@@ -33,28 +33,41 @@ function Payment() {
     setApplicantOrderData ({item_id: 123123, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'})
     console.log("applicantOrder > ",applicantOrder)
 
+    useEffect(()=> {
+      create()
+    }, [])
+    const create = () => {
+
+      const { data, error } = supabase
+        .from('applicant_orders')
+        .insert([
+          applicantOrder
+          // reference_code:  
+          // {item_id: data.school_id,
+          // // foundation_id
+          // description: 'uang masuk', 
+          // total_amount: school_price,
+          // status: 'pending',
+          // // payment_url:
+          // created_by: applicant_id}
+        ])
+        .single()
+    }
+
     const create_order = (e) => {
       e.preventDefault()
 
       const { data, error } = supabase
-      .from('applicant_order')
+      .from('applicant_orders')
       .insert([
         applicantOrder
-        // reference_code:  
-        // {item_id: data.school_id,
-        // // foundation_id
-        // description: 'uang masuk', 
-        // total_amount: school_price,
-        // status: 'pending',
-        // // payment_url:
-        // created_by: applicant_id}
       ])
       .single()
 
       if(error){
         console.log(error)
       }else{
-        console.log(data)
+        console.log('data >', data)
       }
       console.log('appli->',applicantOrder)
 
@@ -145,7 +158,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Diskon</label>
-                      <h2>{applicantOrder.schools?.school_price?? '-'}</h2>
+                      <h2>{applicantOrder?.schools?.school_price?? '-'}</h2>
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
                   </div>

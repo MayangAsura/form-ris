@@ -248,8 +248,14 @@ function SignUp() {
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
 
               {/* Page header */}
-              <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+              <div className="max-w-3xl mx-auto text-center pb-12 md:pb-12">
                 <h1 className="h1">Pra Pendaftaran</h1>
+                <p className="text-xl text-gray-600 inline-grid"> 
+                  Silahkan melengkapi formulir pra pendaftaran dan informasi pembuatan akun. 
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24">
+                <path d="M12 4v8.59l-3.29-3.29L7.41 11l5 5 5-5-1.29-1.29L12 12.59V4h-1.5z"/>
+              </svg> */}
+            </p>
               </div>
             
               {/* Form */}
@@ -264,8 +270,8 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='L'?gender:'L'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='P'?gender:'P'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'L'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'P'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -302,8 +308,8 @@ function SignUp() {
                   <div className="sm:col-span-4">
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
-                          <select id="media" name="media" value={media} onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                          <option value="website">Website Rabbaanii </option>
+                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                          <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
                           <option value="teman/saudara" >Teman / Saudara</option>
                           <option value="karyawan/guru">Karyawan/Guru </option>
                           <option value="kajian">Kajian</option>
