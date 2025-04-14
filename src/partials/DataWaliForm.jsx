@@ -37,13 +37,16 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_name" className="block text-sm/6 font-medium text-gray-900">Nama Wali</label>
                                     <div className="mt-2">
-                                        <input id="wali_name" name="wali_name" onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="wali_name" name="wali_name" onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                            Nama wali tidak valid
+                                        </span>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-3">
-                                        <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900">Pendidikan Wali</label>
+                                        <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
                                             <option value="d2">D2</option>
@@ -52,8 +55,10 @@ function DataWaliForm(props) {
                                             <option value="s2">S2</option>
                                             <option value="s3">S3</option>
                                             <option value="other">Other</option>
-
                                             </select>
+                                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                                Pendidikan wali tidak valid
+                                            </span>
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                             </svg> */}
@@ -62,13 +67,16 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali</label><span className='text-sm italic'>Pekerjaan utama wali</span>
                                     <div className="mt-2">
-                                        <input id="wali_job" name="wali_job" onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="wali_job" name="wali_job" onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                            Pekerjaan wali tidak valid
+                                        </span>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-3">
                                         <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                                            <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
                                             <option value="5jt_-_10jt">Rp5 Jt - Rp10 Jt</option>
@@ -76,8 +84,10 @@ function DataWaliForm(props) {
                                             <option value="15jt_-_20jt">Rp15 Jt - Rp20 Jt</option>
                                             <option value="more_than_20jt">Lebih dari Rp20 Jt</option>
                                             <option value="other">Other</option>
-
                                             </select>
+                                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                                Penghasilan wali tidak valid
+                                            </span>
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                             </svg> */}

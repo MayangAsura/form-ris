@@ -39,11 +39,14 @@ function VerifikasiKeluargaForm(props) {
                                     <div className="sm:col-span-3">
                                         <label htmlFor="student_category" className="block text-sm/6 font-medium text-gray-900">Calon Siswa termasuk kategori</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="student_category" name="student_category" onChange={(e) => setStudentCategory(e.target.value)} autoComplete="student_category" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                            <option value="alumni">Alumni Rabbaanii</option>
-                                            <option value="hasfamily">Memiliki saudara kandung sekolah di Rabbaanii</option>
-                                            <option value="newstudent">Tidak keduanya</option>
+                                            <select id="student_category" name="student_category" onChange={(e) => setStudentCategory(e.target.value)} autoComplete="student_category" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                                <option value="alumni">Alumni Rabbaanii</option>
+                                                <option value="hasfamily">Memiliki saudara kandung sekolah di Rabbaanii</option>
+                                                <option value="newstudent">Tidak keduanya</option>
                                             </select>
+                                            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                                Kategori tidak valid
+                                            </span>
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                             </svg> */}
@@ -58,7 +61,10 @@ function VerifikasiKeluargaForm(props) {
                                     <span className="text-sm italic">Bagi calon santri yang memiliki keluarga terdaftar dalam satu Kartu Keluarga</span>
                                     <p className="text-xs/5 text-gray-600">JPG, maks 2MB</p>
                                     <div className="mt-2">
-                                        <input id="photo_sampul_ijazah" name="photo_sampul_ijazah" onChange={(e) => setPhotoSampulIjazah(e.target.value)} type="file" autoComplete="photo_sampul_ijazah" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+                                        <input id="photo_sampul_ijazah" name="photo_sampul_ijazah" onChange={(e) => setPhotoSampulIjazah(e.target.value)} type="file" autoComplete="photo_sampul_ijazah" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 "/>
+                                        {/* <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                                            Berkas tidak sesuai
+                                        </span> */}
                                     </div>
                                     </div>
 

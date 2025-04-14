@@ -5,6 +5,8 @@ import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import supabase from '../client/supabase_client'
 import { createClient } from '@supabase/supabase-js'
+import { ScaleIcon } from '@heroicons/react/24/solid';
+import Modal from '../utils/Modal';
 // import {Toaster, Position} from  @blue
 
 function SignUp() {
@@ -24,9 +26,14 @@ function SignUp() {
   const [school_name, setSchoolName] = useState("")
   const [password, setPassword] = useState("")
   const [media, setMedia] = useState("")
+  let code = useParams().code
+  // const [code, setCode] = useState(useParams())
   
-
+  // code = useParams().code
+  
   useEffect( () => {
+    
+    // getSchoolIdSchoolName()
     // getSchoolIdSchoolName()
   },[])
   // const [applicants, setApplicants] = useState({
@@ -34,71 +41,76 @@ function SignUp() {
   //   gender: "",
   //   phone_number
   // })
-  let {code} = useParams()
   // console.log(code)
   
-  switch (code) {
-    case 'tkit-a': setSchoolId(1); setSchoolName('TKIT A Rabbaanii Islamic School'); 
-    break;
-    case 'tkit-b': setSchoolId(1); setSchoolName('TKIT B Rabbaanii Islamic School'); 
-    break;
-    case 'sdit': setSchoolId(2); setSchoolName('SDIT Rabbaanii Islamic School'); 
-    break;
-    case 'smpi': setSchoolId(3); setSchoolName('SMPI Rabbaanii Islamic School'); 
-    break;
-    case 'smai': setSchoolId(4); setSchoolName('SMAI Rabbaanii Islamic School'); 
-    break;
-    case 'smp-pesantren': setSchoolId(5); setSchoolName('SMP Pesantren Rabbaanii Islamic School'); 
-    break;
-    case 'sma-pesantren': setSchoolId(6); setSchoolName('SMA Pesantren  Rabbaanii Islamic School'); 
-    break;
-    case 'rabbaanii-ciwidey': setSchoolId(7); setSchoolName('Rabbaanii Ciwidey'); 
-    break;
-    default: setSchoolId(0); setSchoolName(''); 
-      break;
-  }
-  console.log(code, school_id, school_name)
+  // const getSchoolIdSchoolName = () => {
     
-      // let code_jenjang = useParams()
-      // console.log(code_jenjang)
-      // if (code_jenjang==='tkit-a'){
-      //   setSchoolId(1) 
-      //   setSchoolName('TKIT A Rabbaanii Islamic School'); 
+    // let {code} = useParams()
+    // switch (code) {
+    //   case 'tkit-a': setSchoolId(1); setSchoolName('TKIT A Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'tkit-b': setSchoolId(1); setSchoolName('TKIT B Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'sdit': setSchoolId(2); setSchoolName('SDIT Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'smpi': setSchoolId(3); setSchoolName('SMPI Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'smai': setSchoolId(4); setSchoolName('SMAI Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'smp-pesantren': setSchoolId(5); setSchoolName('SMP Pesantren Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'sma-pesantren': setSchoolId(6); setSchoolName('SMA Pesantren  Rabbaanii Islamic School'); 
+    //   break;
+    //   case 'rabbaanii-ciwidey': setSchoolId(7); setSchoolName('Rabbaanii Ciwidey'); 
+    //   break;
+    //   default: setSchoolId(0); setSchoolName(''); 
+    //     // break;
+    // }
+    //console.log(code, school_id, school_name)
+  // // }
+  //   const getSchoolIdSchoolName = async () => {
+  //     const code_jenjang = code
+  //     console.log(code_jenjang)
+  //     if (code_jenjang==='tkit-a'){
+  //       (1) 
+  //       setSchoolName('TKIT A Rabbaanii Islamic School'); 
         
-      // }
-      // if (code_jenjang==='tkit-b'){
-      //   setSchoolId(1)
-      //   setSchoolName('TKIT B Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='sdit'){
-      //   setSchoolId(2)
-      //   setSchoolName('SDIT Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='smpi'){
-      //   setSchoolId(3)
-      //   setSchoolName('SMPI Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='smai'){
-      //   setSchoolId(4)
-      //   setSchoolName('SMPI Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='smp-pesantren'){
-      //   setSchoolId(5)
-      //   setSchoolName('SMPI Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='sma-pesantren'){
-      //   setSchoolId(6)
-      //   setSchoolName('SMPI Rabbaanii Islamic School'); 
-      // }
-      // if (code_jenjang==='rabbaanii-ciwidey'){
-      //   setSchoolId(7)
-      //   setSchoolName('SMPI Rabbaanii Islamic School'); 
-      // }
+  //     }
+  //     if (code_jenjang==='tkit-b'){
+  //       setSchoolId(1)
+  //       setSchoolName('TKIT B Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='sdit'){
+  //       setSchoolId(2)
+  //       setSchoolName('SDIT Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='smpi'){
+  //       setSchoolId(3)
+  //       setSchoolName('SMPI Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='smai'){
+  //       setSchoolId(4)
+  //       setSchoolName('SMAI Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='smp-pesantren'){
+  //       setSchoolId(5)
+  //       setSchoolName('SMP Pesantren Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='sma-pesantren'){
+  //       setSchoolId(6)
+  //       setSchoolName('SMA Pesantren Rabbaanii Islamic School'); 
+  //     }
+  //     if (code_jenjang==='rabbaanii-ciwidey'){
+  //       setSchoolId(7)
+  //       setSchoolName('Rabbaanii Ciwidey'); 
+  //     }
 
     
-  console.log(school_id)
-  console.log(school_name)
-  console.log(password)
+  //     console.log('school_id >', school_id)
+  //     console.log(school_name)
+  //     console.log(password)
+
+  //   }
   // useEffect(() => {
 
   //   // fetch(process.env.SUPA_PROJECT_URL+"/rest/v1/applicants?select=*",{
@@ -116,18 +128,20 @@ function SignUp() {
 
   const addApplicants = async (e) =>{
     e.preventDefault()
-    // const full_name = setFull_name.trim()
-    // const gender = newgender.trim()
-    // const phone_number = newphone_number.trim()
-    // const email = newemail.trim()
-    // const school_id = newschool_id.trim()
-    // const password = newpassword.trim()
+    console.log('media',media)
+    const _full_name = full_name
+    const _gender = gender
+    const _phone_number = phone_number
+    const _email = email
+    const _school_id = school_id
+    const _password = password
+    const _media = media
     // console.log(full_name)
     // console.log(school_id)
     // console.log(gender)
     // console.log(email)
     // console.log(password)
-    console.log(full_name)
+    console.log(_full_name)
 
     // const newapplicants =  {full_name, gender, phone_number, email, password}
   
@@ -146,17 +160,19 @@ function SignUp() {
     //     console.log(data)
     //   }
 
-    let { data_applicant, error_applicants } = await supabase.rpc("add_new_applicant", {
-      _full_name: full_name,
-      _gender: gender,
-      _phone_number: phone_number,
-      _email: email,
-      _password: password,
-      _school_id: parseInt(school_id),
-      _media: media
+
+    const { data_applicant, error_applicant } = await supabase.rpc("add_new_applicant", {
+      _full_name,
+      _gender,
+      _phone_number,
+      _email,
+      _password,
+      _school_id,
+      _media
     });
 
     console.log('data_applicant =>', data_applicant)
+    console.log('error =>', error_applicant)
     
     // const user_id = data_applicants.f1.toISOString()
     // const created_at = data_applicants.f2.toISOString()
@@ -169,35 +185,7 @@ function SignUp() {
 
 
   
-    // console.log('data_regist_num =>', data_regist_num)
-    //   checkout.process("DXXXXS875LXXXX32IJZ7", {
-    //     defaultLanguage: "id", //opsional pengaturan bahasa
-    //     currency: "USD", //optional to set rate estimation
-    //     successEvent: function(result){
-    //     // tambahkan fungsi sesuai kebutuhan anda
-    //         console.log('success');
-    //         console.log(result);
-    //         alert('Payment Success');
-    //     },
-    //     pendingEvent: function(result){
-    //     // tambahkan fungsi sesuai kebutuhan anda
-    //         console.log('pending');
-    //         console.log(result);
-    //         alert('Payment Pending');
-    //     },
-    //     errorEvent: function(result){
-    //     // tambahkan fungsi sesuai kebutuhan anda
-    //         console.log('error');
-    //         console.log(result);
-    //         alert('Payment Error');
-    //     },
-    //     closeEvent: function(result){
-    //     // tambahkan fungsi sesuai kebutuhan anda
-    //         console.log('customer closed the popup without finishing the payment');
-    //         console.log(result);
-    //         alert('customer closed the popup without finishing the payment');
-    //     }
-    // }); 
+    
   
     
     // if(full_name && gender && phone_number && email && school_id && password){
@@ -232,10 +220,39 @@ function SignUp() {
 
   }
 
+  // setSchoolName('TKIT A Rabbaanii Islamic School');
+  // ('TKIT B Rabbaanii Islamic School');
+  // setSchoolName('SDIT Rabbaanii Islamic School'); 
+  // setSchoolName('SMPI Rabbaanii Islamic School'); 
+  // setSchoolName('SMAI Rabbaanii Islamic School'); 
+  // setSchoolName('SMP Pesantren Rabbaanii Islamic School');
+  const getSchoolIdSchoolName = (code) => {
+    switch (code) {
+      case 'tkit-a': return `1TKIT A Rabbaanii Islamic School`;  
+      break;
+      case 'tkit-b': return `1TKIT B Rabbaanii Islamic School`;  
+      break;
+      case 'sdit': return `2SDIT Rabbaanii Islamic School`;
+      break;
+      case 'smpi': return `3SMPI Rabbaanii Islamic School`;
+      break;
+      case 'smai': return `4SMAI Rabbaanii Islamic School`; 
+      break;
+      case 'smp-pesantren': return 5.`SMP Pesantren Rabbaanii Islamic School`; 
+      break;
+      case 'sma-pesantren': return 6.`SMA Pesantren  Rabbaanii Islamic School`; 
+      break;
+      case 'rabbaanii-ciwidey': return 7.`Rabbaanii Ciwidey`; 
+      break;
+      default: return 10.`Not Found`; 
+        // break;
+    }
+  }
+
  
   
   return (
-    <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative">
+    <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg overflow-hidden relative">
 {/* flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative */}
       {/*  Site header */}
       <Header />
@@ -257,6 +274,7 @@ function SignUp() {
               </svg> */}
             </p>
               </div>
+              {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
             
               {/* Form */}
               <div className="max-w-sm mx-auto">
@@ -264,7 +282,7 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name} type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -288,11 +306,15 @@ function SignUp() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
+                      {/* school:{code=='tkit-b'&&setSchoolId(1)&&setSchoolName('TKIT B Rabbaanii Islamic School') } */}
+                      {/* {school_id. school_name} */}
+                      {code}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
-                      <input id="school_id" name='school_id' type="number" hidden disabled onChange={(e) => setSchoolId(e.target.value)} value={school_id} className="form-input w-full text-gray-800" placeholder="" required />
-                      <input id="school_name" name='school_name' type="text" disabled onChange={(e) => setSchoolName(e.target.value)} value={school_name} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).substring(1)} className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>
+                  <div className='h4 separator'>Informasi Akun</div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="password">Password <span className="text-red-600">*</span></label>
@@ -302,7 +324,10 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
-                      <input id="confirm_password" name='confirm_password' type="password" className="form-input w-full text-gray-800" placeholder="Enter your password" required />
+                      <input id="confirm_password" name='confirm_password' pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
+                      <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                          Konfirmasi password tidak sama dengan password
+                      </span>
                     </div>
                   </div>
                   <div className="sm:col-span-4">
@@ -310,7 +335,7 @@ function SignUp() {
                       <div className="mt-2 grid grid-cols-1">
                           <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                           <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
-                          <option value="teman/saudara" >Teman / Saudara</option>
+                          <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
                           <option value="karyawan/guru">Karyawan/Guru </option>
                           <option value="kajian">Kajian</option>
                           <option value="spanduk">Spanduk</option>

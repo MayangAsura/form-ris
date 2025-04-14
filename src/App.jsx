@@ -17,6 +17,7 @@ import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
+import RedirectPayment from './pages/RedirectPayment';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
         <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pay" element={<Payment />} />
+        <Route path="/landing" element={<RedirectPayment />} />
         {/* <Route path="/:code" element={<Home />} /> */}
       </Routes>
 

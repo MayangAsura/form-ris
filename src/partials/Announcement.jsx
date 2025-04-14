@@ -1,4 +1,5 @@
 import React from 'react'
+import { TiPinOutline} from 'react-icons/ti'
 
 function Annoucement() {
   return (
@@ -16,9 +17,9 @@ function Annoucement() {
       
                   <div className="p-4">
       
-                      <div className='mx-auto flex items-center'><TiPinOutline size={48}className="justify-start mx-auto -mr-10"/><h2 className="text-xl font-bold text-gray-800 justify-start mx-auto">Pengumuman</h2></div>
+                      <div className='mx-auto flex items-center'><TiPinOutline size={48} className="justify-start mx-auto -mr-10"/><h2 className="text-xl font-bold text-gray-800 justify-start mx-auto">Pengumuman</h2></div>
                       
-                      <p className="text-gray-600 mt-2">Ini adalah contoh kartu menggunakan Tailwind di React.</p>
+                      <p className="text-gray-600 mt-2">Pengumuman.</p>
       
                       <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
       

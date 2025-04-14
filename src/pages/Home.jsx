@@ -15,6 +15,7 @@ import ProfileCard from '../partials/ProfileCard';
 import Jenjang from './Jenjang';
 import HorizontalStepper from '../partials/HorizontalStepper'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import Announcement from '../partials/Announcement';
 
 function Home() {
   return (
@@ -29,6 +30,7 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard/>
+        {/* <Announcement/> */}
         <HorizontalStepper/>
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}

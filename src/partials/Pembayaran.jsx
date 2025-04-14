@@ -38,21 +38,7 @@ function Pembayaran() {
                       {/* <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p> */}
                       </div>
                       {/* {!props.complete && ( */}
-                      {/* <button className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3'
-                                onClick={() => {
-                                    // currentStep === steps.length
-                                    //   ? setComplete(true)
-                                    //   : setCurrentStep((prev) => prev + 1); 
-                                    if(props.currentStep === 9){
-                                    props.handledComplete(true)
-                                    }else{
-                                    props.handledCurrentStep(props.currentStep + 1) ;
-                                    // props.setCurrentStep((prev) => prev + 1);
-                                    // callback(data)
-                                    }
-                                    // handleSubmit
-                                    props.scroll('right')
-                                }}>Next</button> */}
+                      
                         {/* )} */}
                         
                   </div>
@@ -71,6 +57,22 @@ function Pembayaran() {
                   </div> */}
       
                 </div>
+                {/* <button className='btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3 mt-4 md:mt-10'
+                                onClick={() => scroll('right')
+                                    // currentStep === steps.length
+                                    //   ? setComplete(true)
+                                    //   : setCurrentStep((prev) => prev + 1); 
+                                    // if(props.currentStep === 9){
+                                    // props.handledComplete(true)
+                                    // }else{
+                                    // props.handledCurrentStep(props.currentStep + 1) ;
+                                    // props.setCurrentStep((prev) => prev + 1);
+                                    
+                                    // }
+                                    // handleSubmit
+                                    // props.scroll('right')
+                                }
+                                >Next</button> */}
               </div>
             </div>
           </section>

@@ -13,7 +13,7 @@ function ProfileCard() {
     getProfileData()
   }, [])
   const getProfileData = async () =>{
-    const {data, error} = await supabase.from('applicants').select(' applicant_schools(schools(school_name)), full_name, gender, email, created_at, phone_number)').eq('id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a')
+    const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, created_at, phone_number)').eq('id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a')
     if(error){
       console.log(error)
       setProfileData({})
@@ -87,7 +87,7 @@ function ProfileCard() {
                         {/* <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                         
                     </div>
-                    <img src="../src/images/image-formal.png" className="text-center object-center w-2/3" alt="" />
+                    <img src="../public/images/image-formal.png" className="text-center object-center w-2/3" alt="" />
                     {/* <span className='text-sm'>Mendaftar Pada :  Sabtu, 12 Maret 2024</span> */}
                     
     
