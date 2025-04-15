@@ -308,7 +308,7 @@ function SignUp() {
                     <div className="w-full px-3">
                       {/* school:{code=='tkit-b'&&setSchoolId(1)&&setSchoolName('TKIT B Rabbaanii Islamic School') } */}
                       {/* {school_id. school_name} */}
-                      {code}
+                      {/* {code} */}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
                       <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).substring(1)} className="form-input w-full text-gray-800" placeholder="" required />

@@ -112,7 +112,7 @@ function Payment() {
       }
       console.log('appli->',data)
       const order = {
-        order_id : "bd995ee9-7191-40b9-964b-ab4ff4c7e56d"
+        order_id : "3e8ce198-b97c-4c3a-a379-f587444af3a3"
       }
       axios.post("http://localhost:3000/api/create-form-invoice", order).then((res) => {
 
@@ -207,7 +207,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" >Biaya Pendaftaran</label>
-                      {/* <h2>{applicantOrder?.schools?.school_price?? '-'}</h2> */}
+                      <h2 className='text-lg font-800 flex justify-start'> {applicantData.school_price??'Rp.125000'}</h2>
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
                   </div>
@@ -215,7 +215,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
-                      <h2 className='text-lg font-800 flex justify-start'> {applicantPayment.status??'Belum Bayar'}</h2>
+                      <h2 className='text-lg font-800 justify-start inline-flex items-center rounded-lg bg-yellow-50 px-2 py-1 font-medium text-yellow-800 ring-1 ring-gray-500/10 ring-inset'> {applicantPayment.status??'Belum Bayar'}</h2>
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
                   </div>
@@ -235,7 +235,7 @@ function Payment() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+                      <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={create_order}
                       >Bayar  
                       <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
