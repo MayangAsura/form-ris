@@ -31,9 +31,10 @@ function SignIn(props) {
       const response = await axios.post(LOGIN_URL,
         JSON.stringify({ username, password }),
         {
-          headers: {'Content-Type': 'application/json' }, withCredentials: true
+          headers: {'Content-Type': 'application/json' }
         }
       );
+      // , withCredentials: true
       console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       const token = response?.token
       // const roles = response?.data?.roles 

@@ -162,13 +162,13 @@ function SignUp() {
 
 
     const { data_applicant, error_applicant } = await supabase.rpc("add_new_applicant", {
-      _full_name,
-      _gender,
-      _phone_number,
-      _email,
-      _password,
-      _school_id,
-      _media
+      _full_name: full_name,
+      _gender: gender,
+      _phone_number: phone_number,
+      _email: email,
+      _password: password,
+      _school_id: parseInt(school_id),
+      _media: media
     });
 
     console.log('data_applicant =>', data_applicant)
@@ -357,7 +357,7 @@ function SignUp() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Sign up</button>
+                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Sign up</button>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
