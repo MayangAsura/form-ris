@@ -60,34 +60,34 @@ const HorizontalStepper = () => {
       }
       const {full_name,gender,phone_number,email, ...newdatap } = data
       console.log(newdatap)
-      const participant = {
-        // applicant_id "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a",
-        // nisn
-        // {
-          prev_school: "sdfsdf",
-          prev_school_address: "sfsdf",
-          kk_number: "1231231231231231",
-          nik: "1231231231231231",
-          pob: "dfsf",
-          // dob: "2025-04-08",
-          // medical_history: "",
-          // sickness_history: "",
-          home_address: "sdsdf",
-          child_number: "2",
-          // child_status: "",
-          // live_with: "",
-          parent_email: "mayang.asura123@gmail.com",
-          parent_phone_number: "87424",
-          // distance: "",
-          nationality: "sdfdf",
-          nisn:"1231231231",
-          province: "sdfsdf",
-          region: "sdfsdf",
-          postal_code: "2424",
-          aspiration: "sfsdf sfd",
-          applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"
+      // const participant = {
+      //   // applicant_id "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a",
+      //   // nisn
+      //   // {
+      //     prev_school: "sdfsdf",
+      //     prev_school_address: "sfsdf",
+      //     kk_number: "1231231231231231",
+      //     nik: "1231231231231231",
+      //     pob: "dfsf",
+      //     // dob: "2025-04-08",
+      //     // medical_history: "",
+      //     // sickness_history: "",
+      //     home_address: "sdsdf",
+      //     child_number: "2",
+      //     // child_status: "",
+      //     // live_with: "",
+      //     parent_email: "mayang.asura123@gmail.com",
+      //     parent_phone_number: "87424",
+      //     // distance: "",
+      //     nationality: "sdfdf",
+      //     nisn:"1231231231",
+      //     province: "sdfsdf",
+      //     region: "sdfsdf",
+      //     postal_code: "2424",
+      //     aspiration: "sfsdf sfd",
+      //     applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"
+      // // }
       // }
-      }
       saveData(newdatap, 'participants')
       updateData(data_applicant, "applicants", "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a")
         scroll('right')
@@ -209,9 +209,23 @@ const HorizontalStepper = () => {
               upsert: false  
             })
 
+    
+      let file = e.target.files[0];
+
+      const { data_, error_ } = await supabase
+        .storage
+        .from('uploads')
+        .upload(userId + "/" + uuidv4(), file)
+  
+      if (data) {
+        getMedia();
+  
+      } else {
+        console.log(error);
+      }
 
     }
-    console.log('dataInput> ' ,dataInput)
+    console.log('dataInput> ', dataInput)
     const { data, err} = await supabase.from(to)
                         .insert([dataInput])
                         .single()

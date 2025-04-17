@@ -57,10 +57,11 @@ function ProfileCard() {
             <h3 className="h3 mb-4">Ahlan wa Sahlan, Santri Baru Rabbaanii Islamic School.
             </h3>
             <p className="text-xl text-gray-600 inline-grid"> 
-              Silahkan melanjutkan proses pendaftaran dengan melengkapi data dan berkas sesuai ketentuan dengan pedaftaran. Petunjuk dan Ketentuan Berkas Pendaftaran dapat dibuka disini. 
-              <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24">
+              Silahkan melanjutkan proses pendaftaran dengan melengkapi data dan berkas sesuai ketentuan dengan pedaftaran. 
+              {/* Petunjuk dan Ketentuan Berkas Pendaftaran dapat dibuka disini.  */}
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24">
                 <path d="M12 4v8.59l-3.29-3.29L7.41 11l5 5 5-5-1.29-1.29L12 12.59V4h-1.5z"/>
-              </svg>
+              </svg> */}
             </p>
           </div>
 
@@ -86,8 +87,8 @@ function ProfileCard() {
                         </svg> */}
                         {/* <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                         
+                    <img src="/images/image-formal.png" className="text-center object-center" width={180} alt="" />
                     </div>
-                    <img src="../public/images/image-formal.png" className="text-center object-center w-2/3" alt="" />
                     {/* <span className='text-sm'>Mendaftar Pada :  Sabtu, 12 Maret 2024</span> */}
                     
     

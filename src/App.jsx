@@ -19,6 +19,9 @@ import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
 import RedirectPayment from './pages/RedirectPayment';
 
+// import RequireAuth from 'react-auth-kit'
+// import {AuthProvider} from 'react-auth-kit'
+
 function App() {
 
   const location = useLocation();
@@ -43,8 +46,13 @@ function App() {
       <Routes>
         {/* <Route exact path="/" element={<Jenjang />} /> */}
         <Route exact path="/" element={<Jenjang />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={
+          // <RequireAuth loginPath="/login">
+            <Home />
+          // </RequireAuth>
+          }/>
         <Route path="/login" element={<SignIn />} />
+        <Route path="/logout" element={<SignIn />} />
         <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pay" element={<Payment />} />
