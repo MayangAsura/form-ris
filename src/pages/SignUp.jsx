@@ -8,6 +8,7 @@ import { createClient } from '@supabase/supabase-js'
 import { ScaleIcon } from '@heroicons/react/24/solid';
 import Modal from '../utils/Modal';
 // import {Toaster, Position} from  @blue
+import Swal from '../utils/Swal'
 
 function SignUp() {
 
@@ -27,6 +28,15 @@ function SignUp() {
   const [password, setPassword] = useState("")
   const [media, setMedia] = useState("")
   let code = useParams().code
+    // const dataModal = () => {
+    const modal = {
+      title: "Pendaftaran Berhasil",
+      message: "Halaman ini akan diarahkan ke halaman Masuk Aplikasi untuk melanjutkan proses pendaftaran",
+      label: "Kirim",
+      
+    }
+  //   return data
+  // }
   // const [code, setCode] = useState(useParams())
   
   // code = useParams().code
@@ -68,49 +78,7 @@ function SignUp() {
     // }
     //console.log(code, school_id, school_name)
   // // }
-  //   const getSchoolIdSchoolName = async () => {
-  //     const code_jenjang = code
-  //     console.log(code_jenjang)
-  //     if (code_jenjang==='tkit-a'){
-  //       (1) 
-  //       setSchoolName('TKIT A Rabbaanii Islamic School'); 
-        
-  //     }
-  //     if (code_jenjang==='tkit-b'){
-  //       setSchoolId(1)
-  //       setSchoolName('TKIT B Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='sdit'){
-  //       setSchoolId(2)
-  //       setSchoolName('SDIT Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='smpi'){
-  //       setSchoolId(3)
-  //       setSchoolName('SMPI Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='smai'){
-  //       setSchoolId(4)
-  //       setSchoolName('SMAI Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='smp-pesantren'){
-  //       setSchoolId(5)
-  //       setSchoolName('SMP Pesantren Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='sma-pesantren'){
-  //       setSchoolId(6)
-  //       setSchoolName('SMA Pesantren Rabbaanii Islamic School'); 
-  //     }
-  //     if (code_jenjang==='rabbaanii-ciwidey'){
-  //       setSchoolId(7)
-  //       setSchoolName('Rabbaanii Ciwidey'); 
-  //     }
-
-    
-  //     console.log('school_id >', school_id)
-  //     console.log(school_name)
-  //     console.log(password)
-
-  //   }
+  
   // useEffect(() => {
 
   //   // fetch(process.env.SUPA_PROJECT_URL+"/rest/v1/applicants?select=*",{
@@ -133,15 +101,17 @@ function SignUp() {
     const _gender = gender
     const _phone_number = phone_number
     const _email = email
-    const _school_id = school_id
+    const _school_id = parseInt(getSchoolIdSchoolName(code).substring(0,1)) 
     const _password = password
     const _media = media
-    // console.log(full_name)
-    // console.log(school_id)
-    // console.log(gender)
-    // console.log(email)
-    // console.log(password)
+  
     console.log(_full_name)
+    console.log(_gender)
+    console.log(_phone_number)
+    console.log(_email)
+    console.log(_password)
+    console.log(_media)
+    console.log(_school_id)
 
     // const newapplicants =  {full_name, gender, phone_number, email, password}
   
@@ -160,19 +130,27 @@ function SignUp() {
     //     console.log(data)
     //   }
 
-
+      // const
+    
     const { data_applicant, error_applicant } = await supabase.rpc("add_new_applicant", {
-      _full_name: full_name,
-      _gender: gender,
-      _phone_number: phone_number,
-      _email: email,
-      _password: password,
-      _school_id: parseInt(school_id),
-      _media: media
+      _email,
+      _full_name,
+      _gender,
+      _media,
+      _password,
+      _phone_number,
+      _school_id
     });
 
-    console.log('data_applicant =>', data_applicant)
-    console.log('error =>', error_applicant)
+    if(data_applicant){
+      console.log('data_applicant =>', data_applicant)
+      
+      return <Swal dataModal={modal}/>
+    }else{
+      console.log('error =>', error_applicant)
+
+    }
+
     
     // const user_id = data_applicants.f1.toISOString()
     // const created_at = data_applicants.f2.toISOString()
@@ -238,16 +216,17 @@ function SignUp() {
       break;
       case 'smai': return `4SMAI Rabbaanii Islamic School`; 
       break;
-      case 'smp-pesantren': return 5.`SMP Pesantren Rabbaanii Islamic School`; 
+      case 'smp-pesantren': return `5SMP Pesantren Rabbaanii Islamic School`; 
       break;
-      case 'sma-pesantren': return 6.`SMA Pesantren  Rabbaanii Islamic School`; 
+      case 'sma-pesantren': return `6SMA Pesantren  Rabbaanii Islamic School`; 
       break;
-      case 'rabbaanii-ciwidey': return 7.`Rabbaanii Ciwidey`; 
+      case 'rabbaanii-ciwidey': return `7Rabbaanii Ciwidey`; 
       break;
-      default: return 10.`Not Found`; 
+      default: return `10Not Found`; 
         // break;
     }
   }
+
 
  
   
@@ -275,7 +254,7 @@ function SignUp() {
             </p>
               </div>
               {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
-            
+                <Swal dataModal={modal}/>
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <form>
@@ -310,7 +289,7 @@ function SignUp() {
                       {/* {school_id. school_name} */}
                       {/* {code} */}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
-                      <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).substring(1)} className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>

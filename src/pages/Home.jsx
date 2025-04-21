@@ -30,7 +30,7 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard/>
-        {/* <Announcement/> */}
+        <Announcement/>
         <HorizontalStepper/>
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}

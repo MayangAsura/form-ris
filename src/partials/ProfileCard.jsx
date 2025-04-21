@@ -9,11 +9,14 @@ function ProfileCard() {
   console.log(supabase)
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
   const [profileData, setProfileData] = useState({})
+  const [usia, setUsia] = useState("")
+  
   useEffect( () => {
     getProfileData()
+    getUusia()
   }, [])
   const getProfileData = async () =>{
-    const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, created_at, phone_number)').eq('id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a')
+    const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, phone_number, regist_number, created_at, participants(dob, aspiration))').eq('id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a').single()
     if(error){
       console.log(error)
       setProfileData({})
@@ -38,6 +41,17 @@ function ProfileCard() {
 
     const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
     return indonesianFormat
+  }
+
+  const getUusia = () => {
+    const now = new Date().getTime()
+    const dob = profileData.participants.map(d => d.dob.getTime()) 
+    // ?.dob.getTime()
+    // const dob2 = dob[0].dob.getTime()
+    let timeDiff = Math.abs(now - dob);
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    let usia = Math.round(diffDays/365)
+    setUsia(usia)
   }
 
   
@@ -69,7 +83,7 @@ function ProfileCard() {
           <div className="max-w-sm mx-auto md:max-w-2xl lg:max-w-2xl">
           {/* grid gap-6 md:grid-cols-2 lg:grid-cols-3 */}
             {/* 1st item */}
-            <div className="relative flex flex-col justify-center p-6 bg-white rounded shadow-xl">
+            <div className="relative flex flex-col justify-center p-6 bg-white rounded-r-2xl rounded-l-2xl shadow-xl">
                 <div className='max-w-lg mx-auto'>
                     <div className="relative flex flex-col w-full">
                     {/* https://psb.pesantrenalirsyad.org/berkas/pia-25-file_foto-3da552f88d5156d5053e1ffc55ac91bd.jpeg?v=264 */}
@@ -93,7 +107,7 @@ function ProfileCard() {
                     
     
                 </div>  
-                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData[0]?.full_name?profileData[0].full_name :'mayang2'} | 16 Tahun</h4>
+                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData?.full_name?profileData.full_name :'mayang2'} | {usia}</h4>
                 <table className='table-auto w-full mt-15 '>
                             <tbody>
                                 <tr>
@@ -107,22 +121,22 @@ function ProfileCard() {
                                 <tr >
                                     <td>No. Pendaftaran </td>
                                     <td>:</td>
-                                    <td>ABCDEFG123</td>
+                                    <td>{profileData?.regist_number??'-'} </td>
                                 </tr>
                                 <tr>
                                     <td>Jenis Kelamin </td>
                                     <td>:</td>
-                                    <td>{profileData[0]?.gender=='L'?'Laki-Laki': 'Perempuan'}</td>
+                                    <td>{profileData?.gender=='L'?'Laki-Laki': 'Perempuan'}</td>
                                 </tr>
                                 <tr>
                                     <td>No. WhatsApp </td>
                                     <td>:</td>
-                                    <td>{profileData[0]?.phone_number}</td>
+                                    <td>{profileData?.phone_number??'-'}</td>
                                 </tr>
                                 <tr>
                                     <td>Mendaftar Jenjang </td>
                                     <td>:</td>
-                                    <td>SDIT Rabbaanii Islamic School</td>
+                                    <td>{profileData?.applicants_schools?.schools?.school_name??'-'}</td>
                                 </tr>
                                 <tr>
                                     <td>Tanggal Pendaftaran </td>
@@ -136,7 +150,7 @@ function ProfileCard() {
                                 <tr>
                                     <td>Cita - Cita </td>
                                     <td>:</td>
-                                    <td>Pengusaha muslim professional </td>
+                                    <td>{profileData?.participants?.aspiration??'-'}</td>
                                 </tr>
                             </tbody>
                         </table>

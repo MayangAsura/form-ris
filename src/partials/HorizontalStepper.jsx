@@ -197,44 +197,79 @@ const HorizontalStepper = () => {
     // }, 3000);
   }
 
+  const upload = async (file ) => {
+    const filepath = `${file.name}-${Date.now()}`
+    const { data_, error_ } = await supabase
+        .storage
+        .from('uploads')
+        .upload(participant_id + "/" + filepath, file)
+    if (error_) {
+      console.error("Gagal Upload Berkas", error_.message)
+      return null
+    }
+    const { data } = await supabase.storage.from("uploads").getPublicUrl(filepath)
+    return data.publicUrl
+  }
   const saveData = async (dataInput, to, type=null) => {
     
     if (type=='file'){
       // const avatarFile = event.target.files[0]
-      const { data, error } = await supabase  
-            .storage  
-            .from('participant_documents')  
-            .upload('public/avatar1.png', getDataBerkas, {    
-              cacheControl: '3600',    
-              upsert: false  
-            })
+
+      console.log(dataInput)
+
+      dataInput.map( d => {
+        const publicUrl = upload(d)
+        const dataItem = {
+          participant_id: participant_id,
+          file_url:publicUrl,
+          file_name: `${d.name}-${Date.now()}`,
+
+        }
+        const { data, err} = supabase.from(to)
+                          .insert([dataItem])
+                          .single()
+        console.log('data>', data)
+        console.log('err >', err)
+
+      })
+
+
+      // const { data, error } = await supabase  
+      //       .storage  
+      //       .from('participant_documents')  
+      //       .upload('public/avatar1.png', getDataBerkas, {    
+      //         cacheControl: '3600',    
+      //         upsert: false  
+      //       })
 
     
-      let file = e.target.files[0];
+      // let file = e.target.files[0];
 
-      const { data_, error_ } = await supabase
-        .storage
-        .from('uploads')
-        .upload(userId + "/" + uuidv4(), file)
+      // const { data_, error_ } = await supabase
+      //   .storage
+      //   .from('uploads')
+      //   .upload(userId + "/" + uuidv4(), file)
   
-      if (data) {
-        getMedia();
+      // if (data) {
+      //   getMedia();
   
-      } else {
-        console.log(error);
-      }
+      // } else {
+      //   console.log(error);
+      // }
 
+    }else{
+
+      console.log('dataInput> ', dataInput)
+      const { data, err} = await supabase.from(to)
+                          .insert([dataInput])
+                          .single()
+      if(dataInput.pob){
+        setApplicantId(data.id)
+      }   
+      console.log('data>', data)
+      console.log('err >', err)
     }
-    console.log('dataInput> ', dataInput)
-    const { data, err} = await supabase.from(to)
-                        .insert([dataInput])
-                        .single()
-    if(dataInput.pob){
-      setApplicantId(data.id)
-    }   
 
-    console.log('data>', data)
-    console.log('err >', err)
   }
 
   const updateData = async (dataInput, to, bo, type=null) => {
