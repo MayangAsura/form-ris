@@ -163,8 +163,8 @@ const HorizontalStepper = () => {
       setParticipant({})
       setParticipant(data)
       setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      updateData(data, 'participants')
       console.log(dataParticipant)
+      updateData(dataParticipant, 'participants')
       
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -180,7 +180,7 @@ const HorizontalStepper = () => {
       setParticipant({})
       setParticipant(data)
       setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      updateData(data, 'participants')
+      updateData(dataParticipant, 'participants')
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -217,19 +217,24 @@ const HorizontalStepper = () => {
 
       console.log(dataInput)
 
+      for (let i = 0; i < dataInput.length; i++) {
+        const d = dataInput[i];
+        const publicUrl = upload(d)
+        const dataItem = {
+          // participant_id: participant_id,
+          // file_url: publicUrl,
+          // file_name: `${d.name}-${Date.now()}`,
+          // file_size: ,
+          // file_type:
+        }
+        const { data, err} = supabase.from(to)
+                          .insert([dataItem])
+                          .single()
+        console.log('data>', data)
+        console.log('err >', err)
+      }
       // dataInput.map( d => {
-      //   const publicUrl = upload(d)
-      //   const dataItem = {
-      //     participant_id: participant_id,
-      //     file_url:publicUrl,
-      //     file_name: `${d.name}-${Date.now()}`,
-
-      //   }
-      //   const { data, err} = supabase.from(to)
-      //                     .insert([dataItem])
-      //                     .single()
-      //   console.log('data>', data)
-      //   console.log('err >', err)
+        
 
       // })
 

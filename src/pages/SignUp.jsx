@@ -27,12 +27,16 @@ function SignUp() {
   const [school_name, setSchoolName] = useState("")
   const [password, setPassword] = useState("")
   const [media, setMedia] = useState("")
+
+  const [success, setSuccess] = useState(false)
+
   let code = useParams().code
     // const dataModal = () => {
     const modal = {
       title: "Pendaftaran Berhasil",
-      message: "Halaman ini akan diarahkan ke halaman Masuk Aplikasi untuk melanjutkan proses pendaftaran",
-      label: "Kirim",
+      message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS untuk mendapatkan informasi lebih lanjut atau dapat melanjutkan pembayaran melalui website.",
+      label: "Konfirmasi Pendaftaran ke CS",
+      label2: "Lanjut Pembayaran",
       
     }
   //   return data
@@ -142,14 +146,14 @@ function SignUp() {
       _school_id
     });
 
-    if(data_applicant){
-      console.log('data_applicant =>', data_applicant)
+    setSuccess(true)
+    console.log('data_applicant =>', data_applicant)
+    // if(data_applicant){
       
-      return <Swal dataModal={modal}/>
-    }else{
-      console.log('error =>', error_applicant)
+    // }else{
+    //   console.log('error =>', error_applicant)
 
-    }
+    // }
 
     
     // const user_id = data_applicants.f1.toISOString()
@@ -254,7 +258,10 @@ function SignUp() {
             </p>
               </div>
               {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
-                <Swal dataModal={modal}/>
+                {success && (
+                  <Swal dataModal={modal}/>
+                )}
+                
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <form>

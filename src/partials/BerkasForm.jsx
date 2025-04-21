@@ -27,22 +27,25 @@ function BerkasForm(props) {
         }
         if(image.size > parseInt(size+'000000')){
 
-            const error = "Berkas tidak lebih dari "+ size + " MB"
+            const error = "Berkas tidak melebih dari "+ size + " MB"
             setError(error)
             return
         }
+        console.log(image)
+        console.log(berkasFile)
         
-        const file = image.target.files[0]
-
-        setBerkasFile({...berkasFile,file })
+        setBerkasFile({...berkasFile, image})
+        
+        
+        // con[]
         
         setError(null)
     }
     const saveData = (e) => {
         e.preventDefault()
 
-        console.log(berkasFile)
-        props.onSubmit(berkasFile)
+        console.log(data)
+        props.onSubmit(data)
         
     }
 
@@ -52,7 +55,7 @@ function BerkasForm(props) {
             <div className='max-w-6xl mx-auto px-4 sm:px-6'>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
-                        <form action="" onSubmit={saveData}     >
+                        <form action="" onSubmit={saveData} >
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Upload Kelengkapan Dokumen</h2>

@@ -6,13 +6,17 @@ function Annoucement() {
    
         <section className="relative">
              {/* Section background (needs .relative class on parent and next sibling elements) */}
-          <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-gray-900 pointer-events-none" aria-hidden="true"></div>
+          {/* <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-gray-900 pointer-events-none" aria-hidden="true"></div> */}
           {/* <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div> */}
     
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-              <div className="py-12 md:py-20">
-                <div className="rounded-2xl" style={{ height: '200px',width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
-                  <div className="rounded-2xl" style={{ height: '5px',  backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
+          <div className="relative max-w-6xl mx-auto bg-gray-200 ppx-4 sm:px-6">
+              <div className="py-10 md:py-10">
+                  <h3 className="h3 mb-4">Pengumuman</h3>
+                <div className="rounded-2xl" style={{ height: '200px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
+                  <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
+                  <p className='text-gray-900 mt-2'>Status : Incomplete 
+                    
+                  </p>
                 </div>
                 {/* <div className="max-w-sm bg-white shadow-2xl rounded-lg overflow-hidden">
       

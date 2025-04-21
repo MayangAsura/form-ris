@@ -10,7 +10,7 @@ export default function Swal(props) {
   console.log(props)
 
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-10">
+    <Dialog open={open} onClose={setOpen} className="relative z-30">
       <DialogBackdrop
         transition
         className="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
@@ -43,7 +43,7 @@ export default function Swal(props) {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 mb-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto"
+                className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 mt-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:w-auto"
               >
                 {props.dataModal.label}
               </button>
@@ -51,9 +51,9 @@ export default function Swal(props) {
                 type="button"
                 data-autofocus
                 onClick={() => setOpen(false)}
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                className="mt-5 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
-                Keluar
+                {props.dataModal.label2}
               </button>
             </div>
           </DialogPanel>
