@@ -267,8 +267,8 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'L'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'P'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">

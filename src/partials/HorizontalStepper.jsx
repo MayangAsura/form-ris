@@ -217,21 +217,21 @@ const HorizontalStepper = () => {
 
       console.log(dataInput)
 
-      dataInput.map( d => {
-        const publicUrl = upload(d)
-        const dataItem = {
-          participant_id: participant_id,
-          file_url:publicUrl,
-          file_name: `${d.name}-${Date.now()}`,
+      // dataInput.map( d => {
+      //   const publicUrl = upload(d)
+      //   const dataItem = {
+      //     participant_id: participant_id,
+      //     file_url:publicUrl,
+      //     file_name: `${d.name}-${Date.now()}`,
 
-        }
-        const { data, err} = supabase.from(to)
-                          .insert([dataItem])
-                          .single()
-        console.log('data>', data)
-        console.log('err >', err)
+      //   }
+      //   const { data, err} = supabase.from(to)
+      //                     .insert([dataItem])
+      //                     .single()
+      //   console.log('data>', data)
+      //   console.log('err >', err)
 
-      })
+      // })
 
 
       // const { data, error } = await supabase  

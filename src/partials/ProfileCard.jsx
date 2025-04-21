@@ -13,7 +13,7 @@ function ProfileCard() {
   
   useEffect( () => {
     getProfileData()
-    getUusia()
+    getUsia()
   }, [])
   const getProfileData = async () =>{
     const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, phone_number, regist_number, created_at, participants(dob, aspiration))').eq('id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a').single()
@@ -43,9 +43,9 @@ function ProfileCard() {
     return indonesianFormat
   }
 
-  const getUusia = () => {
+  const getUsia = async () => {
     const now = new Date().getTime()
-    const dob = profileData.participants.map(d => d.dob.getTime()) 
+    const dob = profileData.participants.map(d => (d.dob.getTime())) 
     // ?.dob.getTime()
     // const dob2 = dob[0].dob.getTime()
     let timeDiff = Math.abs(now - dob);
