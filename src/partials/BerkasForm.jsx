@@ -32,9 +32,14 @@ function BerkasForm(props) {
             return
         }
         console.log(image)
+        const data = {
+            name: image.name,
+            size: image.size,
+            type: image.type,
+            file: image
+        }
+        setBerkasFile(data)
         console.log(berkasFile)
-        
-        setBerkasFile({...berkasFile, image})
         
         
         // con[]
@@ -44,8 +49,8 @@ function BerkasForm(props) {
     const saveData = (e) => {
         e.preventDefault()
 
-        console.log(data)
-        props.onSubmit(data)
+        console.log(berkasFile)
+        props.onSubmit(berkasFile)
         
     }
 

@@ -31,7 +31,7 @@ function SignIn(props) {
       const response = await axios.post(LOGIN_URL,
         JSON.stringify({ username, password }),
         {
-          headers: {'Content-Type': 'application/json' }, withCredentials: true
+          headers: {'Content-Type': 'application/json' }, withCredentials: false
         }
       );
       // 

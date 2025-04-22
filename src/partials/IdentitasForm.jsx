@@ -270,10 +270,10 @@ function IdentitasForm(props) {
                                     <label htmlFor="live_with" className="block text-sm/6 font-medium text-gray-900">Tinggal Bersama <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
                                         <select id="live_with" name="live_with" onChange={(e) => setLiveWith(e.target.value)} autoComplete="live_with" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
-                                            <option value="orang_tua">Orang Tua</option>
-                                            <option value="wali">Wali</option>
-                                            <option value="kost">Anak Asuh</option>
-                                            <option value="asrama">Asrama</option>
+                                            <option value="parent">Orang Tua</option>
+                                            <option value="guardian">Wali</option>
+                                            <option value="kos">Anak Asuh</option>
+                                            <option value="dormitory">Asrama</option>
                                         </select>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Tinggal Bersama tidak boleh kosong
@@ -292,12 +292,12 @@ function IdentitasForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="parent_email" className="block text-sm/6 font-medium text-gray-900">No HP/WA Orang Tua <span className="text-red-600">*</span></label>
+                                    <label htmlFor="parent_email" className="block text-sm/6 font-medium text-gray-900">Email Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi email yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih yang paling aktif dan ingat passwordnya.</span>
                                     <div className="mt-2">
                                         <input id="parent_email" name="parent_email" onChange={(e) => setParentEmail(e.target.value)} type="email" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-                                            No HP/WA Orang Tua tidak valid
+                                            Email Orang Tua tidak valid
                                         </span>
                                     </div>
                                     </div>
@@ -306,7 +306,7 @@ function IdentitasForm(props) {
                                     <div className="mt-2">
                                         <select id="distance" name="distance" onChange={(e) => setDistance(e.target.value)} autoComplete="distance" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="less_than_1km">Kurang dari 1 Km</option>
-                                            <option value="1_to_5km">1 - 5 Km</option>
+                                            <option value="1_-_5km">1 - 5 Km</option>
                                             <option value="more_than_5km">Lebih dari 5 Km</option>
                                             <option value="other">Lainnya</option>
                                         </select>

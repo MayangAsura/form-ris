@@ -1,12 +1,13 @@
 // 'use client'
 
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function Swal(props) {
   const [open, setOpen] = useState(true)
-
+  const navigate = useNavigate()
   console.log(props)
 
   return (
@@ -40,20 +41,21 @@ export default function Swal(props) {
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-col sm:px-6">
+            {/* setOpen(false) */}
               <button
                 type="button"
-                onClick={() => setOpen(false)}
-                className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 mt-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:w-auto"
+                onClick={() => window.location.href=`${props.dataModal.url}`}
+                className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:w-auto"
               >
-                {props.dataModal.label}
+                {props.dataModal.text}
               </button>
               <button
                 type="button"
                 data-autofocus
-                onClick={() => setOpen(false)}
+                onClick={() => window.location.href=`${props.dataModal.url2}`}
                 className="mt-5 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
-                {props.dataModal.label2}
+                {props.dataModal.text2}
               </button>
             </div>
           </DialogPanel>

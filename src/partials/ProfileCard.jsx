@@ -27,7 +27,7 @@ function ProfileCard() {
   }
 
   const formatDate = (date) => {
-    const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
     date = new Date(date);
@@ -45,7 +45,10 @@ function ProfileCard() {
 
   const getUsia = async () => {
     const now = new Date().getTime()
-    const dob = profileData.participants.map(d => (d.dob.getTime())) 
+    // console.log
+    const p = profileData.participants[0]
+    const dob = p.dob
+    // .map(d => (d.dob.getTime())) 
     // ?.dob.getTime()
     // const dob2 = dob[0].dob.getTime()
     let timeDiff = Math.abs(now - dob);
@@ -107,7 +110,7 @@ function ProfileCard() {
                     
     
                 </div>  
-                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData?.full_name?profileData.full_name :'mayang2'} | {usia}</h4>
+                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData?.full_name?profileData.full_name :'mayang2'} | {'18 Tahun'}</h4>
                 <table className='table-auto w-full mt-15 '>
                             <tbody>
                                 <tr>
@@ -118,7 +121,7 @@ function ProfileCard() {
                                   </div> */}
                                   </td>
                                 </tr>
-                                <tr >
+                                <tr>
                                     <td>No. Pendaftaran </td>
                                     <td>:</td>
                                     <td>{profileData?.regist_number??'-'} </td>
@@ -126,7 +129,7 @@ function ProfileCard() {
                                 <tr>
                                     <td>Jenis Kelamin </td>
                                     <td>:</td>
-                                    <td>{profileData?.gender=='L'?'Laki-Laki': 'Perempuan'}</td>
+                                    <td>{profileData?.gender=='male'?'Laki-Laki': 'Perempuan'}</td>
                                 </tr>
                                 <tr>
                                     <td>No. WhatsApp </td>
@@ -136,14 +139,14 @@ function ProfileCard() {
                                 <tr>
                                     <td>Mendaftar Jenjang </td>
                                     <td>:</td>
-                                    <td>{profileData?.applicants_schools?.schools?.school_name??'-'}</td>
+                                    <td>{profileData?.applicant_schools?.schools?.school_name??'SDIT Rabbaanii Islamic School'}</td>
                                 </tr>
                                 <tr>
                                     <td>Tanggal Pendaftaran </td>
                                     <td>:</td>
                                     <td>{
                                     
-                                    formatDate(profileData[0]?.created_at)
+                                    formatDate(profileData?.created_at)
                                     
                                     }</td>
                                 </tr>

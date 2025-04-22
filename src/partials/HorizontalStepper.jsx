@@ -24,6 +24,7 @@ const HorizontalStepper = () => {
   const [dataIbu, setDataIbu] = useState({})
   const [dataWali, setDataWali] = useState({})
   const [applicant_id, setApplicantId] = useState("")
+  const [participant_id, setParticipantId] = useState("")
 
   const scroll = (direction) => {
     console.log(direction)
@@ -48,10 +49,10 @@ const HorizontalStepper = () => {
       console.log("Data Identitas >,", data)
       setParticipant(data)
       // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      const newdata = (data) => ({...data, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"}) 
+      const newdata = (data) => ({...data, applicant_id: "0eca0b23-ace9-47cb-a395-e6719ada1cd7"}) 
       console.log('dataParticipant ', dataParticipant)
       console.log('newdata ', newdata)
-      // data = {...data, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"}
+      data = {...data, applicant_id: "0eca0b23-ace9-47cb-a395-e6719ada1cd7"}
       const data_applicant = {
         full_name: data.full_name, 
         gender: data.gender, 
@@ -100,15 +101,18 @@ const HorizontalStepper = () => {
     console.log("Data Ayah >", data)
     setTimeout(() => {
     if(data){
-      setDataAyah(data)
-      const newdata = (data) => ({...data, participant_id: "9de0c331-6206-4d40-8f6c-42997e428a4a"}) 
+      // const newdata = (data) => ({...data, participant_id: "9de0c331-6206-4d40-8f6c-42997e428a4a"}) 
       // setDataAyah(d => ({...d, participant_id: "4f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
       // setParticipant([...data, {applicant_id:"04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"}])
-      console.log("Data Ayah >,", newdata)
+      // setDataAyah({...data, participant_id})
+      data = {...data, participant_id: participant_id}
+      setDataAyah(data)
+
+      console.log("Data Ayah >,", data)
       // const {d, e} = supabase.from('participant_fathers_data')
       //                     .insert([newdata])
       //                     .single()
-      saveData(newdata, 'participant_fathers_data')
+      saveData(data, 'participant_father_data')
 
       console.log('dataAyah ', dataAyah)
         scroll('right')
@@ -122,7 +126,7 @@ const HorizontalStepper = () => {
     if(data){
       console.log("DataIbu >,", data)
       setDataIbu(data)
-      setDataIbu(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
+      data = {...data, participant_id}
       saveData(data, 'participant_mother_data')
       console.log(dataIbu)
         scroll('right')
@@ -136,7 +140,7 @@ const HorizontalStepper = () => {
     if(data){
       console.log("DataWali >,", data)
       setDataWali(data)
-      setDataWali(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
+      data = {...data, participant_id}
       saveData(data, 'participant_wali_data')
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -148,7 +152,7 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("DataBerkas >,", data)
-      
+      data = {...data, participant_id}
       saveData(data, 'participant_documents', 'file')
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -160,11 +164,10 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("Data VerifikasiKeluarga >,", data)
-      setParticipant({})
-      setParticipant(data)
-      setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      console.log(dataParticipant)
-      updateData(dataParticipant, 'participants')
+      data = {...data, participant_id}
+      // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
+      // console.log(dataParticipant)
+      updateData(data, 'participants')
       
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -177,10 +180,8 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("Data Uang Pangkal >,", data)
-      setParticipant({})
-      setParticipant(data)
-      setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      updateData(dataParticipant, 'participants')
+      data = {...data, participant_id}
+      updateData(data, 'participants')
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -201,13 +202,13 @@ const HorizontalStepper = () => {
     const filepath = `${file.name}-${Date.now()}`
     const { data_, error_ } = await supabase
         .storage
-        .from('uploads')
+        .from('participants_documents')
         .upload(participant_id + "/" + filepath, file)
     if (error_) {
       console.error("Gagal Upload Berkas", error_.message)
       return null
     }
-    const { data } = await supabase.storage.from("uploads").getPublicUrl(filepath)
+    const { data } = await supabase.storage.from("participants_documents").getPublicUrl(filepath)
     return data.publicUrl
   }
   const saveData = async (dataInput, to, type=null) => {
@@ -219,17 +220,18 @@ const HorizontalStepper = () => {
 
       for (let i = 0; i < dataInput.length; i++) {
         const d = dataInput[i];
-        const publicUrl = upload(d)
+        const publicUrl = upload(d.file)
         const dataItem = {
-          // participant_id: participant_id,
-          // file_url: publicUrl,
-          // file_name: `${d.name}-${Date.now()}`,
-          // file_size: ,
-          // file_type:
+          participant_id: participant_id,
+          file_url: publicUrl,
+          file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
+          file_size: d.size,
+          file_type: d.type,
+          file_title: d.name
         }
         const { data, err} = supabase.from(to)
                           .insert([dataItem])
-                          .single()
+                          .select()
         console.log('data>', data)
         console.log('err >', err)
       }
@@ -267,9 +269,9 @@ const HorizontalStepper = () => {
       console.log('dataInput> ', dataInput)
       const { data, err} = await supabase.from(to)
                           .insert([dataInput])
-                          .single()
+                          .select()
       if(dataInput.pob){
-        setApplicantId(data.id)
+        setParticipantId(data[0].id)
       }   
       console.log('data>', data)
       console.log('err >', err)
@@ -295,7 +297,7 @@ const HorizontalStepper = () => {
                         .update({...dataInput, updated_at : new Date()})
                         .eq('id', bo)
                         .select()
-    console.log('data>', data)
+    console.log('data>', data[0])
     console.log('err >', err)
   }
   

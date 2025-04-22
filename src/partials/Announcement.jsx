@@ -14,7 +14,56 @@ function Annoucement() {
                   <h3 className="h3 mb-4">Pengumuman</h3>
                 <div className="rounded-2xl" style={{ height: '200px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
-                  <p className='text-gray-900 mt-2'>Status : Incomplete 
+                  <p className='text-gray-900 mt-2'>
+                  {/* Status : Incomplete
+                  span
+                    <table className='table-auto w-full mt-15'>
+                      <tr>
+                        <td>Status</td>
+                        <td></td>
+                        <td></td>
+                      </tr>s
+                     <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                          Belum Terdaftar
+                        </
+                    </table> */}
+                    <span className='flex flex-grow justify-center text-start my-5'>
+                     Statuspan>
+                     
+                    </span>
+                    <div className='flex flex-grow gap-4 px-2 mt-20'>
+                      
+                      <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                  // onClick={() => {
+                                                  //     // currentStep === steps.length
+                                                  //     //   ? setComplete(true)
+                                                  //     //   : setCurrentStep((prev) => prev + 1); 
+                                                  //     if(props.currentStep === 9){
+                                                  //     props.handledComplete(true)
+                                                  //     }else{
+                                                  //     // props.handledCurrentStep(props.currentStep + 1) ;
+                                                  //     // props.setCurrentStep((prev) => prev + 1);
+                                                  //     // callback(data)
+                                                  //     }
+                                                  //     // handleSubmit 
+                                                  // }}
+                                                  >Download Surat Pengumuman</button>
+                      <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
+                                                  // onClick={() => {
+                                                  //     // currentStep === steps.length
+                                                  //     //   ? setComplete(true)
+                                                  //     //   : setCurrentStep((prev) => prev + 1); 
+                                                  //     if(props.currentStep === 9){
+                                                  //     props.handledComplete(true)
+                                                  //     }else{
+                                                  //     // props.handledCurrentStep(props.currentStep + 1) ;
+                                                  //     // props.setCurrentStep((prev) => prev + 1);
+                                                  //     // callback(data)
+                                                  //     }
+                                                  //     // handleSubmit 
+                                                  // }}
+                                                  >Pengukuran Seragam</button>
+                    </div>
                     
                   </p>
                 </div>

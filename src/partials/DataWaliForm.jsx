@@ -47,6 +47,7 @@ function DataWaliForm(props) {
                                         <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
                                             <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
                                             <option value="d2">D2</option>
@@ -77,6 +78,7 @@ function DataWaliForm(props) {
                                         <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
                                             <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
                                             <option value="5jt_-_10jt">Rp5 Jt - Rp10 Jt</option>
