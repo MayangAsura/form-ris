@@ -90,7 +90,7 @@ const HorizontalStepper = () => {
       // // }
       // }
       saveData(newdatap, 'participants')
-      updateData(data_applicant, "applicants", "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a")
+      updateData(data_applicant, "applicants", "0eca0b23-ace9-47cb-a395-e6719ada1cd7")
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -167,7 +167,7 @@ const HorizontalStepper = () => {
       data = {...data, participant_id}
       // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
       // console.log(dataParticipant)
-      updateData(data, 'participants')
+      updateData(data, 'participants', participant_id)
       
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -181,7 +181,7 @@ const HorizontalStepper = () => {
     if(data){
       console.log("Data Uang Pangkal >,", data)
       data = {...data, participant_id}
-      updateData(data, 'participants')
+      updateData(data, 'participants', participant_id)
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -202,14 +202,20 @@ const HorizontalStepper = () => {
     const filepath = `${file.name}-${Date.now()}`
     const { data_, error_ } = await supabase
         .storage
-        .from('participants_documents')
+        .from('participant_documents')
         .upload(participant_id + "/" + filepath, file)
     if (error_) {
       console.error("Gagal Upload Berkas", error_.message)
       return null
     }
-    const { data } = await supabase.storage.from("participants_documents").getPublicUrl(filepath)
-    return data.publicUrl
+    // const { data } = await supabase.storage.from("participant_documents").getPublicUrl(filepath)
+    // return data.publicUrl
+    const { data, error } = await supabase.storage.from('participant_documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
+
+    if (data) {
+      // console.log(data.signedUrl)
+      return data.signedUrl
+    }
   }
   const saveData = async (dataInput, to, type=null) => {
     
@@ -226,7 +232,7 @@ const HorizontalStepper = () => {
           file_url: publicUrl,
           file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
           file_size: d.size,
-          file_type: d.type,
+          file_type: d.type.substr(6),
           file_title: d.name
         }
         const { data, err} = supabase.from(to)

@@ -42,7 +42,8 @@ function MetodeUangPangkal(props) {
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>
                                         <div className="mt-2 grid grid-cols-1">
                                             <select id="metode_uang_pangkal" name="metode_uang_pangkal" onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
-                                            <option value="gel_1">Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)</option>
+                                                <option value="">Pilih Metode Pembayaran</option>
+                                                <option value="gel_1" >Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)</option>
                                             </select>    
                                             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                                 Pilihan Metode tidak valid
