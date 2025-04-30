@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { userLogin } from '../features/auth/authActions'
+import supabase from '../client/supabase_client';
+
+import Cookies from 'js-cookie'
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
@@ -11,13 +16,54 @@ import axios from '../api/axios'
 const LOGIN_URL = '/auth/login'
 
 function SignIn(props) {
+  const {loading, userInfo, error } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {setAuth} = useContext(AuthContext)
+  const {userAuth, setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  // const 
+  const getPaymentInfo = async() => {
+    // const user, error = await
+    const token = Cookies.jwt
+
+    if(!token){
+      return false
+    }
+    // const userId = JSON.parse(atob(token.split('.')[1])).id
+    const {data, error} = await supabase.from("applicant_orders")
+                        .select("status, applicants(refresh_token)").eq('refresh_token', token)
+    const payment = data[0]
+    return payment.status=='finished'?true:false
+
+
+  }
+
+  // const modal = {
+  //   title: "Login Berhasil",
+  //   message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS untuk mendapatkan informasi lebih lanjut atau dapat melanjutkan pembayaran melalui website.",
+  //   text: "Konfirmasi Pendaftaran ke CS",
+  //   url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+  //   text2: "Lanjut Pembayaran",
+  //   url2: "/login"
+    
+  // }
 
   // const login = useSignIn()
+  useEffect(() => {
+    const userPayment = getPaymentInfo()
+
+    if (userInfo && !userPayment) {
+
+      navigate('/pay')
+    }
+    if (userInfo && userPayment) {
+
+      navigate('/home')
+    }
+  }, [navigate, userInfo])
+
 
   const handledSubmit = async (e) => {
     e.preventDefault()
@@ -28,25 +74,29 @@ function SignIn(props) {
       password: password
     }
     try {
-      const response = await axios.post(LOGIN_URL,
-        JSON.stringify({ username, password }),
-        {
-          headers: {'Content-Type': 'application/json' }, withCredentials: false
-        }
-      );
-      // 
-      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-      const token = response?.token
-      // const roles = response?.data?.roles 
-      setAuth({username, password, token})
-      setUsername('');
-      setPassword('');
-      // success(true);
-      navigate('/home')
+      // dispatch(userLogin(data))
+
+      dispatch(userLogin(data))
+      
+      // const response = await axios.post(LOGIN_URL,
+      //   JSON.stringify({ username, password }),
+      //   {
+      //     headers: {'Content-Type': 'application/json' }, withCredentials: false
+      //   }
+      // );
+      // // 
+      // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // const token = response?.token
+      // // const roles = response?.data?.roles 
+      // setAuth({username, password, token})
+      // setUsername('');
+      // setPassword('');
+      // // success(true);
+      // navigate('/pay')
       // const response = await axios.post("http://localhost:3000/auth/login", data)
-      // login({
+      // login({                     
       //   auth: {
-      //     token: response.data.token,
+      //     token: response.data.token, 
       //     type: "Bearer"
       //   },
       //   expiresIn: 86400,
@@ -70,6 +120,7 @@ function SignIn(props) {
       {/*  Page content */}
       <main className="flex-grow">
 
+
         <section className="bg-gradient-to-b from-gray-100 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
@@ -79,6 +130,9 @@ function SignIn(props) {
                 <h1 className="h1">Masuk Aplikasi </h1>
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
+              {/* {userInfo && (
+                <Swal dataModal={modal}/>
+              )} */}
 
               {/* Form */}
               <div className="max-w-sm mx-auto">

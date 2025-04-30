@@ -9,6 +9,10 @@ import 'aos/dist/aos.css';
 import './css/style.css';
 import {Helmet, HelmetProvider} from "react-helmet-async";
 
+//redux
+import {Provider } from 'react-redux'
+import store from './app/store'
+
 import AOS from 'aos';
 
 import Home from './pages/Home';
@@ -18,6 +22,7 @@ import ResetPassword from './pages/ResetPassword';
 import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
 import RedirectPayment from './pages/RedirectPayment';
+import ProtectedRoute from './routing/ProtectedRoute';
 
 // import RequireAuth from 'react-auth-kit'
 // import {AuthProvider} from 'react-auth-kit'
@@ -46,16 +51,20 @@ function App() {
       <Routes>
         {/* <Route exact path="/" element={<Jenjang />} /> */}
         <Route exact path="/" element={<Jenjang />} />
-        <Route path="/home" element={
+        
+        <Route element={<ProtectedRoute />}>
+          <Route path="/pay" element={<Payment />} />
+          <Route path='/home' element={<Home/>}></Route>
+          <Route path="/logout" element={<SignIn />} />
+        </Route>
+        {/* <Route element={
           // <RequireAuth loginPath="/login">
-            <Home />
+            <ProtectedRoute />
           // </RequireAuth>
-          }/>
+          }/> */}
         <Route path="/login" element={<SignIn />} />
-        <Route path="/logout" element={<SignIn />} />
         <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/pay" element={<Payment />} />
         <Route path="/landing" element={<RedirectPayment />} />
         {/* <Route path="/:code" element={<Home />} /> */}
       </Routes>

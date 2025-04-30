@@ -61,34 +61,7 @@ const HorizontalStepper = () => {
       }
       const {full_name,gender,phone_number,email, ...newdatap } = data
       console.log(newdatap)
-      // const participant = {
-      //   // applicant_id "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a",
-      //   // nisn
-      //   // {
-      //     prev_school: "sdfsdf",
-      //     prev_school_address: "sfsdf",
-      //     kk_number: "1231231231231231",
-      //     nik: "1231231231231231",
-      //     pob: "dfsf",
-      //     // dob: "2025-04-08",
-      //     // medical_history: "",
-      //     // sickness_history: "",
-      //     home_address: "sdsdf",
-      //     child_number: "2",
-      //     // child_status: "",
-      //     // live_with: "",
-      //     parent_email: "mayang.asura123@gmail.com",
-      //     parent_phone_number: "87424",
-      //     // distance: "",
-      //     nationality: "sdfdf",
-      //     nisn:"1231231231",
-      //     province: "sdfsdf",
-      //     region: "sdfsdf",
-      //     postal_code: "2424",
-      //     aspiration: "sfsdf sfd",
-      //     applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"
-      // // }
-      // }
+     
       saveData(newdatap, 'participants')
       updateData(data_applicant, "applicants", "0eca0b23-ace9-47cb-a395-e6719ada1cd7")
         scroll('right')
@@ -101,17 +74,12 @@ const HorizontalStepper = () => {
     console.log("Data Ayah >", data)
     setTimeout(() => {
     if(data){
-      // const newdata = (data) => ({...data, participant_id: "9de0c331-6206-4d40-8f6c-42997e428a4a"}) 
-      // setDataAyah(d => ({...d, participant_id: "4f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      // setParticipant([...data, {applicant_id:"04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"}])
-      // setDataAyah({...data, participant_id})
+      
       data = {...data, participant_id: participant_id}
       setDataAyah(data)
 
       console.log("Data Ayah >,", data)
-      // const {d, e} = supabase.from('participant_fathers_data')
-      //                     .insert([newdata])
-      //                     .single()
+    
       saveData(data, 'participant_father_data')
 
       console.log('dataAyah ', dataAyah)
@@ -152,7 +120,7 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("DataBerkas >,", data)
-      data = {...data, participant_id}
+      // data = {...data, }
       saveData(data, 'participant_documents', 'file')
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -164,11 +132,12 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("Data VerifikasiKeluarga >,", data)
-      data = {...data, participant_id}
+      const data_file = data.photo_sampul_ijazah
+      const {photo_sampul_ijazah,...newdata} = data
       // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
       // console.log(dataParticipant)
-      updateData(data, 'participants', participant_id)
-      
+      updateData(newdata, 'participants', participant_id)
+      saveData(data_file, 'participant_documents', 'file')
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -180,7 +149,7 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("Data Uang Pangkal >,", data)
-      data = {...data, participant_id}
+      data = {...data}
       updateData(data, 'participants', participant_id)
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -202,7 +171,7 @@ const HorizontalStepper = () => {
     const filepath = `${file.name}-${Date.now()}`
     const { data_, error_ } = await supabase
         .storage
-        .from('participant_documents')
+        .from('participant-documents')
         .upload(participant_id + "/" + filepath, file)
     if (error_) {
       console.error("Gagal Upload Berkas", error_.message)
@@ -213,7 +182,7 @@ const HorizontalStepper = () => {
     const { data, error } = await supabase.storage.from('participant_documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
     if (data) {
-      // console.log(data.signedUrl)
+      console.log(data.signedUrl)
       return data.signedUrl
     }
   }
@@ -222,7 +191,7 @@ const HorizontalStepper = () => {
     if (type=='file'){
       // const avatarFile = event.target.files[0]
 
-      console.log(dataInput)
+      console.log('dataInput', dataInput)
 
       for (let i = 0; i < dataInput.length; i++) {
         const d = dataInput[i];

@@ -6,6 +6,10 @@ import App from './App';
 import createStore from 'react-auth-kit/createStore';
 import { AuthProvider } from './context/AuthProvider';
 
+//redux
+import {Provider } from 'react-redux'
+import store from './app/store'
+
 // const store = createStore({
 //   authName:'_auth',
 //   authType:'cookie',
@@ -15,16 +19,18 @@ import { AuthProvider } from './context/AuthProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider  
+    <Provider store={store} >
+    {/* <AuthProvider  
       // authType={"cookie"}
       // authName={"_auth"}
       // cookieDomain={window.location.hostname}
       // cookieSecure={false}
       // tokenObject
-      >  
+      >   */}
       <Router>
         <App />
       </Router>
-    </AuthProvider>
+    </Provider>
+    {/* </AuthProvider> */}
   </React.StrictMode>
 );

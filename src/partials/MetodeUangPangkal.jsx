@@ -36,7 +36,7 @@ function MetodeUangPangkal(props) {
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-3">
-                                    
+                                        
                                     </div>    
                                     <div className="sm:col-span-3">
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>

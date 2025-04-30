@@ -28,7 +28,7 @@ function Annoucement() {
                         </
                     </table> */}
                     <span className='flex flex-grow justify-center text-start my-5'>
-                     Statuspan>
+                     {/* Statuspan> */}
                      
                     </span>
                     <div className='flex flex-grow gap-4 px-2 mt-20'>
