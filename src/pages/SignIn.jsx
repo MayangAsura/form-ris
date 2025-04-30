@@ -57,7 +57,7 @@ function SignIn(props) {
     const userPayment = getPaymentInfo()
     console.log('userInfo > ', userInfo)
     console.log('userPayment > ', getPaymentInfo())
-    if (userInfo && userPayment) {
+    if (userInfo && !userPayment) {
 
       navigate('/pay')
     }

@@ -167,8 +167,8 @@ const HorizontalStepper = () => {
     // }, 3000);
   }
 
-  const upload = async (file ) => {
-    const filepath = `${file.name}-${Date.now()}`
+  const upload = async (file, name ) => {
+    const filepath = `${name}-${Date.now()}`
     const { data_, error_ } = await supabase
         .storage
         .from('participant-documents')
@@ -182,7 +182,7 @@ const HorizontalStepper = () => {
     const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
     if (data) {
-      console.log(data.signedUrl)
+      console.log('signedUrl > ', data.signedUrl)
       return data.signedUrl
     }
   }
@@ -195,16 +195,19 @@ const HorizontalStepper = () => {
 
       for (let i = 0; i < dataInput.length; i++) {
         const d = dataInput[i];
-        const publicUrl = upload(d.file)
+        console.log(d)
+        const url = upload(d.file, d.name)
+        console.log(participant_id)
         const dataItem = {
           participant_id: participant_id,
-          file_url: publicUrl,
+          file_url: url,
           file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
-          file_size: d.size,
+          file_size: d.size.toString(),
           file_type: d.type.substr(6),
           file_title: d.name
         }
-        const { data, err} = supabase.from(to)
+        console.log(dataItem)
+        const { data, err} = await supabase.from(to)
                           .insert([dataItem])
                           .select()
         console.log('data>', data)

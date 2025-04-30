@@ -47,8 +47,7 @@ function Payment() {
             full_name: data.applicants.full_name,
             school_id: data.school_id,
             school_name: data.schools.school_name,
-            phone_number: data.applicants.phone_number,
-          
+            phone_number: data.applicants.phone_number
           }
         )
         setApplicantDataOrder({

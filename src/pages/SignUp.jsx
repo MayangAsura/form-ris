@@ -325,18 +325,17 @@ function SignUp() {
                           <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                           <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
                           <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
-                          <option value="karyawan/guru">Karyawan/Guru </option>
-                          <option value="kajian">Kajian</option>
-                          <option value="spanduk">Spanduk</option>
-                          <option value="brosur">Brosur</option>
-                          <option value="instagram">Instagram </option>
-                          <option value="facebook">Facebook </option>
-                          <option value="youtube">Youtube </option>
-                          <option value="majalah">Majalah </option>
-                          <option value="whatsapp">WhatsApp</option>
-                          <option value="koran/pemberitaan_online">Koran / pemberitaan online</option>
-                          <option value="tiktok">Tiktok</option>
-                          <option value="mesin_pencari">Rekomendasi mesin pencarian internet</option>
+                          <option value={media== 'karyawan/guru'? media:"karyawan/guru"}>Karyawan/Guru </option>
+                          <option value={media== 'kajian'? media:"kajian"}>Kajian</option>
+                          <option value={media== 'spanduk'? media:"spanduk"}>Spanduk</option>
+                          <option value={media== 'brosur'? media:"brosur"}>Brosur</option>
+                          <option value={media== 'instagram'? media:"instagram"}>Instagram </option>
+                          <option value={media== 'facebook'? media:"facebook"}>Facebook </option>
+                          <option value={media== 'youtube'? media:"youtube"}>Youtube </option>
+                          <option value={media== 'majalah'? media: "majalah"}>Majalah </option>
+                          <option value={media== 'whatsapp'? media:"whatsapp"}>WhatsApp</option>
+                          <option value={media== 'tiktok'? media:"tiktok"}>Tiktok</option>
+                          <option value={media== 'mesin_pencari'? media:"mesin_pencari"}>Rekomendasi mesin pencarian internet</option>
 
                           </select>
                           {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">

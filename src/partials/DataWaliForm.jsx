@@ -37,7 +37,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_name" className="block text-sm/6 font-medium text-gray-900">Nama Wali</label>
                                     <div className="mt-2">
-                                        <input id="wali_name" name="wali_name" onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="wali_name" name="wali_name" onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama wali tidak valid
                                         </span>
@@ -46,7 +46,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-3">
                                         <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
@@ -68,7 +68,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali</label><span className='text-sm italic'>Pekerjaan utama wali</span>
                                     <div className="mt-2">
-                                        <input id="wali_job" name="wali_job" onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="wali_job" name="wali_job" onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Pekerjaan wali tidak valid
                                         </span>
@@ -77,7 +77,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-3">
                                         <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
@@ -101,23 +101,29 @@ function DataWaliForm(props) {
                                 <div className='flex justify-center text-center'>
                                      
                                         {!props.complete && (
-                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
-                                                    // onClick={() => {
-                                                    //     // currentStep === steps.length
-                                                    //     //   ? setComplete(true)
-                                                    //     //   : setCurrentStep((prev) => prev + 1); 
-                                                    //     if(props.currentStep === 9){
-                                                    //     props.handledComplete(true)
-                                                    //     }else{
-                                                    //     // props.handledCurrentStep(props.currentStep + 1) ;
-                                                    //     // props.setCurrentStep((prev) => prev + 1);
-                                                    //     // callback(data)
-                                                    //     }
-                                                    //     // handleSubmit
-        
-                                                        
-                                                    // }}
-                                                    >Submit</button>
+                                            <div className='flex flex-col gap-2 w-full my-5'>
+                                                
+                                                <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                        >Submit</button>
+                                                <button className='btn w-full py-3 block btn-sm  text-gray-200 bg-gray-800 hover:bg-gray-700'
+                                                onClick={() => {
+                                                    // currentStep === steps.length
+                                                    //   ? setComplete(true)
+                                                    //   : setCurrentStep((prev) => prev + 1); 
+                                                    if(props.currentStep === 9){
+                                                    props.handledComplete(true)
+                                                    }else{
+                                                    // props.handledCurrentStep(props.currentStep + 1) ;
+                                                    // props.setCurrentStep((prev) => prev + 1);
+                                                    // callback(data)
+                                                    }
+                                                //     // handleSubmit
+    
+                                                    
+                                                }}
+                                                >Selanjutnya</button>
+                                            </div>
+                                            
                                             )}
                                     </div>
                                 </div>

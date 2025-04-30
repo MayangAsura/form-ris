@@ -38,15 +38,14 @@ function BerkasForm(props) {
         //     type: image.type,
         //     file: image
         // }
-        setBerkasFile([...berkasFile, 
-            {name: file_name,
-            size: image.size,
-            type: image.type,
-            file: image}])
-        console.log(berkasFile)
-        
-        
-        // con[]
+        if(!error){
+            setBerkasFile([...berkasFile, 
+                {name: file_name,
+                size: image.size,
+                type: image.type,
+                file: image}])
+            console.log(berkasFile)
+        }
         
         setError(null)
     }
@@ -85,7 +84,7 @@ function BerkasForm(props) {
                                     <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran</label>
                                     <div className="mt-2">
                                     <div className="relative inline-block">
-                                        <p className="text-xs/5 text-gray-600">PNG, JPG up to 2MB</p>
+                                        <p className="text-xs/5 text-gray-600">PNG, JPG, PDF up to 2MB</p>
                                         {/* <input type="file" className="file:absolute file:right-0 file:bg-green-500 file:text-white file:border-0 file:py-1 file:px-3 file:rounded-full file:shadow-xl file:shadow-blue-500/30 text-gray-600"/> */}
                                         <input id="bird_certificate" name="bird_certificate" onChange={(e) => validateImage(e.target.files[0], 2, 'Bird-Certificate')} type="file" 
                                         className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
@@ -101,7 +100,7 @@ function BerkasForm(props) {
                                     } */}
                                     <div className="sm:col-span-4">
                                     <label htmlFor="pas_photo" className="block text-sm/6 font-medium text-gray-900">Pas Photo Background Merah dan Putih (3x4 dan 2x3)</label>
-                                    <p className="text-xs/5 text-gray-600">JPG, maks 2MB</p>
+                                    <p className="text-xs/5 text-gray-600">PNG, JPG, maks 2MB</p>
                                     <div className="relative inline-block">
                                         <div className="mt-2">
                                             <input id="pas_photo" name="pas_photo" onChange={(e) => validateImage(e.target.files[0], 2, 'Pas-Photo')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
@@ -127,7 +126,7 @@ function BerkasForm(props) {
                                     <div className="relative inline-block">
                                         <div className="mt-2">
                                             <input id="kk" name="kk" onChange={(e) => validateImage(e.target.files[0], 2, 'KK')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
-                                            accept="image/png, image/jpeg, .pdf"/>
+                                            accept=".pdf"/>
                                             {/* <input id="kk" name="kk" type="file" autoComplete="kk" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                         </div>
                                     </div>
@@ -138,7 +137,7 @@ function BerkasForm(props) {
                                     <div className="relative inline-block">
                                         <div className="mt-2">
                                             <input id="surat_kesanggupan" name="surat_kesanggupan" onChange={(e) => validateImage(e.target.files[0],2, 'Surat-Kesanggupan')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
-                                            accept="image/png, image/jpeg, .pdf"/>
+                                            accept=".pdf"/>
                                             {/* <input id="surat_kesanggupan" name="surat_kesanggupan" type="file" autoComplete="surat_kesanggupan" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                         </div>
                                     </div>
@@ -149,7 +148,7 @@ function BerkasForm(props) {
                                     <div className="relative inline-block">
                                         <div className="mt-2">
                                             <input id="certificate" name="certificate" onChange={(e)=> validateImage(e.target.files[0], 5, 'Syahadah')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
-                                            accept="image/png, image/jpeg, .pdf"/>
+                                            accept=".pdf"/>
                                             {/* <input id="certificate" name="certificate" type="file" autoComplete="certificate" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                         </div>
                                     </div>

@@ -102,7 +102,7 @@ function IdentitasForm(props) {
             <div className='max-w-6xl mx-auto px-4 sm:px-6'>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
-                        <form action="" onSubmit={saveData}>
+                        <form action="" onSubmit={saveData} encType=''>
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Identitas Calon Santri</h2> <hr className='inline border-gray-900/10 py-3' />
@@ -125,7 +125,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                         <label className="block text-gray-900 text-sm/7 font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
                                         <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='male'?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='female'?gender:'female'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='female'?gender:'female'} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                                     {/* <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Jenis Kelamin</label>
                                     <div className="mt-2">
                                         <input id="gender" name="gender" type="text" autoComplete="gender" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
@@ -220,7 +220,7 @@ function IdentitasForm(props) {
                                     <span className="text-sm italic">Memiliki riwayat penyakit tertentu?</span>
                                     <div className="mt-2">
                                         <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"have"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"none"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"none"} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
                                         {/* <input id="medical_history" name="medical_history" type="text" autoComplete="medical_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
                                     </div>

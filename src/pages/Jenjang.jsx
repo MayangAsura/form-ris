@@ -9,8 +9,8 @@ import '../css/additional-styles/card.css';
 function Jenjang() {
 
   const jenjangData = [
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Pesantre.jpg", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Pesantre.jpg", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b'},
+    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/04/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a'},
+    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/04/TKIT-Modern-ImageCard.png", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b'},
     {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SDIT Rabbaanii Islamic School", code:'sdit'},
     {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMPI Rabbaanii Islamic School", code:'smpi'},
     {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai'},
@@ -59,7 +59,7 @@ function Jenjang() {
               <div className="card" key={d.code}>
                 <div className="card-container">
                   <div className="image-container">
-                    <img src={d.img} alt="" />
+                    <img src={d.img} alt="" className='cover' />
                   </div>
                   <div className="card-content">
                     <div className="title-container">
