@@ -179,7 +179,7 @@ const HorizontalStepper = () => {
     }
     // const { data } = await supabase.storage.from("participant_documents").getPublicUrl(filepath)
     // return data.publicUrl
-    const { data, error } = await supabase.storage.from('participant_documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
+    const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
     if (data) {
       console.log(data.signedUrl)

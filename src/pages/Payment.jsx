@@ -14,21 +14,23 @@ import { redirect } from 'react-router-dom';
 
 function Payment() {
   const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
-    const [applicantData, setApplicantData] = useState({applicant_id: "",school_id: null,full_name: "",phone_number: "",email: "",school_id: "", school_name:""})
-    const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
+    const [applicantData, setApplicantData] = useState({applicant_id: "",school_id: null,full_name: "",phone_number: "",email: "", school_name:""})
+    const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: ""})
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     const [school_id, setSchoolId] = useState("")
     const [school_name, setSchoolName] = useState("")
     const [applicant_id, setApplicantId] = useState("")
     const [amount, setAmount] = useState("")
-    const [applicantPayment, setapplicantPayment] = useState({})
+    const [applicantPayment, setApplicantPayment] = useState({})
     
     useEffect( () => {
       getApplicantData()
-      getApplicantPayment()
+      getApplicantDataSchool()
+      // getApplicantPayment()
       create()
     }, [])
+
     const getApplicantData = async () =>{
       const {data, error} = await supabase.from('applicant_schools').select('applicant_id, school_id, schools(school_name), applicants(full_name, phone_number, email)').eq('applicant_id', '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a').single()
       if(error){
@@ -38,14 +40,19 @@ function Payment() {
         console.log(data)
         // setSchoolId(data.school_id)
         // setSchoolName(data.applicant_id)
-        setApplicantData({
-          applicant_id: data.applicant_id,
-          full_name: data.applicants.full_name,
-          school_id: data.school_id,
-          school_name: data.schools.school_name,
-          phone_number: data.applicants.phone_number,
-        })
+        setApplicantData(
+          {
+            ...applicantData,
+            applicant_id: data.applicant_id,
+            full_name: data.applicants.full_name,
+            school_id: data.school_id,
+            school_name: data.schools.school_name,
+            phone_number: data.applicants.phone_number,
+          
+          }
+        )
         setApplicantDataOrder({
+          ...applicantDataOrder,
           item_id: data.school_id,
           created_by: data.applicant_id
         })
@@ -55,22 +62,23 @@ function Payment() {
       console.log('data >',data)
       console.log('school_id >',data.school_id)
       console.log('applicantDataOrder >',applicantDataOrder)
-      
-      const {dataSchool, errorSchool} = await supabase.from('school_fees').select('amount, fee_type_id').eq('school_id', school_id).single()
-      if(error){
-        console.log(errorSchool)
-        // setApplicantData({})
-      }else{
-        console.log('school > ', dataSchool)
+      console.log('applicantData >',applicantData)
+    
+    }
+
+    const getApplicantDataSchool = async () => {
+      console.log(applicantData.school_id)
+      const {dataSchool, errorSchool} = await supabase.from('school_fees').select('amount, fee_type_id').eq('school_id', applicantData.school_id).single()
+      if(dataSchool){
+        console.log('dataSchool > ', dataSchool)
         setApplicantDataOrder({ ...applicantDataOrder,
           total_amount: dataSchool.amount
         })
+        // setApplicantData({})
+      }else{
+        console.log('errorSchool > ', errorSchool)
         // console.log('applischool->',applicantData)
       }
-    }
-
-    const getApplicantPayment = () => {
-
     }
 
     

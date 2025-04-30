@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { registerUser, userLogin } from './authActions'
 import Cookies from "js-cookie"
 
+
 // initialize userToken from local storage
 const userToken = Cookies.get('jwt')
   ? Cookies.get('jwt')
@@ -14,7 +15,6 @@ const userToken = Cookies.get('jwt')
 //   error: null,
 //   success: false,
 // }
-
 
 const initialState = createInitialState()
 
@@ -35,11 +35,14 @@ function createReducers(){
   }
 
   function logout (state) {
-    Cookies.remove('jwt') // delete token from storage
-    state.loading = false
-    state.userInfo = null
-    state.userToken = null
-    state.error = null
+    // setTimeout(() => {
+      Cookies.remove('jwt') // delete token from storage
+      state.loading = false
+      state.userInfo = null
+      state.userToken = null
+      state.error = null
+    // }, 1000);
+    // navigate('/login')
   }
   function setCredentials (state, { payload }) {
     state.userInfo = payload

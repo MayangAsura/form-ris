@@ -12,7 +12,7 @@ export const userLogin = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json'
         },
-        withCredentials: false
+        withCredentials: true
       }
 
       const { data } = await axios.post(

@@ -219,8 +219,8 @@ function IdentitasForm(props) {
                                     <label htmlFor="medical_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Kesehatan <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Memiliki riwayat penyakit tertentu?</span>
                                     <div className="mt-2">
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"none"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
                                         <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"have"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"none"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
                                         {/* <input id="medical_history" name="medical_history" type="text" autoComplete="medical_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
                                     </div>

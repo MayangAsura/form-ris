@@ -24,17 +24,19 @@ function SignIn(props) {
   const [password, setPassword] = useState("")
 
   // const 
-  const getPaymentInfo = async() => {
+  const getPaymentInfo = async () => {
     // const user, error = await
     const token = Cookies.jwt
-
+    console.log(token)
     if(!token){
       return false
     }
     // const userId = JSON.parse(atob(token.split('.')[1])).id
     const {data, error} = await supabase.from("applicant_orders")
-                        .select("status, applicants(refresh_token)").eq('refresh_token', token)
+                        .select("status, item_id, applicant_id, applicants(refresh_token)").eq('refresh_token', token)
     const payment = data[0]
+
+    console.log(payment)
     return payment.status=='finished'?true:false
 
 
@@ -53,8 +55,9 @@ function SignIn(props) {
   // const login = useSignIn()
   useEffect(() => {
     const userPayment = getPaymentInfo()
-
-    if (userInfo && !userPayment) {
+    console.log('userInfo > ', userInfo)
+    console.log('userPayment > ', getPaymentInfo())
+    if (userInfo && userPayment) {
 
       navigate('/pay')
     }
@@ -74,9 +77,11 @@ function SignIn(props) {
       password: password
     }
     try {
-      // dispatch(userLogin(data))
-
       dispatch(userLogin(data))
+      if(userInfo){
+        navigate('/login')
+      }
+
       
       // const response = await axios.post(LOGIN_URL,
       //   JSON.stringify({ username, password }),
