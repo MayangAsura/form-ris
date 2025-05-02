@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
 
+import axios from '../api/axios';
+const USERCHECK_URL = 'auth/user-check'
+
 function ResetPassword() {
+
+  const [token, setToken] = useState("")
+  const [username, setUsername] = useState("")
+
+  const checkUser = async (e) => {
+    e.preventDefault
+    const response = await axios.post(USERCHECK_URL,
+        JSON.stringify({ username }),
+        {
+          headers: {'Content-Type': 'application/json' }, withCredentials: false
+        }
+      );
+      // 
+      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      setToken(response.data.token)
+      // const  = response?.token
+      // const roles = response?.data?.roles 
+  }
   return (
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative">
     {/* <div className="flex flex-col max-w-lg min-h-screen mx-auto overflow-hidden"> */}
@@ -27,16 +48,16 @@ function ResetPassword() {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form>
+                <form >
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">No. WhatsApp terdaftar/No. Pendaftaran<span className="text-red-600">*</span></label>
-                      <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="username" name="username" onChange={() => setUsername(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
+                      <button onClick={checkUser} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
                     </div>
                   </div>
                 </form>

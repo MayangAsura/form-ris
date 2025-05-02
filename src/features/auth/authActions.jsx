@@ -35,6 +35,38 @@ export const userLogin = createAsyncThunk(
     }
   }
 )
+export const userLogout = createAsyncThunk(
+  'auth/logout',
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      // configure header's Content-Type as JSON
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      }
+
+      const { data } = await axios.post(
+        `${backendURL}/auth/logout`,
+        { username, password },
+        config
+      )
+
+      // store user's token in local storage
+    //   .setItem('jwt', data.t)
+
+      return data
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message)
+      } else {
+        return rejectWithValue(error.message)
+      }
+    }
+  }
+)
 
 export const registerUser = createAsyncThunk(
   'auth/register',

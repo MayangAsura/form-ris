@@ -16,24 +16,24 @@ import axios from '../api/axios'
 const LOGIN_URL = '/auth/login'
 
 function SignIn(props) {
-  const {loading, userInfo, error } = useSelector((state) => state.auth)
+  const {loading, userInfo, userToken, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {userAuth, setAuth} = useContext(AuthContext)
+  const {setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   // const 
   const getPaymentInfo = async () => {
     // const user, error = await
-    const token = Cookies.jwt
-    console.log(token)
-    if(!token){
+    // const token = Cookies.jwt
+    // console.log(token)
+    if(!userToken){
       return false
     }
     // const userId = JSON.parse(atob(token.split('.')[1])).id
     const {data, error} = await supabase.from("applicant_orders")
-                        .select("status, item_id, applicant_id, applicants(refresh_token)").eq('refresh_token', token)
+                        .select("status, item_id, applicant_id, applicants(refresh_token)").eq('applicants.refresh_token', userToken)
     const payment = data[0]
 
     console.log(payment)
@@ -57,6 +57,8 @@ function SignIn(props) {
     const userPayment = getPaymentInfo()
     console.log('userInfo > ', userInfo)
     console.log('userPayment > ', getPaymentInfo())
+    // setAuth({username, password})
+      // console.log('auth >', auth)
     if (userInfo && !userPayment) {
 
       navigate('/pay')
@@ -78,9 +80,11 @@ function SignIn(props) {
     }
     try {
       dispatch(userLogin(data))
-      if(userInfo){
-        navigate('/login')
-      }
+      
+      // if(userInfo){
+      //   navigate('/home')
+      //   setAuth({username, password})
+      // }
 
       
       // const response = await axios.post(LOGIN_URL,

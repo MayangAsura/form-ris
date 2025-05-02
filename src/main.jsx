@@ -8,7 +8,10 @@ import { AuthProvider } from './context/AuthProvider';
 
 //redux
 import {Provider } from 'react-redux'
-import store from './app/store'
+import store, {persistor} from './app/store'
+import { PersistGate } from 'redux-persist/integration/react';
+
+// import {persistor, store} from './app/store'
 
 // const store = createStore({
 //   authName:'_auth',
@@ -20,6 +23,7 @@ import store from './app/store'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store} >
+    <PersistGate loading={null} persistor={persistor}>
     {/* <AuthProvider  
       // authType={"cookie"}
       // authName={"_auth"}
@@ -30,7 +34,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Router>
         <App />
       </Router>
-    </Provider>
+      </PersistGate>
     {/* </AuthProvider> */}
+    </Provider>
   </React.StrictMode>
 );

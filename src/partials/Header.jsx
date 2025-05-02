@@ -1,23 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthProvider';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {logout, setCredentials} from '../features/auth/authSlice'
+import { useGetUserDetailsQuery } from '../app/services/auth/authService'
 import { Button } from '@headlessui/react';
+import supabase from '../client/supabase_client';
+
 
 function Header() {
 
   const [top, setTop] = useState(true);
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userToken, userInfo } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const {setAuth} = useContext(AuthContext)
+
+  // automatically authenticate user if token is found
+  // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
+  //   pollingInterval: 900000, // 15mins
+  // })
+
+  const getProfileData = async () =>{
+      // setTimeout(() => {
+        const token = userToken
+        console.log('token >', token)
+          if (token) {
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+          if(error){
+            console.log(error)
+          //   setProfileData({})
+          }else{
+            console.log('dataProf>', data)
+            const full_name = data.full_name
+            // setAuth({full_name})
+            // setAuth({full_name: data.full_name,phone_number: data.phone_number, regist_number: data.regist_number,payment_status: data.payment_status})
+            // return data
+          //   setProfileData(data)
+          }
+        }
+        
+      // }, 900000);
+  
+    }
+   
+  
+  
 
   // detect whether user has scrolled the page down by 10px 
-  useEffect(() => {
+  useEffect(() => { 
+    getProfileData()
+    console.log('userInfo>', userInfo) 
+    // console.log('dataProfile>', auth)
+    // if(auth) dispatch(setCredentials(auth))
+
     const scrollHandler = () => {
       window.pageYOffset > 10 ? setTop(false) : setTop(true)
     };
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [top]);  
+  }, [top, dispatch]);  
 
   return (
     <header className={`mx-auto fixed flex z-30 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
