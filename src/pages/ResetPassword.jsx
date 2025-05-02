@@ -5,24 +5,53 @@ import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
 
 import axios from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 const USERCHECK_URL = 'auth/user-check'
+const RESETPASSWORD_URL = 'auth/reset-password'
 
 function ResetPassword() {
 
   const [token, setToken] = useState("")
   const [username, setUsername] = useState("")
+  const [newpassword, setNewPassword] = useState("")
+  const navigate = useNavigate()
 
+  console.log('token > ', token)
   const checkUser = async (e) => {
-    e.preventDefault
+    e.preventDefault()
     const response = await axios.post(USERCHECK_URL,
         JSON.stringify({ username }),
         {
           headers: {'Content-Type': 'application/json' }, withCredentials: false
         }
-      );
+      )
       // 
       console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-      setToken(response.data.token)
+      setToken(response.data.data.token)
+      console.log(token)
+      const element = document.querySelector('.usernameField');
+      const element1 = document.querySelector('.checkUserBtn');
+      if (element) {
+        element.remove();
+        element1.remove();
+      }
+      // const  = response?.token
+      // const roles = response?.data?.roles 
+  }
+  const resetPassword = async (e) => {
+    e.preventDefault()
+    const response = await axios.post(RESETPASSWORD_URL,
+        JSON.stringify({ token, newpassword }),
+        {
+          headers: {'Content-Type': 'application/json' }, withCredentials: false
+        }
+      )
+      // 
+      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // setToken(response.data.data.token)
+      if(response.status=='00')
+        navigate('/login')
+      // console.log(token)
       // const  = response?.token
       // const roles = response?.data?.roles 
   }
@@ -49,15 +78,43 @@ function ResetPassword() {
               {/* Form */}
               <div className="max-w-sm mx-auto">
                 <form >
-                  <div className="flex flex-wrap -mx-3 mb-4">
+                  
+
+                  <div className="flex flex-wrap -mx-3 mb-4 usernameField">
                     <div className="w-full px-3">
-                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">No. WhatsApp terdaftar/No. Pendaftaran<span className="text-red-600">*</span></label>
-                      <input id="username" name="username" onChange={() => setUsername(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="" required />
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="username">No. WhatsApp terdaftar/No. Pendaftaran<span className="text-red-600">*</span></label>
+                      <input id="username" name="username" onChange={(e) => setUsername(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>
+                  
+                  
+                  {token && (
+                    <div>
+                      <div className="flex flex-wrap -mx-3 mb-4">
+                        <div className="w-full px-3">
+                          <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Password Baru<span className="text-red-600">*</span></label>
+                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="" required />
+                          <input id="token" disabled hidden name="token" value={token??""} type="text" className="form-input w-full text-gray-800" placeholder="" required />
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap -mx-3 mb-4">
+                        <div className="w-full px-3">
+                          <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Konfirmasi Password<span className="text-red-600">*</span></label>
+                          <input id="confirm_password" name='confirm_password' pattern={newpassword} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
+                          <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                              Konfirmasi password tidak sama dengan password
+                          </span>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={checkUser} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
+                      <button onClick={checkUser} className="btn checkUserBtn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
+                      {token && (
+                        <button onClick={resetPassword} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
+                      )}
                     </div>
                   </div>
                 </form>
