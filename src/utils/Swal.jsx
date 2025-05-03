@@ -28,20 +28,34 @@ export default function Swal(props) {
                 <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
                   <ExclamationTriangleIcon aria-hidden="true" className="size-6 text-red-600" />
                 </div>
-                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-center">
-                  <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-                    {props.dataModal.title}
-                  </DialogTitle>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      {props.dataModal.message}
-                    </p>
-                  </div>
+                <div className="flex flex-grow mt-3 text-center justify-center sm:ml-4 sm:mt-0 sm:text-center">
+                  {props.dataModal.title && (
+                    <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
+                      {props.dataModal.title}
+                    </DialogTitle>
+                  )}
+                  {props.dataModal.message && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        {props.dataModal.message}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-col sm:px-6">
             {/* setOpen(false) */}
+            {!props.dataModal.url && !props.dataModal.url2 (
+              <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:w-auto"
+            >
+              OK
+            </button>
+            )}
+            {props.dataModal.url && (
               <button
                 type="button"
                 onClick={() => window.location.href=`${props.dataModal.url}`}
@@ -49,6 +63,8 @@ export default function Swal(props) {
               >
                 {props.dataModal.text}
               </button>
+            )}
+            {props.dataModal.text2 && (
               <button
                 type="button"
                 data-autofocus
@@ -57,6 +73,8 @@ export default function Swal(props) {
               >
                 {props.dataModal.text2}
               </button>
+            )
+            }
             </div>
           </DialogPanel>
         </div>

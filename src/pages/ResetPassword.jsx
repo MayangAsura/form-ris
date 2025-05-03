@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
+import Swal from '../utils/Swal';
 
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { data } from 'autoprefixer';
 const USERCHECK_URL = 'auth/user-check'
 const RESETPASSWORD_URL = 'auth/reset-password'
 
@@ -14,6 +16,8 @@ function ResetPassword() {
   const [token, setToken] = useState("")
   const [username, setUsername] = useState("")
   const [newpassword, setNewPassword] = useState("")
+  const [success, setSuccess] = useState("")
+  const [data_modal, setDataModal] = useState({})
   const navigate = useNavigate()
 
   console.log('token > ', token)
@@ -49,8 +53,20 @@ function ResetPassword() {
       // 
       console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       // setToken(response.data.data.token)
-      if(response.status=='00')
-        navigate('/login')
+      if(response.status=200){
+        setDataModal({
+          title: "Reset Password Berhasil",
+          message: "",
+          text: "Masuk Aplikasi",
+          url: "/login",
+          // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+          text2: "",
+          url2: ""
+        })
+        setSuccess(true)
+        // return <Swal dataModal={modal}/>
+        // navigate('/login')
+      }
       // console.log(token)
       // const  = response?.token
       // const roles = response?.data?.roles 
@@ -64,6 +80,9 @@ function ResetPassword() {
 
       {/*  Page content */}
       <main className="flex-grow">
+        {success && (
+          <Swal dataModal={data_modal}/>
+        ) }
 
         <section className="bg-gradient-to-b from-gray-100 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
