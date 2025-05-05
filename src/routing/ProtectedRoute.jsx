@@ -24,8 +24,8 @@ const ProtectedRoute = () => {
                     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-12">
                       <div className='flex justify-center md:my-3'>
                         <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="50" cy="50" r="45" fill="#FFFF" stroke="#FFA500" stroke-width="3"/>
-                          <path d="M50 25 L50 55 M50 65 L50 70" stroke="#FF4500" stroke-width="6" stroke-linecap="round"/>
+                          <circle cx="50" cy="50" r="45" fill="#FFFF" stroke="#FFA500" strokeWidth="3"/>
+                          <path d="M50 25 L50 55 M50 65 L50 70" stroke="#FF4500" strokeWidth="6" strokeLinecap="round"/>
                         </svg>
                       </div>
 

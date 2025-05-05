@@ -55,7 +55,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/pay" element={<Payment />} />
           <Route path='/home' element={<Home/>}></Route>
-          <Route path="/logout" element={<SignIn />} />
+          {/* <Route path="/logout" element={<SignIn />} /> */}
         </Route>
         {/* <Route element={
           // <RequireAuth loginPath="/login">

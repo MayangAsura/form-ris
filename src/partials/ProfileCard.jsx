@@ -8,11 +8,12 @@ function ProfileCard() {
 
   console.log(supabase)
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
-  const [profileData, setProfileData] = useState({})
-  const [usia, setUsia] = useState("")
+  const [profileData, setProfileData] = useState({school_name:"", full_name:"", gender: "", email:"", phone_number:"", regist_number:"", regist_date:"", dob:"", aspiration:""})
+  const [age, setAge] = useState("")
   
   useEffect( () => {
     getProfileData()
+    calculateAge()
     getUsia()
   }, [])
   const getProfileData = async () =>{
@@ -21,8 +22,22 @@ function ProfileCard() {
       console.log(error)
       setProfileData({})
     }else{
-      console.log(data) 
-      setProfileData(data)
+      console.log(data.applicant_schools[0].schools.school_name)
+      // setProfileData( data => {
+      //   profileData.full_name = data.full_name
+      //   profileData.gender = data.gender
+      // })
+      profileData.school_name = data.applicant_schools[0].schools.school_name
+      profileData.full_name = data.full_name
+      profileData.gender = data.gender
+      profileData.email = data.email
+      profileData.phone_number = data.phone_number
+      profileData.regist_number = data.regist_number
+      profileData.regist_date = data.created_at
+      profileData.dob = data.participants[0].dob
+      profileData.aspiration = data.participants[0].aspiration
+      
+      console.log('prof > ', profileData)
     }
   }
 
@@ -43,18 +58,37 @@ function ProfileCard() {
     return indonesianFormat
   }
 
+  const calculateAge = async () => {
+    if (profileData.dob){
+      const today= new Date()
+      const dob = new Date(profileData.dob)
+      console.log(dob.getFullYear())
+      let calculatedAge = today.getFullYear() - dob.getFullYear()
+      console.log('age>',calculatedAge)
+      const monthDiff = today.getMonth() - dob.getMonth()
+      
+      if(monthDiff <0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        calculatedAge--
+      }
+      setAge(calculatedAge)
+      console.log(age)
+    }
+  }
+
   const getUsia = async () => {
     const now = new Date().getTime()
     // console.log
-    const p = profileData.participants[0]
-    const dob = p.dob
+    const dob = new Date(profileData.dob).getTime() 
+    // const dob = p.dob
     // .map(d => (d.dob.getTime())) 
     // ?.dob.getTime()
     // const dob2 = dob[0].dob.getTime()
     let timeDiff = Math.abs(now - dob);
     let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     let usia = Math.round(diffDays/365)
-    setUsia(usia)
+    setAge(usia)
+    console.log(age)
+    // setUsia(usia)
   }
 
   
@@ -110,7 +144,7 @@ function ProfileCard() {
                     
     
                 </div>  
-                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData?.full_name?profileData.full_name :'mayang2'} | {'18 Tahun'}</h4>
+                    <h4 className="text-xl font-bold leading-snug tracking-tight my-2 text-center">{profileData.full_name?profileData.full_name :'mayang2'} | {age} {'18 Tahun'}</h4>
                 <table className='table-auto w-full mt-15 '>
                             <tbody>
                                 <tr>
@@ -139,21 +173,21 @@ function ProfileCard() {
                                 <tr>
                                     <td>Mendaftar Jenjang </td>
                                     <td>:</td>
-                                    <td>{profileData?.applicant_schools?.schools?.school_name??'SDIT Rabbaanii Islamic School'}</td>
+                                    <td>{profileData?.school_name??'-'}</td>
                                 </tr>
                                 <tr>
                                     <td>Tanggal Pendaftaran </td>
                                     <td>:</td>
                                     <td>{
                                     
-                                    formatDate(profileData?.created_at)
+                                    formatDate(profileData?.regist_date)
                                     
                                     }</td>
                                 </tr>
                                 <tr>
                                     <td>Cita - Cita </td>
                                     <td>:</td>
-                                    <td>{profileData?.participants?.aspiration??'-'}</td>
+                                    <td>{profileData?.aspiration??'-'}</td>
                                 </tr>
                             </tbody>
                         </table>

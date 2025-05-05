@@ -33,14 +33,14 @@ function SignUp() {
 
   let code = useParams().code
     // const dataModal = () => {
-    const modal = {
-      title: "Pendaftaran Berhasil",
-      message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS untuk mendapatkan informasi lebih lanjut atau dapat melanjutkan pembayaran melalui website.",
-      text: "Konfirmasi Pendaftaran ke CS",
-      url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
-      text2: "Lanjut Pembayaran",
-      url2: "/login"
-      
+  const modal = {
+    title: "Pendaftaran Berhasil",
+    message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+    // text: "Konfirmasi Pendaftaran ke CS",
+    // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+    text2: "Lanjut Pembayaran",
+    url2: "/login"
+    
     }
   //   return data
   // }

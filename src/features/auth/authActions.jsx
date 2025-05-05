@@ -37,7 +37,7 @@ export const userLogin = createAsyncThunk(
 )
 export const userLogout = createAsyncThunk(
   'auth/logout',
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
       const config = {
@@ -49,9 +49,14 @@ export const userLogout = createAsyncThunk(
 
       const { data } = await axios.post(
         `${backendURL}/auth/logout`,
-        { username, password },
+        // { username, password },
         config
       )
+      console.log()
+      
+      if( !data ){
+        console.log('err')
+      }
 
       // store user's token in local storage
     //   .setItem('jwt', data.t)

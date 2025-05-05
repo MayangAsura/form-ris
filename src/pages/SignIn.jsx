@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
+import Swal from '../utils/Swal';
 import { data } from 'autoprefixer';
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
@@ -16,27 +17,74 @@ import axios from '../api/axios'
 const LOGIN_URL = '/auth/login'
 
 function SignIn(props) {
-  const {loading, userInfo, userToken, error } = useSelector((state) => state.auth)
+  const {loading, userInfo, userToken, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [show_modal, setShowModal] = useState(false)
+  const [modalData, setModalData] = useState({
+    title: "Login Berhasil",
+    message: "Mengarahkan ke halaman pengisian formulir.",
+    text: "OK",
+    url: "/home"
+    // text: "Konfirmasi Pendaftaran ke CS",
+    // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+    // text2: "Lanjut Pembayaran",
+    // url2: "/login"
+  })
 
-  // const 
+  const getUserInfo = async () =>{
+    // setTimeout(() => {
+      const token = userToken
+      console.log('token >', token)
+        if (token) {
+        const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+        if(error){
+          console.log(error)
+        //   setProfileData({})
+        }else{
+          console.log('dataProf>', data)
+          const full_name = data.full_name
+          return data
+          // setAuth({full_name})
+          // setAuth({full_name: data.full_name,phone_number: data.phone_number, regist_number: data.regist_number,payment_status: data.payment_status})
+          // return data
+        //   setProfileData(data)
+        }
+      }
+      
+    // }, 900000);
+
+  } 
   const getPaymentInfo = async () => {
     // const user, error = await
-    // const token = Cookies.jwt
-    // console.log(token)
+    const token = Cookies.jwt
+    console.log(token)
+    console.log('userToken > ', userToken)
     if(!userToken){
       return false
     }
     // const userId = JSON.parse(atob(token.split('.')[1])).id
-    const {data, error} = await supabase.from("applicant_orders")
-                        .select("status, item_id, applicant_id, applicants(refresh_token)").eq('applicants.refresh_token', userToken)
-    const payment = data[0]
+    // const {data, error} = await supabase.from("applicant_orders")
+    //                     .select("status, item_id, applicant_id, applicants(refresh_token)").eq('applicants.refresh_token', token)
+    // const payment = data[0]
+    // console.log('token from cookie >', state.userToken)
+                    // console.log('token from cookie >', )
+    const {payment, error} = await supabase.from('applicant_orders')
+                      .select('status, item_id, applicant_id, applicants(refresh_token)')
+                      .eq('applicants.refresh_token', userToken.toString())
+                      // .eq('applicants.refresh_token', state.userToken)
+                      // applicant_schools(schools(school_name))
+                      // , applicants(refresh_token, participants(is_complete)
+    console.log(error)
+    console.log('payment > ', payment)
+    // state.userPayment = payment.status
+    // state.userSchool = payment.applicant_schools[0].school.school_name
+    // state.userFormComplete = payment.applicants.participants.is_complete
 
-    console.log(payment)
+    // console.log(payment)
     return payment.status=='finished'?true:false
 
 
@@ -54,20 +102,27 @@ function SignIn(props) {
 
   // const login = useSignIn()
   useEffect(() => {
-    const userPayment = getPaymentInfo()
+    // const userPayment = getPaymentInfo()
+    getPaymentInfo()
+    const userPayment = getUserInfo().data[0].applicant_orders[0].status
     console.log('userInfo > ', userInfo)
     console.log('userPayment > ', getPaymentInfo())
+    console.log('userPayment > ', userPayment)
+    console.log('userPayment > ', userFormComplete)
+
+    console.log('usertoken', userToken)
     // setAuth({username, password})
       // console.log('auth >', auth)
     if (userInfo && !userPayment) {
-
+      modalData.url = "/pay"
       navigate('/pay')
+      
     }
     if (userInfo && userPayment) {
-
+      modalData.url = "/home"
       navigate('/home')
     }
-  }, [navigate, userInfo])
+  }, [navigate, userInfo, userPayment, userSchool, userFormComplete, modalData, userToken])
 
 
   const handledSubmit = async (e) => {
@@ -79,8 +134,12 @@ function SignIn(props) {
       password: password
     }
     try {
-      dispatch(userLogin(data))
+      setTimeout(() => {
+        dispatch(userLogin(data))
+        
+      }, 2000);
       
+      setShowModal(true)
       // if(userInfo){
       //   navigate('/home')
       //   setAuth({username, password})
@@ -121,7 +180,7 @@ function SignIn(props) {
   }
   
   return (
-    <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg bg-white overflow-hidden relative">
+    <div className="flex flex-col max-w-lg min-w-screen my-0 mx-auto shadow-lg bg-white overflow-hidden relative">
 
       {/*  Site header */}
       <Header />
@@ -139,9 +198,9 @@ function SignIn(props) {
                 <h1 className="h1">Masuk Aplikasi </h1>
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
-              {/* {userInfo && (
-                <Swal dataModal={modal}/>
-              )} */}
+              {show_modal && (
+                <Swal dataModal={modalData}/>
+              )}
 
               {/* Form */}
               <div className="max-w-sm mx-auto">

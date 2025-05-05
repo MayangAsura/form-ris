@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {logout, setCredentials} from '../features/auth/authSlice'
 import { useGetUserDetailsQuery } from '../app/services/auth/authService'
 import { Button } from '@headlessui/react';
 import supabase from '../client/supabase_client';
+import { userLogout } from '../features/auth/authActions';
 
 
 function Header() {
@@ -14,7 +15,8 @@ function Header() {
   const { userToken, userInfo } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const {setAuth} = useContext(AuthContext)
-
+  const location = useLocation()
+  const { hash, pathname, search } = location
   // automatically authenticate user if token is found
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
@@ -25,7 +27,7 @@ function Header() {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
           if(error){
             console.log(error)
           //   setProfileData({})
@@ -52,18 +54,18 @@ function Header() {
     console.log('userInfo>', userInfo) 
     // console.log('dataProfile>', auth)
     // if(auth) dispatch(setCredentials(auth))
-
     const scrollHandler = () => {
       window.pageYOffset > 10 ? setTop(false) : setTop(true)
     };
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [top, dispatch]);  
+  }, [top, dispatch, userInfo]);  
 
   return (
-    <header className={`mx-auto fixed flex z-30 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
+    // <header className={`flex flex-col fixed justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
+     <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
       {/* w-10/12 */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 relative">
         <div className="flex flex-row items-center justify-between h-16 md:h-20">
 
           {/* Site branding */}
@@ -75,10 +77,10 @@ function Header() {
           </div>
 
           {/* Site navigation */}
-          <nav className="flex flex-grow ">
+          <nav className="flex flex-grow">
             <ul className="flex flex-grow justify-end flex-wrap items-center ml-8">
               <li>
-                {!userInfo && (
+                {!userInfo && pathname!=='/login' && (
                   <Link to="/login" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>
                 )}
               </li>

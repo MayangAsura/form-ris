@@ -1,11 +1,14 @@
+import React from 'react'
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser, userLogin } from './authActions'
+import { registerUser, userLogin, userLogout } from './authActions'
 import Cookies from "js-cookie"
+import supabase from '../../client/supabase_client'
+import { useNavigate } from 'react-router-dom'
 
 
 // initialize userToken from local storage
 const userToken = Cookies.get('jwt')
-  ? Cookies.get('jwt')
+  ? Cookies.get("jwt")
   : null
 
 // const initialState = {
@@ -18,11 +21,16 @@ const userToken = Cookies.get('jwt')
 
 const initialState = createInitialState()
 
+// const navigate = useNavigate()
+
 function createInitialState(){
   return {
     loading: false,
     userInfo: null,
     userToken,
+    userPayment: false,
+    userSchool: null,
+    userFormComplete: false,
     error: null,
     success: false
   }
@@ -35,6 +43,32 @@ function createReducers(){
   }
 
   function logout (state) {
+    // var { pending, fulfilled, rejected } = userLogout;
+    //         builder
+    //             .addCase(pending, (state) => {
+    //                 state.loading = true
+    //                 state.error = null;
+    //             })
+    //             .addCase(fulfilled, (state, action) => {
+    //                 // const user = action.payload;
+
+    //                 // store user details and basic auth data in local storage to keep user logged in between page refreshes
+    //                 // localStorage.setItem('user', JSON.stringify(user));
+    //                 state.loading = false
+    //                 state.userInfo = action.payload
+    //                 state.userToken = action.payload.token
+    //                 // if(action.payload.status!==200){
+    //                 //   state.error
+    //                 // }
+
+    //                 // get return url from location state or default to home page
+    //                 // const { from } = history.location.state || { from: { pathname: '/' } };
+    //                 // history.navigate(from);
+    //             })
+    //             .addCase(rejected, (state, action) => {
+    //                 state.loading = false
+    //                 state.error = action.error
+    //             });
     // setTimeout(() => {
       Cookies.remove('jwt') // delete token from storage
       state.loading = false
@@ -42,7 +76,8 @@ function createReducers(){
       state.userToken = null
       state.error = null
     // }, 1000);
-    // navigate('/login')
+    
+    
   }
   function setCredentials (state, { payload }) {
     state.userInfo = payload
@@ -137,6 +172,7 @@ const authSlice = createSlice({
 function createExtraReducers() {
     return (builder) => {
         login();
+        logout()
 
         function login() {
             var { pending, fulfilled, rejected } = userLogin;
@@ -152,7 +188,60 @@ function createExtraReducers() {
                     // localStorage.setItem('user', JSON.stringify(user));
                     state.loading = false
                     state.userInfo = action.payload
-                    state.userToken = action.payload.token
+                    state.userToken = action.payload.token_refresh
+                    // const token = Cookies.jwt
+                    // const token =userToken
+                    // // console.log(token)
+                    // console.log('token from cookie >', state.userToken)
+                    // // console.log('token from cookie >', )
+                    // const {payment, error} = supabase.from('applicant_orders')
+                    //                   .select('status, item_id, id')
+                    //                   .eq('status', 'processed')
+                    //                   // .eq('applicants.refresh_token', state.userToken)
+                    //                   // applicant_schools(schools(school_name))
+                    //                   // , applicants(refresh_token, participants(is_complete)
+                    // console.log(error)
+                    // if(!payment)                                      
+                    //   state.error=true
+
+                    // console.log(payment)
+                    // state.userPayment = payment.status
+                    // state.userSchool = payment.applicant_schools[0].school.school_name
+                    // state.userFormComplete = payment.applicants.participants.is_complete
+
+                    
+                    // if(action.payload.status!==200){
+                    //   state.error
+                    // }
+
+                    // get return url from location state or default to home page
+                    // const { from } = history.location.state || { from: { pathname: '/' } };
+                    // history.navigate(from);
+                })
+                .addCase(rejected, (state, action) => {
+                    state.loading = false
+                    state.error = action.error
+                });
+        }
+        function logout() {
+            var { pending, fulfilled, rejected } = userLogout;
+            builder
+                .addCase(pending, (state) => {
+                    state.loading = true
+                    state.error = null;
+                })
+                .addCase(fulfilled, (state, action) => {
+                    // const user = action.payload;
+
+                    // store user details and basic auth data in local storage to keep user logged in between page refreshes
+                    // localStorage.setItem('user', JSON.stringify(user));
+                    state.loading = false
+                    state.userInfo = null
+                    state.userToken = null
+                    state.error = null
+                    // if(action.payload.status!==200){
+                    //   state.error
+                    // }
 
                     // get return url from location state or default to home page
                     // const { from } = history.location.state || { from: { pathname: '/' } };
