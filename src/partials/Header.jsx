@@ -9,7 +9,7 @@ import supabase from '../client/supabase_client';
 import { userLogout } from '../features/auth/authActions';
 
 
-function Header() {
+function Header(props) {
 
   const [top, setTop] = useState(true);
   const { userToken, userInfo } = useSelector((state) => state.auth)
@@ -33,6 +33,7 @@ function Header() {
           //   setProfileData({})
           }else{
             console.log('dataProf>', data)
+            props.dataApplicant(data)
             const full_name = data.full_name
             // setAuth({full_name})
             // setAuth({full_name: data.full_name,phone_number: data.phone_number, regist_number: data.regist_number,payment_status: data.payment_status})
@@ -78,7 +79,7 @@ function Header() {
 
           {/* Site navigation */}
           <nav className="flex flex-grow">
-            <ul className="flex flex-grow justify-end flex-wrap items-center ml-8">
+            <ul className="flex flex-grow justify-end items-center ml-8">
               <li>
                 {!userInfo && pathname!=='/login' && (
                   <Link to="/login" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>

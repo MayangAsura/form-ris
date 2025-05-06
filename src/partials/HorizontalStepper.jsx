@@ -13,7 +13,9 @@ import MetodeUangPangkal from './MetodeUangPangkal';
 import supabase from '../client/supabase_client';
 // import { createClient } from '@supabase/supabase-js';
 
-const HorizontalStepper = () => {
+const HorizontalStepper = (props) => {
+
+  console.log('from props > ', props)
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -132,12 +134,12 @@ const HorizontalStepper = () => {
     setTimeout(() => {
     if(data){
       console.log("Data VerifikasiKeluarga >,", data)
-      const data_file = data.photo_sampul_ijazah
+      // const {photo_sampul_ijazah} = data.photo_sampul_ijazah
       const {photo_sampul_ijazah,...newdata} = data
       // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
       // console.log(dataParticipant)
       updateData(newdata, 'participants', participant_id)
-      saveData(data_file, 'participant_documents', 'file')
+      saveData(photo_sampul_ijazah, 'participant_documents', 'file')
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -183,7 +185,7 @@ const HorizontalStepper = () => {
 
     if (data) {
       console.log('signedUrl > ', data.signedUrl)
-      return data.signedUrl
+      return data
     }
   }
   const saveData = async (dataInput, to, type=null) => {
@@ -192,25 +194,48 @@ const HorizontalStepper = () => {
       // const avatarFile = event.target.files[0]
 
       console.log('dataInput', dataInput)
+      console.log(typeof dataInput)
+      if(typeof dataInput=='object'){
 
-      for (let i = 0; i < dataInput.length; i++) {
-        const d = dataInput[i];
-        console.log(d)
+        for (let i = 0; i < dataInput.length; i++) {
+          const d = dataInput[i];
+          console.log(d)
+          const url = upload(d.file, d.name)
+  
+          console.log(participant_id)
+          const dataItem = {
+            participant_id: participant_id,
+            file_url: url.signedUrl,
+            file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
+            file_size: d.size.toString(),
+            file_type: d.type.slice(string2.indexOf("/")).toUpperCase(),
+            file_title: d.name
+          }
+          console.log(dataItem)
+          const { data, err} = await supabase.from(to)
+                            .insert([dataItem])
+                            .select()
+          console.log('data>', data)
+          console.log('err >', err)
+        }
+      }else{
+        const d = dataInput
         const url = upload(d.file, d.name)
+  
         console.log(participant_id)
         const dataItem = {
           participant_id: participant_id,
-          file_url: url,
+          file_url: url.signedUrl,
           file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
           file_size: d.size.toString(),
-          file_type: d.type.substr(6),
+          file_type: d.type.slice(string2.indexOf("/")).toUpperCase(),
           file_title: d.name
         }
         console.log(dataItem)
         const { data, err} = await supabase.from(to)
                           .insert([dataItem])
                           .select()
-        console.log('data>', data)
+        console.log('data upladed>', data)
         console.log('err >', err)
       }
       // dataInput.map( d => {

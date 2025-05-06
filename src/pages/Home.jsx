@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from '../partials/Header';
 import HeroHome from '../partials/HeroHome';
@@ -18,11 +18,16 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Announcement from '../partials/Announcement';
 
 function Home() {
+  const [applicantData, setApplicantData] = useState({})
+
+  const getDataApplicant = (data) => {
+    setApplicantData(data)
+  }
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
 
       {/*  Site header */}
-      <Header />
+      <Header dataApplicant={getDataApplicant} />
 
       {/*  Page content */}
       <main className="flex-grow">
@@ -31,7 +36,7 @@ function Home() {
         {/* <Pro */}
         <ProfileCard/>
         <Announcement/>
-        <HorizontalStepper/>
+        <HorizontalStepper applicant={applicantData}/>
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}

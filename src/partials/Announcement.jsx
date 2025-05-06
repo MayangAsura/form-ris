@@ -1,7 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TiPinOutline} from 'react-icons/ti'
+import supabase from '../client/supabase_client'
+import { useSelector } from 'react-redux'
 
 function Annoucement() {
+
+  const {userToken} = useSelector(state => state.auth)
+  const [submission_status, setSubmissionStatus] = useState("initial_submission")
+
+  useEffect(()=>{
+    getSubmissionStatus()
+  },[submission_status])
+
+  const getSubmissionStatus = async () => {
+    const { data: participants , error} = await supabase.from("participants")
+                          .select("submission_status, applicants(refresh_token)")
+                          .eq('applicants.refresh_token', userToken)
+                          // .single()
+
+    // getSubmissionStatusDesc
+    if(error)
+      console.log(error)
+
+    if(participants[0].submission_status=="awaiting_processing"){
+      const text = "Formulir Diproses" 
+      setSubmissionStatus(text)
+    }
+    if(participants[0].submission_status=="initial_submission"){
+      const text = "Pengisian Formulir" 
+      setSubmissionStatus(text)
+    }
+    if(participants[0]?.submission_status??"initial_submission"){
+      const text = "Pengisian Formulir" 
+      setSubmissionStatus(text)
+    }
+
+  }
+  
   return (
    
         <section className="relative">
@@ -15,6 +50,11 @@ function Annoucement() {
                 <div className="rounded-2xl" style={{ height: '200px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
                   <p className='text-gray-900 mt-2'>
+                    Status :
+                  <span className="rounded-md w-24 bg-green-50 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                        {submission_status}
+                          
+                        </span>
                   {/* Status : Incomplete
                   span
                     <table className='table-auto w-full mt-15'>

@@ -10,6 +10,11 @@ import Modal from '../utils/Modal';
 // import {Toaster, Position} from  @blue
 import Swal from '../utils/Swal'
 
+// import axios from '../api/axios';
+import axios from 'axios';
+import wablas from '../api/wablas';
+const SEND_MSG_URL ='/send-message'
+
 function SignUp() {
 
   // Use a custom domain as the supabase URL
@@ -26,7 +31,7 @@ function SignUp() {
   const [school_id, setSchoolId] = useState("")
   const [school_name, setSchoolName] = useState("")
   const [password, setPassword] = useState("")
-  const [media, setMedia] = useState("")
+  const [media, setMedia] = useState("website")
 
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
@@ -149,27 +154,35 @@ function SignUp() {
       _school_id
     });
 
-    setSuccess(true)
-    console.log('data_applicant =>', data_applicant)
-    // if(data_applicant){
-      
-    // }else{
-    //   console.log('error =>', error_applicant)
+    if(!error_applicant){
+      // _phone_number.replace()
+      console.log(phone_number)
+      const new_phone_number = '62'+ _phone_number.slice(1)
+      console.log(new_phone_number)
+      const data = [{
+        "phone": new_phone_number,
+        // "phone": "6285778650040",
+        "message": "testing"
 
-    // }
+      }] 
 
+      setSuccess(true)
+      const response = await wablas.post(SEND_MSG_URL,
+        JSON.stringify({ data }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'TGlhnw6kS74RG3jOc7EOzjFkftiemqC7Og6GmseskfryC0RHI3ACfOWnH86Q6zEl.cM6lQGiu'
+           }
+        }
+      );
+      // 
+      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // const token = response?.token
+    }
     
-    // const user_id = data_applicants.f1.toISOString()
-    // const created_at = data_applicants.f2.toISOString()
+    console.log('data_applicant =>', data_applicant)
 
-    // const { data_regist_num, error_regist_num } = await supabase.rpc("generate_registration_num", {
-    //   _school_id: school_id,
-    //   _user_id: user_id,
-    //   _created_at: created_at
-    // });
-
-
-  
     
   
     

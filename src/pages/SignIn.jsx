@@ -13,7 +13,7 @@ import Swal from '../utils/Swal';
 import { data } from 'autoprefixer';
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
-import axios from '../api/axios'
+import axios from '../api/server'
 const LOGIN_URL = '/auth/login'
 
 function SignIn(props) {
@@ -24,6 +24,10 @@ function SignIn(props) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [show_modal, setShowModal] = useState(false)
+  const [userData, setUserData] = useState({
+    school_name: "",
+    status: ""
+  })
   const [modalData, setModalData] = useState({
     title: "Login Berhasil",
     message: "Mengarahkan ke halaman pengisian formulir.",
@@ -43,9 +47,11 @@ function SignIn(props) {
         const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
         if(error){
           console.log(error)
+          return null
         //   setProfileData({})
         }else{
           console.log('dataProf>', data)
+          userData.school_name = data
           const full_name = data.full_name
           return data
           // setAuth({full_name})
@@ -104,10 +110,11 @@ function SignIn(props) {
   useEffect(() => {
     // const userPayment = getPaymentInfo()
     getPaymentInfo()
-    const userPayment = getUserInfo().data[0].applicant_orders[0].status
+    getUserInfo()
+    // const userPayment = getUserInfo().data[0].applicant_orders[0].status
     console.log('userInfo > ', userInfo)
     console.log('userPayment > ', getPaymentInfo())
-    console.log('userPayment > ', userPayment)
+    // console.log('userPayment > ', userPayment)
     console.log('userPayment > ', userFormComplete)
 
     console.log('usertoken', userToken)
