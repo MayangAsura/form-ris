@@ -31,22 +31,27 @@ function SignUp() {
   const [school_id, setSchoolId] = useState("")
   const [school_name, setSchoolName] = useState("")
   const [password, setPassword] = useState("")
+  const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
-
-  const [success, setSuccess] = useState(false)
-  const navigate = useNavigate()
-
-  let code = useParams().code
-    // const dataModal = () => {
-  const modal = {
+  const [modal_show, setModalShow] = useState(false)
+  const [modal_data, setModalData] = useState({
     title: "Pendaftaran Berhasil",
     message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
     // text: "Konfirmasi Pendaftaran ke CS",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "Lanjut Pembayaran",
     url2: "/login"
+  })
+
+  const [success, setSuccess] = useState(false)
+  const navigate = useNavigate()
+
+  let code = useParams().code
+    // const dataModal = () => {
+  // const modal = {
     
-    }
+    
+  //   }
   //   return data
   // }
   // const [code, setCode] = useState(useParams())
@@ -156,6 +161,18 @@ function SignUp() {
 
     if(!error_applicant){
       // _phone_number.replace()
+      setFullName("")
+      setGender("")
+      setPhoneNumber("")
+      setEmail("")
+      setSchoolId("")
+      setSchoolName("")
+      setPassword("")
+      setConfirmPassword("")
+      
+      setSuccess(true)
+      setModalShow(true)
+      
       console.log(phone_number)
       const new_phone_number = '62'+ _phone_number.slice(1)
       console.log(new_phone_number)
@@ -164,9 +181,8 @@ function SignUp() {
         // "phone": "6285778650040",
         "message": "testing"
 
-      }] 
-
-      setSuccess(true)
+      }]
+      
       const response = await wablas.post(SEND_MSG_URL,
         JSON.stringify({ data }),
         {
@@ -179,6 +195,11 @@ function SignUp() {
       // 
       console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       // const token = response?.token
+    }else{
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = error_applicant
+      setModalShow(true)
     }
     
     console.log('data_applicant =>', data_applicant)
@@ -225,6 +246,18 @@ function SignUp() {
   // setSchoolName('SMAI Rabbaanii Islamic School'); 
   // setSchoolName('SMP Pesantren Rabbaanii Islamic School');
   const getSchoolIdSchoolName = (code) => {
+    const allowed_codes = [
+      'tkit-a',
+      'tkit-b',
+      'sdit',
+      'smpi',
+      'smai',
+      'smp-pesantren',
+      'rabbaanii-ciwidey'
+    ]
+    // if(!allowed_codes.includes(code)){
+      
+    // }
     switch (code) {
       case 'tkit-a': return `1TKIT A Rabbaanii Islamic School`;  
       break;
@@ -274,8 +307,8 @@ function SignUp() {
             </p>
               </div>
               {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
-                {success && (
-                  <Swal dataModal={modal}/>
+                {modal_show && (
+                  <Swal dataModal={modal_data}/>
                 )}
                 
               {/* Form */}
@@ -284,7 +317,7 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -326,7 +359,7 @@ function SignUp() {
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
-                      <input id="confirm_password" name='confirm_password' pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
+                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
                       <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                           Konfirmasi password tidak sama dengan password
                       </span>

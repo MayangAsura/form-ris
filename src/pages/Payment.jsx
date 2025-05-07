@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-import axios from 'axios';
+import axios from '../api/local-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
@@ -10,13 +10,14 @@ import { redirect } from 'react-router-dom';
 
 import { useSelector } from 'react-redux'
 
-
+const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
 
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
-    const [applicantData, setApplicantData] = useState({applicant_id: "",school_id: "",full_name: "",phone_number: "",email: "", school_name:""})
+    const [applicantData, setApplicantData] = useState({applicant_id: "",school_id: "",full_name: "",phone_number: "",email: "", school_name:"", order_id:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
+    const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:""} )
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     const [school_id, setSchoolId] = useState("")
@@ -42,7 +43,7 @@ function Payment() {
       //                   .eq('applicants.refresh_token', userToken)
       //                   .eq('applicants.status', 'active')
       //                   .single()
-      const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
+      const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
                           .eq('refresh_token', userToken)                 
                           .eq('status', 'active')
                           .single()
@@ -51,23 +52,13 @@ function Payment() {
         // setApplicantData({})
       }else{
         console.log(data)
-        // setSchoolId(data.school_id)
-        // setSchoolName(data.applicant_id)
-        // setApplicantData(
-        //   {
-        //     ...applicantData,
-        //     applicant_id: data.applicant_id,
-        //     full_name: data.applicants.full_name,
-        //     school_id: data.school_id,
-        //     school_name: data.schools.school_name,
-        //     phone_number: data.applicants.phone_number
-        //   }
-        // )
         applicantData.applicant_id = data.applicant_schools[0].applicant_id
         applicantData.full_name = data.full_name
         applicantData.school_id = data.applicant_schools[0].schools.school_id
         applicantData.school_name = data.applicant_schools[0].schools.school_name
         applicantData.phone_number = data.phone_number
+        applicantData.order_id = data.applicant_orders.id
+        applicantData.order_status = data.applicant_orders.status
         
         applicantDataOrder.item_id = data.applicant_schools[0].schools.school_id
         applicantDataOrder.created_by = data.applicant_schools[0].applicant_id
@@ -89,6 +80,19 @@ function Payment() {
       console.log('school_id >',data.school_id)
       console.log('applicantDataOrder >',applicantDataOrder)
       console.log('applicantData >',applicantData)
+
+      if(applicantData.status == 'processed'){
+        const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
+                                          .select('started_at, expired_at, payment_url, status')
+                                          .eq('order_id', applicantData.order_id)
+                                          .single()
+        applicantDataPayment.started_at = dataPayment.started_at
+        applicantDataPayment.expired_at = dataPayment.expired_at
+        applicantDataPayment.payment_url = dataPayment.payment_url
+        applicantDataPayment.status = dataPayment.status
+      }
+        
+
     
     }
 
@@ -101,33 +105,7 @@ function Payment() {
       // if(dataSchool){
         console.log('school_fees > ', dataSchool)
         applicantDataOrder.total_amount = dataSchool.amount
-        // setApplicantDataOrder({ ...applicantDataOrder,
-        //   total_amount: dataSchool[0].amount
-        // })
-        // setApplicantData({})
-      // }else{
-      //   console.log('errorSchool > ', errorSchool)
-      //   // console.log('applischool->',applicantData)
-      // }
-    }
 
-    
-
-    // useEffect(()=> {
-      
-    // }, [])
-    const create = () => {
-
-      // const { data, error } = supabase
-      //   .from('applicant_orders')
-      //   .insert()
-      //   .single()
-
-      //   if(error){
-      //     console.log(error)
-      //   }else{
-      //     console.log('data >', data)
-      //   }
     }
 
     const formatRupiah1 = (angka, prefix=null) => {
@@ -290,7 +268,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" >Biaya Pendaftaran</label>
-                      <h2 className='text-4xl font-900 font-bold flex justify-start'> { formatRupiah1(applicantDataOrder?.total_amount)??'Tidak ditemukan'}</h2>
+                      <h2 className='text-4xl font-900 font-bold flex justify-start'> { formatRupiah(applicantDataOrder?.total_amount)??'Tidak ditemukan'}</h2>
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
                   </div>
@@ -299,41 +277,54 @@ function Payment() {
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
                       <h2 className='text-lg font-900 font-bold justify-start inline-flex items-center rounded-lg bg-yellow-50 px-2 py-1 text-yellow-800 ring-1 ring-gray-500/10 ring-inset'> {applicantData.status??'Belum Bayar'}</h2>
-                      {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
                   </div>
                 {invoicecreated && (
                   <div>
                     <div className="flex flex-wrap -mx-3 mb-4">
-                        <div className="w-full px-3">
-                          <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Waktu Tenggat</label>
-                          <h2 className='text-lg font-800 font-bold flex justify-start'> { formatDate(applicantPayment?.expired_at??'15 April 2025 15.00WIB')}</h2>
-                          {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
-                        </div>
+                      <div className="w-full px-3">
+                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Tanggal Pembayaran</label>
+                        <h2 className='text-lg font-800 font-bold flex justify-start'> { formatDate(applicantDataPayment?.started_at??'15 April 2025 15.00WIB')}</h2>
                       </div>
+                    </div>
                     <div className="flex flex-wrap -mx-3 mb-4">
-                        <div className="w-full px-3">
-                          <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Metode Pembayaran</label>
-                          <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantPayment.payment_code??'Virtual Akun BSI'}</h2>
-                          {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
-                        </div>
+                      <div className="w-full px-3">
+                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Waktu Tenggat</label>
+                        <h2 className='text-lg font-800 font-bold flex justify-start'> { formatDate(applicantDataPayment?.expired_at??'15 April 2025 15.00WIB')}</h2>
                       </div>
+                    </div>
+                    {/* <div className="flex flex-wrap -mx-3 mb-4">
+                      <div className="w-full px-3">
+                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
+                        <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantDataPayment.payment_code??'Virtual Akun BSI'}</h2>
+                      </div>
+                    </div> */}
                   </div>
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      {applicantData?.applicant_id? (
-                      <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                              onClick={create_order}
-                      >Bayar  
-                      <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                  </svg></button>
+                      {
+                        applicantDataPayment?.started_at!="" && ( 
+                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                              onClick={()=> redirect(payment_url)}
+                          >Bayar  
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                          </svg></button>
+                        )
+                      }
 
+                      {(applicantDataPayment?.expired_at=="" && applicantData?.applicant_id)? (
+                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                            onClick={create_order}
+                          >Bayar  
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                      </svg></button>
                       ) : (
 
                       <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                      >-  
+                      >  
                       <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                   </svg></button>

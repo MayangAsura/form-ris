@@ -23,6 +23,7 @@ import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
 import RedirectPayment from './pages/RedirectPayment';
 import ProtectedRoute from './routing/ProtectedRoute';
+import NotFoundRoute from './routing/NotFoundRoute';
 
 // import RequireAuth from 'react-auth-kit'
 // import {AuthProvider} from 'react-auth-kit'
@@ -30,6 +31,16 @@ import ProtectedRoute from './routing/ProtectedRoute';
 function App() {
 
   const location = useLocation();
+
+  const allowed_codes = [
+    'tkit-a',
+    'tkit-b',
+    'sdit',
+    'smpi',
+    'smai',
+    'smp-pesantren',
+    'rabbaanii-ciwidey'
+  ]
 
   useEffect(() => {
     AOS.init({
@@ -63,10 +74,15 @@ function App() {
           // </RequireAuth>
           }/> */}
         <Route path="/login" element={<SignIn />} />
+        {/* {
+        allowed_codes.map(                                                                                                              => {
+          return <Route path={`/:${code}`} element={<SignUp />} /> 
+        })
+        } */}
         <Route path="/:code" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/landing" element={<RedirectPayment />} />
-        {/* <Route path="/:code" element={<Home />} /> */}
+        <Route path="/*" element={<NotFoundRoute />} />
       </Routes>
 
       <HelmetProvider>

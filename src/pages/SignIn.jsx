@@ -13,30 +13,26 @@ import Swal from '../utils/Swal';
 import { data } from 'autoprefixer';
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
-import axios from '../api/server'
+import axios from '../api/local-server'
 const LOGIN_URL = '/auth/login'
 
 function SignIn(props) {
-  const {loading, userInfo, userToken, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
+  const {loading, userInfo, userToken, errorMsg, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [show_modal, setShowModal] = useState(false)
   const [userData, setUserData] = useState({
     school_name: "",
     status: ""
   })
-  const [modalData, setModalData] = useState({
+  const [modal_show, setModalShow] = useState(false)
+  const [modal_data, setmodal_data] = useState({
     title: "Login Berhasil",
     message: "Mengarahkan ke halaman pengisian formulir.",
     text: "OK",
     url: "/home"
-    // text: "Konfirmasi Pendaftaran ke CS",
-    // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
-    // text2: "Lanjut Pembayaran",
-    // url2: "/login"
   })
 
   const getUserInfo = async () =>{
@@ -121,15 +117,15 @@ function SignIn(props) {
     // setAuth({username, password})
       // console.log('auth >', auth)
     if (userInfo && !userPayment) {
-      modalData.url = "/pay"
+      modal_data.url = "/pay"
       navigate('/pay')
       
     }
     if (userInfo && userPayment) {
-      modalData.url = "/home"
+      modal_data.url = "/home"
       navigate('/home')
     }
-  }, [navigate, userInfo, userPayment, userSchool, userFormComplete, modalData, userToken])
+  }, [navigate, userInfo, userPayment, userSchool, userFormComplete, modal_data, userToken])
 
 
   const handledSubmit = async (e) => {
@@ -146,11 +142,11 @@ function SignIn(props) {
         
       }, 2000);
       
-      setShowModal(true)
-      // if(userInfo){
-      //   navigate('/home')
-      //   setAuth({username, password})
-      // }
+      if(userInfo){
+        setModalShow(true)
+        
+        // navigate('/home')
+      }
 
       
       // const response = await axios.post(LOGIN_URL,
@@ -180,6 +176,8 @@ function SignIn(props) {
       // })
     } catch (error) {
       console.log("Error >", error )
+      modal_data.title = "Login Gagal"
+      modal_data.message = errorMsg
       // if (error && error instanceof AxiosError){
   
       // }
@@ -205,8 +203,8 @@ function SignIn(props) {
                 <h1 className="h1">Masuk Aplikasi </h1>
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
-              {show_modal && (
-                <Swal dataModal={modalData}/>
+              {modal_show && (
+                <Swal dataModal={modal_data}/>
               )}
 
               {/* Form */}

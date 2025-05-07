@@ -5,7 +5,7 @@ import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
 import Swal from '../utils/Swal';
 
-import axios from '../api/server';
+import axios from '../api/local-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 const USERCHECK_URL = 'auth/user-check'

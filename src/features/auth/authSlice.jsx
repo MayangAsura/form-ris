@@ -32,6 +32,7 @@ function createInitialState(){
     userSchool: null,
     userFormComplete: false,
     error: null,
+    errorMsg: null,
     success: false
   }
 }
@@ -221,6 +222,7 @@ function createExtraReducers() {
                 .addCase(rejected, (state, action) => {
                     state.loading = false
                     state.error = action.error
+                    state.errorMsg = action.payload.message
                 });
         }
         function logout() {
