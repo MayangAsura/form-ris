@@ -63,7 +63,7 @@ function Payment() {
         //     phone_number: data.applicants.phone_number
         //   }
         // )
-        applicantData.applicant_id = data.id
+        applicantData.applicant_id = data.applicant_schools[0].applicant_id
         applicantData.full_name = data.full_name
         applicantData.school_id = data.applicant_schools[0].schools.school_id
         applicantData.school_name = data.applicant_schools[0].schools.school_name
@@ -322,12 +322,22 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
+                      {applicantData.applicant_id? (
                       <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={create_order}
                       >Bayar  
                       <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                   </svg></button>
+
+                      ) : (
+
+                      <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                      >-  
+                      <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                  </svg></button>
+                      )}
                   {/* <TiArrowRightThick/> */}
                     </div>
                   </div>

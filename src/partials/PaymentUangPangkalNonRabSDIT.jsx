@@ -1,6 +1,6 @@
 import React from 'react'
 
-function UangPangkalSMPI() {
+function PaymentUangPangkalNonRabSDIT() {
   return (
     <div>
 
@@ -42,75 +42,6 @@ Termin 6 = Rp 1.900.000,-
  
 Catatan tambahan:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     Kenaikan SPP maksimal Rp 40.000,- per tahun
     Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024
     Uang Pangkal belum termasuk uang kegiatan
@@ -130,4 +61,4 @@ Catatan tambahan:
   )
 }
 
-export default UangPangkalSMPI
+export default PaymentUangPangkalNonRabSDIT

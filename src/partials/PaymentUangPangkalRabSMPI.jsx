@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PaymentUangPangkalNonRabSMPI() {
+function PaymentUangPangkalRabSMPI() {
   return (
     <div>
 
@@ -61,4 +61,4 @@ Catatan tambahan:
   )
 }
 
-export default PaymentUangPangkalNonRabSMPI
+export default PaymentUangPangkalRabSMPI

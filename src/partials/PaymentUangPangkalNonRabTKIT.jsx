@@ -1,6 +1,6 @@
 import React from 'react'
 
-function UangPangkalSMPI() {
+function PaymentUangPangkalNonRabTKIT() {
   return (
     <div>
 
@@ -121,4 +121,4 @@ PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!
   )
 }
 
-export default UangPangkalSMPI
+export default PaymentUangPangkalNonRabTKIT

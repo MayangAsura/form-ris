@@ -2,9 +2,24 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { useState } from 'react';
 
+import PaymentUangPangkalNonRabTKIT from './PaymentUangPangkalNonRabTKIT';
+import PaymentUangPangkalNonRabSDIT from './PaymentUangPangkalNonRabSDIT';
+import PaymentUangPangkalNonRabSMPI from './PaymentUangPangkalNonRabSMPI';
+import PaymentUangPangkalNonRabSMAI from './PaymentUangPangkalNonRabSMAI';
+import PaymentUangPangkalNonRabSMPPesantren from './PaymentUangPangkalNonRabSMPPesantren';
+import PaymentUangPangkalNonRabSMAPesantren from './PaymentUangPangkalNonRabSMAPesantren';
+import PaymentUangPangkalPondokCiwidey from './PaymentUangPangkalPondokCiwidey';
+import PaymentUangPangkalRabTKIT from './PaymentUangPangkalRabTKIT';
+import PaymentUangPangkalRabSDIT from './PaymentUangPangkalRabSDIT';
+import PaymentUangPangkalRabSMPI from './PaymentUangPangkalRabSMPI';
+import PaymentUangPangkalRabSMAI from './PaymentUangPangkalRabSMAI';
+import PaymentUangPangkalRabSMPPesantren from './PaymentUangPangkalRabSMPPesantren';
+import PaymentUangPangkalRabSMAPesantren from './PaymentUangPangkalRabSMAPesantren';
+
+
 function MetodeUangPangkal(props) {
     const [ metode_uang_pangkal, setMetodeUangPangkal] = useState("")
-    
+    console.log('dataApplicant >', dataApplicant)
     const data = { metode_uang_pangkal:metode_uang_pangkal}
 
     const saveData = (e) => {

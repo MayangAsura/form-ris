@@ -1,6 +1,6 @@
 import React from 'react'
 
-function UangPangkalSMPI() {
+function PaymentUangPangkalPondokCiwidey() {
   return (
     <div>
 
@@ -52,4 +52,4 @@ function UangPangkalSMPI() {
   )
 }
 
-export default UangPangkalSMPI
+export default PaymentUangPangkalPondokCiwidey
