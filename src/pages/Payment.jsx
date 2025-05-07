@@ -31,12 +31,13 @@ function Payment() {
     
     useEffect( () => {
       getApplicantData()
+      console.log(invoicecreated)
       // setTimeout(() => {
       //   getApplicantDataSchool()
       // }, 2000);
       // getApplicantPayment()
       // create()
-    }, [])
+    }, [invoicecreated])
 
     const getApplicantData = async () =>{
       // const {data, error} = await supabase.from('applicants').select('applicant_id, school_id, schools(school_name), applicants(full_name, phone_number, email)')
@@ -206,9 +207,10 @@ function Payment() {
               },
               closeEvent: function(result){
               // tambahkan fungsi sesuai kebutuhan anda
-                  console.log('customer closed the popup without finishing the payment');
+                  // console.log('customer closed the popup without finishing the payment');
+
                   console.log(result);
-                  alert('customer closed the popup without finishing the payment');
+                  // alert('customer closed the popup without finishing the payment');
                   
               }
           }); 
@@ -306,7 +308,7 @@ function Payment() {
                       {
                         applicantDataPayment?.started_at!="" && ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                              onClick={()=> redirect(payment_url)}
+                              onClick={()=> redirect(applicantDataPayment.payment_url)}
                           >Bayar  
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
