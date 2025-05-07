@@ -274,7 +274,7 @@ function Payment() {
                     <div className="w-full px-3">
                     {/* flex-wrap */}
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nama</label>
-                      <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantData.full_name??'Fulan'}</h2>
+                      <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantData?.full_name??'Fulan'}</h2>
                       {/* <h2>{applicantOrder?.applicants?.full_name?? '-'}</h2> */}
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
@@ -282,7 +282,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Jenjang</label>
-                      <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantData.school_name??'-'}</h2>
+                      <h2 className='text-lg font-800 font-bold flex justify-start'> {applicantData?.school_name??'-'}</h2>
                       {/* <h2>{applicantOrder.schools.school_name??'-'}</h2> */}
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
@@ -307,7 +307,7 @@ function Payment() {
                     <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Waktu Tenggat</label>
-                          <h2 className='text-lg font-800 font-bold flex justify-start'> { formatDate(applicantPayment.expired_at??'15 April 2025 15.00WIB')}</h2>
+                          <h2 className='text-lg font-800 font-bold flex justify-start'> { formatDate(applicantPayment?.expired_at??'15 April 2025 15.00WIB')}</h2>
                           {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                         </div>
                       </div>
@@ -322,7 +322,7 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      {applicantData.applicant_id? (
+                      {applicantData?.applicant_id? (
                       <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={create_order}
                       >Bayar  

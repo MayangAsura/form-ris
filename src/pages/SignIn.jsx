@@ -91,7 +91,7 @@ function SignIn(props) {
     // state.userFormComplete = payment.applicants.participants.is_complete
 
     // console.log(payment)
-    return payment.status=='finished'?true:false
+    return payment?.status=='finished'?true:false
 
 
   }
