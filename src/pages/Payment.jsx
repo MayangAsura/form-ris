@@ -9,6 +9,7 @@ import { redirect } from 'react-router-dom';
 // import { useState } from 'react';
 
 import { useSelector } from 'react-redux'
+import Swal from '../utils/Swal';
 
 const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
@@ -26,6 +27,8 @@ function Payment() {
     const [amount, setAmount] = useState("")
     const [applicantPayment, setApplicantPayment] = useState({})
     const [invoicecreated, setInvoiceCreated] = useState(false)
+    const [modal_data, setModalData] = useState({title: "", message: ""})
+    const [modal_show, setModalShow] = useState(false)
 
     const { userToken } = useSelector(state => state.auth)
     
@@ -81,7 +84,10 @@ function Payment() {
       console.log('school_id >',data.school_id)
       console.log('applicantDataOrder >',applicantDataOrder)
       console.log('applicantData >',applicantData)
+    
+    }
 
+    const getApplicantPayment = async () => {
       if(applicantData.status == 'processed'){
         const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
                                           .select('started_at, expired_at, payment_url, status')
@@ -92,9 +98,6 @@ function Payment() {
         applicantDataPayment.payment_url = dataPayment.payment_url
         applicantDataPayment.status = dataPayment.status
       }
-        
-
-    
     }
 
     const getApplicantDataSchool = async () => {
@@ -186,6 +189,7 @@ function Payment() {
               successEvent: function(result){
               
                   setInvoiceCreated(true)
+                  getApplicantPayment()
                   console.log('success');
                   console.log(result);
                   redirect(res.payment_url)
@@ -203,13 +207,17 @@ function Payment() {
               
                   console.log('error');
                   console.log(result);
-                  alert('Payment Error');
+                  modal_data.title = "Pembayaran Gagal"
+                  modal_data.message = "Error : ", result
+                  setModalShow(true)
+                  // alert('Payment Error');
               },
               closeEvent: function(result){
               // tambahkan fungsi sesuai kebutuhan anda
                   // console.log('customer closed the popup without finishing the payment');
 
                   console.log(result);
+                  
                   // alert('customer closed the popup without finishing the payment');
                   
               }
@@ -240,6 +248,10 @@ function Payment() {
         <section className="bg-gradient-to-b from-gray-100 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+
+              {modal_show && (
+                <Swal dataModal={modal_data}/>
+              )}
 
               {/* Page header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-12">
