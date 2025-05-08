@@ -80,14 +80,15 @@ function Header(props) {
   }
 
   return (
-    // <header className={`flex flex-col fixed justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
-     <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
+    <header className={`fixed w-full justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
+     {/* <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}> */}
       {/* w-10/12 */}
       <div className="max-w-6xl mx-auto px-5 sm:px-6 relative">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between gap-3 h-16 md:h-20">
 
           {/* Site branding */}
-          <div className="flex-none mr-4">
+          <div className="flex flex-1 items-center">
+          {/* flex-none mr-4 */}
             {/* Logo */}
             <Link to="/" className="block" aria-label="Cruip">
               <img src={"/images/rabbaanii-logo.png"} className="w-10 h-10"/>
@@ -95,8 +96,10 @@ function Header(props) {
           </div>
 
           {/* Site navigation */}
-          <nav className="shrink">
-            <ul className="flex flex-grow justify-end items-center ml-5">
+          {/* <nav className="shrink"> */}
+            <ul className="flex flex-1 items-center justify-end gap-3 ">
+            {/* flex flex-1 items-center justify-end gap-3 */} 
+            {/* ml-5 */}
                 {!userInfo && pathname!=='/login' && (
               <li>
                   <Link to="/login" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>
@@ -134,7 +137,7 @@ function Header(props) {
               </li> */}
             </ul>
 
-          </nav>
+          {/* </nav> */}
 
         </div>
       </div>

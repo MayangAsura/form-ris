@@ -305,10 +305,11 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
-                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'> {applicantData?.order_status??'Belum Bayar'}</h2>
+                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'> {'Belum Bayar'}</h2>
+                      {/* applicantData?.order_status?? */}
                     </div>
                   </div>
-                { invoicecreated && (
+                { !invoicecreated && (
                 <div>
                   <div className='h5 right-separator'>Detail Tagihan</div>
                     <div className="flex flex-wrap -mx-3 mb-4">
@@ -333,8 +334,13 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-
-                      {(!applicantDataPayment.status && applicantData.applicant_id)? (
+                    <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                            onClick={create_order}
+                          >Bayar
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                      </svg></button>
+                      {/* {(!applicantDataPayment.status && applicantData.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
                           >Bayar
@@ -359,7 +365,7 @@ function Payment() {
                         )
 
 
-                      )}
+                      )} */}
                   {/* <TiArrowRightThick/> */}
                     </div>
                   </div>
