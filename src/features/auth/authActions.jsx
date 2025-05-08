@@ -37,8 +37,10 @@ export const userLogin = createAsyncThunk(
 )
 export const userLogout = createAsyncThunk(
   'auth/logout',
-  async ({ rejectWithValue }) => {
+  async () => {
     try {
+
+      // console.log('masuk')
       // configure header's Content-Type as JSON
       const config = {
         headers: {
@@ -52,7 +54,7 @@ export const userLogout = createAsyncThunk(
         // { username, password },
         config
       )
-      console.log()
+      console.log(data)
       
       if( !data ){
         console.log('err')
@@ -65,9 +67,9 @@ export const userLogout = createAsyncThunk(
     } catch (error) {
       // return custom error message from API if any
       if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
+        // return rejectWithValue(error.response.data.message)
       } else {
-        return rejectWithValue(error.message)
+        // return rejectWithValue(error.message)
       }
     }
   }

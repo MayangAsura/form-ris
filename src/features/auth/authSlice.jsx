@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom'
 
 // initialize userToken from local storage
 const userToken = Cookies.get('jwt')
-  ? Cookies.get("jwt")
+  ? Cookies.get('jwt')
   : null
+
+  console.log('userToken from cookiee', userToken)
 
 // const initialState = {
 //   loading: false,
@@ -240,7 +242,6 @@ function createExtraReducers() {
                     state.loading = false
                     state.userInfo = null
                     state.userToken = null
-                    state.error = null
                     // if(action.payload.status!==200){
                     //   state.error
                     // }

@@ -179,7 +179,12 @@ function SignUp() {
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
-        "message": "testing"
+        "message": `Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  xxxxx  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+
+Login Aplikasi: https://psb-formy.vercel.app/login
+
+Jazaakumullahu khayran wa Baarakallaahu fiikum.`
+        // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
 
       }]
       
