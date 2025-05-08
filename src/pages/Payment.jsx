@@ -115,18 +115,6 @@ function Payment() {
       }
     }
 
-    const getApplicantDataSchool = async () => {
-      console.log('applicantData.school_id > ', applicantData)
-      const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
-                                        .select('amount, fee_type_id')
-                                        .eq('school_id', applicantData.school_id)
-                                        .single()
-      // if(dataSchool){
-        console.log('school_fees > ', dataSchool)
-        applicantDataOrder.total_amount = dataSchool.amount
-
-    }
-
     const formatRupiah1 = (angka, prefix=null) => {
       // function formatRupiah(angka, prefix){
         var number_string = angka.toString().replace(/[^,\d]/g, '').toString()
@@ -345,31 +333,32 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      {
-                        (applicantDataPayment?.status!=="" && applicantDataPayment?.status!=='finished') && ( 
+
+                      {(!applicantDataPayment.status && applicantData.applicant_id)? (
+                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                            onClick={create_order}
+                          >Bayar
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                      </svg></button>
+                      ) : (
+                        (applicantData?.order_status!=="" && applicantData?.order_status!=='finished') ? ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
                           >Bayar  
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>
-                        )
-                      }
+                        ) : (
 
-                      {(applicantData?.order_status==="" && applicantData?.applicant_id)? (
-                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                            onClick={create_order}
-                          >Bayar sd
+                          <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                          >  
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg></button>
-                      ) : (
+                        )
 
-                      <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                      >  
-                      <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                  </svg></button>
+
                       )}
                   {/* <TiArrowRightThick/> */}
                     </div>
