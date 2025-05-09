@@ -19,7 +19,8 @@ import PaymentUangPangkalRabSMAPesantren from './PaymentUangPangkalRabSMAPesantr
 
 function MetodeUangPangkal(props) {
     const [ metode_uang_pangkal, setMetodeUangPangkal] = useState("")
-    console.log('dataApplicant >', dataApplicant)
+    console.log('applicantSchool . MetodeUangPangkal >', dataApplicant)
+    // const 
     const data = { metode_uang_pangkal:metode_uang_pangkal}
 
     const saveData = (e) => {
@@ -51,7 +52,9 @@ function MetodeUangPangkal(props) {
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-3">
-                                        
+                                        if(is_tkit){
+                                            <PaymentUangPangkalNonRabSDIT/>
+                                        }
                                     </div>    
                                     <div className="sm:col-span-3">
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>

@@ -73,6 +73,7 @@ function createReducers(){
     //                 state.error = action.error
     //             });
     // setTimeout(() => {
+      
       Cookies.remove('jwt') // delete token from storage
       state.loading = false
       state.userInfo = null

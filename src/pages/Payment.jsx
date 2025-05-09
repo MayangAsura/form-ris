@@ -5,7 +5,7 @@ import axios from '../api/local-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 // import { useState } from 'react';
 
 import { useSelector } from 'react-redux'
@@ -32,9 +32,10 @@ function Payment() {
     const [detail_tagihan_show, setDetailTagihanShow] = useState(false)
 
     const { userToken } = useSelector(state => state.auth)
+    const navigate = useNavigate()
     
     useEffect( () => {
-      
+
       getApplicantData()
       console.log(applicantData.order_status)
       if(applicantData.order_status){
@@ -56,10 +57,7 @@ function Payment() {
     }, [])
 
     const getApplicantData = async () =>{
-      // const {data, error} = await supabase.from('applicants').select('applicant_id, school_id, schools(school_name), applicants(full_name, phone_number, email)')
-      //                   .eq('applicants.refresh_token', userToken)
-      //                   .eq('applicants.status', 'active')
-      //                   .single()
+      
       const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
                           .eq('refresh_token', userToken)                 
                           .eq('status', 'active')
@@ -74,7 +72,7 @@ function Payment() {
         applicantData.school_id = data.applicant_schools[0].schools.school_id
         applicantData.school_name = data.applicant_schools[0].schools.school_name
         applicantData.phone_number = data.phone_number
-        if(data.applicant_orders[0]){
+        if(data.applicant_orders.length>0){
           applicantData.order_id = data.applicant_orders[0].id
           applicantData.order_status = data.applicant_orders[0].status
         }
@@ -112,6 +110,24 @@ function Payment() {
         applicantDataPayment.expired_at = dataPayment.expired_at
         applicantDataPayment.payment_url = dataPayment.payment_url
         applicantDataPayment.status = dataPayment.status
+      }
+    }
+
+    const getStatusOrderText = (status_code) => {
+      switch (status_code) {
+        case 'pending':
+          return 'Pending'
+        case 'processed':
+          return 'Belum Bayar' 
+        case 'finished':
+          return 'Selesai'
+        case 'canceled':
+          return 'Tagihan Dibatalkan'
+        case 'failed':
+          return 'Pembayaran Gagal'
+      
+        default:
+          return 'Pending'
       }
     }
 
@@ -158,7 +174,11 @@ function Payment() {
 
     const create_order = async (e) => {
       e.preventDefault()
-
+      if(applicantData.order_status==""){
+        setModalShow(true)
+        modal_data.title = "Gagal Membuat Pembayaran" 
+        modal_data.message = "Ananda telah memiliki tagihan sebelumnya." 
+      }
       const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
       applicantDataOrder.description = 'invoice registration fee'
       applicantDataOrder.foundation_id = 1
@@ -194,8 +214,10 @@ function Payment() {
                 successEvent: function(result){
                 
                     setInvoiceCreated(true)
+                    
                     console.log('success');
                     console.log(result);
+                    getApplicantData()
                     redirect(res.data.payment_url)
                     // alert('Payment Success');
   
@@ -305,11 +327,10 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
-                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'> {'Belum Bayar'}</h2>
-                      {/* applicantData?.order_status?? */}
+                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'>{getStatusOrderText(applicantData?.order_status)??'Belum Bayar'}</h2>
                     </div>
                   </div>
-                { !invoicecreated && (
+                { invoicecreated && (
                 <div>
                   <div className='h5 right-separator'>Detail Tagihan</div>
                     <div className="flex flex-wrap -mx-3 mb-4">
@@ -334,39 +355,51 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                    <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                            onClick={create_order}
-                          >Bayar
-                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                      </svg></button>
-                      {/* {(!applicantDataPayment.status && applicantData.applicant_id)? (
+                      {(applicantData.order_status=="" && applicantData.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
-                          >Bayar
+                          >Bayar ce
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg></button>
                       ) : (
-                        (applicantData?.order_status!=="" && applicantData?.order_status!=='finished') ? ( 
+                        (applicantData?.order_status!=='' && applicantData?.order_status!=='finished') ? ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
-                          >Bayar  
+                          >Bayar ce
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>
                         ) : (
-
-                          <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                          >  
-                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                      </svg></button>
+                          applicantData.order_status === 'finished' ? (
+                            <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                                  onClick={() => {navigate("/home")}}
+                                >Lanjut
+                                <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                            </svg></button>
+                          ) : (
+                        <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                        >  
+                        <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                    </svg></button>
+                          )
                         )
 
 
-                      )} */}
+                      )}
                   {/* <TiArrowRightThick/> */}
+                  {/* {
+                    applicantData.order_status === 'finished' && (
+                      <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                            onClick={() => {navigate("/home")}}
+                          >Lanjut
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                      </svg></button>
+                    )
+                  } */}
                     </div>
                   </div>
                 {/* <form>

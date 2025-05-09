@@ -29,12 +29,13 @@ function Header(props) {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
           if(error){
             console.log(error)
           //   setProfileData({})
           }else{
             console.log('dataProf>', data)
+            props.dataApplicant(data)
             // props.dataApplicant(data)
             const full_name = data.full_name
             // setAuth({full_name})
@@ -80,7 +81,7 @@ function Header(props) {
   }
 
   return (
-    <header className={`fixed w-full justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
+    <header className={`fixed w-full z-30 justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
      {/* <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}> */}
       {/* w-10/12 */}
       <div className="max-w-6xl mx-auto px-5 sm:px-6 relative">

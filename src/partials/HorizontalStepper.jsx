@@ -14,10 +14,6 @@ import supabase from '../client/supabase_client';
 // import { createClient } from '@supabase/supabase-js';
 
 const HorizontalStepper = (props) => {
-
-  console.log('from props > ', props)
-
-  const dataApplicantSchoolId = props.applicant[0].applicant_schools[0].schools.school_id
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -29,6 +25,8 @@ const HorizontalStepper = (props) => {
   const [dataWali, setDataWali] = useState({})
   const [applicant_id, setApplicantId] = useState("")
   const [participant_id, setParticipantId] = useState("")
+  const [applicantData, setApplicantData] = useState({})
+  const [applicantSchool, setApplicantSchool] = useState({})
 
   const scroll = (direction) => {
     console.log(direction)
@@ -40,6 +38,21 @@ const HorizontalStepper = (props) => {
       });
     }
   };
+
+  console.log('from props > ', props)
+  
+  if(props.applicant.length > 0) {
+    
+    setApplicantData(props.applicant[0])
+    const dataSchool = {
+      id : props.applicant[0]?.applicant_schools[0]?.schools?.school_id,
+      name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name 
+    }
+
+    setApplicantSchool(dataSchool)
+  }
+
+  console.log(applicantData.id)
 
   // const getPaymentData = (data) =>{
     
@@ -53,10 +66,10 @@ const HorizontalStepper = (props) => {
       console.log("Data Identitas >,", data)
       setParticipant(data)
       // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-      const newdata = (data) => ({...data, applicant_id: "0eca0b23-ace9-47cb-a395-e6719ada1cd7"}) 
+      const newdata = (data) => ({...data, applicant_id: applicantData.id}) 
       console.log('dataParticipant ', dataParticipant)
       console.log('newdata ', newdata)
-      data = {...data, applicant_id: "0eca0b23-ace9-47cb-a395-e6719ada1cd7"}
+      data = {...data, applicant_id: applicantData.id}
       const data_applicant = {
         full_name: data.full_name, 
         gender: data.gender, 
@@ -67,7 +80,7 @@ const HorizontalStepper = (props) => {
       console.log(newdatap)
      
       saveData(newdatap, 'participants')
-      updateData(data_applicant, "applicants", "0eca0b23-ace9-47cb-a395-e6719ada1cd7")
+      updateData(data_applicant, "applicants", applicantData.id)
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -319,7 +332,7 @@ const HorizontalStepper = (props) => {
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status"];
-    const form = [<Pembayaran scroll={scroll}  /> , <IdentitasForm onSubmit={getIdentitas} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <DataWaliForm onSubmit={getDataWali} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,  <BerkasForm  onSubmit={getDataBerkas} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={dataApplicantSchoolId} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} complete={complete} currentStep={currentStep} setComplete={setComplete}/>];
+    const form = [<Pembayaran scroll={scroll}  /> , <IdentitasForm onSubmit={getIdentitas} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <DataWaliForm onSubmit={getDataWali} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,  <BerkasForm  onSubmit={getDataBerkas} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} complete={complete} currentStep={currentStep} setComplete={setComplete}/>];
 
   return (
     <>
