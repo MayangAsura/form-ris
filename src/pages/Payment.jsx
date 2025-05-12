@@ -16,7 +16,7 @@ const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
-    const [applicantData, setApplicantData] = useState({applicant_id: "",school_id: "",full_name: "",phone_number: "",email: "", school_name:"", order_id:"", order_status:""})
+    const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "",full_name: "",phone_number: "",email: "", school_name:"", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
     const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:""} )
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
@@ -34,27 +34,19 @@ function Payment() {
     const { userToken } = useSelector(state => state.auth)
     const navigate = useNavigate()
     
-    useEffect( () => {
+    useEffect(() => {
 
       getApplicantData()
-      console.log(applicantData.order_status)
-      if(applicantData.order_status){
+      getApplicantPayment()
 
-        console.log("status !='' ")
-        getApplicantPayment()
-        // invoicecreated && applicantData.order_status!==='finis'
-        setInvoiceCreated(true)
+      
+    }, [applicantData])
 
-        applicantData.order_status
-      } 
-          
-      console.log(invoicecreated)
       // setTimeout(() => {
       //   getApplicantDataSchool()
       // }, 2000);
       // getApplicantPayment()
       // create()
-    }, [])
 
     const getApplicantData = async () =>{
       
@@ -66,27 +58,34 @@ function Payment() {
         console.log(error)
         // setApplicantData({})
       }else{
-        console.log('applicantData payment> ', data)
-        applicantData.applicant_id = data.applicant_schools[0].applicant_id
-        applicantData.full_name = data.full_name
-        applicantData.school_id = data.applicant_schools[0].schools.school_id
-        applicantData.school_name = data.applicant_schools[0].schools.school_name
-        applicantData.phone_number = data.phone_number
-        if(data.applicant_orders.length>0){
-          applicantData.order_id = data.applicant_orders[0].id
-          applicantData.order_status = data.applicant_orders[0].status
-        }
+        setApplicantData(data)
+        console.log('applicantData payment> ', applicantData)
+
         
-        applicantDataOrder.item_id = data.applicant_schools[0].schools.school_id
-        applicantDataOrder.created_by = data.applicant_schools[0].applicant_id
-        applicantDataOrder.applicant_id = data.applicant_schools[0].applicant_id
-        
+        // applicantData.full_name = data.full_name
+        // applicantData.phone_number = data.phone_number
+
+        // if(data.applicant_orders.length>0){
+        //   applicantData.order_id = data.applicant_orders[0].id
+        //   applicantData.order_status = data.applicant_orders[0].status
+        // }
+        // if(data.applicant_schools.length>0){
+        //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
+        //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
+        //   applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
+
+        //   applicantDataOrder.item_id = data.applicant_schools[0]?.schools.school_id
+        //   applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
+        //   applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
+          
+
+        // }
         
       }
 
       const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
                                         .select('amount, fee_type_id')
-                                        .eq('school_id', applicantData.school_id)
+                                        .eq('school_id', applicantData.applicant_schools[0]?.schools?.school_id)
                                         .single()
       // if(dataSchool){
         console.log('school_fees > ', dataSchool)
@@ -101,6 +100,18 @@ function Payment() {
     }
 
     const getApplicantPayment = async () => {
+      console.log(applicantData.order_status)
+      if(applicantData.order_status){
+
+        console.log("status !='' ")
+        // getApplicantPayment()
+        // invoicecreated && applicantData.order_status!==='finis'
+        setInvoiceCreated(true)
+
+        applicantData.order_status
+      } 
+          
+      console.log(invoicecreated)
       if(applicantData.order_status !== 'finished'){
         const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
                                           .select('started_at, expired_at, payment_url, status')
@@ -304,7 +315,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Jenjang</label>
-                      <h2 className='text-lg font-800 font-medium flex justify-start'> {applicantData?.school_name??'-'}</h2>
+                      <h2 className='text-lg font-800 font-medium flex justify-start'> {applicantData?.applicant_schools[0]?.schools?.school_name??'-'}</h2>
                       {/* <h2>{applicantOrder.schools.school_name??'-'}</h2> */}
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
@@ -327,7 +338,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
-                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'>{getStatusOrderText(applicantData?.order_status)??'Belum Bayar'}</h2>
+                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'>{getStatusOrderText(applicantData?.applicant_orders[0]?.status)??'Belum Bayar'}</h2>
                     </div>
                   </div>
                 { invoicecreated && (
@@ -355,29 +366,30 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      {(applicantData.order_status=="" && applicantData.applicant_id)? (
+                      {(applicantData.applicant_orders[0]?.status=="" && applicantData.applicant_schools[0]?.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
-                          >Bayar ce
+                          >Bayar
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg></button>
                       ) : (
-                        (applicantData?.order_status!=='' && applicantData?.order_status!=='finished') ? ( 
+                        (applicantData.applicant_orders[0]?.status!=='' && applicantData.applicant_orders[0]?.status!=='finished') ? ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
-                          >Bayar ce
+                          >Bayar
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>
                         ) : (
-                          applicantData.order_status === 'finished' ? (
-                            <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                                  onClick={() => {navigate("/home")}}
-                                >Lanjut
-                                <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                            </svg></button>
+                          applicantData.applicant_orders[0]?.status === 'finished' ? (
+                            navigate('/home')
+                            // <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                            //       onClick={() => {navigate("/home")}}
+                            //     >Lanjut
+                            //     <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            //   <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                            // </svg></button>
                           ) : (
                         <button disabled className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                         >  

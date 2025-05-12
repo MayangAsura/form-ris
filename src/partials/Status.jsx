@@ -46,6 +46,24 @@ function Status(props) {
                                                       }
                                                       // handleSubmit 
                                                   }}
+                                                  >Selesaikan</button>
+                                                  <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
+                                                  onClick={() => {
+                                                      // currentStep === steps.length
+                                                      //   ? setComplete(true)
+                                                      //   : setCurrentStep((prev) => prev + 1); 
+                                                      if(props.currentStep === 9){
+                                                      // props.handledComplete(true)
+                                                      props.getCurrentStep(2)
+                                                      props.getEdit(true)
+                                                      }else{
+                                                        
+                                                      // props.handledCurrentStep(props.currentStep + 1) ;
+                                                      // props.setCurrentStep((prev) => prev + 1);
+                                                      // callback(data)
+                                                      }
+                                                      // handleSubmit 
+                                                  }}
                                                   >Edit Data</button>
                           {/* <label
                           htmlFor="file-upload"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {logout, setCredentials} from '../features/auth/authSlice'
 import { useGetUserDetailsQuery } from '../app/services/auth/authService'
@@ -19,23 +19,25 @@ function Header(props) {
   const {setAuth} = useContext(AuthContext)
   const location = useLocation()
   const { hash, pathname, search } = location
+  const navigate = useNavigate()
   // automatically authenticate user if token is found
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
   // })
+  console.log('props>', props)
 
   const getProfileData = async () =>{
       // setTimeout(() => {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration))').eq('refresh_token', token)
           if(error){
             console.log(error)
           //   setProfileData({})
           }else{
             console.log('dataProf>', data)
-            props.dataApplicant(data)
+            props.getDataApplicant(data)
             // props.dataApplicant(data)
             const full_name = data.full_name
             // setAuth({full_name})
@@ -54,7 +56,10 @@ function Header(props) {
 
   // detect whether user has scrolled the page down by 10px 
   useEffect(() => { 
-    getProfileData()
+    // setTimeout(() => {
+      // timeou
+      getProfileData()
+    // }, 2000);
     console.log('userInfo>', userInfo) 
     // console.log('dataProfile>', auth)
     // if(auth) dispatch(setCredentials(auth))
@@ -66,20 +71,24 @@ function Header(props) {
   }, [top, dispatch, userInfo]);  
 
   const handledLogout = async () => {
-    // try {
-    //     const response = await axios.post("/auth/logout",
-    //     {
-    //       headers: {'Content-Type': 'application/json' }, withCredentials: true
-    //     }
-    //   );
-    //   // 
-    //   console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-    // } catch (error) {
+    try {
+      //   const response = await axios.post("/auth/logout",
+      //   {
+      //     headers: {'Content-Type': 'application/json' }, withCredentials: true
+      //   }
+      // );
+      // // 
+      // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // if(response.status==200){
+      // }
+      dispatch(logout())
+      Cookies.remove("jwt")
+      navigate('/login')
+    } catch (error) {
       
-    // }
-    dispatch(logout())
+    }
   }
-
+  
   return (
     <header className={`fixed w-full z-30 justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
      {/* <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}> */}

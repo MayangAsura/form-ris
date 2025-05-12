@@ -1,4 +1,4 @@
-import { useEffect, useRef,useState } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { TiTick } from "react-icons/ti";
 import IdentitasForm from './IdentitasForm';
 import DataAyahForm from './DataAyahForm';
@@ -13,11 +13,14 @@ import MetodeUangPangkal from './MetodeUangPangkal';
 import supabase from '../client/supabase_client';
 // import { createClient } from '@supabase/supabase-js';
 
+
 const HorizontalStepper = (props) => {
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [ isPending, startTransition ] = useTransition()
 
   const [dataParticipant, setParticipant] = useState({})
   const [dataAyah, setDataAyah] = useState({})
@@ -27,7 +30,10 @@ const HorizontalStepper = (props) => {
   const [participant_id, setParticipantId] = useState("")
   const [applicantData, setApplicantData] = useState({})
   const [applicantSchool, setApplicantSchool] = useState({})
+  const [applicantStudentCategory, setApplicantStudentCategory] = useState({})
+  // const [applicantSchool, setApplicantSchool] = useState({})
 
+  
   const scroll = (direction) => {
     console.log(direction)
     if (stepperRef.current) {
@@ -39,20 +45,28 @@ const HorizontalStepper = (props) => {
     }
   };
 
-  console.log('from props > ', props)
-  
-  if(props.applicant.length > 0) {
+  useEffect(() => {
+    if(props.applicant.length > 0) {
     
-    setApplicantData(props.applicant[0])
-    const dataSchool = {
-      id : props.applicant[0]?.applicant_schools[0]?.schools?.school_id,
-      name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name 
+      setApplicantData(props.applicant[0])
+      console.log(applicantData)
+      const dataSchool = {
+        id : props.applicant[0]?.applicant_schools[0]?.schools?.school_id,
+        name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name 
+      }
+  
+      setApplicantSchool(dataSchool)
+      const dataStudentCategory = {
+        student_category : props.applicant[0]?.student_category
+      }
+      setApplicantStudentCategory(dataStudentCategory)
     }
+  
+    console.log(applicantData.id)
+  }, [props.applicant]) 
 
-    setApplicantSchool(dataSchool)
-  }
-
-  console.log(applicantData.id)
+  // console.log('from props > ', props)
+  
 
   // const getPaymentData = (data) =>{
     
@@ -78,11 +92,15 @@ const HorizontalStepper = (props) => {
       }
       const {full_name,gender,phone_number,email, ...newdatap } = data
       console.log(newdatap)
-     
-      saveData(newdatap, 'participants')
+      
+      if(!edit){
+        saveData(newdatap, 'participants')
+      }else{
+        updateData(newdatap, 'participants', applicantData.participants[0]?.id)
+      }
       updateData(data_applicant, "applicants", applicantData.id)
-        scroll('right')
-        setCurrentStep(currentStep + 1)
+      scroll('right')
+      setCurrentStep(currentStep + 1)
       }
     }, 3000);
   }
@@ -96,8 +114,12 @@ const HorizontalStepper = (props) => {
       setDataAyah(data)
 
       console.log("Data Ayah >,", data)
-    
-      saveData(data, 'participant_father_data')
+      if(!edit){
+        saveData(data, 'participant_father_data')
+      }else{
+        updateData(data, 'participant_father_data', applicantData.participants[0]?.id)
+      }
+      
 
       console.log('dataAyah ', dataAyah)
         scroll('right')
@@ -113,6 +135,12 @@ const HorizontalStepper = (props) => {
       setDataIbu(data)
       data = {...data, participant_id}
       saveData(data, 'participant_mother_data')
+      if(!edit){
+        saveData(data, 'participant_mother_data')
+      }else{
+        updateData(data, 'participant_mother_data', applicantData.participants[0]?.id)
+      }
+      
       console.log(dataIbu)
         scroll('right')
         setCurrentStep(currentStep + 1)
@@ -126,7 +154,12 @@ const HorizontalStepper = (props) => {
       console.log("DataWali >,", data)
       setDataWali(data)
       data = {...data, participant_id}
-      saveData(data, 'participant_wali_data')
+      if(!edit){
+        saveData(data, 'participant_wali_data')
+      }else{
+        updateData(data, 'participant_wali_data', applicantData.participants[0]?.id)
+      }
+      
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -138,7 +171,13 @@ const HorizontalStepper = (props) => {
     if(data){
       console.log("DataBerkas >,", data)
       // data = {...data, }
-      saveData(data, 'participant_documents', 'file')
+      if(!edit){
+        saveData(data, 'participant_documents', 'file')
+      }else{
+        saveData(data, 'participant_documents', 'file')
+        // updateData(data, 'participant_documents', applicantData.participants[0]?.id)
+      }
+      // saveData(data, 'participant_documents', 'file')
         scroll('right')
         setCurrentStep(currentStep + 1)
       }
@@ -201,58 +240,96 @@ const HorizontalStepper = (props) => {
     if (data) {
       
       console.log('signedUrl > ', data.signedUrl)
-      return data
+      return data.signedUrl
     }
   }
   const saveData = async (dataInput, to, type=null) => {
+
+    
     
     if (type=='file'){
       // const avatarFile = event.target.files[0]
 
       console.log('dataInput', dataInput)
       console.log(typeof dataInput)
-      if(typeof dataInput=='object'){
+     
+      if(dataInput.length>1){
+        startTransition(async () => {
+          for (let i = 0; i < dataInput.length; i++) {
+            const d = dataInput[i];
+            console.log(d)
+            const url = upload(d.file, d.name)
+            console.log('url >', url)
+            console.log(participant_id)
+            const dataItem = {
+              participant_id: participant_id,
+              file_url: url,
+              file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
+              file_size: d.size.toString(),
+              file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
+              file_title: d.name
+            }
+            console.log(dataItem)
+            if(!edit){
+              const { data, err} = await supabase.from(to)
+                                .insert([dataItem])
+                                .select()
+              console.log('data>', data)
+              console.log('err >', err)
 
-        for (let i = 0; i < dataInput.length; i++) {
-          const d = dataInput[i];
-          console.log(d)
+            }else{
+              const { data, err} = await supabase.from(to)
+              .update([dataItem])
+              .eq('participant_id', applicantData.participants[0]?.id)
+              .select()
+console.log('data>', data)
+console.log('err >', err)
+            }
+          }
+        }
+          
+        )
+        
+      }else{
+        const d = dataInput
+        // console.logO
+        console.log(participant_id)
+        
+        startTransition(async () => {
+          
           const url = upload(d.file, d.name)
-          console.log(url)
-          console.log(participant_id)
+          console.log(('url >', url));
           const dataItem = {
             participant_id: participant_id,
-            file_url: url.signedUrl,
+            file_url: url,
             file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
             file_size: d.size.toString(),
-            file_type: d.type.slice(string2.indexOf("/")).toUpperCase(),
+            file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
             file_title: d.name
           }
           console.log(dataItem)
-          const { data, err} = await supabase.from(to)
-                            .insert([dataItem])
-                            .select()
-          console.log('data>', data)
-          console.log('err >', err)
-        }
-      }else{
-        const d = dataInput
-        const url = upload(d.file, d.name)
-        // console.logO
-        console.log(participant_id)
-        const dataItem = {
-          participant_id: participant_id,
-          file_url: url.signedUrl,
-          file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
-          file_size: d.size.toString(),
-          file_type: d.type.slice(string2.indexOf("/")).toUpperCase(),
-          file_title: d.name
-        }
-        console.log(dataItem)
-        const { data, err} = await supabase.from(to)
-                          .insert([dataItem])
-                          .select()
-        console.log('data upladed>', data)
-        console.log('err >', err)
+
+          if(!edit){
+            const { data, err} = await supabase.from(to)
+                              .insert([dataItem])
+                              .select()
+            console.log('data>', data)
+            console.log('err >', err)
+
+          }else{
+            const { data, err} = await supabase.from(to)
+            .update([dataItem])
+            .eq('participant_id', applicantData.participants[0]?.id)
+            .select()
+            console.log('data>', data)
+            console.log('err >', err)
+          }
+          // const { data, err} = await supabase.from(to)
+          //                   .insert([dataItem])
+          //                   .select()
+          // console.log('data upladed>', data)
+          // console.log('err >', err)
+        })
       }
       // dataInput.map( d => {
         
@@ -286,15 +363,19 @@ const HorizontalStepper = (props) => {
     }else{
 
       console.log('dataInput> ', dataInput)
-      const { data, err} = await supabase.from(to)
+      startTransition(async () => {
+        const { data, err} = await supabase.from(to)
                           .insert([dataInput])
                           .select()
-      if(dataInput.pob){
-        setParticipantId(data[0].id)
-      }   
-      console.log('data>', data)
-      console.log('err >', err)
+        if(dataInput.pob){
+          setParticipantId(data[0].id)
+        }   
+        console.log('data>', data)
+        console.log('err >', err)
+      })
+      
     }
+    console.log('isPending > ',isPending)
 
   }
 
@@ -310,14 +391,17 @@ const HorizontalStepper = (props) => {
     //           upsert: false  
     //         })
     // }
+    startTransition(async () => { 
 
-    console.log('dataInput> ' ,dataInput)
-    const { data, err} = await supabase.from(to)
-                        .update({...dataInput, updated_at : new Date()})
-                        .eq('id', bo)
-                        .select()
-    console.log('data>', data[0])
-    console.log('err >', err)
+      console.log('dataInput> ' ,dataInput)
+      const { data, err} = await supabase.from(to)
+                          .update({...dataInput, updated_at : new Date()})
+                          .eq('id', bo)
+                          .select()
+      console.log('data>', data[0])
+      console.log('err >', err)
+
+    } )
   }
   
 
@@ -326,13 +410,16 @@ const HorizontalStepper = (props) => {
   const getCurrentStep = (value) => {
     setCurrentStep(value)
   }
+  const getEdit = (value) => {
+    setEdit(value)
+  }
   const getComplete = (value) => {
     setComplete(value)
   }
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status"];
-    const form = [<Pembayaran scroll={scroll}  /> , <IdentitasForm onSubmit={getIdentitas} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <DataWaliForm onSubmit={getDataWali} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,  <BerkasForm  onSubmit={getDataBerkas} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} complete={complete} currentStep={currentStep} setComplete={setComplete}/>];
+    const form = [<Pembayaran scroll={scroll}  /> , <IdentitasForm onSubmit={getIdentitas} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <DataWaliForm onSubmit={getDataWali} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,  <BerkasForm  onSubmit={getDataBerkas} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataApplicantCategory={applicantStudentCategory} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep}  getEdit={getEdit} setComplete={setComplete}/>];
 
   return (
     <>
@@ -385,36 +472,65 @@ const HorizontalStepper = (props) => {
     </div>
     <div className="border-b border-gray-900/10 py-0"></div>
 
+    {isPending ? (
+      <div
+      className="inline-block h-8 w-8 animate-[spinner-grow_0.75s_linear_infinite] rounded-full bg-current align-[-0.125em] text-primary opacity-0 motion-reduce:animate-[spinner-grow_1.5s_linear_infinite]"
+      role="status">
+      <span
+        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Menyimpan...</span>
+    </div>
+    ) : (
+      scroll('right')
+    )}
+
     {steps.map((step, index) => (
+
       <div className={`flex justify-center ${currentStep !== index  + 1 && "hide"}`}>
           {form[currentStep-1]}
       </div>
     ))}
 
     <div className='flex justify-center px-10'>
+      {isPending}
+        {!complete && ( !isPending ? (
+           <button
+           className={`btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3 ${currentStep!==1?"invisible":''}`}
+           onClick={() => {
+             // currentStep === steps.length
+             //   ? setComplete(true)
+             //   : setCurrentStep((prev) => prev + 1); 
+             if(currentStep === steps.length){
+               setComplete(true)
+             }else{
+               setCurrentStep((prev) => prev + 1);
+               // callback(data)
+             }
+             // handleSubmit
+             // scroll('right')
+           }}
+           type='submit'
+           
+         >
+           {currentStep === steps.length ? "Selesai" : "Simpan & Lanjut"}
+         </button>
+        ) : (
+          <div
+      className="inline-block h-8 w-8 animate-[spinner-grow_0.75s_linear_infinite] rounded-full bg-current align-[-0.125em] text-primary opacity-0 motion-reduce:animate-[spinner-grow_1.5s_linear_infinite]"
+      role="status">
+      <span
+        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Menyimpan...</span>
+    </div>
+        )
+         
 
-        {!complete && (
-          <button
-            className={`btn w-full btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3 ${currentStep!==1?"invisible":''}`}
-            onClick={() => {
-              // currentStep === steps.length
-              //   ? setComplete(true)
-              //   : setCurrentStep((prev) => prev + 1); 
-              if(currentStep === steps.length){
-                setComplete(true)
-              }else{
-                setCurrentStep((prev) => prev + 1);
-                // callback(data)
-              }
-              // handleSubmit
-              scroll('right')
-            }}
-            type='submit'
-            
-          >
-            {currentStep === steps.length ? "Finish" : "Next"}
-          </button>
+
+
         )}
+        {/* { isPending ? 
+        
+        } */}
     </div>
     </>
   );

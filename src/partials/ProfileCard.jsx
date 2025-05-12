@@ -108,7 +108,7 @@ function ProfileCard() {
             <h3 className="h3 mb-4">Ahlan wa Sahlan, Santri Baru Rabbaanii Islamic School.
             </h3>
             <p className="text-xl text-gray-600 inline-grid"> 
-              Silahkan melanjutkan proses pendaftaran dengan melengkapi data dan berkas sesuai ketentuan dengan pedaftaran. 
+              Silahkan melanjutkan proses pendaftaran dengan melengkapi data dan berkas sesuai ketentuan pedaftaran. 
               {/* Petunjuk dan Ketentuan Berkas Pendaftaran dapat dibuka disini.  */}
               {/* <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24">
                 <path d="M12 4v8.59l-3.29-3.29L7.41 11l5 5 5-5-1.29-1.29L12 12.59V4h-1.5z"/>

@@ -1,6 +1,6 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import PaymentUangPangkalNonRabTKIT from './PaymentUangPangkalNonRabTKIT';
 import PaymentUangPangkalNonRabSDIT from './PaymentUangPangkalNonRabSDIT';
@@ -19,7 +19,53 @@ import PaymentUangPangkalRabSMAPesantren from './PaymentUangPangkalRabSMAPesantr
 
 function MetodeUangPangkal(props) {
     const [ metode_uang_pangkal, setMetodeUangPangkal] = useState("")
-    console.log('applicantSchool . MetodeUangPangkal >', dataApplicant)
+    const [ dataSchool, setDataSchool ] = useState({id: "", name: "" })
+    const [ applicantSchoolCode, setApplicantSchoolCode ] = useState("")    
+    console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
+
+    useEffect(() =>{
+        // setApplicantSchool()
+
+
+        
+        setApplicantSchoolCode(getSchoolCode(props.dataApplicant))
+        console.log(applicantSchoolCode)
+    },[props.dataApplicant])
+
+    const getSchoolCode = (code) => {
+        // if(!allowed_codes.includes(code)){
+          
+        // }
+        switch (code) {
+          case 1 : return 'tkit'  
+        //   case 1 : return 'tkit-b'  
+          case 2 : return 'sdit'  
+          case 3 : return 'smpi'  
+          case 4 : return 'smai'  
+          case 5 : return 'smp-pesantren'  
+          case 6 : return 'sma-pesantren'  
+          case 7 : return 'rabbaanii-ciwidey'
+          default : return ''  
+          
+        //   break;
+        //   case 'tkit-b': return `1TKIT B Rabbaanii Islamic School`;  
+        //   break;
+        //   case 'sdit': return `2SDIT Rabbaanii Islamic School`;
+        //   break;
+        //   case 'smpi': return `3SMPI Rabbaanii Islamic School`;
+        //   break;
+        //   case 'smai': return `4SMAI Rabbaanii Islamic School`; 
+        //   break;
+        //   case 'smp-pesantren': return `5SMP Pesantren Rabbaanii Islamic School`; 
+        //   break;
+        //   case 'sma-pesantren': return `6SMA Pesantren  Rabbaanii Islamic School`; 
+        //   break;
+        //   case 'rabbaanii-ciwidey': return `7Rabbaanii Ciwidey`; 
+        //   break;
+        //   default: return `10Not Found`; 
+            // break;
+        }
+      }
     // const 
     const data = { metode_uang_pangkal:metode_uang_pangkal}
 
@@ -50,13 +96,57 @@ function MetodeUangPangkal(props) {
 
                                 <h2 className="text-3xl font-semibold text-gray-900"></h2>
 
-                                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                    <div className="sm:col-span-3">
-                                        if(is_tkit){
-                                            <PaymentUangPangkalNonRabSDIT/>
+                                <div className="mt-10 grid grid-cols- gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-5">
+                                        {
+
+                                        (applicantSchoolCode == 'tkit' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )? (
+                                            <PaymentUangPangkalRabTKIT/>
+                                        ): (<PaymentUangPangkalNonRabTKIT/>))
                                         }
-                                    </div>    
-                                    <div className="sm:col-span-3">
+                                        {
+                                            applicantSchoolCode == 'sdit' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
+                                                <PaymentUangPangkalRabSDIT/>
+                                            ): (
+                                                <PaymentUangPangkalNonRabSDIT/>
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smpi' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )(
+                                                <PaymentUangPangkalNonRabSMPI/>
+    
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smai' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )(
+                                                <PaymentUangPangkalNonRabSMAI/>
+    
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smp-pesantren' && (
+                                                <PaymentUangPangkalNonRabSMPPesantren/>
+    
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'sma-pesantren' && (
+                                                <PaymentUangPangkalNonRabSMAPesantren/>
+    
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'rabbaanii-ciwidey' && (
+                                                <PaymentUangPangkalPondokCiwidey/>
+    
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                                <div className="border-b border-gray-900/10 py-3"></div>
+                                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        
+                                    <div className="sm:col-span-8">
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>
                                         <div className="mt-2 grid grid-cols-1">
                                             <select id="metode_uang_pangkal" name="metode_uang_pangkal" onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>

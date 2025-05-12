@@ -20,14 +20,14 @@ import Announcement from '../partials/Announcement';
 function Home() {
   const [applicantData, setApplicantData] = useState({})
 
-  const getDataApplicant = (data) => {
+  const getDataApplicant = async (data) => {
     setApplicantData(data)
   }
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
 
       {/*  Site header */}
-      <Header dataApplicant={getDataApplicant} />
+      <Header getDataApplicant={getDataApplicant} />
 
       {/*  Page content */}
       <main className="flex-grow">
