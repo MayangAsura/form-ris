@@ -40,7 +40,7 @@ function Payment() {
       getApplicantPayment()
 
       
-    }, [applicantData])
+    }, [])
 
       // setTimeout(() => {
       //   getApplicantDataSchool()
@@ -69,23 +69,24 @@ function Payment() {
         //   applicantData.order_id = data.applicant_orders[0].id
         //   applicantData.order_status = data.applicant_orders[0].status
         // }
-        // if(data.applicant_schools.length>0){
+        if(data.applicant_schools.length>0){
         //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
         //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
         //   applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
 
-        //   applicantDataOrder.item_id = data.applicant_schools[0]?.schools.school_id
-        //   applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
-        //   applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
+          applicantDataOrder.item_id = data.applicant_schools[0]?.schools.school_id
+          applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
+          applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
+          // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
           
 
-        // }
+        }
         
       }
 
       const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
                                         .select('amount, fee_type_id')
-                                        .eq('school_id', applicantData.applicant_schools[0]?.schools?.school_id)
+                                        .eq('school_id', applicantDataOrder.item_id)
                                         .single()
       // if(dataSchool){
         console.log('school_fees > ', dataSchool)
@@ -100,28 +101,29 @@ function Payment() {
     }
 
     const getApplicantPayment = async () => {
-      console.log(applicantData.order_status)
-      if(applicantData.order_status){
+      // console.log(applicantData.order_status)
+      if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length[0]?.status==='finished'){
 
         console.log("status !='' ")
-        // getApplicantPayment()
-        // invoicecreated && applicantData.order_status!==='finis'
-        setInvoiceCreated(true)
-
-        applicantData.order_status
-      } 
-          
-      console.log(invoicecreated)
-      if(applicantData.order_status !== 'finished'){
         const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
                                           .select('started_at, expired_at, payment_url, status')
-                                          .eq('order_id', applicantData.order_id)
+                                          .eq('order_id', applicantData.applicant_orders[0]?.id)
                                           .single()
         applicantDataPayment.started_at = dataPayment.started_at
         applicantDataPayment.expired_at = dataPayment.expired_at
         applicantDataPayment.payment_url = dataPayment.payment_url
         applicantDataPayment.status = dataPayment.status
-      }
+        // getApplicantPayment()
+        // invoicecreated && applicantData.order_status!==='finis'
+        setInvoiceCreated(true)
+
+        // applicantData.applicant_orders[0]?.status
+      } 
+          
+      console.log(invoicecreated)
+      // if(applicantData.order_status !== 'finished'){
+        
+      // }
     }
 
     const getStatusOrderText = (status_code) => {
@@ -366,7 +368,7 @@ function Payment() {
                 )}
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      {(applicantData.applicant_orders[0]?.status=="" && applicantData.applicant_schools[0]?.applicant_id)? (
+                      {(applicantData.applicant_orders.length===0 && applicantData.applicant_schools[0]?.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
                           >Bayar
@@ -377,7 +379,7 @@ function Payment() {
                         (applicantData.applicant_orders[0]?.status!=='' && applicantData.applicant_orders[0]?.status!=='finished') ? ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
-                          >Bayar
+                          >Bayar x
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>
