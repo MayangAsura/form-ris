@@ -22,15 +22,15 @@ function Annoucement() {
     if(error)
       console.log(error)
 
-    if(participants[0].submission_status=="awaiting_processing"){
+    if(participants.submission_status=="awaiting_processing"){
       const text = "Formulir Diproses" 
       setSubmissionStatus(text)
     }
-    if(participants[0].submission_status=="initial_submission"){
+    if(participants.submission_status=="initial_submission"){
       const text = "Pengisian Formulir" 
       setSubmissionStatus(text)
     }
-    if(participants[0]?.submission_status??"initial_submission"){
+    if(participants?.submission_status??"initial_submission"){
       const text = "Pengisian Formulir" 
       setSubmissionStatus(text)
     }
@@ -49,9 +49,11 @@ function Annoucement() {
                   <h3 className="h3 mb-4">Pengumuman</h3>
                 <div className="rounded-2xl" style={{ height: '200px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
-                  <p className='text-gray-900 mt-2'>
-                    Status :
-                  <span className="rounded-md w-24 bg-green-50 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                  <p className='text-gray-900 mt-2 text-center'>
+                    Jazaakumullahu khayran telah mendaftar di Rabbaanii Islamic School, status pendaftaran saat ini:
+                    {/* Status : */}
+                    <br />
+                  <span className="rounded-md w-24 bg-green-50 px-3 py-1 my-5 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
                         {submission_status}
                           
                         </span>

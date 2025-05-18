@@ -1,20 +1,47 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function DataWaliForm(props) {
-    const [wali_name, setWaliName] = useState("")
+        const [wali_name, setWaliName] = useState("")
         const [wali_academic, setWaliAcademic] = useState("")
         const [wali_job, setWaliJob] = useState("")
         const [wali_salary, setWaliSalary] = useState("")
+        const [last_update, setLastUpdate] = useState("")
     
         const data = { wali_name:wali_name, wali_academic:wali_academic, wali_job:wali_job, wali_salary:wali_salary}
     
+        useEffect(() => {
+            console.log('props.dataWali>', props.dataWali)
+            setWaliName(props.dataWali?.wali_name)
+            setWaliAcademic(props.dataWali?.wali_academic)
+            setWaliSalary(props.dataWali?.wali_salary)
+            setWaliJob(props.dataWali?.wali_job)
+            setLastUpdate(props.dataWali?.updated_at)
+        },[props.dataWali])
+
         const saveData = (e) => {
             e.preventDefault()
             console.log(data)
             props.onSubmit(data)
             
+        }
+
+        const formatDate = (date) => {
+            const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            date = new Date(date);
+            const dayName = dayNames[date.getDay()];
+            const day = date.getDate();
+            const monthName = monthNames[date.getMonth()];
+            const year = date.getFullYear();
+            const hour = date.getHours();
+            const minute = date.getMinutes();
+            const second = date.getSeconds();
+
+            const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+            return indonesianFormat
         }
 
     return (
@@ -26,6 +53,9 @@ function DataWaliForm(props) {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Data Wali</h2>
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
+                                </p>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
                                     (Diisi jika Calon Peserta Didik diasuh oleh Wali)
                                     {/* Jika Ananda tinggal dengan wali. */}
@@ -37,7 +67,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_name" className="block text-sm/6 font-medium text-gray-900">Nama Wali</label>
                                     <div className="mt-2">
-                                        <input id="wali_name" name="wali_name" onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="wali_name" name="wali_name" value={wali_name} onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama wali tidak valid
                                         </span>
@@ -46,7 +76,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-3">
                                         <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_academic" name="wali_academic" onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
+                                            <select id="wali_academic" name="wali_academic" value={wali_academic} onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
@@ -68,7 +98,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali</label><span className='text-sm italic'>Pekerjaan utama wali</span>
                                     <div className="mt-2">
-                                        <input id="wali_job" name="wali_job" onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="wali_job" name="wali_job" value={wali_job} onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Pekerjaan wali tidak valid
                                         </span>
@@ -77,7 +107,7 @@ function DataWaliForm(props) {
                                     <div className="sm:col-span-3">
                                         <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="wali_salary" name="wali_salary" onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
+                                            <select id="wali_salary" name="wali_salary" value={wali_salary} onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
@@ -85,7 +115,7 @@ function DataWaliForm(props) {
                                             <option value="10jt_-_15jt">Rp10 Jt - Rp15 Jt</option>
                                             <option value="15jt_-_20jt">Rp15 Jt - Rp20 Jt</option>
                                             <option value="more_than_20jt">Lebih dari Rp20 Jt</option>
-                                            <option value="other">Other</option>
+                                            <option value="other">Lainnya</option>
                                             </select>
                                             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                                 Penghasilan wali tidak valid
@@ -98,7 +128,7 @@ function DataWaliForm(props) {
                                     
                                    
                                 </div>
-                                <div className='flex justify-center text-center'>
+                                <div className='flex justify-center text-center my-5'>
                                      
                                         {!props.complete && (
                                             <div className='flex flex-col gap-2 w-full my-5'>

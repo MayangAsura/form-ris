@@ -1,14 +1,25 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 function DataIbuForm(props) {
     const [mother_name, setMotherName] = useState("")
     const [mother_academic, setMotherAcademic] = useState("")
     const [mother_job, setMotherJob] = useState("")
     const [mother_salary, setMotherSalary] = useState("")
+    const [last_update, setLastUpdate] = useState("")
 
     const data = { mother_name:mother_name, mother_academic:mother_academic, mother_job:mother_job, mother_salary:mother_salary}
+
+    useEffect(() => {
+            console.log('props.dataIbu>', props.dataIbu)
+            setMotherName(props.dataIbu?.mother_name)
+            setMotherAcademic(props.dataIbu?.mother_academic)
+            setMotherSalary(props.dataIbu?.mother_salary)
+            setMotherJob(props.dataIbu?.mother_job)
+            setLastUpdate(props.dataIbu?.updated_at)
+            // setLastUpdate(props.dataIbu.updated_at)
+        },[props.dataIbu])
 
     const saveData = (e) => {
         e.preventDefault()
@@ -17,15 +28,33 @@ function DataIbuForm(props) {
         
     }
 
+    const formatDate = (date) => {
+        const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        date = new Date(date);
+        const dayName = dayNames[date.getDay()];
+        const day = date.getDate();
+        const monthName = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+
+        const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+        return indonesianFormat
+    }
+
     return (
         <section className="relative">
-            <div className='max-w-6xl mx-auto px-4 sm:px-6 my-5'>
+            <div className='max-w-6xl mx-auto px-4 sm:px-6'>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
                         <form action="" onSubmit={saveData}>
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Data Ibu</h2>
+                                <p className="my-5 text-sm/8 text-gray-700">Update terakhir {last_update?formatDate(formatDate):'-'} </p>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
                                     Data Diri Ibu Kandung
                                     {/* This information will be displayed publicly so be careful what you share. */}
@@ -36,7 +65,7 @@ function DataIbuForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="mother_name" className="block text-sm/6 font-medium text-gray-900">Nama Ibu Kandung</label>
                                     <div className="mt-2">
-                                        <input id="mother_name" name="mother_name" onChange={(e) => setMotherName(e.target.value)} type="text" autoComplete="mother_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="mother_name" name="mother_name" value={mother_name} onChange={(e) => setMotherName(e.target.value)} type="text" autoComplete="mother_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama ibu tidak valid
                                         </span>
@@ -45,7 +74,7 @@ function DataIbuForm(props) {
                                     <div className="sm:col-span-4">
                                         <label htmlFor="mother_academic" className="block text-sm/6 font-medium text-gray-900">Pendidikan Ibu</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="mother_academic" name="mother_academic" onChange={(e) => setMotherAcademic(e.target.value)} autoComplete="mother_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="mother_academic" name="mother_academic" value={mother_academic} onChange={(e) => setMotherAcademic(e.target.value)} autoComplete="mother_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
@@ -67,7 +96,7 @@ function DataIbuForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="mother_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ibu</label><span className='text-sm italic'>Pekerjaan utama ibu kandung</span>
                                     <div className="mt-2">
-                                        <input id="mother_job" name="mother_job" onChange={(e) => setMotherJob(e.target.value)} type="text" autoComplete="mother_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required></input>
+                                        <input id="mother_job" name="mother_job" value={mother_job} onChange={(e) => setMotherJob(e.target.value)} type="text" autoComplete="mother_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required></input>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Pekerjaan ibu tidak valid
                                         </span>
@@ -76,7 +105,7 @@ function DataIbuForm(props) {
                                     <div className="sm:col-span-4">
                                         <label htmlFor="mother_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Ibu</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="mother_salary" name="mother_salary" onChange={(e) => setMotherSalary(e.target.value)} autoComplete="mother_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="mother_salary" name="mother_salary" value={mother_salary} onChange={(e) => setMotherSalary(e.target.value)} autoComplete="mother_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
@@ -97,7 +126,7 @@ function DataIbuForm(props) {
                                     
                                     
                                 </div>
-                                <div className='flex justify-center text-center'>
+                                <div className='flex justify-center text-center my-5'>
                                      
                                         {!props.complete && (
                                             <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'

@@ -33,6 +33,7 @@ function IdentitasForm(props) {
     const [region, setRegion] = useState("")
     const [postal_code, setPostalCode] = useState("")
     const [aspiration, setAspiration] = useState("")
+    const [last_update, setLastUpdate] = useState("")
     const [dataWilayahProvinces, setDataWilayahProvinces] = useState([])
     const [dataWilayahRegencies, setDataWilayahRegencies] = useState([])
     const [dataWilayahDistricts, setDataWilayahDistricts] = useState([])
@@ -72,10 +73,55 @@ function IdentitasForm(props) {
     }
 
     useEffect(()=> {
+        console.log('dataParticipant >', props.dataParticipant)
+        setLastUpdate(props.dataParticipant.updated_at)
+        setFull_name(props.dataApplicant.full_name); 
+        setGender(props.dataApplicant.gender);
+        setPhoneNumber(props.dataApplicant.phone_number);
+        setEmail(props.dataApplicant.email);
+        setPrevSchool(props.dataParticipant.prev_school);
+        setPrevSchoolAddress(props.dataParticipant.prev_school_address);
+        setKKNumber(props.dataParticipant.kk_number)
+        setNIK(props.dataParticipant.nik)
+        setNISN(props.dataParticipant.nisn)
+        setPob(props.dataParticipant.pob)
+        setDob(props.dataParticipant.dob)
+        setMedicalHistory(props.dataParticipant.medical_history)
+        setSicknessHistory (props.dataParticipant.sickness_history)
+        setAddress(props.dataParticipant.home_address)
+        setChildNumber(props.dataParticipant.child_number)
+        setChildStatus(props.dataParticipant.child_status)
+        setLiveWith(props.dataParticipant.live_with)
+        setParentEmail(props.dataParticipant.parent_email)
+        setParentPhoneNumber(props.dataParticipant.parent_phone_number)
+        setDistance(props.dataParticipant.distance)
+        setNationality(props.dataParticipant.nationality)
+        setProvince(props.dataParticipant.province)
+        setRegion(props.dataParticipant.region)
+        setPostalCode(props.dataParticipant.postal_code)
+        setAspiration(props.dataParticipant.aspiration)
+        setLastUpdate(props.dataParticipant.updated_at)
         // getDataWilayahProvince()
         // getDataWilayahRegencies()
         // getDataWilayahDistritc()
-    },[])
+    },[props.dataApplicant, props.dataParticipant])
+
+    const formatDate = (date) => {
+    const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    date = new Date(date);
+    const dayName = dayNames[date.getDay()];
+    const day = date.getDate();
+    const monthName = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+    return indonesianFormat
+  }
     // const getDataWilayahProvince = async () => {
     //     await axios.get("https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json")
     //         // .then(res => res.json())
@@ -106,9 +152,10 @@ function IdentitasForm(props) {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Identitas Calon Santri</h2> <hr className='inline border-gray-900/10 py-3' />
+                                
                                 {/* <div className="border-b border-gray-900/20 py-3"></div> */}
-                                <p className="mt-1 text-sm/6 text-gray-600">
-                                    {/* This information will be displayed publicly so be careful what you share. */}
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
                                 </p>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -116,7 +163,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="full_name" className="block text-sm/6 font-medium text-gray-900">Nama Lengkap <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku (akta atau ijazah sebelumnya)</span>
                                     <div className="mt-2">
-                                        <input id="full_name" name="full_name" pattern="^[A-Za-z0-9.']{3,50}$" error="Nama Lengkap Invalid" onChange={e => (setFull_name(e.target.value))} type="text" autoComplete="full_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 first-letter peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="full_name" name="full_name" value={full_name} pattern="^[A-Za-z0-9.']{3,50}$" onChange={e => (setFull_name(e.target.value))} type="text" autoComplete="full_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 first-letter peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama Lengkap tidak valid
                                         </span>
@@ -124,8 +171,8 @@ function IdentitasForm(props) {
                                     </div>
                                     <div className="sm:col-span-4">
                                         <label className="block text-gray-900 text-sm/7 font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='male'?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender=='female'?gender:'female'} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value='male' checked={gender=='male'?true:false} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                                        <input name="gender" onChange={(e) => setGender(e.target.value)} value='female' checked={gender=='female'?true:false} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                                     {/* <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Jenis Kelamin</label>
                                     <div className="mt-2">
                                         <input id="gender" name="gender" type="text" autoComplete="gender" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
@@ -134,7 +181,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="phone_number" className="block text-sm/6 font-medium text-gray-900">No. WhatsApp <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="phone_number" name="phone_number" onChange={(e) => setPhoneNumber(e.target.value)} pattern="^[0-9]{3,14}" type="text" autoComplete="phone_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="phone_number" name="phone_number" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} pattern="^[0-9]{3,14}" type="text" autoComplete="phone_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block" required>
                                             No WhatsApp hanya angka
                                         </span>
@@ -143,7 +190,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email</label>
                                     <div className="mt-2">
-                                        <input id="email" name="email" onChange={(e) => setEmail(e.target.value)} pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" type="email" autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" type="email" autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Email tidak valid
                                         </span>
@@ -152,7 +199,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school" className="block text-sm/6 font-medium text-gray-900">Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school" name="prev_school" onChange={(e) => setPrevSchool(e.target.value)} type="text" autoComplete="prev_school" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="prev_school" name="prev_school" value={prev_school} onChange={(e) => setPrevSchool(e.target.value)} type="text" autoComplete="prev_school" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Sekolah Asal tidak boleh kosong
                                         </span>
@@ -161,7 +208,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school_address" className="block text-sm/6 font-medium text-gray-900">Alamat Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school_address" name="prev_school_address" onChange={(e) => setPrevSchoolAddress(e.target.value)} type="text" autoComplete="prev_school_address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="prev_school_address" name="prev_school_address" value={prev_school_address} onChange={(e) => setPrevSchoolAddress(e.target.value)} type="text" autoComplete="prev_school_address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Alamat Sekolah Asal tidak boleh kosong
                                         </span>
@@ -171,7 +218,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="nisn" className="block text-sm/6 font-medium text-gray-900">NISN  (Nomor Induk Siswa Nasional)</label>
                                     <span className='text-sm italic'>Jika tidak memiliki silahkan dikosongkan</span>
                                     <div className="mt-2">
-                                        <input id="nisn" name="nisn" type="text" autoComplete="nisn" onChange={(e) => setNISN(e.target.value)} pattern="^[0-9]{10}" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="nisn" name="nisn" type="text" value={nisn} onChange={(e) => setNISN(e.target.value)} pattern="^[0-9]{10}" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             NISN tidak valid
                                         </span>
@@ -180,7 +227,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="kk_number" className="block text-sm/6 font-medium text-gray-900">Nomor KK <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="kk_number" name="kk_number" onChange={(e) => setKKNumber(e.target.value)} pattern="^[0-9]{16}" type="text" autoComplete="kk_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="kk_number" name="kk_number" value={kk_number} onChange={(e) => setKKNumber(e.target.value)} pattern="^[0-9]{16}" type="text" autoComplete="kk_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nomor KK tidak valid
                                         </span>
@@ -189,7 +236,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="nik" className="block text-sm/6 font-medium text-gray-900">NIK <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="nik" name="nik" onChange={(e) => setNIK(e.target.value)} pattern="^[0-9]{16}" type="text" autoComplete="nik" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="nik" name="nik" value={nik} onChange={(e) => setNIK(e.target.value)} pattern="^[0-9]{16}" type="text" autoComplete="nik" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             NIK tidak valid
                                         </span>
@@ -199,7 +246,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="pob" className="block text-sm/6 font-medium text-gray-900">Tempat Lahir <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku</span>
                                     <div className="mt-2">
-                                        <input id="pob" name="pob" onChange={(e) => setPob(e.target.value)} type="text" autoComplete="pob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="pob" name="pob" value={pob} onChange={(e) => setPob(e.target.value)} type="text" autoComplete="pob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Tempat lahir tidak valid
                                         </span>
@@ -209,7 +256,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="dob" className="block text-sm/6 font-medium text-gray-900">Tanggal Lahir <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku</span>
                                     <div className="mt-2">
-                                        <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} type="date" autoComplete="dob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required/>
+                                        <input id="dob" name="dob" value={dob} onChange={(e) => setDob(e.target.value)} type="date" autoComplete="dob" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Tanggal lahir tidak valid
                                         </span>
@@ -219,8 +266,8 @@ function IdentitasForm(props) {
                                     <label htmlFor="medical_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Kesehatan <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Memiliki riwayat penyakit tertentu?</span>
                                     <div className="mt-2">
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"have"} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value={"none"} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="have" checked={medical_history=='have'?true: false} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="none" checked={medical_history=='none'?true: false} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
                                         {/* <input id="medical_history" name="medical_history" type="text" autoComplete="medical_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
                                     </div>
@@ -229,14 +276,14 @@ function IdentitasForm(props) {
                                     <label htmlFor="sickness_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Penyakit Tertentu</label>
                                     <span className="text-sm italic">Sebutkan riwayat penyakit yang diderita (jika ada)</span>
                                     <div className="mt-2">
-                                        <input id="sickness_history" name="sickness_history" onChange={(e) => setSicknessHistory(e.target.value)} type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="sickness_history" name="sickness_history" value={sickness_history} onChange={(e) => setSicknessHistory(e.target.value)} type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">Alamat Rumah Lengkap <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Contoh: JL. Cimandiri 8B No. 34 A Perum Graha Asri, Desa Jatireja, Kec Cikarang Timur, Kab Bekasi 17530</span>
                                     <div className="mt-2">
-                                        <input id="address" name="address" onChange={(e) => setAddress(e.target.value)} type="text" autoComplete="address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="address" name="address" value={home_address} onChange={(e) => setAddress(e.target.value)} type="text" autoComplete="address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Alamat Rumah tidak valid
                                         </span>
@@ -245,7 +292,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="child_status" className="block text-sm/6 font-medium text-gray-900">Status Anak <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="child_status" name="child_status" onChange={(e) => setChildStatus(e.target.value)} autoComplete="child_status" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                        <select id="child_status" name="child_status" value={child_status} onChange={(e) => setChildStatus(e.target.value)} autoComplete="child_status" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Status Anak</option>
                                             <option value="anak_kandung" defaultValue={"anak_kandung"}>Anak Kandung</option>
                                             <option value="anak_angkat">Anak Angkat</option>
@@ -261,7 +308,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="child_number" className="block text-sm/6 font-medium text-gray-900">Anak ke- <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="child_number" name="child_number" onChange={(e) => setChildNumber(e.target.value)} type="text" autoComplete="child_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="child_number" name="child_number" value={child_number} onChange={(e) => setChildNumber(e.target.value)} type="text" autoComplete="child_number" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Anak ke- tidak boleh kosong
                                         </span>
@@ -270,7 +317,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="live_with" className="block text-sm/6 font-medium text-gray-900">Tinggal Bersama <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="live_with" name="live_with" onChange={(e) => setLiveWith(e.target.value)} autoComplete="live_with" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                        <select id="live_with" name="live_with" value={live_with} onChange={(e) => setLiveWith(e.target.value)} autoComplete="live_with" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Tinggal Bersama</option>
                                             <option value="parent" defaultValue={"parent"}>Orang Tua</option>
                                             <option value="guardian">Wali</option>
@@ -287,7 +334,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="parent_phone_numb" className="block text-sm/6 font-medium text-gray-900">No HP/WA Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi No. telepon seluler yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih salah satu yang paling mudah dihubungi.</span>
                                     <div className="mt-2">
-                                        <input id="parent_phone_numb" name="parent_phone_numb" onChange={(e) => setParentPhoneNumber(e.target.value)} pattern="^[0-9]{3,14}" type="text" autoComplete="parent_phone_numb" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="parent_phone_numb" name="parent_phone_numb" value={parent_phone_number} onChange={(e) => setParentPhoneNumber(e.target.value)} pattern="^[0-9]{3,14}" type="text" autoComplete="parent_phone_numb" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             No HP/WA Orang Tua tidak valid
                                         </span>
@@ -297,7 +344,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="parent_email" className="block text-sm/6 font-medium text-gray-900">Email Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi email yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih yang paling aktif dan ingat passwordnya.</span>
                                     <div className="mt-2">
-                                        <input id="parent_email" name="parent_email" onChange={(e) => setParentEmail(e.target.value)} type="email" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="parent_email" name="parent_email" value={parent_email} onChange={(e) => setParentEmail(e.target.value)} pattern='/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/' type="email" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Email Orang Tua tidak valid
                                         </span>
@@ -306,7 +353,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="distance" className="block text-sm/6 font-medium text-gray-900">Jarak <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <select id="distance" name="distance" onChange={(e) => setDistance(e.target.value)} autoComplete="distance" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                        <select id="distance" name="distance" value={distance} onChange={(e) => setDistance(e.target.value)} autoComplete="distance" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="" >Pilih Jarak</option>
                                             <option value="less_than_1km" defaultValue={"less_than_1km"}>Kurang dari 1 Km</option>
                                             <option value="1_-_5km">1 - 5 Km</option>
@@ -319,7 +366,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="nationality" className="block text-sm/6 font-medium text-gray-900">Kewarganegaraan <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="nationality" name="nationality" onChange={(e) => setNationality(e.target.value)} type="text" autoComplete="nationality" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="nationality" name="nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} type="text" autoComplete="nationality" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                     </div>
                                     </div>
                                     {/* <div className="sm:col-span-4">
@@ -354,21 +401,21 @@ function IdentitasForm(props) {
                                                     
                                                 })}
                                             </select> */}
-                                            <input type="text" name="province" id="province" onChange={(e) => setProvince(e.target.value)} autoComplete="province-level2" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                            <input type="text" name="province" id="province" value={province} onChange={(e) => setProvince(e.target.value)} autoComplete="province-level2" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         </div>
                                         </div>
 
                                         <div className="sm:col-span-2">
                                         <label htmlFor="region" className="block text-sm/6 font-medium text-gray-900">Kabupaten <span className="text-red-600">*</span></label>
                                         <div className="mt-2">
-                                            <input type="text" name="region" id="region" onChange={(e) => setRegion(e.target.value)} autoComplete="address-level1" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                            <input type="text" name="region" id="region" value={region} onChange={(e) => setRegion(e.target.value)} autoComplete="address-level1" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         </div>
                                         </div>
 
                                         <div className="sm:col-span-2">
                                         <label htmlFor="postal-code" className="block text-sm/6 font-medium text-gray-900">Kode Pos <span className="text-red-600">*</span></label>
                                         <div className="mt-2">
-                                            <input type="text" name="postal-code" id="postal-code" onChange={(e) => setPostalCode(e.target.value)} autoComplete="postal-code" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                            <input type="text" name="postal-code" id="postal-code" value={postal_code} onChange={(e) => setPostalCode(e.target.value)} autoComplete="postal-code" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         </div>
                                         </div>
                                   
@@ -386,7 +433,8 @@ function IdentitasForm(props) {
                                         onChange={(e) => setAspiration(e.target.value)}
                                         rows={5}
                                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
-                                        defaultValue={''}
+                                        // defaultValue={''}
+                                        value={aspiration}
                                         required
                                         />
                                     </div>

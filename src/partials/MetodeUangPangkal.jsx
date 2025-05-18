@@ -21,11 +21,17 @@ function MetodeUangPangkal(props) {
     const [ metode_uang_pangkal, setMetodeUangPangkal] = useState("")
     const [ dataSchool, setDataSchool ] = useState({id: "", name: "" })
     const [ applicantSchoolCode, setApplicantSchoolCode ] = useState("")    
+    const [ dataMetodeUangPangkal, setDataMetodeUangPangkal ] = useState({})    
+    const [ last_update, setLastUpdate ] = useState({})    
     console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
 
     useEffect(() =>{
         // setApplicantSchool()
-
+ 
+        console.log('props.dataMetodeUangPangkal>', props.dataMetodeUangPangkal)
+        setMetodeUangPangkal(props.dataMetodeUangPangkal?.metode_uang_pangkal)
+        setLastUpdate(props.dataMetodeUangPangkal?.updated_at)
+        setDataMetodeUangPangkal(props.dataMetodeUangPangkal??{})
 
         
         setApplicantSchoolCode(getSchoolCode(props.dataApplicant))
@@ -67,13 +73,30 @@ function MetodeUangPangkal(props) {
         }
       }
     // const 
-    const data = { metode_uang_pangkal:metode_uang_pangkal}
+    const data = { metode_uang_pangkal:metode_uang_pangkal}   
 
     const saveData = (e) => {
         e.preventDefault()
         console.log(data)
         props.onSubmit(data)
         
+    }
+
+    const formatDate = (date) => {
+        const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        date = new Date(date);
+        const dayName = dayNames[date.getDay()];
+        const day = date.getDate();
+        const monthName = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+
+        const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+        return indonesianFormat
     }
 
 
@@ -87,6 +110,9 @@ function MetodeUangPangkal(props) {
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Konfirmasi Metode Uang Pangkal</h2>
                                 <p className="mt-1 text-sm/6 text-gray-600">
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
+                                </p>
                                 {/* Keluarga Rabbaanii : calon peserta didik adalah alumni RIS atau mempunyai kakak/adik yang bersekolah di RIS.
                                 Non Keluarga Rabbaanii : calon peserta didik belum menjadi  alumni RIS atau belum memiliki kakak/adik yang bersekolah di RIS. */}
                                     {/* Silakan upload dokumen berikut, mohon Scan/Foto setiap dokumen dengan jelas. */}
@@ -100,9 +126,11 @@ function MetodeUangPangkal(props) {
                                 <div className="sm:col-span-5">
                                         {
 
-                                        (applicantSchoolCode == 'tkit' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )? (
-                                            <PaymentUangPangkalRabTKIT/>
-                                        ): (<PaymentUangPangkalNonRabTKIT/>))
+                                        applicantSchoolCode == 'tkit' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )? (
+                                                <PaymentUangPangkalRabTKIT/>
+                                            ): (
+                                                <PaymentUangPangkalNonRabTKIT/>
+                                            )
                                         }
                                         {
                                             applicantSchoolCode == 'sdit' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
@@ -112,33 +140,36 @@ function MetodeUangPangkal(props) {
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smpi' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )(
+                                            applicantSchoolCode == 'smpi' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
+                                                <PaymentUangPangkalRabSMPI/>
+                                            ) : (
                                                 <PaymentUangPangkalNonRabSMPI/>
-    
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smai' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )(
+                                            applicantSchoolCode == 'smai' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
+                                                <PaymentUangPangkalRabSMAI/>
+                                            ): (
                                                 <PaymentUangPangkalNonRabSMAI/>
-    
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smp-pesantren' && (
+                                            applicantSchoolCode == 'smp-pesantren' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
+                                                <PaymentUangPangkalRabSMPPesantren/>
+                                            ):(
                                                 <PaymentUangPangkalNonRabSMPPesantren/>
-    
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'sma-pesantren' && (
+                                            applicantSchoolCode == 'sma-pesantren' && (props.dataApplicantCategory=='alumni' || props.dataApplicantCategory=='hasfamily' )?(
+                                                <PaymentUangPangkalRabSMAPesantren/>
+                                            ):(
                                                 <PaymentUangPangkalNonRabSMAPesantren/>
-    
                                             )
                                         }
                                         {
                                             applicantSchoolCode == 'rabbaanii-ciwidey' && (
                                                 <PaymentUangPangkalPondokCiwidey/>
-    
                                             )
                                         }
                                     </div>
@@ -149,7 +180,7 @@ function MetodeUangPangkal(props) {
                                     <div className="sm:col-span-8">
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="metode_uang_pangkal" name="metode_uang_pangkal" onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="metode_uang_pangkal" name="metode_uang_pangkal" value={dataMetodeUangPangkal.metode_uang_pangkal??metode_uang_pangkal} onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                                 <option value="">Pilih Metode Pembayaran</option>
                                                 <option value="gel_1" >Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)</option>
                                             </select>    

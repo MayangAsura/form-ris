@@ -23,6 +23,32 @@
     display: none;
 }
 
+.animate-spin_{
+
+  animation: var(--animate-spin); /* spin 1s linear infinite */
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+}
+
+.animate-spin{
+  animation: spin 1s linear infinite;
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+}
+
 .scroll-container {
     overflow-x: auto;
     -ms-overflow-style: none; /* IE and Edge */
@@ -74,4 +100,8 @@ display: none; /* Safari and Chrome */
 
   .separator:not(:empty)::after {
   margin-left: .25em;
+  }
+
+  .profile-table>tbody>tr>td:first-child{
+    font-weight: bold;
   }

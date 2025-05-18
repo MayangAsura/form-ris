@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 
 function Status(props) {
@@ -31,7 +31,7 @@ function Status(props) {
                           {/* <p className="pb-1">Status Pembayaran</p> */}
                           <p className="pb-1">Pengisian formulir telah selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran.</p>
 
-                          <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                          {/* <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   onClick={() => {
                                                       // currentStep === steps.length
                                                       //   ? setComplete(true)
@@ -46,7 +46,7 @@ function Status(props) {
                                                       }
                                                       // handleSubmit 
                                                   }}
-                                                  >Selesaikan</button>
+                                                  >Selesaikan</button> */}
                                                   <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                   onClick={() => {
                                                       // currentStep === steps.length

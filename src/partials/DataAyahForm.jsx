@@ -1,5 +1,6 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
+import { isPending } from '@reduxjs/toolkit'
+import { useEffect, useState } from 'react'
 // import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 const DataAyahForm = (props) => {
@@ -8,9 +9,19 @@ const DataAyahForm = (props) => {
     const [father_job, setFatherJob] = useState("")
     const [father_salary, setFatherSalary] = useState("")
     const [why_chooses, setWhyChooses] = useState("")
+    const [last_update, setLastUpdate] = useState("")
 
     const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
 
+    useEffect(() => {
+        console.log('props.dataAyah>', props.dataAyah)
+        setFatherName(props.dataAyah?.father_name)
+        setFatherAcademic(props.dataAyah?.father_academic)
+        setFatherSalary(props.dataAyah?.father_salary)
+        setFatherJob(props.dataAyah?.father_job)
+        setWhyChooses(props.dataAyah?.why_chooses)
+        setLastUpdate(props.dataAyah?.updated_at)
+    },[props.dataAyah])
     const saveData = (e) => {
         e.preventDefault()
         console.log(data)
@@ -18,6 +29,22 @@ const DataAyahForm = (props) => {
         
     }
 
+    const formatDate = (date) => {
+        const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        date = new Date(date);
+        const dayName = dayNames[date.getDay()];
+        const day = date.getDate();
+        const monthName = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+
+        const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+        return indonesianFormat
+    }
 
     return (
         <section className="relative">
@@ -28,10 +55,14 @@ const DataAyahForm = (props) => {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Data Ayah</h2>
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
+                                </p>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
                                     Data Diri Ayah Kandung
                                     {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
+
                                 <div className="border-b border-gray-900/20 py-3"></div>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -39,7 +70,7 @@ const DataAyahForm = (props) => {
                                     <label htmlFor="father_name"  className="block text-sm/6 font-medium text-gray-900">Nama Ayah Kandung</label>
                                     <span className="text-sm italic">Hindari penggunaan gelar akademik atau sosial (Drs, Dr, H, dll)</span>
                                     <div  className="mt-2">
-                                        <input id="father_name" name="father_name" onChange={(e)=> setFatherName(e.target.value)} type="text" autoComplete="father_name"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="father_name" name="father_name" onChange={(e)=> setFatherName(e.target.value)} value={father_name} type="text" autoComplete="father_name"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama ayah tidak valid
                                         </span>
@@ -49,7 +80,7 @@ const DataAyahForm = (props) => {
                                         <label htmlFor="father_academic"  className="block text-sm/6 font-medium text-gray-900">Pendidikan Ayah</label>
                                         <span className="text-sm italic">Pendidikan terakhir ayah kandung</span>
                                         <div  className="mt-2 grid">
-                                            <select id="father_academic" name="father_academic" onChange={(e)=> setFatherAcademic(e.target.value)} autoComplete="father_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="father_academic" name="father_academic" onChange={(e)=> setFatherAcademic(e.target.value)} value={father_academic} autoComplete="father_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
                                             <option value="d1">D1</option>
@@ -72,7 +103,7 @@ const DataAyahForm = (props) => {
                                     <label htmlFor="father_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ayah</label>
                                     <span className="text-sm italic">Pekerjaan utama ayah kandung</span>
                                     <div  className="mt-2">
-                                        <input id="father_job" name="father_job" onChange={(e)=> setFatherJob(e.target.value)} type="text" autoComplete="father_job"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="father_job" name="father_job" onChange={(e)=> setFatherJob(e.target.value)} value={father_job} type="text" autoComplete="father_job"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Pekerjaan ayah tidak valid
                                         </span>
@@ -81,7 +112,7 @@ const DataAyahForm = (props) => {
                                     <div className="sm:col-span-4">
                                         <label htmlFor="father_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilah Ayah</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="father_salary" name="father_salary" onChange={(e)=> setFatherSalary(e.target.value)} autoComplete="father_salary"  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="father_salary" name="father_salary" onChange={(e)=> setFatherSalary(e.target.value)} value={father_salary} autoComplete="father_salary"  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
@@ -112,14 +143,27 @@ const DataAyahForm = (props) => {
                                         onChange={(e)=> setWhyChooses(e.target.value)}
                                         rows={5}
                                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
-                                        defaultValue={''}
+                                        // defaultValue={''}
+                                        value={why_chooses}
                                         required
                                         />
                                     </div>
                                     {/* <p className="mt-3 text-sm/6 text-gray-600">Write a few sentences about yourself.</p> */}
                                     </div>
-
-
+                                    {/* {isPending && } */}
+                                    <button type="button" class="bg-indigo-500 ..." disabled>
+  <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+    
+  </svg>
+  Processing...
+</button>
+                                    {/* <div
+      className="inline-block h-8 w-8 animate-[spinner-grow_0.75s_linear_infinite] rounded-full bg-current align-[-0.125em] text-primary opacity-0 motion-reduce:animate-[spinner-grow_1.5s_linear_infinite]"
+      role="status">
+      <span
+        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Menyimpan...</span>
+    </div> */}
                                     
                                 </div>
                                 <div className='flex justify-center text-center my-5'>

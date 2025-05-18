@@ -36,11 +36,105 @@ function Payment() {
     
     useEffect(() => {
 
+      const getApplicantData = async () =>{
+      
+        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
+                            .eq('refresh_token', userToken)                 
+                            .eq('status', 'active')
+                            .single()
+        if(error){
+          console.log(error)
+          // setApplicantData({})
+        }else{
+          setApplicantData(data)
+          console.log('applicantData payment> ', applicantData)
+  
+          
+          // applicantData.full_name = data.full_name
+          // applicantData.phone_number = data.phone_number
+  
+          // if(data.applicant_orders.length>0){
+          //   applicantData.order_id = data.applicant_orders[0].id
+          //   applicantData.order_status = data.applicant_orders[0].status
+          // }
+          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
+            .select('amount, fee_type_id')
+            .eq('school_id', data.applicant_schools[0].schools.school_id)
+            .single()
+          // if(dataSchool){
+          console.log('school_fees > ', dataSchool)
+          setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
+  
+          }
+          
+         
+        }
+        if(applicantData.applicant_schools.length>0){
+          //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
+          //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
+          //   applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
+  
+            applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools.school_id
+            applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
+            applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
+            // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
+            
+            if(applicantData.applicant_orders.length > 0){
+              applicantData.applicant_orders[0].status!== 'pending'??setInvoiceCreated(true)
+            }
+
+  // applicantDataOrder.total_amount = dataSchool.amount
+  
+  // const school_id = data.school_id
+  // console.log('data >',data)
+  console.log('applicantDataOrder >',applicantDataOrder)
+  console.log('applicantData >',applicantData)
+  
+      
+      }
+      
+
+      const getApplicantPayment = async () => {
+        // console.log(applicantData.order_status)
+        if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished'){
+  
+          console.log("status !='' ")
+          const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
+                                            .select('started_at, expired_at, payment_url, status')
+                                            .eq('order_id', applicantData.applicant_orders[0]?.id)
+                                            .single()
+          applicantDataPayment.started_at = dataPayment.started_at
+          applicantDataPayment.expired_at = dataPayment.expired_at
+          applicantDataPayment.payment_url = dataPayment.payment_url
+          applicantDataPayment.status = dataPayment.status
+  
+          console.log(applicantDataPayment)
+          // setApplicantDataPayment(dataPayment)
+          // getApplicantPayment()
+          // invoicecreated && applicantData.order_status!==='finis'
+          setInvoiceCreated(true)
+  
+          // applicantData.applicant_orders[0]?.status
+        } 
+            
+        console.log('invoicecreated >', invoicecreated)
+        // if(applicantData.order_status !== 'finished'){
+          
+        // }
+      }
+
       getApplicantData()
-      getApplicantPayment()
+
+      if(invoicecreated){
+
+        getApplicantPayment()
+      }
+      // if(invoicecreated){
+      //   console.log(invoicecreated)
+      // }
 
       
-    }, [])
+    }, [invoicecreated, applicantData])
 
       // setTimeout(() => {
       //   getApplicantDataSchool()
@@ -48,90 +142,12 @@ function Payment() {
       // getApplicantPayment()
       // create()
 
-    const getApplicantData = async () =>{
-      
-      const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
-                          .eq('refresh_token', userToken)                 
-                          .eq('status', 'active')
-                          .single()
-      if(error){
-        console.log(error)
-        // setApplicantData({})
-      }else{
-        setApplicantData(data)
-        console.log('applicantData payment> ', applicantData)
-
-        
-        // applicantData.full_name = data.full_name
-        // applicantData.phone_number = data.phone_number
-
-        // if(data.applicant_orders.length>0){
-        //   applicantData.order_id = data.applicant_orders[0].id
-        //   applicantData.order_status = data.applicant_orders[0].status
-        // }
-        if(data.applicant_schools.length>0){
-        //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
-        //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
-        //   applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
-
-          applicantDataOrder.item_id = data.applicant_schools[0]?.schools.school_id
-          applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
-          applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
-          // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
-          
-
-        }
-        
-      }
-
-      const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
-                                        .select('amount, fee_type_id')
-                                        .eq('school_id', applicantDataOrder.item_id)
-                                        .single()
-      // if(dataSchool){
-        console.log('school_fees > ', dataSchool)
-        applicantDataOrder.total_amount = dataSchool.amount
-      
-      // const school_id = data.school_id
-      console.log('data >',data)
-      console.log('school_id >',data.school_id)
-      console.log('applicantDataOrder >',applicantDataOrder)
-      console.log('applicantData >',applicantData)
-    
-    }
-
-    const getApplicantPayment = async () => {
-      // console.log(applicantData.order_status)
-      if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length[0]?.status==='finished'){
-
-        console.log("status !='' ")
-        const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
-                                          .select('started_at, expired_at, payment_url, status')
-                                          .eq('order_id', applicantData.applicant_orders[0]?.id)
-                                          .single()
-        applicantDataPayment.started_at = dataPayment.started_at
-        applicantDataPayment.expired_at = dataPayment.expired_at
-        applicantDataPayment.payment_url = dataPayment.payment_url
-        applicantDataPayment.status = dataPayment.status
-        // getApplicantPayment()
-        // invoicecreated && applicantData.order_status!==='finis'
-        setInvoiceCreated(true)
-
-        // applicantData.applicant_orders[0]?.status
-      } 
-          
-      console.log(invoicecreated)
-      // if(applicantData.order_status !== 'finished'){
-        
-      // }
-    }
-
     const getStatusOrderText = (status_code) => {
       switch (status_code) {
         case 'pending':
           return 'Pending'
         case 'processed':
-          return 'Belum Bayar' 
+          return 'Menunggu Pembayaran' 
         case 'finished':
           return 'Selesai'
         case 'canceled':
@@ -197,20 +213,33 @@ function Payment() {
       applicantDataOrder.foundation_id = 1
       console.log("applicantDataOrder ",  applicantDataOrder)
 
-      const { data: order, error } = await supabase
-                                    .from('applicant_orders')
-                                    .insert(
-                                      [applicantDataOrder]
-                                    ).select()
+      // const { data : }
 
-      if(error){
-        console.log(error)
-      }else{
-        console.log('data >', order[0])
-      }
-      console.log('appli->',order[0])
+      const { data: order, error } = await supabase.rpc('add_new_order', {
+                                      _created_by: applicantDataOrder.applicant_id, 
+                                      _description: applicantDataOrder.description, 
+                                      _foundation_id: applicantDataOrder.foundation_id, 
+                                      _item_id: applicantDataOrder.item_id, 
+                                      _refresh_token: userToken, 
+                                      _total_amount: applicantDataOrder.total_amount
+                                    })
+      if (error) console.error('error > ', error)
+      // else console.log(order)
+
+      // const { data: order, error } = await supabase
+      //                               .from('applicant_orders')
+      //                               .insert(
+      //                                 [applicantDataOrder]
+      //                               ).select()
+
+      // if(error){
+      //   console.log(error)
+      // }else{
+      //   console.log('data >', order)
+      // }
+      console.log('appli->',order)
       const data = {
-        order_id : order[0].id
+        order_id : order
       }
 
       try {
@@ -231,6 +260,7 @@ function Payment() {
                     console.log('success');
                     console.log(result);
                     getApplicantData()
+                    getApplicantPayment()
                     redirect(res.data.payment_url)
                     // alert('Payment Success');
   
@@ -257,6 +287,9 @@ function Payment() {
                     // console.log('customer closed the popup without finishing the payment');
   
                     console.log(result);
+                    getApplicantData()
+                    getApplicantPayment()
+                    navigate(-1, {fallback: '/pay'})
                     
                     // alert('customer closed the popup without finishing the payment');
                     
@@ -340,7 +373,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Status</label>
-                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'>{getStatusOrderText(applicantData?.applicant_orders[0]?.status)??'Belum Bayar'}</h2>
+                      <h2 className='text-lg font-900 font-medium justify-start inline-flex items-center rounded-lg bg-yellow-100 px-2 py-1 text-yellow-900 ring-1 ring-gray-500/10 ring-inset'>{getStatusOrderText(applicantData?.applicant_orders[0]?.status)??'-'}</h2>
                     </div>
                   </div>
                 { invoicecreated && (
@@ -379,7 +412,7 @@ function Payment() {
                         (applicantData.applicant_orders[0]?.status!=='' && applicantData.applicant_orders[0]?.status!=='finished') ? ( 
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
-                          >Bayar x
+                          >Bayar
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>

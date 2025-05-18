@@ -1,12 +1,14 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 function VerifikasiKeluargaForm(props) {
 
     const [error, setError] = useState(null)
     const [student_category, setStudentCategory] = useState("")
     const [photo_sampul_ijazah, setPhotoSampulIjazah] = useState("")
+    const [dataVerifikasiKeluarga, setDataVerifikasiKeluarga] = useState({})
+    const [last_update, setLastUpdate] = useState({})
     
     const data = { student_category:student_category, photo_sampul_ijazah:photo_sampul_ijazah}
 
@@ -44,11 +46,41 @@ function VerifikasiKeluargaForm(props) {
         setError(null)
     }
 
+    useEffect(() => {
+            // console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
+            // setStudentCategory(props.dataVerifikasiKeluarga.student_category)
+            // setPhotoSampulIjazah(props.dataVerifikasiKeluarga.photo_sampul_ijazah)
+            console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
+            setDataVerifikasiKeluarga(props.dataVerifikasiKeluarga??{})
+            setLastUpdate(props.dataVerifikasiKeluarga?.updated_at)
+            // setMotherAcademic(props.dataWali[0].wali_academic)
+            // setMotherSalary(props.dataWali[0].wali_salary)
+            // setMotherJob(props.dataWali[0].wali_job)
+            // setLastUpdate(props.dataWali[0].updated_at)
+    },[props.dataVerifikasiKeluarga])
+
     const saveData = (e) => {
         e.preventDefault()
         console.log(data)
         props.onSubmit(data)
         
+    }
+
+    const formatDate = (date) => {
+        const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        date = new Date(date);
+        const dayName = dayNames[date.getDay()];
+        const day = date.getDate();
+        const monthName = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+
+        const indonesianFormat = `${dayName}, ${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+        return indonesianFormat
     }
 
 
@@ -62,6 +94,9 @@ function VerifikasiKeluargaForm(props) {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900 !inline">Verifikasi Keluarga Rabbaanii</h2>
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
+                                </p>
                                 <p className="my-5 text-sm/6 text-gray-700">
                                 <b>Keluarga Rabbaanii :</b> calon peserta didik adalah alumni RIS atau mempunyai kakak/adik yang bersekolah di RIS.
                                 <br /><br /> <b>Non Keluarga Rabbaanii :</b> calon peserta didik belum menjadi alumni RIS atau belum memiliki kakak/adik yang bersekolah di RIS.
@@ -70,12 +105,13 @@ function VerifikasiKeluargaForm(props) {
                                 </p>
                                 <div className="border-b border-gray-900/10 py-3"></div>
 
+
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             
                                     <div className="sm:col-span-3">
                                         <label htmlFor="student_category" className="block text-sm/6 font-medium text-gray-900">Calon Siswa termasuk kategori</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="student_category" name="student_category" onChange={(e) => setStudentCategory(e.target.value)} autoComplete="student_category" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="student_category" name="student_category" value={dataVerifikasiKeluarga.student_category??student_category} onChange={(e) => setStudentCategory(e.target.value)} autoComplete="student_category" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                                 <option value="alumni">Alumni Rabbaanii</option>
                                                 <option value="hasfamily">Memiliki saudara kandung sekolah di Rabbaanii</option>
                                                 <option value="newstudent">Tidak keduanya</option>
@@ -91,7 +127,9 @@ function VerifikasiKeluargaForm(props) {
                                     {/* if () {
                                         
                                     } */}
-
+                                    <div className="sm:col-span-4">
+                                        <img src={dataVerifikasiKeluarga.photo_sampul_ijazah??photo_sampul_ijazah} alt="" width={30}/>
+                                    </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="photo_sampul_ijazah" className="block text-sm/6 font-medium text-gray-900">Upload foto sampul depan Raport/Ijazah Rabbaanii</label>
                                     <span className="text-sm italic">Bagi calon santri yang memiliki keluarga terdaftar dalam satu Kartu Keluarga</span>

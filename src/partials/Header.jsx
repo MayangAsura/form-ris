@@ -31,7 +31,9 @@ function Header(props) {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration))').eq('refresh_token', token)
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at))')
+                              .eq('refresh_token', token)
+                              .eq('status', 'active')
           if(error){
             console.log(error)
           //   setProfileData({})
@@ -112,7 +114,7 @@ function Header(props) {
             {/* ml-5 */}
                 {!userInfo && pathname!=='/login' && (
               <li>
-                  <Link to="/login" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>
+                  <Link to="/login" className="font-medium -ml-5 text-gray-600 hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>
               </li>
                 )}
               <li>

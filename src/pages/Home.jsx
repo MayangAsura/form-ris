@@ -34,7 +34,7 @@ function Home() {
 
         {/*  Page sections */}
         {/* <Pro */}
-        <ProfileCard/>
+        <ProfileCard applicant={applicantData}/>
         <Announcement/>
         <HorizontalStepper applicant={applicantData}/>
         {/* <Jenjang/> */}
@@ -51,7 +51,7 @@ function Home() {
 
       </main>
 
-      <Banner />
+      {/* <Banner /> */}
 
       {/*  Site footer */}
       <Footer />
