@@ -19,9 +19,11 @@ function BerkasForm(props) {
 
     useEffect(() => {
             console.log('props.dataBerkas>', props.dataBerkas)
-            
-            setDataBerkas(props.dataBerkas??[])
-            setLastUpdate(props.dataBerkas?props.dataBerkas[0].updated_at:"")
+            if(props.dataBerkas.length > 0) {
+                setDataBerkas(props.dataBerkas)
+                setLastUpdate(props.dataBerkas[0].updated_at)
+
+            }
             // setMotherName(props.dataIbu.mother_name)
             // setMotherAcademic(props.dataIbu.mother_academic)
             // setMotherSalary(props.dataIbu.mother_salary)

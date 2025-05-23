@@ -22,9 +22,15 @@ function DataWaliForm(props) {
 
         const saveData = (e) => {
             e.preventDefault()
-            console.log(data)
+            console.log('data wali')
+            
             props.onSubmit(data)
             
+        }
+        const nextStep = () => {
+            console.log("NEXTSTEP")
+            // if(!data || data.wali_name=="") 
+                props.setCurrentStep(props.currentStep + 1)
         }
 
         const formatDate = (date) => {
@@ -143,6 +149,7 @@ function DataWaliForm(props) {
                                                     if(props.currentStep === 9){
                                                     props.handledComplete(true)
                                                     }else{
+                                                        nextStep()
                                                     // props.handledCurrentStep(props.currentStep + 1) ;
                                                     // props.setCurrentStep((prev) => prev + 1);
                                                     // callback(data)

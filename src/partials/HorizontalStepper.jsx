@@ -11,6 +11,7 @@ import Pembayaran from '../partials/Pembayaran';
 import Status from './Status';
 import MetodeUangPangkal from './MetodeUangPangkal';
 import supabase from '../client/supabase_client';
+import PengukuranSeragam from './PengukuranSeragam';
 // import { createClient } from '@supabase/supabase-js';
 
 
@@ -20,17 +21,20 @@ const HorizontalStepper = (props) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [inserted, setInserted] = useState(false);
   const [ isPending, startTransition ] = useTransition()
 
   const [participant, setParticipant] = useState({})
   const [dataAyah, setDataAyah] = useState({})
   const [dataIbu, setDataIbu] = useState({})
   const [dataWali, setDataWali] = useState({})
-  const [dataBerkas, setDataBerkas] = useState({})
+  const [dataBerkas, setDataBerkas] = useState([])
   const [dataVerifikasiKeluarga, setDataVerifikasiKeluarga] = useState({})
   const [dataMetodeUangPangkal, setDataMetodeUangPangkal] = useState({})
   const [dataStatus, setDataStatus] = useState({})
-  const [berkasUrl, setBerkasUrl] = useState("")
+  const [berkasUrl, setBerkasUrl] = useState({a: "", b: "", c: "", d: "", e: "", f: "", g: ""})
+  const [dataSeragam, setDataSeragam] = useState([])
+  const [schoolUniformModel, setSchoolUniformModel] = useState([])
   const [applicant_id, setApplicantId] = useState("")
   const [participant_id, setParticipantId] = useState("")
   const [applicant, setApplicant] = useState({})
@@ -70,6 +74,16 @@ const HorizontalStepper = (props) => {
         getMotherData(props.applicant[0].participants[0].id)
         getWaliData(props.applicant[0].participants[0].id)
         getParticipantDocuments(props.applicant[0].participants[0].id)
+        
+        const dataStudentCategory = {
+          student_category : props.applicant[0]?.student_category
+        }
+        setApplicantStudentCategory(dataStudentCategory)
+        
+        const dataVerifikasiKeluarga = {
+          student_category: props.applicant[0]?.student_category
+        }
+        setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
       }
 
       console.log('participant >', participant)
@@ -90,15 +104,6 @@ const HorizontalStepper = (props) => {
       }
       setApplicantSchool(dataSchool)
 
-      const dataStudentCategory = {
-        student_category : props.applicant[0]?.student_category
-      }
-      setApplicantStudentCategory(dataStudentCategory)
-      
-      const dataVerifikasiKeluarga = {
-        student_category: props.applicant[0]?.student_category
-      }
-      setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
 
       const dataMetodeUangPangkal = {
         metode_uang_pangkal: props.applicant[0]?.metode_uang_pangkal
@@ -190,7 +195,7 @@ const HorizontalStepper = (props) => {
       return
     }
 
-    setDataBerkas(data[0])
+    setDataBerkas(data)
     console.log(dataBerkas)
 
   }
@@ -199,9 +204,9 @@ const HorizontalStepper = (props) => {
   const getIdentitas = async (data) => {
     console.log("Data Identitas >", data)
     startTransition(() => {
-  console.log("masuk")
-  if(data){
-    setParticipant(data)
+      setTimeout(() => {
+      if(data){
+        setParticipant(data)
         console.log("Data Identitas cek >,", data)
         // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
         const newdata = (data) => ({...data, applicant_id: applicant.id}) 
@@ -217,21 +222,25 @@ const HorizontalStepper = (props) => {
         const {full_name,gender,phone_number,email, ...newdatap } = data
         // console.log()
         // console.log('editc')
-        setTimeout(() => {
-        if(!complete){
-           if(!edit && !participant)
-            {saveData(newdatap, 'participants')}
+          if(!complete){
+          console.log("masuk")
+           if(!edit && applicant.participants.length == 0)
+            {
+              console.log("edit >, ", edit)
+              console.log("participant >,", participant)
+
+              saveData(newdatap, 'participants')}
            else 
-            {updateData(newdatap, 'participants', participant.id)}
+            {updateData(newdatap, 'participants', participant.id?participant.id:participant_id, 'id')}
           
         // }else{
           
-            updateData(data_applicant, "applicants", applicant.id)
+            updateData(data_applicant, "applicants", applicant.id, 'id')
         }
-      }, 4000);
         scroll('right')
         setCurrentStep(currentStep + 1)
-        }
+      }
+    }, 4000);
     })
   }
 
@@ -241,21 +250,23 @@ const HorizontalStepper = (props) => {
 
       setTimeout(() => {
       if(data){
+        console.log('participant dataAyah >', participant)
+        console.log('participant dataAyah >', participant)
+        const pid = participant_id?participant_id:participant.id
+        data = {...data, participant_id:pid}
         
-        data = {...data, participant_id: participant_id}
-        setDataAyah(data)
-    
         console.log("Data Ayah >,", data)
         if(!complete){
-
-          if(!edit && !dataAyah){
+          
+          if(!edit && Object.keys(dataAyah).length == 0 ){
             saveData(data, 'participant_father_data')
           }else{
-            updateData(data, 'participant_father_data', applicant.participants[0]?.id)
+            updateData(data, 'participant_father_data', pid, 'participant_id')
           }
         }
+        setDataAyah(data)
         
-    
+        
         console.log('dataAyah ', dataAyah)
           scroll('right')
           setCurrentStep(currentStep + 1)
@@ -270,17 +281,18 @@ const HorizontalStepper = (props) => {
       setTimeout(() => {
       if(data){
         console.log("DataIbu >,", data)
-        setDataIbu(data)
-        data = {...data, participant_id}
-        saveData(data, 'participant_mother_data')
+        const pid = participant_id?participant_id:participant.id
+        data = {...data, participant_id:pid}
+        
         if(!complete){
-          if(!edit && !dataIbu){
+          if(!edit && Object.keys(dataIbu).length == 0){
             saveData(data, 'participant_mother_data')
           }else{
-            updateData(data, 'participant_mother_data', applicant.participants[0]?.id)
+            updateData(data, 'participant_mother_data', pid, 'participant_id')
           }
-
+          
         }
+        setDataIbu(data)
         
         console.log(dataIbu)
           scroll('right')
@@ -296,15 +308,17 @@ const HorizontalStepper = (props) => {
       setTimeout(() => {
       if(data){
         console.log("DataWali >,", data)
-        setDataWali(data)
-        data = {...data, participant_id}
+        
+        const pid = participant_id?participant_id:participant.id
+        data = {...data, participant_id:pid}
         if(!complete){
-          if(!edit && !dataWali){
+          if(!edit && (!dataWali || Object.keys(dataWali).length == 0)){
             saveData(data, 'participant_wali_data')
           }else{
-            updateData(data, 'participant_wali_data', applicant.participants[0]?.id)
+            updateData(data, 'participant_wali_data', pid, 'participant_id')
           }
         }
+        setDataWali(data)
         
           scroll('right')
           setCurrentStep(currentStep + 1)
@@ -321,7 +335,7 @@ const HorizontalStepper = (props) => {
         console.log("DataBerkas >,", data)
         // data = {...data, }
         if(!complete){
-          if(!edit && !dataBerkas){
+          if(!edit && dataBerkas.length == 0){
             saveData(data, 'participant_documents', 'file')
           }else{
             saveData(data, 'participant_documents', 'file')
@@ -345,9 +359,12 @@ const HorizontalStepper = (props) => {
         const {photo_sampul_ijazah,...newdata} = data
         // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
         // console.log(participant)
+        const pid = participant.id?participant.id:participant_id
         if(!complete){
           
-          updateData(newdata, 'participants', participant_id)
+          updateData(newdata, 'participants', pid, 'id')
+
+          // if(!edit && inserted && )
           
           saveData(photo_sampul_ijazah, 'participant_documents', 'file')
         }
@@ -367,7 +384,9 @@ const HorizontalStepper = (props) => {
       if(data){
         console.log("Data Uang Pangkal >,", data)
         data = {...data}
-        updateData(data, 'participants', participant_id)
+        const pid = participant.id?participant.id:participant_id
+        console.log('pid > ', pid)
+        updateData(data, 'participants', pid, 'id')
           scroll('right')
           setCurrentStep(currentStep + 1)
         }
@@ -379,9 +398,10 @@ const HorizontalStepper = (props) => {
     startTransition( () => {
 
       setTimeout( async () => {
+        const pid = participant.id?participant.id:participant_id
         const { data, error } = await supabase.from('participants')
                                 .select('is_complete')
-                                .eq('id', participant.id)
+                                .eq('id', pid)
                                 .single()
         if(data){
           console.log("Complete >,", data)
@@ -393,24 +413,66 @@ const HorizontalStepper = (props) => {
     })
   }
 
+  const getPengukuranSeragam = (data) => {
+ 
+    console.log("Data Pengukuran Seragam >", data)
+    startTransition(() => {
+      
+      setTimeout(() => {
+      if(data){
+        console.log("Data Pengukuran Seragam >,", data)
+        data = {...data}
+        const pid = participant.id?participant.id:participant_id
+        console.log('pid > ', pid)
+        updateData(data, 'participant_size_charts', pid, 'id')
+          scroll('right')
+          setCurrentStep(currentStep + 1)
+        }
+      }, 3000);
+    })
+  }
+
   const upload = async (file, name ) => {
     const filepath = `${name}-${Date.now()}`
+    const pid = participant.id?participant.id:participant_id
     const { data_, error_ } = await supabase
         .storage
         .from('participant-documents')
-        .upload(participant_id + "/" + filepath, file,
+        .upload(pid + "/" + filepath, file,
           {cacheControl: '3600', upsert: true}
         )
     if (error_) {
       console.error("Gagal Upload Berkas", error_.message)
       return null
     }
-    const { data } = await supabase.storage.from("participant-documents").getPublicUrl(participant_id+ "/" +filepath)
+    const { data } = await supabase.storage.from("participant-documents").getPublicUrl(pid+ "/" +filepath)
     const data_url = {
       path: data.publicUrl
     }
     console.log(data.publicUrl)
-    setBerkasUrl((data.publicUrl).toString())
+    // setBerkasUrl((data.publicUrl).toString())
+    if(name == "Bird-Certificate"){
+      berkasUrl.a = data.publicUrl.toString()
+    }
+    if(name == "KK"){
+      berkasUrl.b = data.publicUrl.toString()
+    }
+    if(name == "Parent-KTP"){
+      berkasUrl.c = data.publicUrl.toString()
+    }
+    if(name == "Pas-Photo"){
+      berkasUrl.d = data.publicUrl.toString()
+    }
+    if(name == "Surat-Kesanggupan"){
+      berkasUrl.e = data.publicUrl.toString()
+    }
+    if(name == "Syahadah"){
+      berkasUrl.f = data.publicUrl.toString()
+    }
+    if(name == "Photo-Sampul-Ijazah"){
+      berkasUrl.g = data.publicUrl.toString()
+    }
+    // berkasUrl.a = data.publicUrl.toString()
     // console.log(berkasUrl)
     return data.publicUrl
     // const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
@@ -434,19 +496,47 @@ const HorizontalStepper = (props) => {
 
       console.log('dataInput', dataInput)
       console.log(typeof dataInput)
-     
+      
+      let path
       if(Array.isArray(dataInput)){
         
           for (let i = 0; i < dataInput.length; i++) {
             const d = dataInput[i];
             console.log(d)
             upload(d.file, d.name)
-            // console.log('url >', url)
+            
+            if(d.name == "Bird-Certificate"){
+              path = berkasUrl.a 
+            }
+            if(d.name == "KK"){
+              path = berkasUrl.b
+            }
+            if(d.name == "Parent-KTP"){
+              path = berkasUrl.c
+            }
+            if(d.name == "Pas-Photo"){
+              path = berkasUrl.d
+            }
+            if(d.name == "Surat-Kesanggupan"){
+              path = berkasUrl.e
+            }
+            if(d.name == "Syahadah"){
+              path = berkasUrl.f
+            }
+            if(d.name == "Photo-Sampul-Ijazah"){
+              path = berkasUrl.g
+            }
+            
+            console.log('url >', path)
+            // berkasUrl.a?(berkasUrl.b?(berkasUrl.c?berkasUrl.d:""):berkasUrl.e):berkasUrl.f
             console.log('url >', berkasUrl)
-            console.log(participant_id)
+            console.log(participant.id)
+
+            const pid = participant.id?participant.id:participant_id
+
             const dataItem = {
-              participant_id: participant_id,
-              file_url: berkasUrl,
+              participant_id: pid,
+              file_url: path.toString(),
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
               file_size: d.size.toString(),
               file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
@@ -461,15 +551,41 @@ const HorizontalStepper = (props) => {
               console.log('err >', err)
 
             }else{
-              dataItem.participant_id = participant_id
+              dataItem.participant_id = participant.id?participant.id:participant_id
               const { data, err} = await supabase.from(to)
               .upsert([dataItem])
               // .eq('participant_id', participant_id)
               .select()
               console.log('data>', data)
               console.log('err >', err)
+              
             }
+      //       if(d.name == "Bird-Certificate"){
+      // berkasUrl.a = data.publicUrl.toString()
+      //   }
+        
+        
+          if(d.name == "Bird-Certificate"){
+            berkasUrl.a = ""
           }
+          if(d.name == "KK"){
+            berkasUrl.b = ""
+          }
+          if(d.name == "Parent-KTP"){
+            berkasUrl.c = ""
+          }
+          if(d.name == "Pas-Photo"){
+            berkasUrl.d = ""
+          }
+          if(d.name == "Surat-Kesanggupan"){
+            berkasUrl.e = ""
+          }
+          if(d.name == "Syahadah"){
+            berkasUrl.f = ""
+          }
+      }
+
+          
         
       }else{
         const d = dataInput
@@ -477,10 +593,12 @@ const HorizontalStepper = (props) => {
         console.log(participant_id)
           
           upload(d.file, d.name)
+
+          const pid = participant.id?participant.id:participant_id
           // console.log(('url >', url.value('path')));
           const dataItem = {
-            participant_id: participant_id,
-            file_url: berkasUrl,
+            participant_id: pid,
+            file_url: berkasUrl.g.toString(),
             file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
             file_size: d.size.toString(),
             file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
@@ -496,7 +614,7 @@ const HorizontalStepper = (props) => {
               console.log('err >', err)
 
             }else{
-              dataItem.participant_id = participant_id
+              dataItem.participant_id = participant.id?participant.id:participant_id
               const { data, err} = await supabase.from(to)
               .upsert([dataItem])
               // .eq('participant_id', participant_id)
@@ -504,6 +622,9 @@ const HorizontalStepper = (props) => {
               console.log('data>', data)
               console.log('err >', err)
             }
+
+            berkasUrl.g = ""
+            
           // const { data, err} = await supabase.from(to)
           //                   .insert([dataItem])
           //                   .select()
@@ -511,6 +632,7 @@ const HorizontalStepper = (props) => {
           // console.log('err >', err)
         
       }
+      
       // dataInput.map( d => {
         
 
@@ -551,15 +673,17 @@ const HorizontalStepper = (props) => {
         console.log('data>', data)
         console.log('err >', err)
         if(dataInput.pob){
+          setInserted(true)
           setParticipantId(data[0].id)
         }   
       
     }
     
+    // getApplicantData()
 
   }
 
-  const updateData = async (dataInput, to, bo, type=null) => {
+  const updateData = async (dataInput, to, bo, pk, type=null) => {
     
     // if (type=='file'){
     //   // const avatarFile = event.target.files[0]
@@ -576,7 +700,7 @@ const HorizontalStepper = (props) => {
       console.log('dataInput> ' ,dataInput)
       const { data, err} = await supabase.from(to)
                           .update({...dataInput, updated_at : new Date().toISOString()})
-                          .eq('id', bo)
+                          .eq(pk, bo)
                           .select()
       console.log('data>', data[0])
       console.log('err >', err)
@@ -619,7 +743,7 @@ const HorizontalStepper = (props) => {
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} dataBerkas={dataBerkas} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} dataBerkas={dataBerkas} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant} dataSeragam={dataSeragam} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>

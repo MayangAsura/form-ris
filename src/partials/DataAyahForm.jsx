@@ -151,12 +151,12 @@ const DataAyahForm = (props) => {
                                     {/* <p className="mt-3 text-sm/6 text-gray-600">Write a few sentences about yourself.</p> */}
                                     </div>
                                     {/* {isPending && } */}
-                                    <button type="button" class="bg-indigo-500 ..." disabled>
+                                    {/* <button type="button" class="bg-indigo-500 ..." disabled>
   <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
     
   </svg>
   Processing...
-</button>
+</button> */}
                                     {/* <div
       className="inline-block h-8 w-8 animate-[spinner-grow_0.75s_linear_infinite] rounded-full bg-current align-[-0.125em] text-primary opacity-0 motion-reduce:animate-[spinner-grow_1.5s_linear_infinite]"
       role="status">

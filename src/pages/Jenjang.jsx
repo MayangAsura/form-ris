@@ -66,9 +66,9 @@ ditetapkan sekolah</li>
             <div className='max-w-3xl mx-auto text-center items-center pt-5'>
 
               <p className='text-xl text-gray-600 inline-grid px-5'>Silahkan Ayah/Bunda memilih jenjang pendidikan terlebih dahulu untuk melanjutkan proses pendaftaran.</p>
-              <span className="rounded-md w-24 bg-green-100 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+              {/* <span className="rounded-md w-52 bg-green-100 px-2 py-1 mt-24 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                           Persyaratan Umum Pendaftaran <TbExternalLink />
-                        </span>
+                        </span> */}
             </div>
             {modal_show && (
               <Swal dataModal={modal_data}></Swal>
@@ -135,8 +135,8 @@ ditetapkan sekolah</li>
                     </div>
                   </div>
                   <div className="btn">
-                    <Link to={`/${d.code}`} className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3">
-                      <span>Lanjut Daftar</span>
+                    <Link to={`/${d.code}`} className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800">
+                      <small className='text-xs'>Daftar</small>
                       <svg className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg>                  

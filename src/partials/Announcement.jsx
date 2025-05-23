@@ -34,6 +34,14 @@ function Annoucement() {
       const text = "Pengisian Formulir" 
       setSubmissionStatus(text)
     }
+    if(participants?.submission_status=="accepted"){
+      const text = "LULUS" 
+      setSubmissionStatus(text)
+    }
+    if(participants?.submission_status=="not_accepted"){
+      const text = "Tidak Lulus" 
+      setSubmissionStatus(text)
+    }
 
   }
   
@@ -44,16 +52,18 @@ function Annoucement() {
           {/* <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-gray-900 pointer-events-none" aria-hidden="true"></div> */}
           {/* <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div> */}
     
-          <div className="relative max-w-6xl mx-auto bg-gray-200 ppx-4 sm:px-6">
+          <div className="relative max-w-6xl mx-auto bg-gray-200 px-4 sm:px-6" >
               <div className="py-10 md:py-10">
                   <h3 className="h3 mb-4">Pengumuman</h3>
-                <div className="rounded-2xl" style={{ height: '200px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
+                <div className="rounded-2xl" style={{ height: '320px', width:"400px", backgroundColor: 'lightgray', padding: '10px', position: 'relative' }}>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
                   <p className='text-gray-900 mt-2 text-center'>
+                    <p>
                     Jazaakumullahu khayran telah mendaftar di Rabbaanii Islamic School, status pendaftaran saat ini:
+                    </p>
                     {/* Status : */}
                     <br />
-                  <span className="rounded-md w-24 bg-green-50 px-3 py-1 my-5 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
+                  <span className="rounded-md w-24 bg-green-100 px-3 py-2 mt-15 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
                         {submission_status}
                           
                         </span>
@@ -69,11 +79,11 @@ function Annoucement() {
                           Belum Terdaftar
                         </
                     </table> */}
-                    <span className='flex flex-grow justify-center text-start my-5'>
-                     {/* Statuspan> */}
+                    {/* <span className='flex flex-grow justify-center text-start my-5'>
+                     Statuspan
                      
-                    </span>
-                    <div className='flex flex-grow gap-4 px-2 mt-20'>
+                    </span> */}
+                    <div className='flex flex-grow gap-2 px-2 mt-10'>
                       
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   // onClick={() => {
@@ -89,7 +99,25 @@ function Annoucement() {
                                                   //     }
                                                   //     // handleSubmit 
                                                   // }}
-                                                  >Download Surat Pengumuman</button>
+                                                  >Download Surat Pengumuman</button> <br />
+                      <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                  // onClick={() => {
+                                                  //     // currentStep === steps.length
+                                                  //     //   ? setComplete(true)
+                                                  //     //   : setCurrentStep((prev) => prev + 1); 
+                                                  //     if(props.currentStep === 9){
+                                                  //     props.handledComplete(true)
+                                                  //     }else{
+                                                  //     // props.handledCurrentStep(props.currentStep + 1) ;
+                                                  //     // props.setCurrentStep((prev) => prev + 1);
+                                                  //     // callback(data)
+                                                  //     }
+                                                  //     // handleSubmit 
+                                                  // }}
+                                                  >Download Surat Pernyataan Wali Santri</button>
+
+                    </div>
+                    <div className='flex flex-grow gap-4 px-2 mt-2'>
                       <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                   // onClick={() => {
                                                   //     // currentStep === steps.length

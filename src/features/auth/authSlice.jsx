@@ -1,7 +1,9 @@
 import React from 'react'
 import { createSlice } from '@reduxjs/toolkit'
 import { registerUser, userLogin, userLogout } from './authActions'
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+// import { Cookies } from 'react-cookie';
+
 import supabase from '../../client/supabase_client'
 import { useNavigate } from 'react-router-dom'
 

@@ -15,7 +15,7 @@
   .card-container {
     margin: 12px;
     width: 200px;
-    min-height: 100%;
+    min-height: 220px;
     overflow: hidden;
     box-shadow: 0px 0px 15px -5px;
     transition: 0.5s;
@@ -50,12 +50,12 @@
   }
   
   .btn button {
-    padding: 0.5rem;
+    padding: 0.2rem;
     background-color: white;
     border: none;
     transition: 0.2s;
-    margin-bottom: 0.5rem;
-    border-radius: 3px;
+    margin-bottom: 0.2rem;
+    border-radius: 5px;
     margin-bottom: 10px;
   }
   

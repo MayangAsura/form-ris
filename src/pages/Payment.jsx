@@ -37,8 +37,9 @@ function Payment() {
     useEffect(() => {
 
       const getApplicantData = async () =>{
+        
       
-        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
+        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
                             .eq('refresh_token', userToken)                 
                             .eq('status', 'active')
                             .single()
@@ -69,6 +70,11 @@ function Payment() {
           
          
         }
+        if(applicantData.applicant_orders.length > 0){
+          applicantDataOrder.invoice_number = applicantData.applicant_orders[0].invoice_number
+          applicantData.applicant_orders[0].status!== 'pending'?setInvoiceCreated(true):""
+        }
+        console.log('invoicecreated> ', invoicecreated)
         if(applicantData.applicant_schools.length>0){
           //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
           //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
@@ -79,9 +85,6 @@ function Payment() {
             applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
             // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
             
-            if(applicantData.applicant_orders.length > 0){
-              applicantData.applicant_orders[0].status!== 'pending'??setInvoiceCreated(true)
-            }
 
   // applicantDataOrder.total_amount = dataSchool.amount
   
@@ -203,102 +206,117 @@ function Payment() {
 
     const create_order = async (e) => {
       e.preventDefault()
-      if(applicantData.order_status==""){
-        setModalShow(true)
-        modal_data.title = "Gagal Membuat Pembayaran" 
-        modal_data.message = "Ananda telah memiliki tagihan sebelumnya." 
-      }
-      const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
-      applicantDataOrder.description = 'invoice registration fee'
-      applicantDataOrder.foundation_id = 1
-      console.log("applicantDataOrder ",  applicantDataOrder)
+      console.log(applicantDataPayment.expired_at)
+      console.log(new Date())
+      if(applicantDataPayment?.expired_at > new Date()){
 
-      // const { data : }
+        return
 
-      const { data: order, error } = await supabase.rpc('add_new_order', {
-                                      _created_by: applicantDataOrder.applicant_id, 
-                                      _description: applicantDataOrder.description, 
-                                      _foundation_id: applicantDataOrder.foundation_id, 
-                                      _item_id: applicantDataOrder.item_id, 
-                                      _refresh_token: userToken, 
-                                      _total_amount: applicantDataOrder.total_amount
-                                    })
-      if (error) console.error('error > ', error)
-      // else console.log(order)
-
-      // const { data: order, error } = await supabase
-      //                               .from('applicant_orders')
-      //                               .insert(
-      //                                 [applicantDataOrder]
-      //                               ).select()
-
-      // if(error){
-      //   console.log(error)
-      // }else{
-      //   console.log('data >', order)
-      // }
-      console.log('appli->',order)
-      const data = {
-        order_id : order
-      }
-
-      try {
+       
+      }else{
         
-        axios.post(CREATE_INVOICE_URL, data).then((res) => {
-  
-          console.log(res.status);
-          console.log(res)
-  
-          
-          checkout.process(res.data.reference_code, {
-                defaultLanguage: "id", //opsional pengaturan bahasa
-                // currency: "USD", //optional to set rate estimation
-                successEvent: function(result){
-                
-                    setInvoiceCreated(true)
-                    
-                    console.log('success');
-                    console.log(result);
-                    getApplicantData()
-                    getApplicantPayment()
-                    redirect(res.data.payment_url)
-                    // alert('Payment Success');
-  
-  
-                },
-                pendingEvent: function(result){
-  
-                    console.log('pending');
-                    console.log(result);
-                    alert('Payment Pending');
-                },
-                errorEvent: function(result){
-                
-                    console.log('error');
-                    console.log(result);
-                    modal_data.title = "Pembayaran Gagal"
-                    modal_data.message = "Error : ", result
-                    setModalShow(true)
-                    // alert('Payment Error');
-                },
-
-                closeEvent: function(result){
-                // tambahkan fungsi sesuai kebutuhan anda
-                    // console.log('customer closed the popup without finishing the payment');
-  
-                    console.log(result);
-                    getApplicantData()
-                    getApplicantPayment()
-                    navigate(-1, {fallback: '/pay'})
-                    
-                    // alert('customer closed the popup without finishing the payment');
-                    
-                }
-            }); 
-          });
-      } catch (error) {
-       console.log(Error) 
+        if(applicantData.order_status=="proccesed"){
+          modal_data.title = "Gagal Membuat Pembayaran" 
+          modal_data.message = "Ananda telah memiliki tagihan sebelumnya." 
+          setModalShow(true)
+        }
+        navigate('/pay')
       }
+       const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
+        applicantDataOrder.description = 'invoice registration fee'
+        applicantDataOrder.foundation_id = 1
+        console.log("applicantDataOrder ",  applicantDataOrder)
+  
+        // const { data : }
+  
+        const { data: order, error } = await supabase.rpc('add_new_order', {
+                                        _created_by: applicantDataOrder.applicant_id, 
+                                        _description: applicantDataOrder.description, 
+                                        _foundation_id: applicantDataOrder.foundation_id, 
+                                        _item_id: applicantDataOrder.item_id, 
+                                        _refresh_token: userToken, 
+                                        _total_amount: applicantDataOrder.total_amount
+                                      })
+        if (error) console.error('error > ', error)
+        // else console.log(order)
+  
+        // const { data: order, error } = await supabase
+        //                               .from('applicant_orders')
+        //                               .insert(
+        //                                 [applicantDataOrder]
+        //                               ).select()
+  
+        // if(error){
+        //   console.log(error)
+        // }else{
+        //   console.log('data >', order)
+        // }
+        console.log('appli->',order)
+        const data = {
+          order_id : order
+        }
+  
+        try {
+          
+          axios.post(CREATE_INVOICE_URL, data).then((res) => {
+    
+            console.log(res.status);
+            console.log(res)
+    
+            
+            checkout.process(res.data.reference_code, {
+                  defaultLanguage: "id", //opsional pengaturan bahasa
+                  // currency: "USD", //optional to set rate estimation
+                  successEvent: function(result){
+                  
+                      setInvoiceCreated(true)
+                      
+                      console.log('success');
+                      console.log(result);
+                      getApplicantData()
+                      getApplicantPayment()
+                      redirect(res.data.payment_url)
+                      // alert('Payment Success');
+    
+    
+                  },
+                  pendingEvent: function(result){
+    
+                      setInvoiceCreated(true)
+
+                      console.log('pending');
+                      getApplicantData()
+                      getApplicantPayment()
+                      console.log(result);
+                      // alert('Payment Pending');
+                  },
+                  errorEvent: function(result){
+                  
+                      console.log('error');
+                      console.log(result);
+                      modal_data.title = "Pembayaran Gagal"
+                      modal_data.message = "Error : ", result
+                      setModalShow(true)
+                      // alert('Payment Error');
+                  },
+  
+                  closeEvent: function(result){
+                  // tambahkan fungsi sesuai kebutuhan anda
+                      // console.log('customer closed the popup without finishing the payment');
+    
+                      console.log(result);
+                      getApplicantData()
+                      getApplicantPayment()
+                      navigate(-1, {fallback: '/pay'})
+                      
+                      // alert('customer closed the popup without finishing the payment');
+                      
+                  }
+              }); 
+            });
+        } catch (error) {
+         console.log(Error) 
+        }
     }
 
     // const create_order = async (req, res) => {
@@ -379,6 +397,12 @@ function Payment() {
                 { invoicecreated && (
                 <div>
                   <div className='h5 right-separator'>Detail Tagihan</div>
+                    <div className="flex flex-wrap -mx-3 mb-4">
+                      <div className="w-full px-3">
+                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nomor Tagihan</label>
+                        <h2 className='text-lg font-800 font-medium flex justify-start'> { applicantData?.order_status!=="finished"?applicantDataOrder?.invoice_number:'-'}</h2>
+                      </div>
+                    </div>
                     <div className="flex flex-wrap -mx-3 mb-4">
                       <div className="w-full px-3">
                         <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Waktu Transaksi</label>

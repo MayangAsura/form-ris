@@ -3,6 +3,7 @@ import React from 'react'
 function PaymentUangPangkalRabTKIT() {
   return (
     <div>
+        TKIT RABBAANII ISLAMIC SCHOOL
 
         PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!
 

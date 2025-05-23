@@ -139,14 +139,9 @@ function SignIn(props) {
     try {
       setTimeout(() => {
         dispatch(userLogin(data))
-        
+
       }, 2000);
       
-      if(userInfo){
-        setModalShow(true)
-        
-        // navigate('/home')
-      }
 
       
       // const response = await axios.post(LOGIN_URL,
@@ -178,10 +173,30 @@ function SignIn(props) {
       console.log("Error >", error )
       modal_data.title = "Login Gagal"
       modal_data.message = errorMsg
+
+      setModalShow(true)
       // if (error && error instanceof AxiosError){
   
       // }
     }
+
+    if(error){
+          modal_data.title = "Login Gagal"
+          modal_data.message = "Mohon Periksa kembali data yang dimasukkan."
+          modal_data.text = "OK"
+          modal_data.url = ""
+          setModalShow(true)
+          
+          // navigate('/home')
+        }else{
+          // modal_data.title = ""
+          // modal_data.message = "Mohon Periksa kembali data yang dimasukkan."
+          // modal_data.text = "OK"
+          // modal_data.url = ""
+          
+          setModalShow(true)
+        }
+
   }
   
   return (

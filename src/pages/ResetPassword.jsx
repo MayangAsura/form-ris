@@ -18,6 +18,7 @@ function ResetPassword() {
   const [newpassword, setNewPassword] = useState("")
   const [success, setSuccess] = useState("")
   const [data_modal, setDataModal] = useState({})
+  const [modal_show, setModalshow] = useState(false)
   const navigate = useNavigate()
 
   console.log('token > ', token)
@@ -63,9 +64,20 @@ function ResetPassword() {
           text2: "",
           url2: ""
         })
-        setSuccess(true)
+        setModalShow(true)
         // return <Swal dataModal={modal}/>
         // navigate('/login')
+      }else{
+        setDataModal({
+          title: "Reset Password Gagagl",
+          message: ""
+          // text: "Masuk Aplikasi",
+          // url: "/login",
+          // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+          // text2: "",
+          // url2: ""
+        })
+        setModalhow(true)
       }
       // console.log(token)
       // const  = response?.token
@@ -80,7 +92,7 @@ function ResetPassword() {
 
       {/*  Page content */}
       <main className="flex-grow">
-        {success && (
+        {modal_show && (
           <Swal dataModal={data_modal}/>
         ) }
 
@@ -112,7 +124,7 @@ function ResetPassword() {
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Password Baru<span className="text-red-600">*</span></label>
-                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="text" className="form-input w-full text-gray-800" placeholder="" required />
+                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="password" className="form-input w-full text-gray-800" placeholder="" required />
                           <input id="token" disabled hidden name="token" value={token??""} type="text" className="form-input w-full text-gray-800" placeholder="" required />
                         </div>
                       </div>
