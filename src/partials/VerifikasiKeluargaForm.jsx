@@ -103,7 +103,7 @@ function VerifikasiKeluargaForm(props) {
                                 <p className="mt-1 text-sm/12 text-gray-600">
                                     Update terakhir: {last_update?formatDate(last_update):'-'}.
                                 </p>
-                                <div className="border-b border-gray-900/10 py-3"></div>
+                                <div className="border-b border-gray-900/10 "></div>
 
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -155,7 +155,7 @@ function VerifikasiKeluargaForm(props) {
 
                                    
                                 </div>
-                                <div className='flex justify-center text-center my-5'>
+                                <div className='flex justify-center text-center my-10'>
                                      
                                         {!props.complete && (
                                             <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}

@@ -44,6 +44,19 @@ function Announcement(props) {
     }
 
   }
+
+  const download = () => {
+        fetch("https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8").then((response) => {
+            response.blob().then((blob) => {
+                const fileURL =
+                    window.URL.createObjectURL(blob);
+                let alink = document.createElement("a");
+                alink.href = fileURL;
+                alink.download = "Surat Orang Tua Siap Mengikuti Aturan RIS.pdf";
+                alink.click();
+            });
+        });
+    };
   
   return (
    
@@ -85,7 +98,7 @@ function Announcement(props) {
                     </span> */}
                     <div className='flex flex-grow gap-2 px-2 mt-10'>
                       {}
-                      <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                      <button onClick={download} className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   // onClick={() => {
                                                   //     // currentStep === steps.length
                                                   //     //   ? setComplete(true)

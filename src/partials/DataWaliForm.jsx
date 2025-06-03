@@ -79,7 +79,7 @@ function DataWaliForm(props) {
                                         </span>
                                     </div>
                                     </div>
-                                    <div className="sm:col-span-5">
+                                    <div className="sm:col-span-4">
                                         <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
                                             <select id="wali_academic" name="wali_academic" value={wali_academic} onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Pendidikan</option>
@@ -132,7 +132,7 @@ function DataWaliForm(props) {
                                     
                                    
                                 </div>
-                                <div className='flex justify-center text-center my-5'>
+                                <div className='flex justify-center text-center my-10'>
                                      
                                         {!props.complete && (
                                             <div className='flex flex-col gap-2 w-full my-5'>

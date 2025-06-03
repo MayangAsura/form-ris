@@ -105,8 +105,8 @@ function BerkasForm(props) {
                                     Silahkan lengkapi dokumen berikut. Mohon untuk menguploaad scan/foto dokumen dengan kualitas yang baik.
                                     {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
-                                <p className="my-5 text-sm/8 text-gray-700">Update terakhir { last_update!=""?formatDate(last_update):"-"} </p>
-                                <div className="border-b border-gray-900/20 py-3"></div>
+                                <p className="my-5 text-sm/8 text-gray-700">Update terakhir: { last_update!=""?formatDate(last_update):"-"} </p>
+                                <div className="border-b border-gray-900/20"></div>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     {/* <div className="sm:col-span-4">
@@ -198,7 +198,7 @@ function BerkasForm(props) {
 
                                    
                                 </div>
-                                <div className='flex justify-center text-center my-5'>
+                                <div className='flex justify-center text-center my-10'>
                                      
                                         {!props.complete && (
                                             <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
