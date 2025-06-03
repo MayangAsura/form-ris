@@ -61,7 +61,7 @@ function Payment() {
           const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
             .select('amount, fee_type_id')
             .eq('school_id', data.applicant_schools[0].schools.school_id)
-            .single()
+            .single() 
           // if(dataSchool){
           console.log('school_fees > ', dataSchool)
           setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
@@ -126,6 +126,7 @@ function Payment() {
         // }
       }
 
+
       getApplicantData()
 
       if(invoicecreated){
@@ -139,11 +140,15 @@ function Payment() {
       
     }, [invoicecreated, applicantData])
 
+
+
       // setTimeout(() => {
       //   getApplicantDataSchool()
       // }, 2000);
       // getApplicantPayment()
       // create()
+
+      
 
     const getStatusOrderText = (status_code) => {
       switch (status_code) {
@@ -272,7 +277,7 @@ function Payment() {
                       setInvoiceCreated(true)
                       
                       console.log('success');
-                      console.log(result);
+                      console.log(result)
                       getApplicantData()
                       getApplicantPayment()
                       redirect(res.data.payment_url)

@@ -159,6 +159,14 @@ function SignUp() {
       _school_id
     });
 
+    console.log(data_applicant)
+    if(error_applicant){
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = error_applicant
+      setModalShow(true)
+    }
+
     if(!error_applicant){
       // _phone_number.replace()
       setFullName("")
@@ -179,7 +187,7 @@ function SignUp() {
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
-        "message": `Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  xxxxx  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  xxxxx  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
 
 Login Aplikasi: https://psb-formy.vercel.app/login
 
@@ -322,14 +330,14 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -341,7 +349,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Enter your email address" />
+                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Alamat" />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -358,13 +366,13 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="password">Password <span className="text-red-600">*</span></label>
-                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Enter your password" required />
+                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkad Password" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
-                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
+                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
                       <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                           Konfirmasi password tidak sama dengan password
                       </span>

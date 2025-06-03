@@ -6,6 +6,14 @@ import InvoicePDF from '../partials/registration_doc/RegistrationCard'
 import RegistrationCard from '../partials/registration_doc/RegistrationCard'
 // import { createClient } from '@supabase/supabase-js'
 
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  PDFViewer,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 
 function ProfileCard(props) {
 
@@ -14,8 +22,10 @@ function ProfileCard(props) {
   console.log(supabase)
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
   const { userToken, userInfo } = useSelector((state) => state.auth)
-  const [profileData, setProfileData] = useState({  school_name:"", full_name:"", gender: "", email:"", phone_number:"", regist_number:"", regist_date:"", dob:"", aspiration:""})
+  const [profileData, setProfileData] = useState({  school_name:"", full_name:"", gender: "", email:"", phone_number:"", regist_number:"", regist_date:"", dob:"", aspiration:"", is_complete: ""})
   const [age, setAge] = useState("")
+
+  const [dataSummary, setDataSummary] = useState({identitas: {}, sekolahAsal: {}, jenjangTujuan: {}, dataAyah : {}, dataIbu: {}, dataWali: {}, verifikasiKeluarga: {}, pilihan_metode_uangpangkal: {}})
   
   useEffect( () => {
     // getProfileData()
@@ -37,13 +47,95 @@ function ProfileCard(props) {
         setProfileData({
           ...profileData, 
           dob: props.applicant[0].participants[0].dob,
-          aspiration: props.applicant[0].participants[0].aspiration
+          aspiration: props.applicant[0].participants[0].aspiration,
+          is_complete: props.applicant[0].participants[0].is_complete
         })
+
+        getDataSummary()
+        calculateAge()
+        getUsia()
       }
-      calculateAge()
-      getUsia()
     }
+
+    console.log('DS> ', dataSummary) 
   }, [props.applicant])
+
+  const getDataSummary = () => {
+    // full_name: "", gender: "", phone_number: "", email: "", regist_number: "", pob: "", dob: "", child_number:"", child_status: "", distance: "", nationality: "", province:"", region: "", postal_code: "", aspiration: "", nisn: "", kk: ""
+    const jenjangTujuan = {
+      school_name : props.applicant[0].applicant_schools[0].schools.school_name,
+      class : props.applicant[0].applicant_schools[0].schools.class??null
+    }
+    dataSummary.jenjangTujuan = jenjangTujuan
+    const sekolahAsal = {
+      prev_school : props.applicant[0].participants[0].prev_school,
+      prev_school_address : props.applicant[0].participants[0].prev_school_address
+    }
+    dataSummary.sekolahAsal = sekolahAsal
+    const identitas = {
+      full_name: props.applicant[0].full_name,
+      gender: props.applicant[0].gender,
+      phone_number: props.applicant[0].phone_number,
+      email: props.applicant[0].email,
+      regist_number: props.applicant[0].regist_number,
+      pob: props.applicant[0].participants[0].pob,
+      dob: props.applicant[0].participants[0].dob,
+      address: props.applicant[0].participants[0].address,
+      child_number: props.applicant[0].participants[0].child_number,
+      child_status: props.applicant[0].participants[0].child_status,
+      distance: props.applicant[0].participants[0].distance,
+      nationality: props.applicant[0].participants[0].nationality,
+      province: props.applicant[0].participants[0].province,
+      region: props.applicant[0].participants[0].region,
+      postal_code: props.applicant[0].participants[0].postal_code,
+      aspiration: props.applicant[0].participants[0].aspiration,
+      nisn: props.applicant[0].participants[0].nisn,
+      nik: props.applicant[0].participants[0].nik,
+      kk: props.applicant[0].participants[0].kk_number
+      
+    }
+    dataSummary.identitas = identitas
+
+    if(props.applicant[0].participants[0].participant_father_data.length > 0){
+      const dataAyah = {
+        father_name : props.applicant[0].participants[0].participant_father_data[0].father_name,
+        father_academic : props.applicant[0].participants[0].participant_father_data[0].father_academic,
+        father_job : props.applicant[0].participants[0].participant_father_data[0].father_job,
+        father_salary : props.applicant[0].participants[0].participant_father_data[0].father_salary,
+        why_chooses : props.applicant[0].participants[0].participant_father_data[0].why_chooses
+      }
+      dataSummary.dataAyah = dataAyah
+
+    }
+    if(props.applicant[0].participants[0].participant_mother_data.length > 0){
+      const dataIbu = {
+        mother_name : props.applicant[0].participants[0].participant_mother_data[0].mother_name,
+        mother_academic : props.applicant[0].participants[0].participant_mother_data[0].mother_academic,
+        mother_job : props.applicant[0].participants[0].participant_mother_data[0].mother_job,
+        mother_salary : props.applicant[0].participants[0].participant_mother_data[0].mother_salary
+      }
+      dataSummary.dataIbu = dataIbu
+
+    }
+    if(props.applicant[0].participants[0].participant_wali_data.length > 0){
+      const dataWali = {
+        wali_name : props.applicant[0].participants[0].participant_wali_data[0].wali_name,
+        wali_academic : props.applicant[0].participants[0].participant_wali_data[0].wali_academic,
+        wali_job : props.applicant[0].participants[0].participant_wali_data[0].wali_job,
+        wali_salary : props.applicant[0].participants[0].participant_wali_data[0].wali_salary
+      }
+      dataSummary.dataWali = dataWali
+
+    }
+    const verifikasiKeluarga = {
+      student_category: props.applicant[0].participants[0].student_category
+    }
+    dataSummary.verifikasiKeluarga = verifikasiKeluarga
+    const pilihan_metode_uangpangkal = {
+      metode_uang_pangkal: props.applicant[0].participants[0].metode_uang_pangkal
+    }
+    dataSummary.pilihan_metode_uangpangkal = pilihan_metode_uangpangkal
+  }
 
   
   const getProfileData = async () =>{
@@ -237,9 +329,9 @@ function ProfileCard(props) {
                             </tbody>
                         </table>
                         {/* <div className='flex justify-center'> */}
-                          <div className="flex justify-center">
+                          <div className="flex justify-center items-center text-center">
 
-                          <blockquote class="text-xl italic font-semibold text-gray-900 dark:text-dark">
+                          <blockquote class="text-xl italic font-semibold text-gray-900 dark:text-dark text-center">
                                         <svg class="w-8 h-8 text-gray-400 dark:text-gray-600 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                                             <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
                                         </svg>
@@ -247,34 +339,35 @@ function ProfileCard(props) {
                                     </blockquote>
                           </div>
                           <div className="flex justify-center ">
+                                      <div className="border-t-2 border-gray-900/10 pb-12"></div>
                                       <p>Cita - Cita</p>
 
                           </div>
 
                                       {/* {profileData?.aspiration??'-'} */}
                         {/* </div> */}
-                        <div className=''>
+                        {/* <div className=''>
                           <div className="max-w-2xl max-auto my-10">
-                            <RegistrationCard/>
-                            {/* <div className='w-full h-[500px]'>
+                            <div className="w-full h-[500px]">
                               <PDFViewer width="100%" height="100%">
-                                <InvoicePDF/>
+                                <RegistrationCard dataSummary={dataSummary} />
                               </PDFViewer>
-
-                            </div> */}
+                            </div>
                           </div>
-                          
-                        </div>
-                        <PDFDownloadLink document={<InvoicePDF />} fileName="Kartu Pendaftaran.pdf">
-                        <button type="submit" className='btn w-full py-3 btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
-                                                 onClick={() => {
-                                                     
-                                                 }}
-                                                 >Cetak Kartu Pendaftaran</button>
-                                  {/* <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                                    Download PDF
-                                  </button> */}
-                                </PDFDownloadLink>
+                        </div> */}
+                        {profileData.is_complete && (
+                          <PDFDownloadLink document={<RegistrationCard dataSummary={dataSummary}/>} fileName="Kartu-Pendaftaran.pdf">
+                          <button  className='btn w-full py-3 btn-sm my-5  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                  onClick={() => {
+                                                      
+                                                  }}
+                                                  >Cetak Kartu Pendaftaran</button>
+                                    {/* <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                                      Download PDF
+                                    </button> */}
+                                  </PDFDownloadLink>
+
+                        )}
                         <div className='my-3'>
                           
                         </div>

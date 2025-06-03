@@ -77,6 +77,7 @@ function createReducers(){
     // setTimeout(() => {
       
       Cookies.remove('jwt') // delete token from storage
+      Cookies.set('jwt') // delete token from storage
       state.loading = false
       state.userInfo = null
       state.userToken = null

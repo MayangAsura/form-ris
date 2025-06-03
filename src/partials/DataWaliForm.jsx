@@ -59,13 +59,13 @@ function DataWaliForm(props) {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Data Wali</h2>
-                                <p className="mt-1 text-sm/12 text-gray-600">
-                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
-                                </p>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
                                     (Diisi jika Calon Peserta Didik diasuh oleh Wali)
                                     {/* Jika Ananda tinggal dengan wali. */}
                                     {/* This information will be displayed publicly so be careful what you share. */}
+                                </p>
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
                                 </p>
                                 <div className="border-b border-gray-900/20 py-3"></div>
 
@@ -79,18 +79,17 @@ function DataWaliForm(props) {
                                         </span>
                                     </div>
                                     </div>
-                                    <div className="sm:col-span-3">
+                                    <div className="sm:col-span-5">
                                         <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
-                                        <div className="mt-2 grid grid-cols-1">
                                             <select id="wali_academic" name="wali_academic" value={wali_academic} onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Pendidikan</option>
-                                            <option value="sma_sederajat">SMA/sederajat</option>
-                                            <option value="d1">D1</option>
-                                            <option value="d2">D2</option>
-                                            <option value="d3">D3</option>
-                                            <option value="s1">S1</option>
-                                            <option value="s2">S2</option>
-                                            <option value="s3">S3</option>
+                                            <option value="SMA_sederajat">SMA/sederajat</option>
+                                            <option value="D1">D1</option>
+                                            <option value="D2">D2</option>
+                                            <option value="D3">D3</option>
+                                            <option value="S1">S1</option>
+                                            <option value="S2">S2</option>
+                                            <option value="S3">S3</option>
                                             <option value="other">Other</option>
                                             </select>
                                             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -99,7 +98,6 @@ function DataWaliForm(props) {
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                             </svg> */}
-                                        </div>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali</label><span className='text-sm italic'>Pekerjaan utama wali</span>
@@ -110,9 +108,9 @@ function DataWaliForm(props) {
                                         </span>
                                     </div>
                                     </div>
-                                    <div className="sm:col-span-3">
+                                    <div className="sm:col-span-4">
                                         <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
-                                        <div className="mt-2 grid grid-cols-1">
+                                        {/* <div className="mt-2 grid grid-cols-1"> */}
                                             <select id="wali_salary" name="wali_salary" value={wali_salary} onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
@@ -129,7 +127,7 @@ function DataWaliForm(props) {
                                             {/* <svg className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                                             </svg> */}
-                                        </div>
+                                        {/* </div> */}
                                     </div>
                                     
                                    
@@ -139,8 +137,19 @@ function DataWaliForm(props) {
                                         {!props.complete && (
                                             <div className='flex flex-col gap-2 w-full my-5'>
                                                 
-                                                <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
-                                                        >Submit</button>
+                                                <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
+                                                        >
+                                                            {props.isPending && (
+                                                        // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
+                                                            <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                        // </button>
+                                                        // "Menyimpan..."
+                                                        // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
+                                                    )}
+                                                            Submit</button>
                                                 <button className='btn w-full py-3 block btn-sm  text-gray-200 bg-gray-800 hover:bg-gray-700'
                                                 onClick={() => {
                                                     // currentStep === steps.length

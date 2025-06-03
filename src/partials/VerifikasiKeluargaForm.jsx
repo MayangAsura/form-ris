@@ -94,14 +94,14 @@ function VerifikasiKeluargaForm(props) {
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900 !inline">Verifikasi Keluarga Rabbaanii</h2>
-                                <p className="mt-1 text-sm/12 text-gray-600">
-                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
-                                </p>
                                 <p className="my-5 text-sm/6 text-gray-700">
                                 <b>Keluarga Rabbaanii :</b> calon peserta didik adalah alumni RIS atau mempunyai kakak/adik yang bersekolah di RIS.
                                 <br /><br /> <b>Non Keluarga Rabbaanii :</b> calon peserta didik belum menjadi alumni RIS atau belum memiliki kakak/adik yang bersekolah di RIS.
                                     {/* Silakan upload dokumen berikut, mohon Scan/Foto setiap dokumen dengan jelas. */}
                                     {/* This information will be displayed publicly so be careful what you share. */}
+                                </p>
+                                <p className="mt-1 text-sm/12 text-gray-600">
+                                    Update terakhir: {last_update?formatDate(last_update):'-'}.
                                 </p>
                                 <div className="border-b border-gray-900/10 py-3"></div>
 
@@ -158,7 +158,7 @@ function VerifikasiKeluargaForm(props) {
                                 <div className='flex justify-center text-center my-5'>
                                      
                                         {!props.complete && (
-                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                     // onClick={() => {
                                                     //     // currentStep === steps.length
                                                     //     //   ? setComplete(true)
@@ -174,7 +174,17 @@ function VerifikasiKeluargaForm(props) {
         
                                                         
                                                     // }}
-                                                    >Submit</button>
+                                                    >{props.isPending && (
+                                                        // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
+                                                            <svg className="mr-3 h-5 w-5 transition duration-300 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                        // </button>
+                                                        // "Menyimpan..."
+                                                        // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
+                                                    )}
+                                                    Submit</button>
                                             )}
                                     </div>
                                 </div>

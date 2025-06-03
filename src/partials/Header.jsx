@@ -24,14 +24,14 @@ function Header(props) {
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
   // })
-  console.log('props>', props)
+  console.log('props >', props)
 
   const getProfileData = async () =>{
       // setTimeout(() => {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at))')
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
           if(error){
@@ -74,18 +74,18 @@ function Header(props) {
 
   const handledLogout = async () => {
     try {
-      //   const response = await axios.post("/auth/logout",
-      //   {
-      //     headers: {'Content-Type': 'application/json' }, withCredentials: true
-      //   }
-      // );
-      // // 
-      // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-      // if(response.status==200){
-      // }
-      dispatch(logout())
-      Cookies.remove("jwt")
-      navigate('/login')
+        const response = await axios.get("/auth/logout",
+        {
+          headers: {'Content-Type': 'application/json' }, withCredentials: true
+        }
+        );
+        // 
+        console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+        if(response.status==200){
+          dispatch(logout())
+          // Cookies.remove("jwt")
+          navigate('/login')
+        }
     } catch (error) {
       
     }

@@ -1,7 +1,15 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 
 
 function Status(props) {
+  const [status_submission, setSubmissionStatus] = useState("initial_submission")
+
+  useEffect(() => {
+    
+    if(props.dataStatus){
+      setSubmissionStatus(props.dataStatus)
+    }
+  }, [props.dataStatus])
   return (
    
         <section className="relative">
@@ -65,6 +73,27 @@ function Status(props) {
                                                       // handleSubmit 
                                                   }}
                                                   >Edit Data</button>
+                                                  {status_submission == 'accepted' && (
+                                                      <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
+                                                      onClick={() => {
+                                                          // currentStep === steps.length
+                                                          //   ? setComplete(true)
+                                                          //   : setCurrentStep((prev) => prev + 1); 
+                                                          // if(props.currentStep === 9){
+                                                          // // props.handledComplete(true)
+                                                          // props.getCurrentStep(2)
+                                                          // // props.getEdit(true)
+                                                          // }else{
+                                                            
+                                                          // props.handledCurrentStep(props.currentStep + 1) ;
+                                                          props.setCurrentStep((prev) => prev + 1);
+                                                          // callback(data)
+                                                          // }
+                                                          // handleSubmit 
+                                                      }}
+                                                      >Selanjutnya</button>
+
+                                                  )}
                           {/* <label
                           htmlFor="file-upload"
                           className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"

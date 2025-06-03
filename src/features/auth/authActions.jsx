@@ -49,12 +49,12 @@ export const userLogout = createAsyncThunk(
         withCredentials: true
       }
 
-      const { data } = await axios.post(
+      const { data } = await axios.get(
         `${backendURL}/auth/logout`,
         // { username, password },
         config
       )
-      console.log(data)
+      // console.log(data)
       
       if( !data ){
         console.log('err')

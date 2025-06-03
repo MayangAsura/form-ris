@@ -124,14 +124,14 @@ function ResetPassword() {
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Password Baru<span className="text-red-600">*</span></label>
-                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="password" className="form-input w-full text-gray-800" placeholder="" required />
+                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan password baru" required />
                           <input id="token" disabled hidden name="token" value={token??""} type="text" className="form-input w-full text-gray-800" placeholder="" required />
                         </div>
                       </div>
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Konfirmasi Password<span className="text-red-600">*</span></label>
-                          <input id="confirm_password" name='confirm_password' pattern={newpassword} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your password" required />
+                          <input id="confirm_password" name='confirm_password' pattern={newpassword} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan konfirmasi password" required />
                           <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                               Konfirmasi password tidak sama dengan password
                           </span>
@@ -144,7 +144,7 @@ function ResetPassword() {
                     <div className="w-full px-3">
                       <button onClick={checkUser} className="btn checkUserBtn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
                       {token && (
-                        <button onClick={resetPassword} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Lanjutkan  <TiArrowRightThick/></button>
+                        <button onClick={resetPassword} className="btn text-white bg-green-600 hover:bg-green-700 w-full">Ubah Password <TiArrowRightThick/></button>
                       )}
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from '../partials/Header';
 import HeroHome from '../partials/HeroHome';
@@ -19,10 +19,20 @@ import Announcement from '../partials/Announcement';
 
 function Home() {
   const [applicantData, setApplicantData] = useState({})
+  const [participantData, setParticipantData] = useState({submission_status:""})
 
   const getDataApplicant = async (data) => {
     setApplicantData(data)
   }
+
+  useEffect(() => {
+    if(applicantData){
+      // if(applicantData[0].participants.length > 0){
+      //   setParticipantData({submission_status: applicantData[0].participants[0].submission_status})
+      // }
+    }
+  }, [applicantData])
+  
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
 
@@ -35,7 +45,7 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard applicant={applicantData}/>
-        <Announcement/>
+        <Announcement participant={participantData}/>
         <HorizontalStepper applicant={applicantData}/>
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}

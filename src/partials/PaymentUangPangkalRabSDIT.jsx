@@ -4,121 +4,22 @@ function PaymentUangPangkalRabSDIT() {
   return (
     <div>
 
-PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!
 
-GELOMBANG 1
-Uang Pangkal = Rp 14.500.000,-
-Diskon = Rp 4.000.000,-
-Total Bayar = Rp 10.500.000-
-SPP per bulan = Rp 710.000,-
-
-
-TERMIN   : Uang pangkal dapat dibayarkan
-dengan 2 termin pembayaran
-A. TERMIN 4 BULAN 
-Uang Pangkal = Rp 14.500.000,-
-Diskon = Rp 2.500.000,-
-Total Bayar = Rp 12.000.000-
-SPP per bulan = Rp 710.000,-
-----------------------------
-Termin 1 = Rp 4.000.000,- 
-Termin 2 = Rp 2.000.000,- 
-Termin 3 = Rp 3.000.000,- 
-Termin 4 = Rp 3.000.000,- 
-
-B. TERMIN 6 BULAN 
-Uang Pangkal = Rp 14.500.000,-
-Diskon = Rp 1.500.000,-
-Total Bayar = Rp 13.000.000-
-SPP per bulan = Rp 710.000,-
-----------------------------
-Termin 1 = Rp 4.000.000,- 
-Termin 2 = Rp 1.800.000,- 
-Termin 3 = Rp 1.800.000,- 
-Termin 4 = Rp 1.800.000,- 
-Termin 5 = Rp 1.800.000,- 
-Termin 6 = Rp 1.800.000,- 
-
-
-Catatan tambahan: 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   Kenaikan SPP maksimal Rp 40.000,- per tahun
-   Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024
-   Uang Pangkal belum termasuk uang kegiatan
-   Uang Tahunan meliputi uang buku dan uang kegiatan dibayarkan setiap kenaikan kelas
-   Apabila mengundurkan diri atas kemauan sendiri, maka uang pangkal yang telah dibayarkan tidak dapat  dikembalikan dengan alasan apapun
-   Mengisi form ini berarti Ayah/Bunda telah setuju dengan semua syarat & ketentuan yang berlaku di atas
+{/* <h2 className='h2 font-medium'>PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!</h2>
+
+<h3 className='h3 font-medium'>GELOMBANG 1</h3> 
+<table className='table-auto'>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+</table> */}
+<p>PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!</p>
+<p>GELOMBANG 1<br />Uang Pangkal = Rp 14.500.000,-<br />Diskon = Rp 4.000.000,-<br />Total Bayar = Rp 10.500.000-<br />SPP per bulan = Rp 710.000,-</p>
+<p><br />TERMIN : Uang pangkal dapat dibayarkan<br />dengan 2 termin pembayaran<br />A. TERMIN 4 BULAN <br />Uang Pangkal = Rp 14.500.000,-<br />Diskon = Rp 2.500.000,-<br />Total Bayar = Rp 12.000.000-<br />SPP per bulan = Rp 710.000,-<br />----------------------------<br />Termin 1 = Rp 4.000.000,- <br />Termin 2 = Rp 2.000.000,- <br />Termin 3 = Rp 3.000.000,- <br />Termin 4 = Rp 3.000.000,-</p>
+<p>B. TERMIN 6 BULAN <br />Uang Pangkal = Rp 14.500.000,-<br />Diskon = Rp 1.500.000,-<br />Total Bayar = Rp 13.000.000-<br />SPP per bulan = Rp 710.000,-<br />----------------------------<br />Termin 1 = Rp 4.000.000,- <br />Termin 2 = Rp 1.800.000,- <br />Termin 3 = Rp 1.800.000,- <br />Termin 4 = Rp 1.800.000,- <br />Termin 5 = Rp 1.800.000,- <br />Termin 6 = Rp 1.800.000,-</p>
+<p><br />Catatan tambahan:</p>
+<p>Kenaikan SPP maksimal Rp 40.000,- per tahun<br /> Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024<br /> Uang Pangkal belum termasuk uang kegiatan<br /> Uang Tahunan meliputi uang buku dan uang kegiatan dibayarkan setiap kenaikan kelas<br /> Apabila mengundurkan diri atas kemauan sendiri, maka uang pangkal yang telah dibayarkan tidak dapat dikembalikan dengan alasan apapun<br /> Mengisi form ini berarti Ayah/Bunda telah setuju dengan semua syarat &amp; ketentuan yang berlaku di atas</p>
         {/* <ul>
             <li>Kenaikan SPP maksimal Rp 40.000,- per tahun</li>
             <li>Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024</li>

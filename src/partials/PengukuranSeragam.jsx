@@ -1,32 +1,186 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
+import e from 'cors'
 import { useEffect, useState } from 'react'
+import { json } from 'react-router-dom'
 // import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 const PengukuranSeragam = (props) => {
-    const [dataSeragam, setDataSeragam] = useState({model_gender:"", model_name:"", model_size_chart:"", model_url: "", school_id: ""})
+    const [schoolUniformModel, setSchoolUniformModel] = useState([])
+// {model_gender:"", model_name:"", model_size_chart:"", model_url: "", school_id: ""}
+// {uniform_model_id:"", size_chart:""}
+    const [applicantUniformSC, setApplicantUniformSC] = useState([])
+    const [applicantUniformSCData, setApplicantUniformSCData] = useState([])
+    const [participant_id, setParticipantId] = useState([])
+    const [tableData, setTableData] = useState([])
+    const [formData, setFormData] = useState({})
+    
+    const [last_update, setLastUpdate] = useState("")
     // const [father_academic, setFatherAcademic] = useState("")
     // const [father_job, setFatherJob] = useState("")
     // const [father_salary, setFatherSalary] = useState("")
     // const [why_chooses, setWhyChooses] = useState("")
     // const [last_update, setLastUpdate] = useState("")
 
-    const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
+    // const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
 
     useEffect(() => {
-        console.log('props.dataAyah>', props.dataAyah)
-        setFatherName(props.dataAyah?.father_name)
-        setFatherAcademic(props.dataAyah?.father_academic)
-        setFatherSalary(props.dataAyah?.father_salary)
-        setFatherJob(props.dataAyah?.father_job)
-        setWhyChooses(props.dataAyah?.why_chooses)
-        setLastUpdate(props.dataAyah?.updated_at)
-    },[props.dataAyah])
+        // console.log('props.dataAyah>', props.dataAyah)
+        // setFatherName(props.dataAyah?.father_name)
+        // setFatherAcademic(props.dataAyah?.father_academic)
+        // setFatherSalary(props.dataAyah?.father_salary)
+        // setFatherJob(props.dataAyah?.father_job)
+        // setWhyChooses(props.dataAyah?.why_chooses)
+        // setLastUpdate(props.dataAyah?.updated_at)
+        if(props.dataSeragam.length > 0){
+            setApplicantUniformSC(props.dataSeragam)
+            setLastUpdate(props.dataSeragam[0].updated_at)
+        }
+        if(props.schoolUniformModel.length > 0){
+            setSchoolUniformModel(props.schoolUniformModel)
+            generateUniformModelForm()
+            console.log('setSchoolUniformModel', setSchoolUniformModel)
+            
+        }
+
+        props.participant? setParticipantId(props.participant): ""
+    },[props.dataSeragam, props.schoolUniformModel, props.gender, props.participant])
+    const models = []
     const saveData = (e) => {
         e.preventDefault()
-        console.log(data)
-        props.onSubmit(data)
+        // console.log('e >', e)
+        for (let i = 0; i < 23; i++) {
+            const x = e.target[i];
+
+            if(x.checked){models.push({
+                uniform_model_id: x.name,
+                participant_id: participant_id,
+                size_chart: x.value
+            })}     
+        }
+        console.log(models)
+        console.log('formData>', formData)
+        console.log('applicantUniformSCData>', applicantUniformSCData)
+        props.onSubmit(models)
         
+        generateUniformModelForm()
+        
+    }
+
+    const generateUniformModelForm = () => {
+        var data = ''
+        var subdata = ''
+        var size = ''
+        for (let index = 0; index < schoolUniformModel.length; index++) {
+            const m = schoolUniformModel[index];
+            // data += '<form action="" onSubmit={saveData}>'
+            // console.log(props.gender)
+            if(props.gender == m.model_gender && props.school == m.school_id){
+
+                data  += `<tr>
+                <td><img src=${m.model_url} alt=""  /></td>
+                
+                </tr>
+                <tr>
+                                                        <th>${m.model_name}</th>
+                                                        <th class="px-3">PB</th>
+                                                        <th class="px-3">LD</th>
+                                                        <th class="px-3">LP</th>
+                                                        <th class="px-3">PT</th>
+                                                    </tr>
+                                                    `
+
+                //    console.log(m.id, JSON.parse(m.model_size_charts))
+                
+                const model_size_charts = JSON.parse(m.model_size_charts)
+                for (let key in model_size_charts) {
+                    const checked = props.dataSeragam[index].uniform_model_id== m.id && props.dataSeragam[index].size_chart==key?'checked':''
+                    console.log(props.dataSeragam[index].uniform_model_id, props.dataSeragam[index].size_chart)
+                    console.log(checked)
+                // console.log(key, model_size_charts[key]);
+                // const s = Object.keys(model_size_charts)[i];
+                        subdata += `
+                        <tr className='flex flex-row justify-start items-center'>
+                        <th class='text-start'><input type="radio" name="`+m.id+`" value="${key}" onchange="`+setValue(m.id, key)+`" ${checked}  class='form-input text-gray-800 text-start' /><label htmlFor="XXXS" className='block text-medium text-gray-900'> ${key}</label></th>`
+                        for (let index = 0; index < model_size_charts[key].length; index++) {
+                        const s = model_size_charts[key][index];
+                        
+                        size += `<td class="px-3">${s}</td>`
+                    } 
+                    subdata += size
+                    size=""
+                    //    model_size_charts[key].forEach(s => {
+                        //     });
+                        subdata +=`</tr>`
+                    }
+                    
+                    
+                    data += subdata
+                    subdata=""  
+            }
+            // else
+            // {
+            //     data += "Belum ada data ukuran seragam"
+            // }
+        }
+        
+        setTableData(data)
+    }
+
+
+    const setValue = (model_id, size) => {
+        // console.log(e)
+        // const { name, value } = e;
+        // console.log(e.target)
+        // setFormData((prevState) => ({ ...prevState, [name]: value }));
+        const data = {
+            uniform_model_id: size,
+            size_chart: size
+        }
+        if(document.getElementsByName(model_id).checked){
+            console.log(true)
+             models.push({
+                uniform_model_id: model_id,
+                size_chart: size_chart
+            })   
+            setApplicantUniformSCData([...applicantUniformSCData, {
+                uniform_model_id: model_id,
+                size_chart: size_chart
+            }])
+        }
+        // console.log('DATA >', data)
+        // let item = models.some(value => { return (i) => value=={
+        //     uniform_model_id: model_id,
+        //     ...i
+        // }})
+
+        // if(event.checked){
+         
+
+        // }
+        
+        // if(models.includes({
+        //     uniform_model_id: model_id
+        // }, 0)){
+        //     next()
+        // }else{
+        //     console.log(true)
+        //      models.push({
+        //         uniform_model_id: model_id,
+        //         size_chart: size_chart
+        //     })
+        // }
+        // models = []
+        // console.log(models)
+        // applicantUniformSCData.push(data)
+
+        
+
+        console.log(applicantUniformSCData)
+        // setApplicantUniformSCData((e)=>({...e, {
+        //     uniform_model_id: model_id,
+        //     size_chart: size_chart
+        // }}))
     }
 
     const formatDate = (date) => {
@@ -48,216 +202,37 @@ const PengukuranSeragam = (props) => {
 
     return (
         <section className="relative">
-            <div className='max-w-6xl mx-auto px-4 sm:px-6'>
+            <div className='max-w-6xl mx-auto px-4 sm:px-6 '>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
                         <form action="" onSubmit={saveData}>
                             <div className="space-y-12">
                                 <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-3xl font-semibold text-gray-900">Data Ayah</h2>
+                                <h2 className="text-3xl font-semibold text-gray-900">Pengukuran Seragam</h2>
+                                <p className="mt-1 text-sm/6 text-gray-600 italic">
+                                    Perhatikan ukuran sesuai dengan tabel ukuran seragam. 
+                                    {/* This information will be displayed publicly so be careful what you share. */}
+                                </p>
                                 <p className="mt-1 text-sm/12 text-gray-600">
                                     Update terakhir: {last_update?formatDate(last_update):'-'}.
-                                </p>
-                                <p className="mt-1 text-sm/6 text-gray-600 italic">
-                                    Data Diri Ayah Kandung
-                                    {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
 
                                 <div className="border-b border-gray-900/20 py-3"></div>
 
                                 <div className="flex">
-                                    <table>
-                                        <tr>
-                                            <th>Seragam Batik dan Koko</th>
-                                            <th>PB</th>
-                                            <th>LD</th>
-                                            <th>LP</th>
-                                            <th>PT</th>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXXS" className='block text-medium text-gray-900'>XXXS</label><input type="radio" name="batikkoko_xxxs" value={"XXXS"} className='form-input text-gray-800' /></th>
-                                            <td>65</td>
-                                            <td>45</td>
-                                            <td>21</td>
-                                            <td>52</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXS" className='block text-medium text-gray-900'>XXS</label><input type="radio" name="batikkoko_xxs" value={"XXS"} className='form-input text-gray-800' /></th>
-                                            <td>68</td>
-                                            <td>48</td>
-                                            <td>22</td>
-                                            <td>22</td>
-                                            <td>53</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XS" className='block text-medium text-gray-900'>XS</label><input type="radio" name="batikkoko_xs" value={"XS"} className='form-input text-gray-800' /></th>
-                                            <td>70</td>
-                                            <td>50</td>
-                                            <td>23</td>
-                                            <td>54</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="S" className='block text-medium text-gray-900'>S</label><input type="radio" name="batikkoko_s" value={"S"} className='form-input text-gray-800' /></th>
-                                            <td>74</td>
-                                            <td>52</td>
-                                            <td>24</td>
-                                            <td>55</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="M" className='block text-medium text-gray-900'>M</label><input type="radio" name="batikkoko_xs" value={"M"} className='form-input text-gray-800' /></th>
-                                            <td>75</td>
-                                            <td>55</td>
-                                            <td>25</td>
-                                            <td>56</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="L" className='block text-medium text-gray-900'>L</label><input type="radio" name="batikkoko_l" value={"L"} className='form-input text-gray-800' /></th>
-                                            <td>76</td>
-                                            <td>59,5</td>
-                                            <td>26</td>
-                                            <td>56</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XL" className='block text-medium text-gray-900'>XL</label><input type="radio" name="batikkoko_xl" value={"XL"} className='form-input text-gray-800' /></th>
-                                            <td>77</td>
-                                            <td>64</td>
-                                            <td>27</td>
-                                            <td>56</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXL" className='block text-medium text-gray-900'>XXL</label><input type="radio" name="batikkoko_xxl" value={"XXL"} className='form-input text-gray-800' /></th>
-                                            <td>78</td>
-                                            <td>66</td>
-                                            <td>28</td>
-                                            <td>56</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXXL" className='block text-medium text-gray-900'>XXXL</label><input type="radio" name="batikkoko_xxxl" value={"XXXL"} className='form-input text-gray-800' /></th>
-                                            <td>80</td>
-                                            <td>68</td>
-                                            <td>29</td>
-                                            <td>57</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div className="flex">
-                                    <table>
-                                        <tr>
-                                            <th>Kaos Olahraga</th>
-                                            <th>PB</th>
-                                            <th>LD</th>
-                                            <th>PT</th>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XS" className='block text-medium text-gray-900'>XS</label><input type="radio" name="batikkoko_xs" value={"XS"} className='form-input text-gray-800' /></th>
-                                            <td>64</td>
-                                            <td>44</td>
-                                            <td>45</td>
-                                            {/* <td>54</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="S" className='block text-medium text-gray-900'>S</label><input type="radio" name="batikkoko_s" value={"S"} className='form-input text-gray-800' /></th>
-                                            <td>66</td>
-                                            <td>46</td>
-                                            <td>45</td>
-                                            {/* <td>55</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="M" className='block text-medium text-gray-900'>M</label><input type="radio" name="batikkoko_xs" value={"M"} className='form-input text-gray-800' /></th>
-                                            <td>69</td>
-                                            <td>48</td>
-                                            <td>46</td>
-                                            {/* <td>56</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="L" className='block text-medium text-gray-900'>L</label><input type="radio" name="batikkoko_l" value={"L"} className='form-input text-gray-800' /></th>
-                                            <td>72</td>
-                                            <td>50</td>
-                                            <td>48</td>
-                                            {/* <td>56</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XL" className='block text-medium text-gray-900'>XL</label><input type="radio" name="batikkoko_xl" value={"XL"} className='form-input text-gray-800' /></th>
-                                            <td>75</td>
-                                            <td>52</td>
-                                            <td>50</td>
-                                            {/* <td>56</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXL" className='block text-medium text-gray-900'>XXL</label><input type="radio" name="batikkoko_xxl" value={"XXL"} className='form-input text-gray-800' /></th>
-                                            <td>78</td>
-                                            <td>54</td>
-                                            <td>52</td>
-                                            {/* <td>56</td> */}
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXXL" className='block text-medium text-gray-900'>XXXL</label><input type="radio" name="batikkoko_xxxl" value={"XXXL"} className='form-input text-gray-800' /></th>
-                                            <td>80</td>
-                                            <td>57</td>
-                                            <td>52</td>
-                                            {/* <td>57</td> */}
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div className="flex">
-                                    <table>
-                                        <tr>
-                                            <th>Celana Olahraga</th>
-                                            <th>LP</th>
-                                            <th>KC</th>
-                                            <th>LB</th>
-                                            <th>PC</th>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XS" className='block text-medium text-gray-900'>XS</label><input type="radio" name="batikkoko_xs" value={"XS"} className='form-input text-gray-800' /></th>
-                                            <td>74</td>
-                                            <td>54</td>
-                                            <td>24</td>
-                                            <td>77</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="S" className='block text-medium text-gray-900'>S</label><input type="radio" name="batikkoko_s" value={"S"} className='form-input text-gray-800' /></th>
-                                            <td>76</td>
-                                            <td>56</td>
-                                            <td>26</td>
-                                            <td>80</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="M" className='block text-medium text-gray-900'>M</label><input type="radio" name="batikkoko_xs" value={"M"} className='form-input text-gray-800' /></th>
-                                            <td>78</td>
-                                            <td>58</td>
-                                            <td>28</td>
-                                            <td>83</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="L" className='block text-medium text-gray-900'>L</label><input type="radio" name="batikkoko_l" value={"L"} className='form-input text-gray-800' /></th>
-                                            <td>80</td>
-                                            <td>60</td>
-                                            <td>30</td>
-                                            <td>86</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XL" className='block text-medium text-gray-900'>XL</label><input type="radio" name="batikkoko_xl" value={"XL"} className='form-input text-gray-800' /></th>
-                                            <td>82</td>
-                                            <td>62</td>
-                                            <td>32</td>
-                                            <td>89</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXL" className='block text-medium text-gray-900'>XXL</label><input type="radio" name="batikkoko_xxl" value={"XXL"} className='form-input text-gray-800' /></th>
-                                            <td>84</td>
-                                            <td>64</td>
-                                            <td>24</td>
-                                            <td>92</td>
-                                        </tr>
-                                        <tr>
-                                            <th><label htmlFor="XXXL" className='block text-medium text-gray-900'>XXXL</label><input type="radio" name="batikkoko_xxxl" value={"XXXL"} className='form-input text-gray-800' /></th>
-                                            <td>86</td>
-                                            <td>66</td>
-                                            <td>36</td>
-                                            <td>95</td>
-                                        </tr>
-                                    </table>
+                                    {/* {schoolUniformModel[0].model_url} */}
+                                    {/* <table> */}
+                                     {/* schoolUniformModel.forEach(
+                                        function(d){
+                                            fore += '<li>' + d.name + '</li>'
+                                            }
+                                        ) */}
+                                            <table dangerouslySetInnerHTML={{__html: tableData}}>
+                                                {/* <ul ></ul> */}
+                                        
+                                                </table>
+                                        
+                                    {/* </table> */}
                                 </div>
                                 <div className='flex justify-center text-center my-5'>
                                     

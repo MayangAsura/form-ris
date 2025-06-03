@@ -21,25 +21,31 @@ function MetodeUangPangkal(props) {
     const [ metode_uang_pangkal, setMetodeUangPangkal] = useState("")
     const [ dataSchool, setDataSchool ] = useState({id: "", name: "" })
     const [ applicantSchoolCode, setApplicantSchoolCode ] = useState("")    
+    const [ applicantStudentCategory, setApplicantStudentCategory ] = useState("")    
     const [ dataMetodeUangPangkal, setDataMetodeUangPangkal ] = useState({})    
     const [ last_update, setLastUpdate ] = useState({})    
-    console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
-
+    
     useEffect(() =>{
         // setApplicantSchool()
- 
+        
+        console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
         console.log('props.dataMetodeUangPangkal>', props.dataMetodeUangPangkal)
         
-        console.log;('props.dataApplicant.id > ', props.dataApplicant.id)
-        console.log;('props.dataApplicantCategory > ', props.dataApplicantCategory)
+        console.log('props.dataApplicant.id > ', props.dataApplicant.id)
+        console.log('props.dataApplicantCategory > ', props.dataApplicantCategory)
         
         setMetodeUangPangkal(props.dataMetodeUangPangkal?.metode_uang_pangkal)
         setLastUpdate(props.dataMetodeUangPangkal?.updated_at)
+
+        setApplicantStudentCategory(props.dataApplicantCategory?.student_category)
+
+        
+        getSchoolCode(props.dataApplicant?.id)
+        console.log('schoolCode > ', applicantSchoolCode)
+
         setDataMetodeUangPangkal(props.dataMetodeUangPangkal?props.dataMetodeUangPangkal:{})
         
         
-        setApplicantSchoolCode(getSchoolCode(props.dataApplicant?.id))
-        console.log;('schoolCode > ', applicantSchoolCode)
     },[props.dataApplicant, props.dataApplicantCategory])
 
     const getSchoolCode = (code) => {
@@ -47,14 +53,14 @@ function MetodeUangPangkal(props) {
           
         // }
         switch (code) {
-          case 1 : return 'tkit'  
+          case 1 : return setApplicantSchoolCode('tkit')  
         //   case 1 : return 'tkit-b'  
-          case 2 : return 'sdit'  
-          case 3 : return 'smpi'  
-          case 4 : return 'smai'  
-          case 5 : return 'smp-pesantren'  
-          case 6 : return 'sma-pesantren'  
-          case 7 : return 'rabbaanii-ciwidey'
+          case 2 : return setApplicantSchoolCode('sdit')  
+          case 3 : return setApplicantSchoolCode('smpi')  
+          case 4 : return setApplicantSchoolCode('smai')  
+          case 5 : return setApplicantSchoolCode('smp-pesantren')  
+          case 6 : return setApplicantSchoolCode('sma-pesantren')  
+          case 7 : return setApplicantSchoolCode('rabbaanii-ciwidey')
           default : return ''  
           
         //   break;
@@ -128,54 +134,73 @@ function MetodeUangPangkal(props) {
 
                                 <div className="mt-10 grid grid-cols- gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-5">
-                                        {
-
-                                        props.dataApplicant.id == 2 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )? (
+                                    
+                                        {   applicantSchoolCode === 'tkit' && (applicantStudentCategory ==='alumni' || applicantStudentCategory==='hasfamily' ) && (
                                                 <PaymentUangPangkalRabTKIT/>
-                                            ): (
-                                                <PaymentUangPangkalNonRabTKIT/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 1 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )?(
+                                            applicantSchoolCode === 'tkit' && (applicantStudentCategory !=='alumni' && applicantStudentCategory!=='hasfamily' ) &&
+                                            (
+                                                <PaymentUangPangkalNonRabTKIT/>
+                                            )
+                                        }
+                                        {   applicantSchoolCode == 'sdit' && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSDIT/>
-                                            ): (
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'sdit' && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' )&& (
                                                 <PaymentUangPangkalNonRabSDIT/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 3 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )?(
+                                            applicantSchoolCode == 'smpi' && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMPI/>
-                                            ) : (
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smpi' && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMPI/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 6 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )?(
+                                            applicantSchoolCode == 'smai' && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMAI/>
-                                            ): (
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smai' && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMAI/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 4 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )?(
+                                            applicantSchoolCode == 'smp-pesantren' && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMPPesantren/>
-                                            ):(
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'smp-pesantren' && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMPPesantren/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 5 && (props.dataApplicantCategory.student_category=='alumni' || props.dataApplicantCategory.student_category=='hasfamily' )?(
+                                            applicantSchoolCode == 'sma-pesantren' && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMAPesantren/>
-                                            ):(
+                                            )
+                                        }
+                                        {
+                                            applicantSchoolCode == 'sma-pesantren' && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMAPesantren/>
                                             )
                                         }
                                         {
-                                            props.dataApplicant.id == 7 && (
-                                                <PaymentUangPangkalPondokCiwidey/>
+                                            applicantSchoolCode == 'rabbaanii-ciwidey' && (
+                                                <PaymentUangPangkalRabSMAPesantren/>
                                             )
                                         }
+                                        
+                                        
                                     </div>
                                 </div>
                                 <div className="border-b border-gray-900/10 py-3"></div>
@@ -184,7 +209,7 @@ function MetodeUangPangkal(props) {
                                     <div className="sm:col-span-8">
                                         <label htmlFor="metode_uang_pangkal" className="block text-sm/6 font-medium text-gray-900">Pilihan Metode Pembayaran Uang Pangkal</label>
                                         <div className="mt-2 grid grid-cols-1">
-                                            <select id="metode_uang_pangkal" name="metode_uang_pangkal" value={dataMetodeUangPangkal.metode_uang_pangkal??metode_uang_pangkal} onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
+                                            <select id="metode_uang_pangkal" name="metode_uang_pangkal" value={metode_uang_pangkal} onChange={(e) => setMetodeUangPangkal(e.target.value)} autoComplete="metode_uang_pangkal" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                                 <option value="">Pilih Metode Pembayaran</option>
                                                 <option value="gel_1" >Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)</option>
                                             </select>    
@@ -207,7 +232,7 @@ function MetodeUangPangkal(props) {
                                 <div className='flex justify-center text-center my-5'>
                                      
                                      {!props.complete && (
-                                         <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800'
+                                         <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                  // onClick={() => {
                                                  //     // currentStep === steps.length
                                                  //     //   ? setComplete(true)
@@ -223,7 +248,17 @@ function MetodeUangPangkal(props) {
      
                                                      
                                                  // }}
-                                                 >Submit</button>
+                                                 >{props.isPending && (
+                                                        // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
+                                                            <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                        // </button>
+                                                        // "Menyimpan..."
+                                                        // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
+                                                    )}
+                                                    Submit</button>
                                          )}
                                  </div>
                                 </div>

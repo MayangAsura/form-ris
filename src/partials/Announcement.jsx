@@ -3,14 +3,14 @@ import { TiPinOutline} from 'react-icons/ti'
 import supabase from '../client/supabase_client'
 import { useSelector } from 'react-redux'
 
-function Annoucement() {
+function Announcement(props) {
 
   const {userToken} = useSelector(state => state.auth)
   const [submission_status, setSubmissionStatus] = useState("initial_submission")
 
   useEffect(()=>{
     getSubmissionStatus()
-  },[submission_status])
+  },[props.participant])
 
   const getSubmissionStatus = async () => {
     const { data: participants , error} = await supabase.from("participants")
@@ -84,7 +84,7 @@ function Annoucement() {
                      
                     </span> */}
                     <div className='flex flex-grow gap-2 px-2 mt-10'>
-                      
+                      {}
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   // onClick={() => {
                                                   //     // currentStep === steps.length
@@ -117,23 +117,26 @@ function Annoucement() {
                                                   >Download Surat Pernyataan Wali Santri</button>
 
                     </div>
-                    <div className='flex flex-grow gap-4 px-2 mt-2'>
-                      <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
-                                                  // onClick={() => {
-                                                  //     // currentStep === steps.length
-                                                  //     //   ? setComplete(true)
-                                                  //     //   : setCurrentStep((prev) => prev + 1); 
-                                                  //     if(props.currentStep === 9){
-                                                  //     props.handledComplete(true)
-                                                  //     }else{
-                                                  //     // props.handledCurrentStep(props.currentStep + 1) ;
-                                                  //     // props.setCurrentStep((prev) => prev + 1);
-                                                  //     // callback(data)
-                                                  //     }
-                                                  //     // handleSubmit 
-                                                  // }}
-                                                  >Pengukuran Seragam</button>
-                    </div>
+                    {submission_status == 'accepted' && (
+                      <div className='flex flex-grow gap-4 px-2 mt-2'>
+                        <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
+                                                    onClick={() => {
+                                                        setCurrentStep(10)
+                                                        // currentStep === steps.length
+                                                        //   ? setComplete(true)
+                                                        //   : setCurrentStep((prev) => prev + 1); 
+                                                        // if(props.currentStep === 9){
+                                                        // props.handledComplete(true)
+                                                        // }else{
+                                                        // // props.handledCurrentStep(props.currentStep + 1) ;
+                                                        // // props.setCurrentStep((prev) => prev + 1);
+                                                        // // callback(data)
+                                                        // }
+                                                        // handleSubmit 
+                                                    }}
+                                                    >Pengukuran Seragam</button>
+                      </div>
+                    )}
                     
                   </p>
                 </div>
@@ -166,4 +169,4 @@ function Annoucement() {
   )
 }
 
-export default Annoucement
+export default Announcement
