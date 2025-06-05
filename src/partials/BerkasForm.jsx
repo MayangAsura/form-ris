@@ -2,6 +2,9 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { useState, useEffect } from 'react';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import { Document, Page } from 'react-pdf';
+
 function BerkasForm(props) {
 
     const [error, setError] = useState(null)
@@ -14,22 +17,29 @@ function BerkasForm(props) {
     const [certificate, setCertificate] = useState("")
     const [berkasFile, setBerkasFile] = useState([]) 
     const [dataBerkas, setDataBerkas] = useState([]) 
+    const [dataSchool, setDataSchool] = useState({id: ""}) 
     const [last_update, setLastUpdate] = useState("") 
 
 
     useEffect(() => {
             console.log('props.dataBerkas>', props.dataBerkas)
             if(props.dataBerkas.length > 0) {
+                
                 setDataBerkas(props.dataBerkas)
                 setLastUpdate(props.dataBerkas[0].updated_at)
 
             }
+            if(props.school){
+                dataSchool.id = props.school
+                // setDataSchool(props.)
+            }
+            // console.log(dataBerkas)
             // setMotherName(props.dataIbu.mother_name)
             // setMotherAcademic(props.dataIbu.mother_academic)
             // setMotherSalary(props.dataIbu.mother_salary)
             // setMotherJob(props.dataIbu.mother_job)
             // setLastUpdate(props.dataIbu.updated_at)
-        },[props.dataBerkas])
+        },[props.dataBerkas, props.school])
 
     const data = { bird_certificate:bird_certificate, pas_photo:pas_photo, parent_ktp:parent_ktp, surat_kesanggupan:surat_kesanggupan, kk:kk, certificate:certificate}
 
@@ -65,6 +75,11 @@ function BerkasForm(props) {
         
         setError(null)
     }
+
+    const options = {
+        standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`,
+
+    };
 
     const saveData = (e) => {
         e.preventDefault()
@@ -102,7 +117,7 @@ function BerkasForm(props) {
                                 <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-3xl font-semibold text-gray-900">Upload Kelengkapan Dokumen</h2>
                                 <p className="mt-1 text-sm/6 text-gray-600 italic">
-                                    Silahkan lengkapi dokumen berikut. Mohon untuk menguploaad scan/foto dokumen dengan kualitas yang baik.
+                                    Silahkan lengkapi dokumen berikut. Mohon untuk mengupload scan/foto dokumen dengan kualitas yang jelas dan mudah terbaca.
                                     {/* This information will be displayed publicly so be careful what you share. */}
                                 </p>
                                 <p className="my-5 text-sm/8 text-gray-700">Update terakhir: { last_update!=""?formatDate(last_update):"-"} </p>
@@ -115,9 +130,24 @@ function BerkasForm(props) {
                                         <input id="bird_certificate" name="bird_certificate" type="file" autoComplete="bird_certificate" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
                                     </div>
                                     </div> */}
-                                    <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[0]?.file_url} alt="" width={30}/>
-                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran</label>
+                                    <div className="sm:col-span-8">
+                                        {(dataBerkas[0]?.file_type === '/PDF' || dataBerkas[0]?.file_type === 'PDF') && (
+                                            <div className="max-w-2xl max-auto my-10">
+                                                <Document options={options} file={props.dataBerkas[0].file_url??dataBerkas[0]?.file_url}/>
+                                                {/* <div className="w-full h-[500px]"> */}
+                                                
+                                                {/* <PDFViewer width="50%" height="50%" document="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+                                                    
+                                                </PDFViewer> */}
+                                                {/* </div> */}
+                                            </div>                  
+                                        )}
+                                        {dataBerkas[0]?.file_type === '/JPEG' || dataBerkas[0]?.file_type === 'JPEG' || dataBerkas[0]?.file_type === 'JPG' || dataBerkas[0]?.file_type === 'PNG' && (
+                                            <img src={props.dataBerkas[0].file_url??dataBerkas[0]?.file_url} alt="" width={30}/>
+                                        )}
+                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran
+                                            <span className="text-red-600">*</span>
+                                        </label>
                                         <div className="mt-2">
                                         <div className="relative inline-block">
                                             <p className="text-xs/5 text-gray-600">PNG, JPG, PDF up to 2MB</p>
@@ -134,9 +164,12 @@ function BerkasForm(props) {
                                     {/* if () {
                                         
                                     } */}
+                                    {dataSchool.id === 100 && (
                                     <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[3].file_url} alt="" width={30}/>
-                                        <label htmlFor="pas_photo" className="block text-sm/6 font-medium text-gray-900">Pas Photo Background Merah dan Putih (3x4 dan 2x3)</label>
+                                        <img src={props.dataBerkas[3].file_url??dataBerkas[3].file_url} alt="" width={30}/>
+                                        <label htmlFor="pas_photo" className="block text-sm/6 font-medium text-gray-900">Pas Photo Background Merah dan Putih (3x4 dan 2x3)
+                                            <span className="text-red-600">*</span>
+                                        </label>
                                         <p className="text-xs/5 text-gray-600">PNG, JPG, maks 2MB</p>
                                         <div className="relative inline-block">
                                             <div className="mt-2">
@@ -146,9 +179,13 @@ function BerkasForm(props) {
                                             </div>
                                         </div>
                                     </div>
+                                    )}
+                                    {dataSchool.id === 100 && (
                                     <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[2].file_url} alt="" width={30}/>
-                                        <label htmlFor="parent_ktp" className="block text-sm/6 font-medium text-gray-900">KTP Orang Tua / Wali </label>
+                                        <img src={props.dataBerkas[2].file_url??dataBerkas[2].file_url} alt="" width={30}/>
+                                        <label htmlFor="parent_ktp" className="block text-sm/6 font-medium text-gray-900">KTP Orang Tua / Wali 
+                                            <span className="text-red-600">*</span>
+                                        </label>
                                         <p className="text-xs/5 text-gray-600">PNG, JPG, maks 2MB</p>
                                         <div className="relative inline-block">
                                             <div className="mt-2">
@@ -158,9 +195,12 @@ function BerkasForm(props) {
                                             </div>
                                         </div>
                                     </div>
+                                    )}
                                     <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[1].file_url} alt="" width={30}/>
-                                        <label htmlFor="kk" className="block text-sm/6 font-medium text-gray-900">Kartu Keluarga (KK)</label>
+                                        <img src={props.dataBerkas[1].file_url??dataBerkas[1].file_url} alt="" width={30}/>
+                                        <label htmlFor="kk" className="block text-sm/6 font-medium text-gray-900">Kartu Keluarga (KK)
+                                            <span className="text-red-600">*</span>
+                                        </label>
                                         <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
                                         <div className="relative inline-block">
                                             <div className="mt-2">
@@ -170,20 +210,22 @@ function BerkasForm(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[4].file_url} alt="" width={30}/>
-                                    <label htmlFor="surat_kesanggupan" className="block text-sm/6 font-medium text-gray-900">Surat Kesanggupan</label>
-                                    <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
-                                    <div className="relative inline-block">
-                                        <div className="mt-2">
-                                            <input id="surat_kesanggupan" name="surat_kesanggupan" onChange={(e) => validateImage(e.target.files[0],2, 'Surat-Kesanggupan')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
-                                            accept=".pdf"/>
-                                            {/* <input id="surat_kesanggupan" name="surat_kesanggupan" type="file" autoComplete="surat_kesanggupan" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
+                                    <div className="sm:col-span-8">
+                                        <img src={props.dataBerkas[4].file_url??dataBerkas[4].file_url} alt="" width={30}/>
+                                        <label htmlFor="surat_kesanggupan" className="block text-sm/6 font-medium text-gray-900">Surat Kesanggupan
+                                            <span className="text-red-600">*</span>
+                                        </label>
+                                        <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
+                                        <div className="relative inline-block">
+                                            <div className="mt-2">
+                                                <input id="surat_kesanggupan" name="surat_kesanggupan" onChange={(e) => validateImage(e.target.files[0],2, 'Surat-Kesanggupan')} type="file" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
+                                                accept=".pdf"/>
+                                                {/* <input id="surat_kesanggupan" name="surat_kesanggupan" type="file" autoComplete="surat_kesanggupan" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
-                                    <div className="sm:col-span-4">
-                                        <img src={dataBerkas.length>0??dataBerkas[5].file_url} alt="" width={30} className='my-5'/>
+                                    <div className="sm:col-span-8">
+                                        <img src={props.dataBerkas[5].file_url??dataBerkas[5].file_url} alt="" width={30} className=''/>
                                         <label htmlFor="certificate" className="block text-sm/6 font-medium text-gray-900">Sertifikat / Syahadah Hafalan</label>
                                         <p className="text-xs/5 text-gray-600">PDF, maks 5MB</p>
                                         <div className="relative inline-block">
@@ -218,19 +260,23 @@ function BerkasForm(props) {
                                                         
                                                     // }}
                                                     >
-                                                        {props.isPending && (
-                                                                                                                // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
-                                                                                                                    <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                                                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                                                                                    </svg>
-                                                                                                                // </button>
-                                                                                                                // "Menyimpan..."
-                                                                                                                // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
-                                                                                                            )}
-                                                                                                            
-                                                        Submit</button>
-                                            )}
+                                                        {props.isPending? (
+                                                            <div>
+                                                                {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
+                                                                    <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                    Menyimpan...
+                                                                    </svg>
+                                                                {/* // </button> */}
+                                                                {/* // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg> */}
+                                                                
+                                                            </div>
+                                                        ) : 
+                                                            "Simpan"
+                                                        }
+                                            </button>
+                                        )}
                                     </div>
                                 
                                 </div>

@@ -46,7 +46,7 @@ function Home() {
         {/* <Pro */}
         <ProfileCard applicant={applicantData}/>
         <Announcement participant={participantData}/>
-        <HorizontalStepper applicant={applicantData}/>
+        <HorizontalStepper applicant={applicantData} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}

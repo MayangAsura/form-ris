@@ -3,49 +3,17 @@ import React from 'react'
 function PaymentUangPangkalRabSMAI() {
   return (
     <div>
+      <p className='font-medium text-xl my-2'>SMAI RABBAANII ISLAMIC SCHOOL (KELUARGA RABBAANII)</p>
+      <p className='font-medium text-base my-2 border-b p-2'>PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!</p>
 
-PILIH METODE PEMBAYARAN SESUAI YANG AYAH/BUNDA INGINKAN!
+      <p className='my-2'>GELOMBANG 1 Uang Pangkal = Rp 15.000.000,- Diskon = Rp 7.000.000,- Total Bayar = Rp 8.000.000- SPP per bulan = Rp 500.000,-</p>
 
-GELOMBANG 1
-Uang Pangkal = Rp 15.000.000,-
-Diskon = Rp 7.000.000,-
-Total Bayar = Rp 8.000.000-
-SPP per bulan = Rp 500.000,-
+      <p> TERMIN : Uang pangkal dapat dibayarkan dengan 2 termin pembayaran A. TERMIN 4 BULAN Uang Pangkal = Rp 15.000.000,- Diskon = Rp 6.000.000,- Total Bayar = Rp 9.000.000- SPP per bulan = Rp 500.000,- ---------------------------- Termin 1 = Rp 4.000.000,- Termin 2 = Rp 1.500.000,- Termin 3 = Rp 1.500.000,- Termin 4 = Rp 2.000.000,-   B. TERMIN 6 BULAN Uang Pangkal = Rp 15.000.000,- Diskon = Rp 5.000.000,- Total Bayar = Rp 10.000.000- SPP per bulan = Rp 500.000,- ---------------------------- Termin 1 = Rp 4.000.000,- Termin 2 = Rp 1.200.000,- Termin 3 = Rp 1.200.000,-  Termin 4 = Rp 1.200.000,-  Termin 5 = Rp 1.200.000,-  Termin 6 = Rp 1.200.000,-</p>
 
+      <p>Catatan tambahan:</p>
 
-TERMIN   : Uang pangkal dapat dibayarkan dengan 2 termin pembayaran
-A. TERMIN 4 BULAN
-Uang Pangkal = Rp 15.000.000,-
-Diskon = Rp 6.000.000,-
-Total Bayar = Rp 9.000.000-
-SPP per bulan = Rp 500.000,-
-----------------------------
-Termin 1 = Rp 4.000.000,-
-Termin 2 = Rp 1.500.000,-
-Termin 3 = Rp 1.500.000,-
-Termin 4 = Rp 2.000.000,-
- 
-B. TERMIN 6 BULAN
-Uang Pangkal = Rp 15.000.000,-
-Diskon = Rp 5.000.000,-
-Total Bayar = Rp 10.000.000-
-SPP per bulan = Rp 500.000,-
-----------------------------
-Termin 1 = Rp 4.000.000,-
-Termin 2 = Rp 1.200.000,-
-Termin 3 = Rp 1.200.000,- 
-Termin 4 = Rp 1.200.000,- 
-Termin 5 = Rp 1.200.000,- 
-Termin 6 = Rp 1.200.000,- 
+      <p> Kenaikan SPP maksimal Rp 40.000,- per tahun  Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024  Uang Pangkal belum termasuk uang kegiatan  Uang Tahunan meliputi uang buku dan uang kegiatan dibayarkan setiap kenaikan kelas  Apabila mengundurkan diri atas kemauan sendiri, maka uang pangkal yang telah dibayarkan tidak dapat dikembalikan dengan alasan apapun  Mengisi form ini berarti Ayah/Bunda telah setuju dengan semua syarat &amp; ketentuan yang berlaku di atas</p>
 
-Catatan tambahan:
-
-    Kenaikan SPP maksimal Rp 40.000,- per tahun
-    Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024
-    Uang Pangkal belum termasuk uang kegiatan
-    Uang Tahunan meliputi uang buku dan uang kegiatan dibayarkan setiap kenaikan kelas
-    Apabila mengundurkan diri atas kemauan sendiri, maka uang pangkal yang telah dibayarkan tidak dapat  dikembalikan dengan alasan apapun
-    Mengisi form ini berarti Ayah/Bunda telah setuju dengan semua syarat & ketentuan yang berlaku di atas
         {/* <ul>
             <li>Kenaikan SPP maksimal Rp 40.000,- per tahun</li>
             <li>Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024</li>

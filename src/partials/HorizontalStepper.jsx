@@ -14,6 +14,7 @@ import supabase from '../client/supabase_client';
 import PengukuranSeragam from './PengukuranSeragam';
 // import { createClient } from '@supabase/supabase-js';
 
+import SmallAlert from '../utils/SmallAlert';
 
 const HorizontalStepper = (props) => {
   
@@ -44,11 +45,13 @@ const HorizontalStepper = (props) => {
   const [applicantStudentCategory, setApplicantStudentCategory] = useState({})
   // const [applicantSchool, setApplicantSchool] = useState({})
 
+  const [dataAlert, setDataAlert] = useState({message:""})
+  const [dataAlertShow, setDataAlertShow] = useState(false)
   
   const scroll = (direction) => {
     console.log(direction)
     if (stepperRef.current) {
-      const scrollAmount = 250; // Adjust scroll distance
+      const scrollAmount = 200; // Adjust scroll distance
       stepperRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -252,8 +255,8 @@ const HorizontalStepper = (props) => {
 
   const getIdentitas = async (data) => {
     console.log("Data Identitas >", data)
+    // setTimeout(() => {
     startTransition(() => {
-      setTimeout(() => {
       if(data){
         setParticipant(data)
         console.log("Data Identitas cek >,", data)
@@ -286,11 +289,14 @@ const HorizontalStepper = (props) => {
           
             updateData(data_applicant, "applicants", applicant.id, 'id')
         }
-        scroll('right')
-        setCurrentStep(currentStep + 1)
       }
-    }, 4000);
+      
     })
+    // }, 4000);
+    if(applicant.participants.length > 0){
+      scroll('right')
+      setCurrentStep(currentStep + 1)
+    }
   }
 
   const getDataAyah =  (data) => {
@@ -396,22 +402,27 @@ const HorizontalStepper = (props) => {
     startTransition(() => {
 
       setTimeout(() => {
-      if(data){
-        console.log("DataBerkas >,", data)
-        // data = {...data, }
-        if(!complete){
-          if(!edit && dataBerkas.length == 0){
-            saveData(data, 'participant_documents', 'file')
-          }else{
-            saveData(data, 'participant_documents', 'file')
-            // updateData(data, 'participant_documents', applicant.participants[0]?.id)
+        if(data.length === 0 && !dataBerkas.length === 0) {
+          dataAlert.message = "Data berkas tidak boleh kosong"
+          setDataAlertShow(true) 
+        }
+
+        // if(data.length > 0){
+          console.log("DataBerkas >,", data)
+          // data = {...data, }
+          if(!complete){
+            if(!edit && dataBerkas.length === 0){
+              saveData(data, 'participant_documents', 'file')
+            }else{
+              saveData(data, 'participant_documents', 'file')
+              // updateData(data, 'participant_documents', applicant.participants[0]?.id)
+            }
           }
-        }
-        setDataBerkas(data)
-        // saveData(data, 'participant_documents', 'file')
-          scroll('right')
-          setCurrentStep(currentStep + 1)
-        }
+          setDataBerkas(data)
+          // saveData(data, 'participant_documents', 'file')
+            scroll('right')
+            setCurrentStep(currentStep + 1)
+          // }
       }, 3000);
     })
   }
@@ -478,13 +489,14 @@ const HorizontalStepper = (props) => {
         // data.forEach(e => { e.participant_id = pid});
         
         console.log('data > ', data)
-        if(!complete){
-          if(!edit && dataSeragam.length == 0){
+        if(complete){
+          if(dataSeragam.length == 0){
             saveData(data, 'participant_size_charts')
           }else{
             updateData(data, 'participant_size_charts', pid, 'id')
             // updateData(data, 'participant_documents', applicant.participants[0]?.id)
           }
+            updateData({is_uniform_sizing: true}, 'participants', pid, 'id')
         }
         
           // scroll('right')
@@ -624,7 +636,7 @@ const HorizontalStepper = (props) => {
               file_url: berkasUrl,
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
               file_size: d.size.toString(),
-              file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
+              file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
               file_title: d.name
             }
             console.log(dataItem)
@@ -783,7 +795,7 @@ const HorizontalStepper = (props) => {
     //           upsert: false  
     //         })
     // }
-    startTransition(async () => { 
+    // startTransition(async () => { 
 
       console.log('dataInput> ' ,dataInput)
 
@@ -813,7 +825,7 @@ const HorizontalStepper = (props) => {
         });
       }
 
-    } )
+    // } )
   }
   
 
@@ -849,13 +861,20 @@ const HorizontalStepper = (props) => {
 
   }
 
+  const setDataAlertShow_ = (value) => {
+    setDataAlertShow(value)
+  }
+
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} dataBerkas={dataBerkas} school={applicantSchool.id} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} dataBerkas={dataBerkas} school={applicantSchool.id} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} complete={complete} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
     <div className="flex items-center justify-center shadow-md p-4 ">
+      {dataAlertShow && (
+        <SmallAlert dataAlert={dataAlert} setDataAlertShow={setDataAlertShow_} />
+      )}
 
       {/* Left Scroll Button */}
       <button 
@@ -965,7 +984,7 @@ const HorizontalStepper = (props) => {
       >Menyimpan...</span>
     </div>
             ) : (
-              currentStep === steps.length ? "Selesai" : "Simpan & Lanjut"
+              currentStep === steps.length ? "Selesai" : "Lanjut"
             )} 
             {/* {isPending?  
             (

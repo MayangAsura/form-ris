@@ -13,6 +13,7 @@ import Swal from '../utils/Swal'
 // import axios from '../api/axios';
 import axios from 'axios';
 import wablas from '../api/wablas';
+import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
 function SignUp() {
@@ -24,17 +25,20 @@ function SignUp() {
   // console.log(process.env.SUPA_PROJECT_URL)
 
   const [applicants, setApplicants] = useState([])
+  const [dataAppTemp, setDataAppTemp] = useState({})
   const [full_name, setFullName] = useState("")
   const [gender, setGender] = useState("")
   const [phone_number, setPhoneNumber] = useState("")
   const [email, setEmail] = useState("")
   const [school_id, setSchoolId] = useState("")
   const [school_name, setSchoolName] = useState("")
+  const [subschool, setSubschool] = useState("")
   const [password, setPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
+    type: "basic",
     title: "Pendaftaran Berhasil",
     message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
     // text: "Konfirmasi Pendaftaran ke CS",
@@ -42,6 +46,7 @@ function SignUp() {
     text2: "Lanjut Pembayaran",
     url2: "/login"
   })
+
 
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
@@ -59,10 +64,27 @@ function SignUp() {
   // code = useParams().code
   
   useEffect( () => {
-    
+    const allowed_codes = [
+      'tkit-a',
+      'tkit-b',
+      'sdit',
+      'smpi',
+      'smai',
+      'smp-pesantren',
+      'rabbaanii-ciwidey'
+    ]
+
+    if(!allowed_codes.includes(code)){
+      modal_data.title = "Jenjang tidak ditemukan"
+      modal_data.message = "Mohon periksa link pendaftaran"
+      modal_data.url2 = "/"
+      modal_data.text2 = ""
+      modal_data.type = "static"
+      setModalShow(true)
+    }
     // getSchoolIdSchoolName()
     // getSchoolIdSchoolName()
-  },[])
+  },[code])
   // const [applicants, setApplicants] = useState({
   //   full_name: "",
   //   gender: "",
@@ -119,9 +141,11 @@ function SignUp() {
     const _phone_number = phone_number
     const _email = email
     const _school_id = parseInt(getSchoolIdSchoolName(code).substring(0,1)) 
+    const _subschool = getSchoolIdSchoolName(code).split("-")[0].substring(1,2)
     const _password = password
     const _media = media
   
+    // if(school_id)
     console.log(_full_name)
     console.log(_gender)
     console.log(_phone_number)
@@ -129,6 +153,8 @@ function SignUp() {
     console.log(_password)
     console.log(_media)
     console.log(_school_id)
+    console.log(_subschool)
+    console.log(code)
 
     // const newapplicants =  {full_name, gender, phone_number, email, password}
   
@@ -149,25 +175,32 @@ function SignUp() {
 
       // const
     
-    const { data_applicant, error_applicant } = await supabase.rpc("add_new_applicant", {
+    const { data, error } = await supabase.rpc("add_new_applicant", {
       _email,
       _full_name,
       _gender,
       _media,
       _password,
       _phone_number,
-      _school_id
+      _school_id,
+      _subschool
     });
 
-    console.log(data_applicant)
-    if(error_applicant){
+    console.log(data)
+    setDataAppTemp(data)
+    console.log('dataAppTemp >', dataAppTemp)
+    if(error || Object.values(data)[0] === '01'){
+      console.log('masuk')
+      console.log(Object.values(data)[0] )
       setSuccess(false)
       modal_data.title = "Pendaftaran Gagal"
-      modal_data.message = error_applicant
+      modal_data.message = error??Object.values(data)[1]
+      modal_data.url2 = "/"
+      modal_data.text2 = ""
       setModalShow(true)
     }
 
-    if(!error_applicant){
+    if(Object.values(data)[0] !== '01'){
       // _phone_number.replace()
       setFullName("")
       setGender("")
@@ -175,6 +208,7 @@ function SignUp() {
       setEmail("")
       setSchoolId("")
       setSchoolName("")
+      setSubschool("")
       setPassword("")
       setConfirmPassword("")
       
@@ -208,14 +242,9 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
       // 
       console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       // const token = response?.token
-    }else{
-      setSuccess(false)
-      modal_data.title = "Pendaftaran Gagal"
-      modal_data.message = error_applicant
-      setModalShow(true)
     }
     
-    console.log('data_applicant =>', data_applicant)
+    console.log('data_applicant =>', data)
 
     
   
@@ -272,23 +301,23 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
       
     // }
     switch (code) {
-      case 'tkit-a': return `1TKIT A Rabbaanii Islamic School`;  
+      case 'tkit-a': return `2A-TKIT A Rabbaanii Islamic School`;  
       break;
-      case 'tkit-b': return `1TKIT B Rabbaanii Islamic School`;  
+      case 'tkit-b': return `2A-TKIT B Rabbaanii Islamic School`;  
       break;
-      case 'sdit': return `2SDIT Rabbaanii Islamic School`;
+      case 'sdit': return `1-SDIT Rabbaanii Islamic School`;
       break;
-      case 'smpi': return `3SMPI Rabbaanii Islamic School`;
+      case 'smpi': return `3-SMPI Rabbaanii Islamic School`;
       break;
-      case 'smai': return `4SMAI Rabbaanii Islamic School`; 
+      case 'smp-pesantren': return `4-SMP Pesantren Rabbaanii Islamic School`; 
       break;
-      case 'smp-pesantren': return `5SMP Pesantren Rabbaanii Islamic School`; 
+      case 'sma-pesantren': return `5-SMA Pesantren  Rabbaanii Islamic School`; 
       break;
-      case 'sma-pesantren': return `6SMA Pesantren  Rabbaanii Islamic School`; 
+      case 'smai': return `6-SMAI Rabbaanii Islamic School`; 
       break;
-      case 'rabbaanii-ciwidey': return `7Rabbaanii Ciwidey`; 
+      case 'rabbaanii-ciwidey': return `100Rabbaanii Ciwidey`; 
       break;
-      default: return `10Not Found`; 
+      default: return `0Not Found`; 
         // break;
     }
   }
@@ -358,15 +387,16 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                       {/* {school_id. school_name} */}
                       {/* {code} */}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
+                      {/* <input id="subschool" name='subschool' type="text" hidden disabled value={} onChange={e => (setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2)))}  className="form-input w-full text-gray-800" placeholder="" required /> */}
                       <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
-                      <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).substring(1)} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
                   </div>
                   <div className='h4 separator'>Informasi Akun</div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="password">Password <span className="text-red-600">*</span></label>
-                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkad Password" required />
+                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">

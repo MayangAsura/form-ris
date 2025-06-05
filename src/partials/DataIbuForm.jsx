@@ -64,7 +64,9 @@ function DataIbuForm(props) {
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="mother_name" className="block text-sm/6 font-medium text-gray-900">Nama Ibu Kandung</label>
+                                    <label htmlFor="mother_name" className="block text-sm/6 font-medium text-gray-900">Nama Ibu Kandung
+                                        <span className="text-red-600">*</span>
+                                    </label>
                                     <span className="text-sm italic">Hindari penggunaan gelar akademik atau sosial (Drs, Dr, H, dll)</span>
                                     <div className="mt-2">
                                         <input id="mother_name" name="mother_name" value={mother_name} onChange={(e) => setMotherName(e.target.value)} type="text" autoComplete="mother_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
@@ -74,7 +76,10 @@ function DataIbuForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="mother_academic" className="block text-sm/6 font-medium text-gray-900">Pendidikan Ibu</label>
+                                        <label htmlFor="mother_academic" className="block text-sm/6 font-medium text-gray-900">Pendidikan Ibu
+                                            <span className="text-red-600">*</span>
+                                        </label>
+                                            <span className="text-sm italic">Pendidikan terakhir ibu kandung</span>
                                             <select id="mother_academic" name="mother_academic" value={mother_academic} onChange={(e) => setMotherAcademic(e.target.value)} autoComplete="mother_academic" className="mt-2 col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="sma_sederajat">SMA/sederajat</option>
@@ -94,7 +99,9 @@ function DataIbuForm(props) {
                                             </svg> */}
                                     </div>
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="mother_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ibu</label><span className='text-sm italic'>Pekerjaan utama ibu kandung</span>
+                                    <label htmlFor="mother_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ibu
+                                        <span className="text-red-600">*</span>
+                                    </label>
                                     <span className="text-sm italic">Pekerjaan utama ibu kandung</span>
                                     <div className="mt-2">
                                         <input id="mother_job" name="mother_job" value={mother_job} onChange={(e) => setMotherJob(e.target.value)} type="text" autoComplete="mother_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required></input>
@@ -104,7 +111,9 @@ function DataIbuForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="mother_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Ibu</label>
+                                        <label htmlFor="mother_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Ibu
+                                            <span className="text-red-600">*</span>
+                                        </label>
                                         {/* <div className="mt-2 grid grid-cols-1"> */}
                                             <select id="mother_salary" name="mother_salary" value={mother_salary} onChange={(e) => setMotherSalary(e.target.value)} autoComplete="mother_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                             <option value="">Pilih Penghasilan</option>
@@ -147,19 +156,23 @@ function DataIbuForm(props) {
                                                         
                                                     // }}
                                                     >
-                                                        {props.isPending && (
-                                                                                                            // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
-                                                                                                                <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                                                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                                                                                </svg>
-                                                                                                            // </button>
-                                                                                                            // "Menyimpan..."
-                                                                                                            // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
-                                                                                                        )}
-                                                                                                            
-                                                        Submit</button>
-                                            )}
+                                                        {props.isPending? (
+                                                            <div>
+                                                                {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
+                                                                    <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                    Menyimpan...
+                                                                    </svg>
+                                                                {/* // </button> */}
+                                                                {/* // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg> */}
+                                                                
+                                                            </div>
+                                                        ) : 
+                                                            "Simpan"
+                                                        }
+                                            </button>
+                                        )}
                                     </div>
 
                                 </div>

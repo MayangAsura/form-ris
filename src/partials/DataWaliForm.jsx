@@ -71,7 +71,8 @@ function DataWaliForm(props) {
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="wali_name" className="block text-sm/6 font-medium text-gray-900">Nama Wali</label>
+                                    <label htmlFor="wali_name" className="block text-sm/6 font-medium text-gray-900">Nama Wali
+                                    </label>
                                     <div className="mt-2">
                                         <input id="wali_name" name="wali_name" value={wali_name} onChange={(e)=> setWaliName(e.target.value)} type="text" autoComplete="wali_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -80,7 +81,8 @@ function DataWaliForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali</label>
+                                        <label htmlFor="wali_academic" className="block text-sm/6 font-medium text-gray-900 ">Pendidikan Wali
+                                        </label>
                                             <select id="wali_academic" name="wali_academic" value={wali_academic} onChange={(e) => setWaliAcademic(e.target.value)} autoComplete="wali_academic" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Pendidikan</option>
                                             <option value="SMA_sederajat">SMA/sederajat</option>
@@ -100,7 +102,9 @@ function DataWaliForm(props) {
                                             </svg> */}
                                     </div>
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali</label><span className='text-sm italic'>Pekerjaan utama wali</span>
+                                    <label htmlFor="wali_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Wali
+                                    </label>
+                                    <span className='text-sm italic'>Pekerjaan utama wali</span>
                                     <div className="mt-2">
                                         <input id="wali_job" name="wali_job" value={wali_job} onChange={(e) => setWaliJob(e.target.value)} type="text" autoComplete="wali_job" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
@@ -109,7 +113,8 @@ function DataWaliForm(props) {
                                     </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali</label>
+                                        <label htmlFor="wali_salary" className="block text-sm/6 font-medium text-gray-900">Penghasilan Wali
+                                        </label>
                                         {/* <div className="mt-2 grid grid-cols-1"> */}
                                             <select id="wali_salary" name="wali_salary" value={wali_salary} onChange={(e) => setWaliSalary(e.target.value)} autoComplete="wali_salary" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500">
                                             <option value="">Pilih Penghasilan</option>
@@ -139,17 +144,22 @@ function DataWaliForm(props) {
                                                 
                                                 <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                         >
-                                                            {props.isPending && (
-                                                        // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
-                                                            <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                            </svg>
-                                                        // </button>
-                                                        // "Menyimpan..."
-                                                        // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
-                                                    )}
-                                                            Submit</button>
+                                                            {props.isPending? (
+                                                                <div>
+                                                                    {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
+                                                                        <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                        Menyimpan...
+                                                                        </svg>
+                                                                    {/* // </button> */}
+                                                                    {/* // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg> */}
+                                                                    
+                                                                </div>
+                                                            ) : 
+                                                                "Simpan"
+                                                            }
+                                                </button>
                                                 <button className='btn w-full py-3 block btn-sm  text-gray-200 bg-gray-800 hover:bg-gray-700'
                                                 onClick={() => {
                                                     // currentStep === steps.length

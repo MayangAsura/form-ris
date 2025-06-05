@@ -100,7 +100,9 @@ const DataAyahForm = (props) => {
                                         {/* </div> */}
                                     </div>
                                     <div className="sm:col-span-4">
-                                    <label htmlFor="father_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ayah</label>
+                                    <label htmlFor="father_job" className="block text-sm/6 font-medium text-gray-900">Pekerjaan Ayah
+                                        <span className="text-red-600">*</span>
+                                    </label>
                                     <span className="text-sm italic">Pekerjaan utama ayah kandung</span>
                                     <div  className="mt-2">
                                         <input id="father_job" name="father_job" onChange={(e)=> setFatherJob(e.target.value)} value={father_job} type="text" autoComplete="father_job"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
@@ -169,7 +171,7 @@ const DataAyahForm = (props) => {
                                 <div className='flex justify-center text-center my-10'>
                                     
                                     {!props.complete && (
-                                        <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={isPending}
+                                        <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                 // onClick={() => {
                                                 //     // currentStep === steps.length
                                                 //     //   ? setComplete(true)
@@ -186,17 +188,21 @@ const DataAyahForm = (props) => {
                                                     
                                                 // }}
                                                 >
-                                                    {props.isPending && (
-                                                        // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled>
-                                                            <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                            </svg>
-                                                        // </button>
-                                                        // "Menyimpan..."
-                                                        // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg>
-                                                    )}
-                                                    Submit
+                                                    {props.isPending? (
+                                                        <div>
+                                                            {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
+                                                                <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                Menyimpan...
+                                                                </svg>
+                                                            {/* // </button> */}
+                                                            {/* // <svg className="animate-spin h-5 w-5 mr-3 " viewBox="0 0 24 24"></svg> */}
+                                                            
+                                                        </div>
+                                                    ) : 
+                                                        "Simpan"
+                                                    }
                                         </button>
                                     )}
                                 </div>
