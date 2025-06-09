@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userLogin } from '../features/auth/authActions'
 import supabase from '../client/supabase_client';
 
+import { TbEye, TbEyeOff } from "react-icons/tb";
+
 import Cookies from 'js-cookie'
 
 import Header from '../partials/Header';
@@ -13,8 +15,8 @@ import Swal from '../utils/Swal';
 import { data } from 'autoprefixer';
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
-import axios from '../api/local-server'
-const LOGIN_URL = '/auth/login'
+import axios from '../api/prod-server'
+const LOGIN_URL = 'api/auth/login'
 
 function SignIn(props) {
   const {loading, userInfo, userToken, errorMsg, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
@@ -23,6 +25,7 @@ function SignIn(props) {
   const {setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [isVisible, setIsVisible] = useState(false)
   const [userData, setUserData] = useState({
     school_name: "",
     status: ""
@@ -90,6 +93,10 @@ function SignIn(props) {
     return payment?.status=='finished'?true:false
 
 
+  }
+
+  const hanledVisible = () => {
+    setIsVisible(prevState => !prevState)
   }
 
   // const modal = {
@@ -237,7 +244,19 @@ function SignIn(props) {
                         <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="password">Password</label>
                         <Link to="/reset-password" className="text-sm font-medium text-blue-600 hover:underline">Lupa Password?</Link>
                       </div>
-                      <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} className="form-input w-full text-gray-800" placeholder="Masukkan password" required />
+                      <div className='flex mb-4'>
+                        <input id="password" type={isVisible? "text" : "password"}  onChange={(e) => setPassword(e.target.value)} className="form-input w-full text-gray-800 " placeholder="Masukkan password" required />
+                        <button type="button" onClick={hanledVisible} 
+                        className="flex justify-around items-center">
+                          {isVisible? (
+                            <TbEyeOff size={20} className='absolute mr-10'></TbEyeOff>
+                          ):(
+                            <TbEye size={20} className='absolute mr-10'></TbEye>
+                          ) }
+                          
+                        </button>
+                        
+                      </div>
                     </div>
                   </div>
                   {/* <div className="flex flex-wrap -mx-3 mb-4">

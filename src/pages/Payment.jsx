@@ -12,6 +12,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import Swal from '../utils/Swal';
 
+// const CREATE_INVOICE_URL = "/api/create-invoice"
 const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
 
@@ -212,8 +213,9 @@ function Payment() {
 
     const create_order = async (e) => {
       e.preventDefault()
+      
       console.log(applicantDataPayment.expired_at)
-      console.log(new Date())
+      console.log("enter")
       if(applicantDataPayment?.expired_at > new Date()){
 
         return

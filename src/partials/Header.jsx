@@ -7,8 +7,11 @@ import { useGetUserDetailsQuery } from '../app/services/auth/authService'
 import { Button } from '@headlessui/react';
 import supabase from '../client/supabase_client';
 import { userLogout } from '../features/auth/authActions';
+// import Cookies from 'js-cookie'
+import Cookies from 'universal-cookie'
 
 import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 
 function Header(props) {
@@ -25,6 +28,7 @@ function Header(props) {
   //   pollingInterval: 900000, // 15mins
   // })
   console.log('props >', props)
+  // cons cookie = 
 
   const getProfileData = async () =>{
       // setTimeout(() => {
@@ -74,18 +78,18 @@ function Header(props) {
 
   const handledLogout = async () => {
     try {
-        const response = await axios.get("/auth/logout",
-        {
-          headers: {'Content-Type': 'application/json' }, withCredentials: true
-        }
-        );
-        // 
-        console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-        if(response.status==200){
+        // const response = await axios.get("/api/auth/logout",
+        // {
+        //   headers: {'Content-Type': 'application/json' }, withCredentials: true
+        // }
+        // );
+        // // 
+        // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+        // if(response.status==204){
           dispatch(logout())
-          // Cookies.remove("jwt")
+          Cookies.remove("jwt")
           navigate('/login')
-        }
+        // }
     } catch (error) {
       
     }

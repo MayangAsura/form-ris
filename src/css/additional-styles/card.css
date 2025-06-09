@@ -7,9 +7,10 @@
     text-align: center;
   }
   .card {
-    max-width: 50%;
+    max-width: 30%;
     display: inline-block;
     border: none;
+    /* gap: 2px; */
   }
   
   .card-container {

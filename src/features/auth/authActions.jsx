@@ -1,10 +1,12 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+// import axios from '../../api/local-server'
+import axios from '../../api/prod-server'
 
-const backendURL = import.meta.env.VITE_SERVER_URL? import.meta.env.VITE_SERVER_URL : 'http://localhost:3000'
+// const backendURL = import.meta.env.VITE_SERVER_URL? import.meta.env.VITE_SERVER_URL : 'http://localhost:3000'
 
 export const userLogin = createAsyncThunk(
-  'auth/login',
+  'api/auth/login',
   async ({ username, password }, { rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
@@ -14,9 +16,9 @@ export const userLogin = createAsyncThunk(
         },
         withCredentials: true
       }
-
+      // ${backendURL}
       const { data } = await axios.post(
-        `${backendURL}/auth/login`,
+        `api/auth/login`,
         { username, password },
         config
       )

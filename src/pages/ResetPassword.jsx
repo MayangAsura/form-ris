@@ -9,7 +9,8 @@ import axios from '../api/local-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 const USERCHECK_URL = 'auth/user-check'
-const RESETPASSWORD_URL = 'auth/reset-password'
+const RESETPASSWORD_URL = 'api/forget-password'
+// const RESETPASSWORD_URL = 'auth/reset-password'
 
 function ResetPassword() {
 

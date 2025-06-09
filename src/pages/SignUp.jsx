@@ -211,6 +211,14 @@ function SignUp() {
       setSubschool("")
       setPassword("")
       setConfirmPassword("")
+
+      modal_data.type= "basic",
+      modal_data.title= "Pendaftaran Berhasil",
+      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+      // tex.t: "Konfirmasi Pendaftaran ke CS",
+      // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+      modal_data.text2= "Lanjut Pembayaran",
+      modal_data.url2= "/login"
       
       setSuccess(true)
       setModalShow(true)
