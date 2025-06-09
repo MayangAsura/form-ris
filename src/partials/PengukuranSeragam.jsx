@@ -1,6 +1,6 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
-import e from 'cors'
+// import e from 'cors'
 import { useEffect, useState } from 'react'
 import { json } from 'react-router-dom'
 // import { ChevronDownIcon } from '@heroicons/react/16/solid'
