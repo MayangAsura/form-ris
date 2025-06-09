@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     margin: "20px 0 20px 0",
     borderTop: '1px solid #000',
-    opacity: '1'
+    opacity: "1"
   }
 //   separator::after: {
 //     content: '',
