@@ -18,7 +18,7 @@ const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
-    const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "",full_name: "",phone_number: "",email: "", school_name:"", order_id:"", order_status:""})
+    const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "", school_name:"", full_name: "",phone_number: "",email: "", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
     const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:""} )
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
@@ -80,11 +80,12 @@ function Payment() {
         if(applicantData.applicant_schools.length>0){
           //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
           //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
-          //   applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
+            applicantData.school_name = applicantData.applicant_schools[0].schools?.school_name
   
-            applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools.school_id
-            applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
-            applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
+            applicantDataOrder.item_id = applicantData.applicant_schools[0].schools?.school_id
+            applicantDataOrder.created_by = applicantData.applicant_schools[0].applicant_id
+            applicantDataOrder.applicant_id = applicantData.applicant_schools[0].applicant_id
+            // setSchoolName(applicantData?.applicant_schools[0]?.schools?.school_name)
             // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
             
 
@@ -231,7 +232,9 @@ function Payment() {
         navigate('/pay')
       }
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
-        applicantDataOrder.description = 'invoice registration fee'
+        applicantDataOrder.description = 'Biaya Uang Masuk' + ' ' + applicantData.school_name? applicantData.school_name : ''
+        // applicantDataOrder.description = 'invoice registration fee'
+
         applicantDataOrder.foundation_id = 1
         console.log("applicantDataOrder ",  applicantDataOrder)
   
