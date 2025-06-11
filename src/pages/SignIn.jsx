@@ -150,7 +150,9 @@ function SignIn(props) {
       }, 2000);
       
 
-      
+      if(userInfo){
+
+      }
       // const response = await axios.post(LOGIN_URL,
       //   JSON.stringify({ username, password }),
       //   {
@@ -205,6 +207,10 @@ function SignIn(props) {
         }
 
   }
+
+  const destroyDataModal = () {
+    
+  }
   
   return (
     <div className="flex flex-col max-w-lg min-w-screen my-0 mx-auto shadow-lg bg-white overflow-hidden relative">
@@ -226,7 +232,7 @@ function SignIn(props) {
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
               {modal_show && (
-                <Swal dataModal={modal_data}/>
+                <Swal dataModal={modal_data} setDestroy={setDestroy} />
               )}
 
               {/* Form */}

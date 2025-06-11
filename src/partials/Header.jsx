@@ -85,7 +85,7 @@ function Header(props) {
         );
         // 
         console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-        if(response.status==204){
+        if(response.status==200){
           dispatch(logout())
           Cookies.remove("jwt")
           navigate('/login')
