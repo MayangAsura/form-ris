@@ -1,7 +1,7 @@
 // import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from '../../api/local-server'
-// import axios from '../../api/prod-server'
+// import axios from '../../api/local-server'
+import axios from '../../api/prod-server'
 
 // const backendURL = import.meta.env.VITE_SERVER_URL? import.meta.env.VITE_SERVER_URL : 'http://localhost:3000'
 
