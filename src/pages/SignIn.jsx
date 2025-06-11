@@ -208,9 +208,9 @@ function SignIn(props) {
 
   }
 
-  const destroyDataModal = () {
-    
-  }
+  // const destroyDataModal = () {
+  //   set 
+  // }
   
   return (
     <div className="flex flex-col max-w-lg min-w-screen my-0 mx-auto shadow-lg bg-white overflow-hidden relative">
@@ -232,7 +232,8 @@ function SignIn(props) {
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
               {modal_show && (
-                <Swal dataModal={modal_data} setDestroy={setDestroy} />
+                <Swal dataModal={modal_data}  />
+                // setDestroy={setDestroy}
               )}
 
               {/* Form */}
