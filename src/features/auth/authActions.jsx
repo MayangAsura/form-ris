@@ -1,7 +1,7 @@
 // import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-// import axios from '../../api/local-server'
-import axios from '../../api/prod-server'
+import axios from '../../api/local-server'
+// import axios from '../../services/api/prod-server'
 
 // const backendURL = import.meta.env.VITE_SERVER_URL? import.meta.env.VITE_SERVER_URL : 'http://localhost:3000'
 
@@ -16,6 +16,7 @@ export const userLogin = createAsyncThunk(
         },
         withCredentials: true
       }
+      console.log(config)
       // ${backendURL}
       const { data } = await axios.post(
         `api/auth/login`,
@@ -38,7 +39,7 @@ export const userLogin = createAsyncThunk(
   }
 )
 export const userLogout = createAsyncThunk(
-  'auth/logout',
+  'auth/auth/logout',
   async () => {
     try {
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { TiPinOutline } from 'react-icons/ti'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Header from '../partials/Header';
@@ -27,6 +27,14 @@ ditetapkan sekolah</li>
     text: "OK",
     url: "/"
   })
+
+  useEffect(()=> {
+    getPSBInfo()
+  },[])
+
+  const getPSBInfo = () => {
+    
+  }
 
   const jenjangData = [
     {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/04/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
@@ -95,7 +103,7 @@ ditetapkan sekolah</li>
                     <div className="body-containe justify-between text-start ml-1">
                       <table>
                         <tr className='text-start leading-tight'>
-                          <td><TbMapPin2/>  </td>
+                          <td><TbMapPin2 className='ounded-lg shadow-green-100 '/>  </td>
                           <td className=''><small className='text-xs'>{d.address}</small></td>
                           {/* <td></td> */}
                         </tr>

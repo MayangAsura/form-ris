@@ -71,6 +71,18 @@ const PengukuranSeragam = (props) => {
         var data = ''
         var subdata = ''
         var size = ''
+        const newd = {"xs": {
+            "PB": 65,
+            "LB": 32,
+            "TB": 45,
+            "PT": 23
+        }, "s": {
+            "PB": 68,
+            "LB": 35,
+            "TB": 47,
+            "PT": 25
+        }}
+        setSchoolUniformModel(newd)
         for (let index = 0; index < schoolUniformModel.length; index++) {
             const m = schoolUniformModel[index];
             // data += '<form action="" onSubmit={saveData}>'
@@ -94,6 +106,7 @@ const PengukuranSeragam = (props) => {
                 
                 const model_size_charts = JSON.parse(m.model_size_charts)
                 for (let key in model_size_charts) {
+                    // const  = model_size_charts[index];
                     const checked = props.dataSeragam[index].uniform_model_id== m.id && props.dataSeragam[index].size_chart==key?'checked':''
                     console.log(props.dataSeragam[index].uniform_model_id, props.dataSeragam[index].size_chart)
                     console.log(checked)
@@ -102,11 +115,14 @@ const PengukuranSeragam = (props) => {
                         subdata += `
                         <tr className='flex flex-row justify-start items-center'>
                         <th class='text-start'><input type="radio" name="`+m.id+`" value="${key}" onchange="`+setValue(m.id, key)+`" ${checked}  class='form-input text-gray-800 text-start' /><label htmlFor="XXXS" className='block text-medium text-gray-900'> ${key}</label></th>`
-                        for (let index = 0; index < model_size_charts[key].length; index++) {
-                        const s = model_size_charts[key][index];
+                        // for (let index = 0; index < model_size_charts[key].length; index++) {
+                        // const s = model_size_charts[key][].value();
                         
-                        size += `<td class="px-3">${s}</td>`
-                    } 
+                        key.map((e, k) => {
+                            
+                            size += `<td class="px-3">${Object.keys(key).values()[k]}</td>`
+                        })
+                    // } 
                     subdata += size
                     size=""
                     //    model_size_charts[key].forEach(s => {

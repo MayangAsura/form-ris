@@ -4,7 +4,7 @@ import { registerUser, userLogin, userLogout } from './authActions'
 import Cookies from "js-cookie";
 // import { Cookies } from 'react-cookie';
 
-import supabase from '../../client/supabase_client'
+import supabase from '../../../../form-project/src/client/supabase_client'
 import { useNavigate } from 'react-router-dom'
 
 

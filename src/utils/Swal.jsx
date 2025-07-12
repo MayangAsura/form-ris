@@ -12,7 +12,7 @@ export default function Swal(props) {
 
 
   return (
-    <div data-modal-backdrop={props.dataModal.type=='static'??'static'} >
+    <div data-modal-backdrop={props.dataModal.type=='static'?'static': ''} >
       <Dialog open={open} onClose={setOpen} className="relative z-30" >
         <DialogBackdrop
           transition

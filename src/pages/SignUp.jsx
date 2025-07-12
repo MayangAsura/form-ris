@@ -38,13 +38,13 @@ function SignUp() {
   const [media, setMedia] = useState("website")
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
-    type: "basic",
-    title: "Pendaftaran Berhasil",
-    message: "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+    type: "",
+    title: "",
+    message: "",
     // text: "Konfirmasi Pendaftaran ke CS",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
-    text2: "Lanjut Pembayaran",
-    url2: "/login"
+    text2: "",
+    url2: ""
   })
 
 
@@ -78,7 +78,7 @@ function SignUp() {
       modal_data.title = "Jenjang tidak ditemukan"
       modal_data.message = "Mohon periksa link pendaftaran"
       modal_data.url2 = "/"
-      modal_data.text2 = ""
+      modal_data.text2 = "Halaman Utama"
       modal_data.type = "static"
       setModalShow(true)
     }
@@ -196,7 +196,7 @@ function SignUp() {
       modal_data.title = "Pendaftaran Gagal"
       modal_data.message = error??Object.values(data)[1]
       modal_data.url2 = "/"
-      modal_data.text2 = ""
+      modal_data.text2 = "OK"
       setModalShow(true)
     }
 
@@ -229,7 +229,7 @@ function SignUp() {
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
-        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  xxxxx  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  ${data[2]}  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
 
 Login Aplikasi: https://psb-formy.vercel.app/login
 
@@ -374,7 +374,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
                       <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">

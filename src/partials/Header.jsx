@@ -7,14 +7,15 @@ import { useGetUserDetailsQuery } from '../app/services/auth/authService'
 import { Button } from '@headlessui/react';
 import supabase from '../client/supabase_client';
 import { userLogout } from '../features/auth/authActions';
-// import Cookies from 'js-cookie'
-import Cookies from 'universal-cookie'
+import Cookies from 'js-cookie'
+// import Cookies from 'universal-cookie'
 
 // import axios from '../api/local-server';
 import axios from '../api/prod-server';
 
 
 function Header(props) {
+  Cookies.remove("jwt")
 
   const [top, setTop] = useState(true);
   const { userToken, userInfo } = useSelector((state) => state.auth)

@@ -131,9 +131,15 @@ function BerkasForm(props) {
                                     </div>
                                     </div> */}
                                     <div className="sm:col-span-8">
+                                        {props.dataBerkas[0].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
                                         {(dataBerkas[0]?.file_type === '/PDF' || dataBerkas[0]?.file_type === 'PDF') && (
                                             <div className="max-w-2xl max-auto my-10">
-                                                <Document options={options} file={props.dataBerkas[0].file_url??dataBerkas[0]?.file_url}/>
+                                                <Document options={options} file={props.dataBerkas[0].file_url?dataBerkas[0]?.file_url:""}/>
                                                 {/* <div className="w-full h-[500px]"> */}
                                                 
                                                 {/* <PDFViewer width="50%" height="50%" document="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
@@ -143,7 +149,7 @@ function BerkasForm(props) {
                                             </div>                  
                                         )}
                                         {dataBerkas[0]?.file_type === '/JPEG' || dataBerkas[0]?.file_type === 'JPEG' || dataBerkas[0]?.file_type === 'JPG' || dataBerkas[0]?.file_type === 'PNG' && (
-                                            <img src={props.dataBerkas[0].file_url??dataBerkas[0]?.file_url} alt="" width={30}/>
+                                            <img src={props.dataBerkas[0].file_url?dataBerkas[0]?.file_url:""} alt="" width={30}/>
                                         )}
                                         <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran
                                             <span className="text-red-600">*</span>
@@ -166,7 +172,13 @@ function BerkasForm(props) {
                                     } */}
                                     {dataSchool.id === 100 && (
                                     <div className="sm:col-span-4">
-                                        <img src={props.dataBerkas[3].file_url??dataBerkas[3].file_url} alt="" width={30}/>
+                                        {props.dataBerkas[3].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                        <img src={props.dataBerkas[3].file_url?dataBerkas[3].file_url:""} alt="" width={30}/>
                                         <label htmlFor="pas_photo" className="block text-sm/6 font-medium text-gray-900">Pas Photo Background Merah dan Putih (3x4 dan 2x3)
                                             <span className="text-red-600">*</span>
                                         </label>
@@ -182,7 +194,13 @@ function BerkasForm(props) {
                                     )}
                                     {dataSchool.id === 100 && (
                                     <div className="sm:col-span-4">
-                                        <img src={props.dataBerkas[2].file_url??dataBerkas[2].file_url} alt="" width={30}/>
+                                        {props.dataBerkas[2].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                        <img src={props.dataBerkas[2].file_url?dataBerkas[2].file_url:"" } alt="" width={30}/>
                                         <label htmlFor="parent_ktp" className="block text-sm/6 font-medium text-gray-900">KTP Orang Tua / Wali 
                                             <span className="text-red-600">*</span>
                                         </label>
@@ -197,7 +215,24 @@ function BerkasForm(props) {
                                     </div>
                                     )}
                                     <div className="sm:col-span-4">
-                                        <img src={props.dataBerkas[1].file_url??dataBerkas[1].file_url} alt="" width={30}/>
+                                        {props.dataBerkas[1].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                         {(dataBerkas[1]?.file_type === '/PDF' || dataBerkas[1]?.file_type === 'PDF') && (
+                                            <div className="max-w-2xl max-auto my-10">
+                                                <Document options={options} file={props.dataBerkas[1].file_url?dataBerkas[1]?.file_url:""}/>
+                                                {/* <div className="w-full h-[500px]"> */}
+                                                
+                                                {/* <PDFViewer width="50%" height="50%" document="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+                                                    
+                                                </PDFViewer> */}
+                                                {/* </div> */}
+                                            </div>                  
+                                        )}
+                                        <img src={props.dataBerkas[1].file_url?dataBerkas[1].file_url : ""} alt="" width={30}/>
                                         <label htmlFor="kk" className="block text-sm/6 font-medium text-gray-900">Kartu Keluarga (KK)
                                             <span className="text-red-600">*</span>
                                         </label>
@@ -211,7 +246,24 @@ function BerkasForm(props) {
                                         </div>
                                     </div>
                                     <div className="sm:col-span-8">
-                                        <img src={props.dataBerkas[4].file_url??dataBerkas[4].file_url} alt="" width={30}/>
+                                        {props.dataBerkas[4].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                         {(dataBerkas[4]?.file_type === '/PDF' || dataBerkas[4]?.file_type === 'PDF') && (
+                                            <div className="max-w-2xl max-auto my-10">
+                                                <Document options={options} file={props.dataBerkas[4].file_url?dataBerkas[4]?.file_url:""}/>
+                                                {/* <div className="w-full h-[500px]"> */}
+                                                
+                                                {/* <PDFViewer width="50%" height="50%" document="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+                                                    
+                                                </PDFViewer> */}
+                                                {/* </div> */}
+                                            </div>                  
+                                        )}
+                                        <img src={props.dataBerkas[4].file_url?dataBerkas[4].file_url : ""} alt="" width={30}/>
                                         <label htmlFor="surat_kesanggupan" className="block text-sm/6 font-medium text-gray-900">Surat Kesanggupan
                                             <span className="text-red-600">*</span>
                                         </label>
@@ -225,7 +277,24 @@ function BerkasForm(props) {
                                         </div>
                                     </div>
                                     <div className="sm:col-span-8">
-                                        <img src={props.dataBerkas[5].file_url??dataBerkas[5].file_url} alt="" width={30} className=''/>
+                                        {props.dataBerkas[5].file_url? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                         {(dataBerkas[5]?.file_type === '/PDF' || dataBerkas[5]?.file_type === 'PDF') && (
+                                            <div className="max-w-2xl max-auto my-10">
+                                                <Document options={options} file={props.dataBerkas[5].file_url?dataBerkas[5]?.file_url:""}/>
+                                                {/* <div className="w-full h-[500px]"> */}
+                                                
+                                                {/* <PDFViewer width="50%" height="50%" document="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+                                                    
+                                                </PDFViewer> */}
+                                                {/* </div> */}
+                                            </div>                  
+                                        )}
+                                        <img src={props.dataBerkas[5].file_url?dataBerkas[5].file_url:""} alt="" width={30} className=''/>
                                         <label htmlFor="certificate" className="block text-sm/6 font-medium text-gray-900">Sertifikat / Syahadah Hafalan</label>
                                         <p className="text-xs/5 text-gray-600">PDF, maks 5MB</p>
                                         <div className="relative inline-block">

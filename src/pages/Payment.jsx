@@ -7,9 +7,9 @@ import axios from '../api/prod-server';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { redirect, useNavigate } from 'react-router-dom';
-// import { useState } from 'react';
-
 import { useSelector } from 'react-redux'
+import queryString from "query-string"
+
 import Swal from '../utils/Swal';
 
 // const CREATE_INVOICE_URL = "/api/create-invoice"
@@ -18,6 +18,7 @@ const CREATE_INVOICE_URL = "/api/create-form-invoice"
 
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
+    const queryParams = queryString.parse(window.location.search)
     const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "", school_name:"", full_name: "",phone_number: "",email: "", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
     const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:""} )
@@ -158,7 +159,12 @@ function Payment() {
         case 'pending':
           return 'Pending'
         case 'processed':
-          return 'Menunggu Pembayaran' 
+          if(applicantDataPayment?.expired_at && (Date.now() > new Date(applicantDataPayment.expired_at).getTime())){
+            return 'Sesi Berakhir'
+          }else{
+            return 'Menunggu Pembayaran' 
+
+          }
         case 'finished':
           return 'Selesai'
         case 'canceled':
@@ -339,7 +345,7 @@ function Payment() {
 
     // }
 
-
+// max-w-lg 
   return (
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg bg-white overflow-hidden">
     {/* <div className="flex flex-col max-w-lg min-h-screen mx-auto overflow-hidden"> */}
@@ -439,18 +445,28 @@ function Payment() {
                       {(applicantData.applicant_orders.length===0 && applicantData.applicant_schools[0]?.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
-                          >Bayar
+                          >Buat Tagihan
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg></button>
                       ) : (
                         (applicantData.applicant_orders[0]?.status!=='' && applicantData.applicant_orders[0]?.status!=='finished') ? ( 
+                          (Date.now() > new Date(applicantDataPayment?.expired_at).getTime()?(
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                              onClick={create_order}
+                          >Buat Tagihan Baru
+                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                          </svg></button>
+
+                          ):(
+                            <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
                           >Bayar
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>
+                          ) )
                         ) : (
                           applicantData.applicant_orders[0]?.status === 'finished' ? (
                             navigate('/home')
