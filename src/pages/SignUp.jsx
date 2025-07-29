@@ -263,8 +263,9 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i'
-           }
+            'Authorization': 'v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i',
+            'Access-Control-Allow-Origin' : 'https://psb.formy.vercel.com'
+           }, 
         }
       );
       // 
