@@ -168,7 +168,7 @@ function Payment() {
         case 'finished':
           return 'Selesai'
         case 'canceled':
-          return 'Tagihan Dibatalkan'
+          return 'Transaksi Dibatalkan'
         case 'failed':
           return 'Pembayaran Gagal'
       
@@ -232,7 +232,7 @@ function Payment() {
         
         if(applicantData.order_status=="proccesed"){
           modal_data.title = "Gagal Membuat Pembayaran" 
-          modal_data.message = "Ananda telah memiliki tagihan sebelumnya." 
+          modal_data.message = "Ananda telah melakukan transaksi sebelumnya." 
           setModalShow(true)
         }
         navigate('/pay')
@@ -413,10 +413,10 @@ function Payment() {
                   </div>
                 { invoicecreated && (
                 <div>
-                  <div className='h5 right-separator'>Detail Tagihan</div>
+                  <div className='h5 right-separator'>Detail Pembayaran</div>
                     <div className="flex flex-wrap -mx-3 mb-4">
                       <div className="w-full px-3">
-                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nomor Tagihan</label>
+                        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nomor Formulir Pendaftaran</label>
                         <h2 className='text-lg font-800 font-medium flex justify-start'> { applicantData?.order_status!=="finished"?applicantDataOrder?.invoice_number:'-'}</h2>
                       </div>
                     </div>
@@ -445,7 +445,7 @@ function Payment() {
                       {(applicantData.applicant_orders.length===0 && applicantData.applicant_schools[0]?.applicant_id)? (
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             onClick={create_order}
-                          >Buat Tagihan
+                          >Buat Transaksi
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                       </svg></button>
@@ -454,7 +454,7 @@ function Payment() {
                           (Date.now() > new Date(applicantDataPayment?.expired_at).getTime()?(
                           <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={create_order}
-                          >Buat Tagihan Baru
+                          >Buat Transaksi Baru
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                           </svg></button>

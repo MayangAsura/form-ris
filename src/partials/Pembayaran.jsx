@@ -30,7 +30,7 @@ function Pembayaran({applicantOrder}) {
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="py-12 md:py-12">
                   <div className="mt-3 mb-5">
-                    <p>No. Tagihan: <b>{applicantOrder.invoice_number}</b> </p>
+                    <p>No. Formulir Pendaftaran: <b>{applicantOrder.invoice_number}</b> </p>
 
                   </div>
                   <div className="max-w-sm bg-white shadow-2xl rounded-lg border border-dashed border-gray-900/25 overflow-hidden">

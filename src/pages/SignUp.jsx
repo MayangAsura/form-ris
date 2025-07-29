@@ -175,7 +175,7 @@ function SignUp() {
 
       // const
     
-    const { data, error } = await supabase.rpc("add_new_applicant", {
+    const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
       _email,
       _full_name,
       _gender,
@@ -186,21 +186,40 @@ function SignUp() {
       _subschool
     });
 
-    console.log(data)
-    setDataAppTemp(data)
+    console.log(data_appl)
+    setDataAppTemp(data_appl)
     console.log('dataAppTemp >', dataAppTemp)
-    if(error || Object.values(data)[0] === '01'){
+    if(error || Object.values(data_appl)[0] === '01'){
       console.log('masuk')
-      console.log(Object.values(data)[0] )
+      console.log(Object.values(data_appl)[0] )
       setSuccess(false)
       modal_data.title = "Pendaftaran Gagal"
-      modal_data.message = error??Object.values(data)[1]
+      modal_data.message = error??Object.values(data_appl)[1]
       modal_data.url2 = "/"
       modal_data.text2 = "OK"
       setModalShow(true)
     }
 
-    if(Object.values(data)[0] !== '01'){
+//     curl --location 'https://jogja.wablas.com/api/v2/send-message' \
+// --header 'Authorization: v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i' \
+// --header 'Content-Type: application/json' \
+// --data '{
+//      "data": [
+//         {
+//             "phone": "085778650040",
+//             "message": "Assalamualaikum testing ujicoba",
+//             "source": "postman"
+//         },
+//         {
+//             "phone": "085216527392",
+//             "message": "Assalamualaikum testing ujicoba",
+//             "source": "postman"
+//         }
+//     ]
+// }'
+console.log(Object.values(data_appl)[0] !== '01')
+    if(!error || Object.values(data_appl)[0] !== '01'){
+      console.log(data_appl)
       // _phone_number.replace()
       setFullName("")
       setGender("")
@@ -214,7 +233,8 @@ function SignUp() {
 
       modal_data.type= "basic",
       modal_data.title= "Pendaftaran Berhasil",
-      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
+      // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
       // tex.t: "Konfirmasi Pendaftaran ke CS",
       // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
       modal_data.text2= "Lanjut Pembayaran",
@@ -229,7 +249,7 @@ function SignUp() {
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
-        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran  ${data[2]}  --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran ${data_appl.f3} --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
 
 Login Aplikasi: https://psb-formy.vercel.app/login
 
@@ -237,18 +257,18 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
 
       }]
-      
+      // 'Authorization': 'TGlhnw6kS74RG3jOc7EOzjFkftiemqC7Og6GmseskfryC0RHI3ACfOWnH86Q6zEl.cM6lQGiu'
       const response = await wablas.post(SEND_MSG_URL,
         JSON.stringify({ data }),
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'TGlhnw6kS74RG3jOc7EOzjFkftiemqC7Og6GmseskfryC0RHI3ACfOWnH86Q6zEl.cM6lQGiu'
+            'Authorization': 'v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i'
            }
         }
       );
       // 
-      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      console.log('response', JSON.stringify(response)); //console.log(JSON.stringify(response));
       // const token = response?.token
     }
     

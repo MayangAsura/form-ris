@@ -235,7 +235,7 @@ function ProfileCard(props) {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-start items-center pb-12 md:pb-20 pt-10">
             {/* <h3 className="h3 mb-4">Ahlan wa Sahlan, {profileData[0]?.full_name?profileData[0].full_name :'mayang2'}</h3> */}
-            <h3 className="h3 mb-4">Ahlan wa Sahlan, Santri Baru Rabbaanii Islamic School.
+            <h3 className="h3 mb-4">Ahlan wa Sahlan, Calon Santri Baru Rabbaanii Islamic School.
             </h3>
             <p className="text-xl text-gray-600 inline-grid"> 
               Silahkan melanjutkan proses pendaftaran dengan melengkapi data dan berkas sesuai ketentuan pendaftaran. 

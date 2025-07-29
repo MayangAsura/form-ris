@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://wablas.com/api/v2'
+    baseURL: 'https://jogja.wablas.com/api/v2'
 })

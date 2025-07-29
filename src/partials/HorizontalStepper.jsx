@@ -887,7 +887,7 @@ const HorizontalStepper = (props) => {
       </button>
 
       {/* Stepper Container */}
-      <div 
+      <div zf
         ref={stepperRef}
         className="flex overflow-x-auto space-x-4 scrollbar-hide" // scrollbar-hide requires plugin
       >
