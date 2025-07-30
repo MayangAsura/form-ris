@@ -144,14 +144,15 @@ function SignIn(props) {
       password: password
     }
     try {
-      setTimeout(() => {
+      // setTimeout(() => {
         dispatch(userLogin(data))
 
-      }, 2000);
+      // }, 000);
       
 
       if(userInfo){
-
+        console.log('userInfo', userInfo)
+        setModalShow(true)
       }
       // const response = await axios.post(LOGIN_URL,
       //   JSON.stringify({ username, password }),

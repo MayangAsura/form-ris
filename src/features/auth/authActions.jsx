@@ -39,7 +39,7 @@ export const userLogin = createAsyncThunk(
   }
 )
 export const userLogout = createAsyncThunk(
-  'auth/auth/logout',
+  'api/auth/logout',
   async () => {
     try {
 
@@ -53,7 +53,7 @@ export const userLogout = createAsyncThunk(
       }
 
       const { data } = await axios.get(
-        `${backendURL}/auth/logout`,
+        `/auth/logout`,
         // { username, password },
         config
       )
@@ -62,6 +62,7 @@ export const userLogout = createAsyncThunk(
       if( !data ){
         console.log('err')
       }
+      
 
       // store user's token in local storage
     //   .setItem('jwt', data.t)

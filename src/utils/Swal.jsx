@@ -10,6 +10,16 @@ export default function Swal(props) {
   const navigate = useNavigate()
   console.log(props)
 
+  const {dataModal, setConfirm} = props
+
+  const confirmWithYes = () => {
+    if(dataModal.content_type == 'logout'){
+      setConfirm(true)
+    }
+    
+    setOpen(false)
+    
+  }
 
   return (
     <div data-modal-backdrop={props.dataModal.type=='static'?'static': ''} >
@@ -68,7 +78,7 @@ export default function Swal(props) {
                 </button>):(
                 <button
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={() => confirmWithYes()}
                   className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:w-auto"
                 >
                   OK

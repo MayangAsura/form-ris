@@ -164,7 +164,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="full_name" className="block text-sm/6 font-medium text-gray-900">Nama Lengkap <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Isi sesuai dokumen resmi yang berlaku (akta atau ijazah sebelumnya)</span>
                                     <div className="mt-2">
-                                        <input id="full_name" name="full_name" value={full_name} pattern="^[A-Za-z0-9.']{3,50}$" onChange={e => (setFull_name(e.target.value))} type="text" autoComplete="full_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 first-letter peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="full_name" name="full_name" value={full_name} onChange={e => (setFull_name(e.target.value))} type="text" autoComplete="full_name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 first-letter peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Nama Lengkap tidak valid
                                         </span>
@@ -191,7 +191,8 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email</label>
                                     <div className="mt-2">
-                                        <input id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" type="email" autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} pattern="/^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/" type="email" placeholder='ahmad@mail.com' autoComplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        {/* pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" */}
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Email tidak valid
                                         </span>
@@ -200,7 +201,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school" className="block text-sm/6 font-medium text-gray-900">Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school" name="prev_school" value={prev_school} onChange={(e) => setPrevSchool(e.target.value)} type="text" autoComplete="prev_school" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="prev_school" name="prev_school" value={prev_school} onChange={(e) => setPrevSchool(e.target.value)} type="text" autoComplete="prev_school" placeholder='Sekolah Asal' className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Sekolah Asal tidak boleh kosong
                                         </span>
@@ -219,7 +220,8 @@ function IdentitasForm(props) {
                                     <label htmlFor="nisn" className="block text-sm/6 font-medium text-gray-900">NISN  (Nomor Induk Siswa Nasional)</label>
                                     <span className='text-sm italic'>Jika tidak memiliki silahkan dikosongkan</span>
                                     <div className="mt-2">
-                                        <input id="nisn" name="nisn" type="text" value={nisn} onChange={(e) => setNISN(e.target.value)} pattern="^[0-9]{10}" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        <input id="nisn" name="nisn" type="text" value={nisn} onChange={(e) => setNISN(e.target.value)} className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        {/* pattern="^[0-9]{10}" */}
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             NISN tidak valid
                                         </span>
@@ -267,8 +269,8 @@ function IdentitasForm(props) {
                                     <label htmlFor="medical_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Kesehatan <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Memiliki riwayat penyakit tertentu?</span>
                                     <div className="mt-2">
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="have" checked={medical_history=='have'?true: false} type="radio" className="form-input text-gray-800" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
-                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="none" checked={medical_history=='none'?true: false} type="radio" className="form-input text-gray-800 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="have" checked={medical_history=='have'?true: false} type="radio" className="form-input text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Ada</span>
+                                        <input name="medical_history" onChange={(e) => setMedicalHistory(e.target.value)} value="none" checked={medical_history=='none'?true: false} type="radio" className="form-input text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 ml-5" placeholder="Enter your email address" required /> <span className='text-gray-800 text-sm font-medium'>Tidak Ada</span>
                                         {/* <input id="medical_history" name="medical_history" type="text" autoComplete="medical_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
                                     </div>
@@ -345,7 +347,7 @@ function IdentitasForm(props) {
                                     <label htmlFor="parent_email" className="block text-sm/6 font-medium text-gray-900">Email Orang Tua <span className="text-red-600">*</span></label>
                                     <span className='text-sm italic'>Diisi email yang aktif (milik pribadi orang tua, boleh ayah atau ibu, atau wali), Mohon dipilih yang paling aktif dan ingat passwordnya.</span>
                                     <div className="mt-2">
-                                        <input id="parent_email" name="parent_email" value={parent_email} onChange={(e) => setParentEmail(e.target.value)} pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" type="email" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="parent_email" name="parent_email" placeholder='mail@gmail.com' value={parent_email} onChange={(e) => setParentEmail(e.target.value)} pattern="/^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/" type="email" autoComplete="parent_email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Email Orang Tua tidak valid
                                         </span>

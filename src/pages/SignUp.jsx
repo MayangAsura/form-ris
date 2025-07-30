@@ -11,8 +11,10 @@ import Modal from '../utils/Modal';
 import Swal from '../utils/Swal'
 
 // import axios from '../api/axios';
-import axios from 'axios';
+// import axios from 'axios';
+// import ax
 import wablas from '../api/wablas';
+import axios from '../api/local-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -218,18 +220,18 @@ function SignUp() {
 //     ]
 // }'
 console.log(Object.values(data_appl)[0] !== '01')
-    if(!error || Object.values(data_appl)[0] !== '01'){
+    if(Object.values(data_appl)[0] !== '01'){
       console.log(data_appl)
       // _phone_number.replace()
-      setFullName("")
-      setGender("")
-      setPhoneNumber("")
-      setEmail("")
-      setSchoolId("")
-      setSchoolName("")
-      setSubschool("")
-      setPassword("")
-      setConfirmPassword("")
+      // setFullName("")
+      // setGender("")
+      // setPhoneNumber("")
+      // setEmail("")
+      // setSchoolId("")
+      // setSchoolName("")
+      // setSubschool("")
+      // setPassword("")
+      // setConfirmPassword("")
 
       modal_data.type= "basic",
       modal_data.title= "Pendaftaran Berhasil",
@@ -240,9 +242,7 @@ console.log(Object.values(data_appl)[0] !== '01')
       modal_data.text2= "Lanjut Pembayaran",
       modal_data.url2= "/login"
       
-      setSuccess(true)
-      setModalShow(true)
-      
+      const type ='form-success'
       console.log(phone_number)
       const new_phone_number = '62'+ _phone_number.slice(1)
       console.log(new_phone_number)
@@ -257,19 +257,59 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
 
       }]
-      // 'Authorization': 'TGlhnw6kS74RG3jOc7EOzjFkftiemqC7Og6GmseskfryC0RHI3ACfOWnH86Q6zEl.cM6lQGiu'
-      const response = await wablas.post(SEND_MSG_URL,
-        JSON.stringify({ data }),
+      console.log(data)
+
+      setSuccess(true)
+      setModalShow(true)
+
+      
+      try {
+        const response = await axios.post("/api/auth/send-notif", {message: data , type: type},
         {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i',
-            'Access-Control-Allow-Origin' : 'https://psb.formy.vercel.com'
-           }, 
+          headers: {'Content-Type': 'application/json' }
         }
-      );
-      // 
-      console.log('response', JSON.stringify(response)); //console.log(JSON.stringify(response));
+        );
+        // 
+        console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+        if(response.status==200 || response.status==204){
+          
+          // persistor.purge();
+          // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+          // localStorage.removeItem("persist:auth")
+          // Cookies.remove("jwt")
+          // dispatch(logout())
+          // navigate('/login')
+        }
+    } catch (error) {
+      console.log(error)
+    } 
+      
+//       console.log(phone_number)
+//       const new_phone_number = '62'+ _phone_number.slice(1)
+//       console.log(new_phone_number)
+//       const data = [{
+//         "phone": new_phone_number,
+//         // "phone": "6285778650040",
+//         "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran ${data_appl.f3} --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+
+// Login Aplikasi: https://psb-formy.vercel.app/login
+
+// Jazaakumullahu khayran wa Baarakallaahu fiikum.`
+//         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
+
+//       }]
+      // 'Authorization': 'TGlhnw6kS74RG3jOc7EOzjFkftiemqC7Og6GmseskfryC0RHI3ACfOWnH86Q6zEl.cM6lQGiu'
+      // const response = await wablas.post(SEND_MSG_URL,
+      //   JSON.stringify({ data }),
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': 'v00j9KTESxhSyuhnJe7K4Op0aMZMaBuBooBr0unnsUXBhlYZyU5SMLG.b405O85i'
+      //      }, 
+      //   }
+      // );
+      // // 
+      // console.log('response', JSON.stringify(response)); //console.log(JSON.stringify(response));
       // const token = response?.token
     }
     
@@ -407,7 +447,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Alamat" />
+                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -423,9 +463,25 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.`
                   </div>
                   <div className='h4 separator'>Informasi Akun</div>
                   <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="password">Password <span className="text-red-600">*</span></label>
+                    <div className="w-full px-3 ">
+                      {/* <div></div> */}
+                      <label className="block text-gray-900 text-sm font-medium mb-1 tooltip tooltip-open tooltip-right" data-tip="Buatlah password yang mudah diingat" htmlFor="password">Password <span className="text-red-600">*</span></label>
                       <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                      <div class="flex items-center p-4 mb-4 my-1 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+  <svg class="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  {/* Info alert! */}
+  <span class="sr-only">Info</span>
+  <div>
+    <span class="font-thin text-sm">Buatlah password yang sederhana dan mudah diingat.</span>
+  </div>
+</div>
+                      {/* <ul>
+                        <li>lebih dari 8 karakter</li>
+                        <li>kombinasi huruf besar dan kecil</li>
+                        <li></li>
+                      </ul> */}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">

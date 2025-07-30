@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
+import Swal from '../utils/Swal';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import {logout, setCredentials} from '../features/auth/authSlice'
+import {persistor} from '../app/store'
 import { useGetUserDetailsQuery } from '../app/services/auth/authService'
 import { Button } from '@headlessui/react';
 import supabase from '../client/supabase_client';
@@ -24,6 +26,15 @@ function Header(props) {
   const location = useLocation()
   const { hash, pathname, search } = location
   const navigate = useNavigate()
+  const [confirm, setComfirm] = useState(false)
+  const [modal_show, setModalShow] = useState(false)
+  const [modal_data, setModal_data] = useState({
+    title: "Anda yakin ingin keluar Aplikasi?",
+    message: "",
+    text: "OK",
+    // url: this.confirmLogout(true)
+    content_type: 'logout'
+  })
   // automatically authenticate user if token is found
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
@@ -39,6 +50,7 @@ function Header(props) {
           const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
+                              .is('deleted_at', null)
           if(error){
             console.log(error)
           //   setProfileData({})
@@ -77,8 +89,24 @@ function Header(props) {
     return () => window.removeEventListener('scroll', scrollHandler);
   }, [top, dispatch, userInfo]);  
 
-  const handledLogout = async () => {
-    try {
+  const handleLogoutConfirm = (value) => {
+    console.log(value)
+    handledLogout()
+    setComfirm(value)
+    console.log(confirm)
+    // if(confirm){
+    // }
+  }
+
+  const handledLogout = async (confirm) => {
+    
+    // console.log(confirm)
+    // if(!confirm || confirm ===false){
+    //   setModalShow(true)
+    // }else{
+    //   setModalShow(false)
+      // setComfirm()
+      try {
         const response = await axios.get("/api/auth/logout",
         {
           headers: {'Content-Type': 'application/json' }, withCredentials: true
@@ -86,20 +114,32 @@ function Header(props) {
         );
         // 
         console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
-        if(response.status==200){
-          dispatch(logout())
+        if(response.status==200 || response.status==204){
+          
+          persistor.purge();
+          // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+          localStorage.removeItem("persist:auth")
           Cookies.remove("jwt")
+          dispatch(logout())
           navigate('/login')
         }
     } catch (error) {
       
     }
+
+    // }
+    
+    
   }
   
   return (
     <header className={`fixed w-full z-30 justify-between items-center max-w-lg min-w-screen my-0 md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}>
      {/* <header className={`mx-auto fixed z-30 max-w-lg md:bg-opacity-90 transition duration-300 mt-5 ease-in-out border-b ${!top && 'bg-white rounded-full backdrop-blur-sm shadow-lg'}`}> */}
       {/* w-10/12 */}
+      {modal_show && (
+        <Swal dataModal={modal_data} setConfirm={handledLogout}  />
+        // setDestroy={setDestroy}
+      )}
       <div className="max-w-6xl mx-auto px-5 sm:px-6 relative">
         <div className="flex items-center justify-between gap-3 h-16 md:h-20">
 
@@ -125,7 +165,7 @@ function Header(props) {
               <li>
                 {userInfo ? (
 
-                  <Button onClick={handledLogout} className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center">
+                  <Button onClick={()=> handledLogout(false)} className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center">
                     <span>LOGOUT</span>
                     <svg className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                       <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
