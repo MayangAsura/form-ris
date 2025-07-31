@@ -12,8 +12,8 @@ import { userLogout } from '../features/auth/authActions';
 import Cookies from 'js-cookie'
 // import Cookies from 'universal-cookie'
 
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 
 function Header(props) {

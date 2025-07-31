@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
@@ -238,7 +238,7 @@ function Payment() {
         navigate('/pay')
       }
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
-        applicantDataOrder.description = 'Biaya Uang Masuk' + ' ' + applicantData.school_name? applicantData.school_name : ''
+        applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.school_name? applicantData.school_name : ''
         // applicantDataOrder.description = 'invoice registration fee'
 
         applicantDataOrder.foundation_id = 1
@@ -366,7 +366,7 @@ function Payment() {
 
               {/* Page header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-12">
-                <h1 className="h1 mb-4">Pembayaran <br />Uang Masuk</h1>
+                <h1 className="h1 mb-4">Pembayaran <br />Biaya Formulir Pendaftaran</h1>
                 <p className=" text-gray-700">Silahkan melakukan pembayaran untuk melanjutkan Pengisian Formulir</p>
                 {/* <p className=" text-gray-600">Masukkan No. WhatsApp terdaftar/No Pendaftaran untuk mereset password.</p> */}
               </div>
