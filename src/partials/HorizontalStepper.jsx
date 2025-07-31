@@ -99,9 +99,16 @@ const HorizontalStepper = (props) => {
         
         const dataVerifikasiKeluarga = {
           student_category: props.applicant[0].participants[0].student_category,
-          updated_at : props.applicant[0].participants[0].updated_at
+          updated_at : props.applicant[0].participants[0].updated_at,
+          photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
         }
         setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
+        console.log('dataVerifikasiKeluarga', dataVerifikasiKeluarga)
+
+        const dataMetodeUangPangkal = {
+          metode_uang_pangkal: props.applicant[0]?.participants[0].metode_uang_pangkal
+        }
+        setDataMetodeUangPangkal(dataMetodeUangPangkal)
       }
 
       console.log('participant >', participant)
@@ -121,12 +128,6 @@ const HorizontalStepper = (props) => {
         name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name 
       }
       setApplicantSchool(dataSchool)
-
-
-      const dataMetodeUangPangkal = {
-        metode_uang_pangkal: props.applicant[0]?.metode_uang_pangkal
-      }
-      setDataMetodeUangPangkal(dataMetodeUangPangkal)
     
       
 
@@ -246,9 +247,15 @@ const HorizontalStepper = (props) => {
       console.log(err)
       return
     }
+    data.map(e => ({
+      
+    }))
+    // const tempData = [
+    //   {}
+    // ]
 
     setDataBerkas(data)
-    console.log(dataBerkas)
+    console.log('dataBerkas', dataBerkas)
 
   }
 
@@ -289,14 +296,15 @@ const HorizontalStepper = (props) => {
           
             updateData(data_applicant, "applicants", applicant.id, 'id')
         }
+        // if(applicant.participants.length > 0){
+      scroll('right')
+      setCurrentStep(currentStep + 1)
+    // }
       }
       
     })
     // }, 4000);
-    if(applicant.participants.length > 0){
-      scroll('right')
-      setCurrentStep(currentStep + 1)
-    }
+    
   }
 
   const getDataAyah =  (data) => {
@@ -571,7 +579,7 @@ const HorizontalStepper = (props) => {
     // }
     // berkasUrl.a = data.publicUrl.toString()
     // console.log(berkasUrl)
-    return data.publicUrl
+    return data.publicUrl??null
     // const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
     const path = {
@@ -600,7 +608,7 @@ const HorizontalStepper = (props) => {
           for (let i = 0; i < dataInput.length; i++) {
             const d = dataInput[i];
             console.log(d)
-            upload(d.file, d.name)
+            const url = await upload(d.file, d.name)
             
             // if(d.name == "Bird-Certificate"){
             //   path = berkasUrl.a 
@@ -633,7 +641,7 @@ const HorizontalStepper = (props) => {
 
             const dataItem = {
               participant_id: pid,
-              file_url: berkasUrl,
+              file_url: berkasUrl?berkasUrl:url,
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
               file_size: d.size.toString(),
               file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
@@ -705,7 +713,7 @@ const HorizontalStepper = (props) => {
 
           if(!edit && dataBerkas.length == 0){
               const { data, err} = await supabase.from(to)
-                                .insert([dataItem])
+                                .upsert([dataItem])
                                 .select()
               console.log('data>', data)
               console.log('err >', err)
@@ -842,7 +850,7 @@ const HorizontalStepper = (props) => {
                               is_complete: false,
                               updated_at: new Date().toISOString()
                               })
-                            .eq('id', participant_id)
+                            .eq('id', participant.id?participant.id:participant_id)
                             .select()
                             console.log('data participant after klik edit >', data)
                             console.log(error)

@@ -32,12 +32,13 @@ function Status(props) {
                             <svg aria-hidden="true" className="w-24 h-24 text-blue-500 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                             <span className="sr-only">Success</span>
                         </div> */}
-                        <span className="rounded-md w-24 bg-green-50 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                        {/* <p>Status Pengisian Formulir</p> */}
+                        <span className="rounded-md w-24 bg-green-50 px-2 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                           SELESAI
                         </span>
                           {/* <TiInputCheckedOutline  size={512} className='items-center'/> */}
                           {/* <p className="pb-1">Status Pembayaran</p> */}
-                          <p className="pb-1">Pengisian formulir telah selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran.</p>
+                          <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran.</p>
 
                           {/* <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   onClick={() => {

@@ -1,5 +1,6 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { FiExternalLink } from "react-icons/fi";
 import { useState,useEffect } from 'react';
 
 function VerifikasiKeluargaForm(props) {
@@ -134,8 +135,9 @@ function VerifikasiKeluargaForm(props) {
                                     {/* if () {
                                         
                                     } */}
-                                    <div className="sm:col-span-4">
-                                        <img src={dataVerifikasiKeluarga.photo_sampul_ijazah??photo_sampul_ijazah} alt="" width={30}/>
+                                    <div className="sm:col-span-4 mt-2 mb-0">
+                                        <img src={dataVerifikasiKeluarga?.photo_sampul_ijazah} alt="" width={250} className='w-full'/>
+                                        <span className=' text-green-600 cursor-pointer flex gap- items-center' onClick={() => window.open(dataVerifikasiKeluarga?.photo_sampul_ijazah)}> Buka <FiExternalLink></FiExternalLink> </span>
                                     </div>
                                     <div className="sm:col-span-4">
                                     <label htmlFor="photo_sampul_ijazah" className="block text-sm/6 font-medium text-gray-900">Upload foto sampul depan Raport/Ijazah Rabbaanii</label>
@@ -143,7 +145,12 @@ function VerifikasiKeluargaForm(props) {
                                     <p className="text-xs/5 text-gray-600">PNG, JPG, PDF, maks 2MB</p>
                                     <div className="mt-2">
                                         <div className='relative inline'>
-                                            <input id="photo_sampul_ijazah" name="photo_sampul_ijazah" onChange={(e) => validateImage(e.target.files[0],2,'Photo-Sampul-Ijazah')} type="file" autoComplete="photo_sampul_ijazah" className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
+                                            <input id="photo_sampul_ijazah" name="photo_sampul_ijazah" onChange={(e) => validateImage(e.target.files[0],2,'Photo-Sampul-Ijazah')} type="file" autoComplete="photo_sampul_ijazah" 
+                                            className='w-full p-3 mt-3 file:bg-green-500 file:text-white file:border-0
+                                                    file:py-1 file:px-3 file:rounded-lg
+                                                    file:shadow-xl file:shadow-green-500/30
+                                                    text-gray-600'
+                                            // className="p-3 w-full text-slate-500 text-sm rounded-sm leading-6 file:absolute file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:border-none file:px-4 file:py-0 file:mr-2 file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
                                             accept="image/png, image/jpeg, .pdf"/>
                                             {/* <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 2MB</p> */}
                                             { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
