@@ -109,7 +109,7 @@ function Header(props) {
       try {
         const response = await axios.get("/api/auth/logout",
         {
-          headers: {'Content-Type': 'application/json' }, withCredentials: true
+          headers: {'Content-Type': 'application/json' }
         }
         );
         // 
