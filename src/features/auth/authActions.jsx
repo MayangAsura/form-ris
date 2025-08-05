@@ -1,6 +1,7 @@
 // import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from '../../api/local-server'
+import Cookies from 'js-cookie'
 // import axios from '../../api/prod-server'
 
 // const backendURL = import.meta.env.VITE_SERVER_URL? import.meta.env.VITE_SERVER_URL : 'http://localhost:3000'
@@ -23,12 +24,23 @@ export const userLogin = createAsyncThunk(
         { username, password },
         config
       )
-
+      console.log('sebelum', data)
       // store user's token in local storage
-    //   .setItem('jwt', data.t)
+      if (data?.token) {
+        console.log(data.token)
+        Cookies.set('token', data.token, {
+          expires: 1, // Expires in 1 day
+          secure: false, // Secure in production
+          sameSite: 'strict', // CSRF protection
+          path: '/' // Accessible across entire site
+        });
+      }
+      // Cookies.set('jwt', data.token)
+      console.log('setelah', data)
 
       return data
     } catch (error) {
+      console.log('error', error)
       // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)

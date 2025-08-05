@@ -21,7 +21,7 @@ function Payment() {
     const queryParams = queryString.parse(window.location.search)
     const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "", school_name:"", full_name: "",phone_number: "",email: "", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
-    const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:""} )
+    const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:"", amount: "", settlement_at: ""} )
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     // const [applicantData, setApplicantData] = useState({item_id: "",foundation_id: null,description: "",total_amount: "",created_by: ""})
     const [school_id, setSchoolId] = useState("")
@@ -38,10 +38,11 @@ function Payment() {
     const navigate = useNavigate()
     
     useEffect(() => {
+      console.log('masuk')
 
       const getApplicantData = async () =>{
-        
-      
+        console.log('on applicantdata')
+        // const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA4NTIxNjUyNzM5NyIsImlhdCI6MTc1NDE0ODg1NCwiZXhwIjoxNzU0MjM1MjU0fQ.eG-_ZkjYmzJqJuK1sAELeRiuYSDOnOr5NyAxAyQCqBA';
         const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
                             .eq('refresh_token', userToken)                 
                             .eq('status', 'active')
@@ -51,7 +52,7 @@ function Payment() {
           // setApplicantData({})
         }else{
           setApplicantData(data)
-          console.log('applicantData payment> ', applicantData)
+          console.log('applicantData> ', data)
   
           
           // applicantData.full_name = data.full_name
@@ -61,61 +62,86 @@ function Payment() {
           //   applicantData.order_id = data.applicant_orders[0].id
           //   applicantData.order_status = data.applicant_orders[0].status
           // }
+  
           const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
             .select('amount, fee_type_id')
-            .eq('school_id', data.applicant_schools[0].schools.school_id)
+            .eq('school_id', data.applicant_schools[0]?.schools.school_id)
             .single() 
           // if(dataSchool){
           console.log('school_fees > ', dataSchool)
-          setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
-  
-          }
+          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
+          applicantDataOrder.total_amount = dataSchool.amount
           
-         
-        }
-        if(applicantData.applicant_orders.length > 0){
-          applicantDataOrder.invoice_number = applicantData.applicant_orders[0].invoice_number
-          applicantData.applicant_orders[0].status!== 'pending'?setInvoiceCreated(true):""
-        }
-        console.log('invoicecreated> ', invoicecreated)
-        if(applicantData.applicant_schools.length>0){
-          //   applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
-          //   applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
-            applicantData.school_name = applicantData.applicant_schools[0].schools?.school_name
-  
-            applicantDataOrder.item_id = applicantData.applicant_schools[0].schools?.school_id
-            applicantDataOrder.created_by = applicantData.applicant_schools[0].applicant_id
-            applicantDataOrder.applicant_id = applicantData.applicant_schools[0].applicant_id
-            // setSchoolName(applicantData?.applicant_schools[0]?.schools?.school_name)
-            // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
+          // if(data.applicant_orders.length > 0){
+            applicantDataOrder.invoice_number = data.applicant_orders[0].invoice_number
+            data.applicant_orders[0].status!== 'pending'?setInvoiceCreated(true):""
+          // }
+          console.log('invoicecreated> ', invoicecreated)
+          // if(applicantData.applicant_schools.length>0){
+              applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
+              applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
+            applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
             
+            applicantDataOrder.item_id = data.applicant_schools[0]?.schools?.school_id
+            applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
+            applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
+            console.log('in applicantdataorder')
+            // const dataOrder = {
+            //   item_id: data.applicant_schools[0]?.schools?.school_id,
+            //   created_by: data.applicant_schools[0]?.applicant_id,
+            //   applicant_id: data.applicant_schools[0]?.applicant_id,
+            //   invoice_number: data.applicant_orders[0].invoice_number,
+            //   total_amount: dataSchool.amount
+            // }
+            // setApplicantDataOrder(dataOrder)
+            // console.log('applicantDataOrder', applicantDataOrder)
 
-  // applicantDataOrder.total_amount = dataSchool.amount
+            setApplicantData(data)
+              // setSchoolName(applicantData?.applicant_schools[0]?.schools?.school_name)
+              // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
+              
   
-  // const school_id = data.school_id
-  // console.log('data >',data)
-  console.log('applicantDataOrder >',applicantDataOrder)
-  console.log('applicantData >',applicantData)
-  
-      
-      }
+              // applicantDataOrder.total_amount = dataSchool.amount
+              
+              // const school_id = data.school_id
+              // console.log('data >',data)
+              console.log('applicantDataOrder >',applicantDataOrder)
+              console.log('applicantData >',applicantData)
+          }
+         
+              
+                  
+          // }
+        }
       
 
       const getApplicantPayment = async () => {
+        console.log('on payment')
         // console.log(applicantData.order_status)
         if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished'){
   
           console.log("status !='' ")
           const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
-                                            .select('started_at, expired_at, payment_url, status')
+                                            .select('started_at, expired_at, payment_url, status, amount, settlement_at')
                                             .eq('order_id', applicantData.applicant_orders[0]?.id)
                                             .single()
-          applicantDataPayment.started_at = dataPayment.started_at
-          applicantDataPayment.expired_at = dataPayment.expired_at
-          applicantDataPayment.payment_url = dataPayment.payment_url
-          applicantDataPayment.status = dataPayment.status
-  
-          console.log(applicantDataPayment)
+          // applicantDataPayment.started_at = dataPayment.started_at
+          // applicantDataPayment.expired_at = dataPayment.expired_at
+          // applicantDataPayment.payment_url = dataPayment.payment_url
+          // applicantDataPayment.status = dataPayment.status
+          // applicantDataPayment.amount = dataPayment.amount
+          // applicantDataPayment.settlement_at = dataPayment.settlement_at
+
+          const dataPay = {
+            started_at : dataPayment.started_at,
+            expired_at : dataPayment.expired_at,
+            payment_url : dataPayment.payment_url,
+            status : dataPayment.status,
+            amount : dataPayment.amount,
+            settlement_at : dataPayment.settlement_at
+          }
+          setApplicantDataPayment(dataPay)
+          console.log('applicantDataPayment', applicantDataPayment)
           // setApplicantDataPayment(dataPayment)
           // getApplicantPayment()
           // invoicecreated && applicantData.order_status!==='finis'
@@ -129,6 +155,7 @@ function Payment() {
           
         // }
       }
+      
 
 
       getApplicantData()
@@ -141,10 +168,86 @@ function Payment() {
       //   console.log(invoicecreated)
       // }
 
+      if(applicantData.applicant_orders[0]?.status === 'finished'){
+
+        // setTimeout(() => {
+          
+          getApplicantData()
+          getApplicantPayment()
+        // }, 1200);
+
+        // setTimeout(() => {
+          
+          send_notif_success()
+        // }, 1200);
+        
+      }
       
-    }, [invoicecreated, applicantData])
+    }, [applicantData])
+
+    
 
 
+    const send_notif_success = async () => {
+
+      // setTimeout(() => {
+        // getApplicantPayment()
+      //   getApplicantData()
+        
+      // }, 1500);
+      
+      console.log('paymentdata', applicantData, applicantDataOrder, applicantDataPayment)
+      const new_phone_number = '62'+ applicantData.phone_number.slice(1)
+      const no_form_pendaftaran = applicantData.applicant_orders[0].invoice_number
+      const settlement_date = formatDate(applicantDataPayment.settlement_at)
+      const amount = applicantDataPayment.amount
+      const no_registrasi = applicantData.regist_number
+      const PSB_URL = 'https://psb-formy.vercel.app/login'
+      const type = 'payment'
+      console.log('', no_form_pendaftaran, settlement_date, amount)
+      // No. Formulir Pendaftaran: ${no_form_pendaftaran}
+      // Nominal                 : ${amount}
+      //   Tanggal Bayar           : ${settlement_date}
+      const data = [{
+        "phone": new_phone_number,
+        // "phone": "6285778650040",
+        "message": `Assalamu'alaikum, Alhamdulillah Pembayaran terkonfirmasi berhasil. Ananda dapat melanjutkan proses pendaftaran.
+        No. Formulir Pendaftaran: ${no_form_pendaftaran}
+        Status Pembayaran       : Sukses
+        
+        No. Pendaftaran         : ${no_registrasi}
+        Login Aplikasi          : ${PSB_URL}
+        
+        Jazaakumullahu khayran wa Baarakallaahu fiikum.
+        
+        -- PSB RABBAANII ISLAMIC SCHOOL --`
+        // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
+        
+      }]
+      
+      try {
+        const response = await axios.post("/api/auth/send-notif", {message: data , type: type},
+          {
+            headers: {'Content-Type': 'application/json' }
+          }
+        );
+        // 
+        console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+        if(response.status==200 || response.status==204){
+          console.log('masuk notif', new_phone_number, no_form_pendaftaran, no_registrasi)
+          
+          // persistor.purge();
+          // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+          // localStorage.removeItem("persist:auth")
+          // Cookies.remove("jwt")
+          // dispatch(logout())
+          // navigate('/login')
+        }
+        navigate('/home')
+      } catch (error) {
+              console.log('error notif', error)
+            }
+    }
 
       // setTimeout(() => {
       //   getApplicantDataSchool()
@@ -224,6 +327,7 @@ function Payment() {
       console.log(applicantDataPayment.expired_at)
       console.log("enter")
       if(applicantDataPayment?.expired_at > new Date()){
+        console.log("in expired")
 
         return
 
@@ -231,14 +335,16 @@ function Payment() {
       }else{
         
         if(applicantData.order_status=="proccesed"){
+          console.log("in proccessed")
           modal_data.title = "Gagal Membuat Pembayaran" 
           modal_data.message = "Ananda telah melakukan transaksi sebelumnya." 
           setModalShow(true)
         }
         navigate('/pay')
       }
+      console.log("in new order")
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
-        applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.school_name? applicantData.school_name : ''
+        applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 
         applicantDataOrder.foundation_id = 1
@@ -276,7 +382,7 @@ function Payment() {
         try {
           
           axios.post(CREATE_INVOICE_URL, data).then((res) => {
-    
+            console.log("in create invoice")
             console.log(res.status);
             console.log(res)
     
@@ -469,7 +575,7 @@ function Payment() {
                           ) )
                         ) : (
                           applicantData.applicant_orders[0]?.status === 'finished' ? (
-                            navigate('/home')
+                            send_notif_success()
                             // <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             //       onClick={() => {navigate("/home")}}
                             //     >Lanjut
