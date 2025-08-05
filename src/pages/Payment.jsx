@@ -109,6 +109,9 @@ function Payment() {
               console.log('applicantData >',applicantData)
           }
          
+          applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
+            applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
+            applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
               
                   
           // }
@@ -125,12 +128,12 @@ function Payment() {
                                             .select('started_at, expired_at, payment_url, status, amount, settlement_at')
                                             .eq('order_id', applicantData.applicant_orders[0]?.id)
                                             .single()
-          // applicantDataPayment.started_at = dataPayment.started_at
-          // applicantDataPayment.expired_at = dataPayment.expired_at
-          // applicantDataPayment.payment_url = dataPayment.payment_url
-          // applicantDataPayment.status = dataPayment.status
-          // applicantDataPayment.amount = dataPayment.amount
-          // applicantDataPayment.settlement_at = dataPayment.settlement_at
+          applicantDataPayment.started_at = dataPayment.started_at
+          applicantDataPayment.expired_at = dataPayment.expired_at
+          applicantDataPayment.payment_url = dataPayment.payment_url
+          applicantDataPayment.status = dataPayment.status
+          applicantDataPayment.amount = dataPayment.amount
+          applicantDataPayment.settlement_at = dataPayment.settlement_at
 
           const dataPay = {
             started_at : dataPayment.started_at,
@@ -347,13 +350,15 @@ function Payment() {
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 
+        applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
+        applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
         console.log("applicantDataOrder ",  applicantDataOrder)
   
         // const { data : }
   
         const { data: order, error } = await supabase.rpc('add_new_order', {
-                                        _created_by: applicantDataOrder.applicant_id, 
+                                        _created_by: applicantDataOrder.created_by, 
                                         _description: applicantDataOrder.description, 
                                         _foundation_id: applicantDataOrder.foundation_id, 
                                         _item_id: applicantDataOrder.item_id, 
