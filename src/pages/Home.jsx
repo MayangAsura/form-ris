@@ -20,6 +20,7 @@ import Announcement from '../partials/Announcement';
 function Home() {
   const [applicantData, setApplicantData] = useState({})
   const [participantData, setParticipantData] = useState({submission_status:""})
+  const [is_refresh, setIsRefresh] = useState(false)
 
   const getDataApplicant = async (data) => {
     setApplicantData(data)
@@ -37,16 +38,16 @@ function Home() {
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
 
       {/*  Site header */}
-      <Header getDataApplicant={getDataApplicant} />
+      <Header getDataApplicant={getDataApplicant} is_refresh={is_refresh} />
 
       {/*  Page content */}
       <main className="flex-grow">
 
         {/*  Page sections */}
         {/* <Pro */}
-        <ProfileCard applicant={applicantData}/>
+        <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
         <Announcement participant={participantData}/>
-        <HorizontalStepper applicant={applicantData} />
+        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}

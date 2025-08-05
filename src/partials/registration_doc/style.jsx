@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: "2px",
-    marginTop: "5px"
+    marginTop: "8px"
   },
   flex: {
     display: "flex",

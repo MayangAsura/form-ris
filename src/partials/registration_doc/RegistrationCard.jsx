@@ -107,6 +107,13 @@ export default function RegistrationCard(props){
     return text
       
   }
+
+  const getPilihanMetodeUangPangkalText = (value) => {
+
+    if(value === 'gel_1') {
+      return 'Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)'
+    }
+  }
     // InvoicePDF = () => (
       return (
     <Document>
@@ -165,7 +172,7 @@ export default function RegistrationCard(props){
                             <TR >
                                 <TD style={[styles.td]}>Tempat, Tanggal Lahir</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {`${props.dataSummary.identitas.pob??identitas.pob}, ${formatDate(props.dataSummary.identitas.bod??identitas.bod)}`}</TD>
+                                <TD style={[styles.td]}> {`${props.dataSummary.identitas.pob??identitas.pob}, ${formatDate(props.dataSummary.identitas.dob??identitas.dob)}`}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
@@ -368,7 +375,7 @@ export default function RegistrationCard(props){
             <TR>
               <TD style={[styles.td]}>Pendidikan Terakhir</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataIbu.mother_academic??props.dataSummary.dataIbu.mother_academic}</TD>
+              <TD style={[styles.td]}> { dataIbu.mother_academic??props.dataSummary.dataIbu.mother_academic}</TD>
             </TR>
             <TR>
               <TD style={[styles.td]}>Pekerjaan</TD>
@@ -456,7 +463,7 @@ export default function RegistrationCard(props){
             <TR>
               <TD style={[styles.td]}>Pilihan Pembayaran</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {pilihan_metode_uangpangkal.metode_uang_pangkal??props.dataSummary.pilihan_metode_uangpangkal.metode_uang_pangkal}</TD>
+              <TD style={[styles.td]}> {getPilihanMetodeUangPangkalText(pilihan_metode_uangpangkal.metode_uang_pangkal??props.dataSummary.pilihan_metode_uangpangkal.metode_uang_pangkal)}</TD>
             </TR>
             {/* <TR>
               <TD>Alasan Memilih Rabbaanii Islamic School</TD>

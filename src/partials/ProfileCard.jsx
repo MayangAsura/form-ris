@@ -64,9 +64,10 @@ function ProfileCard(props) {
 
   const getDataSummary = () => {
     // full_name: "", gender: "", phone_number: "", email: "", regist_number: "", pob: "", dob: "", child_number:"", child_status: "", distance: "", nationality: "", province:"", region: "", postal_code: "", aspiration: "", nisn: "", kk: ""
+
     const jenjangTujuan = {
       school_name : props.applicant[0].applicant_schools[0].schools.school_name,
-      class : props.applicant[0].applicant_schools[0].schools.class??null
+      class : props.applicant[0].applicant_schools[0].subschool??null
     }
     dataSummary.jenjangTujuan = jenjangTujuan
     const sekolahAsal = {
@@ -82,7 +83,7 @@ function ProfileCard(props) {
       regist_number: props.applicant[0].regist_number,
       pob: props.applicant[0].participants[0].pob,
       dob: props.applicant[0].participants[0].dob,
-      address: props.applicant[0].participants[0].address,
+      address: props.applicant[0].participants[0].home_address,
       child_number: props.applicant[0].participants[0].child_number,
       child_status: props.applicant[0].participants[0].child_status,
       distance: props.applicant[0].participants[0].distance,
@@ -361,6 +362,7 @@ function ProfileCard(props) {
                             </div>
                           </div>
                         </div> */}
+                        {/* {profileData.is_complete} */}
                         {profileData.is_complete && (
                           <PDFDownloadLink document={<RegistrationCard dataSummary={dataSummary}/>} fileName="Kartu-Pendaftaran.pdf">
                           <button  className='btn w-full py-3 btn-sm my-5  text-gray-200 bg-green-900 hover:bg-gray-800'

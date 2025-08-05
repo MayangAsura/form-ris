@@ -968,9 +968,11 @@ const HorizontalStepper = (props) => {
               //   : setCurrentStep((prev) => prev + 1); 
               if(currentStep === steps.length){
                 setComplete(true)
+                props.setIsRefresh(true)
 
               }else if (currentStep == steps.length -1){
                 getComplete(true)
+                props.setIsRefresh(true)
                 setCurrentStep((prev) => prev + 1);
               }
               else{

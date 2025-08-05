@@ -135,6 +135,17 @@ function VerifikasiKeluargaForm(props) {
                                     {/* if () {
                                         
                                     } */}
+                                    <div className="sm:col-span-4 mt-2 mb-0"> 
+
+                                    {dataVerifikasiKeluarga?.photo_sampul_ijazah? (
+                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                    </div>
+                                         
+                                        {/* <img src={props.dataBerkas[4]?.file_url?dataBerkas[4]?.file_url : ""} alt="" width={30}/> */}
                                     <div className="sm:col-span-4 mt-2 mb-0">
                                         <img src={dataVerifikasiKeluarga?.photo_sampul_ijazah} alt="" width={250} className='w-full'/>
                                         <span className=' text-green-600 cursor-pointer flex gap- items-center' onClick={() => window.open(dataVerifikasiKeluarga?.photo_sampul_ijazah)}> Buka <FiExternalLink></FiExternalLink> </span>

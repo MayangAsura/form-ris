@@ -35,6 +35,8 @@ function Header(props) {
     // url: this.confirmLogout(true)
     content_type: 'logout'
   })
+
+  const {getDataApplicant, is_refresh} = props
   // automatically authenticate user if token is found
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
@@ -47,7 +49,7 @@ function Header(props) {
         const token = userToken
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name)), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name), subschool), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
                               .is('deleted_at', null)
@@ -78,6 +80,10 @@ function Header(props) {
     // setTimeout(() => {
       // timeou
       getProfileData()
+
+      if(is_refresh){
+        getProfileData()
+      }
     // }, 2000);
     console.log('userInfo>', userInfo) 
     // console.log('dataProfile>', auth)
@@ -87,7 +93,7 @@ function Header(props) {
     };
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [top, dispatch, userInfo]);  
+  }, [top, dispatch, userInfo, is_refresh]);  
 
   const handleLogoutConfirm = (value) => {
     console.log(value)
