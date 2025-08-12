@@ -16,12 +16,14 @@ function Announcement(props) {
     // if(props.participant){
     //   // setSubmissionStatus(props.participant.submission_status)
     // }
-    getSubmissionStatus()
-    if(props.participant.submission_status){
-      console.log('masuk-',props.participant.submission_status)
-      getSubmissionStatus(props.participant.submission_status)
-    }
-  console.log('status sub in announce', submission_status)
+    // if(props.participant.submission_status){
+    //   console.log('masuk-',props.participant.submission_status)
+    //   getSubmissionStatus(props.participant.submission_status)
+    //   console.log('status sub in announce', submission_status)
+    // }else{
+      getSubmissionStatus()
+
+    // }
     if(submission_status=='on_exam'){
       getToken()
     }
@@ -42,29 +44,32 @@ function Announcement(props) {
     //   setParticipant(participants[0])
     // }
     let text;
-    if((value??submission_status)=="awaiting_processing"){
-      text = "Formulir Diproses" 
-      setSubmissionStatus(text)
-    }
-    if(value??submission_status=="on_exam"){
-      text = "Mengikuti Seleksi" 
-      setSubmissionStatus(text)
-    }
-    if(value??submission_status=="initial_submission"){
-      text = "Pengisian Formulir" 
-      setSubmissionStatus(text)
-    }
-    if(value??submission_status??"initial_submission"){
-      text = "Pengisian Formulir" 
-      setSubmissionStatus(text)
-    }
-    if(value??submission_status=="accepted"){
-      text = "LULUS" 
-      setSubmissionStatus(text)
-    }
-    if(value??submission_status=="not_accepted"){
-      text = "Tidak Lulus" 
-      setSubmissionStatus(text)
+    if(value){
+
+      if((submission_status)=="awaiting_processing"){
+        text = "Formulir Diproses" 
+        setSubmissionStatus(text)
+      }
+      if((submission_status)=="on_exam"){
+        text = "Mengikuti Seleksi" 
+        setSubmissionStatus(text)
+      }
+      if((submission_status)=="initial_submission"){
+        text = "Pengisian Formulir" 
+        setSubmissionStatus(text)
+      }
+      if((submission_status)??"initial_submission"){
+        text = "Pengisian Formulir" 
+        setSubmissionStatus(text)
+      }
+      if((submission_status)=="accepted"){
+        text = "LULUS" 
+        setSubmissionStatus(text)
+      }
+      if((submission_status)=="not_accepted"){
+        text = "Tidak Lulus" 
+        setSubmissionStatus(text)
+      }
     }
 
     // return text
