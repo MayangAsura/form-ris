@@ -43,7 +43,7 @@ function Payment() {
       const getApplicantData = async () =>{
         console.log('on applicantdata')
         // const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA4NTIxNjUyNzM5NyIsImlhdCI6MTc1NDE0ODg1NCwiZXhwIjoxNzU0MjM1MjU0fQ.eG-_ZkjYmzJqJuK1sAELeRiuYSDOnOr5NyAxAyQCqBA';
-        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status)')
+        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status, is_notif_sended)')
                             .eq('refresh_token', userToken)                 
                             .eq('status', 'active')
                             .single()
@@ -167,24 +167,27 @@ function Payment() {
 
         getApplicantPayment()
       }
+
+      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === true){
+      //   // setTimeout(() => {
+      //     navigate('/home')
+      //   // }, 1200);
+      //   }
+      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === false){
+
+      //   getApplicantData()
+      //   getApplicantPayment()
+      //   // }, 1200);
+
+      //   // setTimeout(() => {
+          
+      //   send_notif_success()
+      // }
       // if(invoicecreated){
       //   console.log(invoicecreated)
       // }
 
-      if(applicantData.applicant_orders[0]?.status === 'finished'){
-
-        // setTimeout(() => {
-          
-          getApplicantData()
-          getApplicantPayment()
-        // }, 1200);
-
-        // setTimeout(() => {
-          
-          send_notif_success()
-        // }, 1200);
-        
-      }
+      
       
     }, [applicantData])
 
@@ -223,13 +226,14 @@ function Payment() {
         
         Jazaakumullahu khayran wa Baarakallaahu fiikum.
         
-        -- PSB RABBAANII ISLAMIC SCHOOL --`
+        -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+        - Mohon simpan nomor ini untuk mendapatkan update informasi -`
         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
         
       }]
       
       try {
-        const response = await axios.post("/api/auth/send-notif", {message: data , type: type},
+        const response = await axios.post("/api/auth/send-notif", {message: data , type: type, token: applicantData.refresh_token??null},
           {
             headers: {'Content-Type': 'application/json' }
           }
@@ -266,7 +270,7 @@ function Payment() {
           return 'Pending'
         case 'processed':
           if(applicantDataPayment?.expired_at && (Date.now() > new Date(applicantDataPayment.expired_at).getTime())){
-            return 'Sesi Berakhir'
+            return 'Pembayaran Kedaluwarsa'
           }else{
             return 'Menunggu Pembayaran' 
 
@@ -423,8 +427,11 @@ function Payment() {
                       console.log('error');
                       console.log(result);
                       modal_data.title = "Pembayaran Gagal"
-                      modal_data.message = "Error : ", result
+                      modal_data.message = "Error : ", result?? "Pembayaran tidak ditemukan."
                       setModalShow(true)
+                      // merchantOrderId: "ed9936d0-ff04-4b9f-a5f4-2b4682d13f0d"
+                      // reference: "D1818225BR6YN8ESXLU4D5X"
+                      // resultCode: "02"
                       // alert('Payment Error');
                   },
   
@@ -579,8 +586,8 @@ function Payment() {
                           </svg></button>
                           ) )
                         ) : (
-                          applicantData.applicant_orders[0]?.status === 'finished' ? (
-                            send_notif_success()
+                          applicantData.applicant_orders[0]?.status === 'finished'? (
+                            navigate('/home')
                             // <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                             //       onClick={() => {navigate("/home")}}
                             //     >Lanjut

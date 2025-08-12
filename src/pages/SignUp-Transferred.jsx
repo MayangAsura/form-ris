@@ -38,13 +38,13 @@ function SignUp() {
   const [password, setPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
+  const [class_code, setClassCode] = useState("website")
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
     type: "",
     title: "",
     message: "",
-    text: "OK",
-    url: "/login",
+    // text: "Konfirmasi Pendaftaran ke CS",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
     url2: ""
@@ -148,6 +148,8 @@ function SignUp() {
     const _subschool = getSchoolIdSchoolName(code).split("-")[0].substring(1,2)
     const _password = password
     const _media = media
+    const _class_code = class_code
+    const _is_new = false
   
     // if(school_id)
     console.log(_full_name)
@@ -159,6 +161,7 @@ function SignUp() {
     console.log(_school_id)
     console.log(_subschool)
     console.log(code)
+    console.log(_class_code)
 
     // const newapplicants =  {full_name, gender, phone_number, email, password}
   
@@ -187,7 +190,9 @@ function SignUp() {
       _password,
       _phone_number,
       _school_id,
-      _subschool
+      _subschool,
+      _is_new,
+      _class_code
     });
 
     console.log(data_appl)
@@ -234,10 +239,11 @@ console.log(Object.values(data_appl)[0] !== '01')
       setSubschool("")
       setPassword("")
       setConfirmPassword("")
+      setClassCode("")
 
       modal_data.type= "basic",
       modal_data.title= "Pendaftaran Berhasil",
-      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
+      modal_data.message= "Alhamdulillah, pendaftaran pindah sekolah berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
       // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
       // tex.t: "Konfirmasi Pendaftaran ke CS",
       // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
@@ -251,15 +257,14 @@ console.log(Object.values(data_appl)[0] !== '01')
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
-        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami.
-        No. Pendaftaran: ${data_appl.f3}
-        Login Aplikasi: https://psb-formy.vercel.app/login
-        
-        Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
-        Jazaakumullahu khayran wa Baarakallaahu fiikum.
-        
-        -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
-        - Mohon simpan nomor ini untuk mendapatkan update informasi -`
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami dengan -- No. Pendaftaran ${data_appl.f3} --. Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+
+Login Aplikasi: https://psb-formy.vercel.app/login
+
+Jazaakumullahu khayran wa Baarakallaahu fiikum.
+
+-- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+- Mohon simpan nomor ini untuk mendapatkan update informasi -`
         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
 
       }]
@@ -319,7 +324,7 @@ console.log(Object.values(data_appl)[0] !== '01')
       // const token = response?.token
     }
     
-    // console.log('data_applicant =>', data_appl)
+    console.log('data_applicant =>', data)
 
     
   
@@ -398,7 +403,6 @@ console.log(Object.values(data_appl)[0] !== '01')
   }
 
 
- 
   
   return (
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg overflow-hidden relative">
@@ -466,6 +470,37 @@ console.log(Object.values(data_appl)[0] !== '01')
                       <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
                     </div>
+                  </div>
+                  <div className="sm:col-span-4">
+                      <label htmlFor="media" className="block text-sm font-medium text-gray-900">Kelas</label>
+                      <div className="mt-2 grid grid-cols-1">
+                            {code == 'sdit' && (
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option value={class_code== '2'? class_code:"2"}>Kelas 2 </option>
+                                <option value={class_code== '3'? class_code:"3"}>Kelas 3</option>
+                                <option value={class_code== '4'? class_code:"4"}>Kelas 4 </option>
+                                <option value={class_code== '5'? class_code:"5"}>Kelas 5 </option>
+                                <option value={class_code== '6'? class_code:"6"}>Kelas 6 </option>
+
+                          </select>
+                          )}
+                            {(code == 'smpi' || code == 'smp-pesantren')&& (
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option value={class_code== '8'? class_code:"8"}>Kelas 8 </option>
+                                <option value={class_code== '9'? class_code:"9"}>Kelas 9</option>
+
+                          </select>
+                          )}
+                            {(code == 'sma-pesantren' || code == 'smai') && (
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option value={class_code== '11'? class_code:"11"}>Kelas 11 </option>
+                                <option value={class_code== '12'? class_code:"12"}>Kelas 12 </option>
+                          </select>
+                          )}
+                          {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                          <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                          </svg> */}
+                      </div>
                   </div>
                   <div className='h4 separator'>Informasi Akun</div>
                   <div className="flex flex-wrap -mx-3 mb-4">

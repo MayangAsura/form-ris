@@ -110,7 +110,7 @@ function ProfileCard(props) {
       dataSummary.dataAyah = dataAyah
 
     }
-    if(props.applicant[0].participants[0].participant_mother_data.length > 0){
+    if(props.applicant[0].participants[0].participant_mother_data){
       const dataIbu = {
         mother_name : props.applicant[0].participants[0].participant_mother_data[0].mother_name,
         mother_academic : props.applicant[0].participants[0].participant_mother_data[0].mother_academic,

@@ -18,6 +18,7 @@ import AOS from 'aos';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import SignUp_Transferred from './pages/SignUp-Transferred';
 import ResetPassword from './pages/ResetPassword';
 import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
@@ -80,6 +81,7 @@ function App() {
         })
         } */}
         <Route path="/:code" element={<SignUp />} />
+        <Route path="/tsf/:code" element={<SignUp_Transferred />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/landing" element={<RedirectPayment />} />
         <Route path="/*" element={<NotFoundRoute />} />

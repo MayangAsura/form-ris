@@ -16,20 +16,37 @@ import Jenjang from './Jenjang';
 import HorizontalStepper from '../partials/HorizontalStepper'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Announcement from '../partials/Announcement';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [applicantData, setApplicantData] = useState({})
   const [participantData, setParticipantData] = useState({submission_status:""})
   const [is_refresh, setIsRefresh] = useState(false)
+  const navigate = useNavigate()
 
   const getDataApplicant = async (data) => {
     setApplicantData(data)
+    // console.log('sub', data[0].participants[0].submission_status)
+    if(data[0].participants.length > 0){
+      const submission_status = data[0].participants[0].submission_status
+      // setParticipantData({submission_status: submission_status})
+      participantData.submission_status = data[0].participants[0].submission_status
+    }
+    console.log('part data from h',participantData)
   }
 
   useEffect(() => {
     if(applicantData){
+      console.log('from home', applicantData)
+      // if(app)
+      // if(applicantData.applicant_orders[0]?.status !== 'finished'){
+      //   navigate("/pay")
+      // }
       // if(applicantData[0].participants.length > 0){
       //   setParticipantData({submission_status: applicantData[0].participants[0].submission_status})
+      // if(applicantData[0].participants.length > 0){
+      //   setParticipantData(applicantData[0].participants[0].submission_status)
+      // }
       // }
     }
   }, [applicantData])

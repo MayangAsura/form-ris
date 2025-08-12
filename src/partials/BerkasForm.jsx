@@ -43,13 +43,18 @@ function BerkasForm(props) {
                 dataSchool.id = props.school
                 // setDataSchool(props.)
             }
+            if(props.currentStep == 5){
+                props.retrieveData(props.participant)
+            }
+
+            // if(props.retrieveData)
             // console.log(dataBerkas)
             // setMotherName(props.dataIbu.mother_name)
             // setMotherAcademic(props.dataIbu.mother_academic)
             // setMotherSalary(props.dataIbu.mother_salary)
             // setMotherJob(props.dataIbu.mother_job)
             // setLastUpdate(props.dataIbu.updated_at)
-        },[props.dataBerkas, props.school])
+        },[props.dataBerkas, props.school, props.currentStep])
 
     const data = { bird_certificate:bird_certificate, pas_photo:pas_photo, parent_ktp:parent_ktp, surat_kesanggupan:surat_kesanggupan, kk:kk, certificate:certificate}
 
@@ -288,10 +293,11 @@ function BerkasForm(props) {
                                                     text-gray-600'
                                                 // className="p-1 py-6 w-full block text-slate-500 text-sm rounded-lg leading-12 file:absolute file:top-6 file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:text-center file:border-none file:px-4 file:py-0 file:mr-2  file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
                                                 accept=".pdf"/>
+                                                { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
                                                 {/* <input id="kk" name="kk" type="file" autoComplete="kk" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                             </div>
                                             {props.dataBerkas.find(e => e.file_title == 'KK')?.file_url? (
-                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                            <span className='py-5 mb-3'>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 my-5 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                                 Sudah Upload
                                                 </span>
                                             </span>
@@ -308,7 +314,9 @@ function BerkasForm(props) {
                                                 {/* </div> */}
                                             </div>                  
                                         )}
-                                        <img src={props.dataBerkas.find(e => e.file_title == 'KK')?.file_url?dataBerkas.find(e => e.file_title == 'KK')?.file_url : ""} alt="" width={30}/>
+                                        {dataBerkas.find(e => e.file_title == 'KK')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'KK')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'KK')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'KK')?.file_type === 'PNG' && (
+                                            <img src={props.dataBerkas.find(e => e.file_title == 'KK')?.file_url?dataBerkas.find(e => e.file_title == 'KK')?.file_url : ""} alt="" width={30}/>
+                                        )}
                                         </div>
 
                                     </div>
@@ -346,7 +354,10 @@ function BerkasForm(props) {
                                                 {/* </div> */}
                                             </div>                  
                                         )}
-                                        <img src={props.dataBerkas[4]?.file_url?dataBerkas[4]?.file_url : ""} alt="" width={30}/>
+                                        {dataBerkas.find(e => e.file_title == 'Surat-Kesanggupan')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Surat-Kesanggupan')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Surat-Kesanggupan')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Surat-Kesanggupan')?.file_type === 'PNG' && (
+
+                                            <img src={props.dataBerkas[4]?.file_url?dataBerkas[4]?.file_url : ""} alt="" width={30}/>
+                                        ) }
                                         </div>
                                     </div>
                                     <div className="sm:col-span-8">
@@ -365,7 +376,7 @@ function BerkasForm(props) {
                                             </div>
                                         </div>
                                         {props.dataBerkas.find(e => e.file_title == 'Syahadah')?.file_url? (
-                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                            <span className=''>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                                 Sudah Upload
                                                 </span>
                                             </span>
@@ -382,7 +393,10 @@ function BerkasForm(props) {
                                                 {/* </div> */}
                                             </div>                  
                                         )}
+                                        {dataBerkas.find(e => e.file_title == 'Syahadah')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Syahadah')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Syahadah')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'KK')?.file_type === 'PNG' && (
+
                                         <img src={props.dataBerkas.find(e => e.file_title == 'Syahadah')?.file_url?dataBerkas.find(e => e.file_title == 'Syahadah')?.file_url:""} alt="" width={30} className=''/>
+                                        )}
                                     </div>
                                     
 
