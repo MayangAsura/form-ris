@@ -29,7 +29,7 @@ function Announcement(props) {
     if(submission_status=='on_exam'){
       getToken()
     }
-  },[props.participant])
+  },[props.participant.submission_status])
 
   const getSubmissionStatus = async (value=null) => {
     console.log('value', value)
@@ -156,14 +156,16 @@ function Announcement(props) {
                         {submission_status}
                           
                         </span>
-                        {submission_status === 'on_exam' && (
-                          <>
-                          <span>Alhamdulillah Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan dapat melanjutkan ke tahap Seleksi. Silakan klik login untuk melaksanaka ujian.</span>
-                          <button className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
-                          onClick={`${EXAM_URL}/login?token=${token}`}>
+                        {props.participant.submission_status === 'on_exam' && (
+                          <div className='flex flex-col gap-2 my-2'>
+                          <span className='my-5'>Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan berhak melanjutkan ke tahap Seleksi.
+                          </span>
+                          <p className='text-sm'>Silakan klik login untuk melaksanakan ujian.</p>
+                          <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-900 hover:bg-gray-800 my-5'
+                          onClick={() => window.open(`${EXAM_URL}/login?token=${token}`)}>
                             Login Ujian
                           </button>
-                          </>
+                          </div>
                         )}
                   {/* Status : Incomplete
                   span
@@ -181,9 +183,9 @@ function Announcement(props) {
                      Statuspan
                      
                     </span> */}
-                    <div className='flex flex-grow gap-2 px-2 mt-10'>
+                    <div className='flex flex-grow px-2 mt-10'>
                       {/* {submission_status ==='' && } */}
-                      <button onClick={download_surat_kesanggupan} className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                      <button onClick={download_surat_kesanggupan} className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   // onClick={() => {
                                                   //     // currentStep === steps.length
                                                   //     //   ? setComplete(true)
@@ -213,7 +215,7 @@ function Announcement(props) {
                                                   //     // handleSubmit 
                                                   // }}
                                                   >Download Surat Pengumuman</button> <br /> */}
-                      {submission_status == 'on_exam' && (
+                      {props.participant.submission_status==='on_exam' && (
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                       onClick={window.open("")}
                                                   // onClick={() => {
@@ -239,7 +241,7 @@ function Announcement(props) {
                         )}
                                               
                     </div>
-                    {submission_status == 'accepted' && (
+                    {props.participant.submission_status == 'accepted' && (
                       <div className='flex flex-grow gap-4 px-2 mt-2'>
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {
