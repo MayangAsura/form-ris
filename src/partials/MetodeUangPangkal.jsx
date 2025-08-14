@@ -28,11 +28,11 @@ function MetodeUangPangkal(props) {
     useEffect(() =>{
         // setApplicantSchool()
         
-        console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
-        console.log('props.dataMetodeUangPangkal>', props.dataMetodeUangPangkal)
+        //console.log('applicantSchool . MetodeUangPangkal >', props.dataApplicant)
+        //console.log('props.dataMetodeUangPangkal>', props.dataMetodeUangPangkal)
         
-        console.log('props.dataApplicant.id > ', props.dataApplicant.id)
-        console.log('props.dataApplicantCategory > ', props.dataApplicantCategory)
+        //console.log('props.dataApplicant.id > ', props.dataApplicant.id)
+        //console.log('props.dataApplicantCategory > ', props.dataApplicantCategory)
         
         setMetodeUangPangkal(props.dataMetodeUangPangkal?.metode_uang_pangkal)
         setLastUpdate(props.dataMetodeUangPangkal?.updated_at)
@@ -41,7 +41,7 @@ function MetodeUangPangkal(props) {
 
         
         getSchoolCode(props.dataApplicant?.id)
-        console.log('schoolCode > ', applicantSchoolCode)
+        //console.log('schoolCode > ', applicantSchoolCode)
 
         setDataMetodeUangPangkal(props.dataMetodeUangPangkal?props.dataMetodeUangPangkal:{})
         
@@ -87,7 +87,7 @@ function MetodeUangPangkal(props) {
 
     const saveData = (e) => {
         e.preventDefault()
-        console.log(data)
+        //console.log(data)
         props.onSubmit(data)
         
     }

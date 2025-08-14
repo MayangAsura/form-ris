@@ -74,7 +74,7 @@ function IdentitasForm(props) {
     }
 
     useEffect(()=> {
-        console.log('dataParticipant >', props.dataParticipant)
+        //console.log('dataParticipant >', props.dataParticipant)
         setLastUpdate(props.dataParticipant.updated_at)
         setFull_name(props.dataApplicant.full_name); 
         setGender(props.dataApplicant.gender);
@@ -128,7 +128,7 @@ function IdentitasForm(props) {
     //         // .then(res => res.json())
     //         .then(res => {
     //             setDataWilayahProvinces(res)
-    //             console.log(dataWilayahProvinces)
+    //             //console.log(dataWilayahProvinces)
     //         })
     // }
     // const getDataWilayahRegencies = async (code) => {

@@ -41,7 +41,7 @@ function SignIn(props) {
   const getUserInfo = async () =>{
     // setTimeout(() => {
       const token = userToken
-      console.log('token >', token)
+      // console.log('token >', token)
         if (token) {
         const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
         if(error){
@@ -49,7 +49,7 @@ function SignIn(props) {
           return null
         //   setProfileData({})
         }else{
-          console.log('dataProf>', data)
+          // console.log('dataProf>', data)
           userData.school_name = data
           const full_name = data.full_name
           return data
@@ -66,8 +66,8 @@ function SignIn(props) {
   const getPaymentInfo = async () => {
     // const user, error = await
     const token = Cookies.jwt
-    console.log(token)
-    console.log('userToken > ', userToken)
+    // console.log(token)
+    // console.log('userToken > ', userToken)
     if(!userToken){
       return false
     }
@@ -83,8 +83,8 @@ function SignIn(props) {
                       // .eq('applicants.refresh_token', state.userToken)
                       // applicant_schools(schools(school_name))
                       // , applicants(refresh_token, participants(is_complete)
-    console.log(error)
-    console.log('payment > ', payment)
+    // console.log(error)
+    // console.log('payment > ', payment)
     // state.userPayment = payment.status
     // state.userSchool = payment.applicant_schools[0].school.school_name
     // state.userFormComplete = payment.applicants.participants.is_complete
@@ -115,12 +115,12 @@ function SignIn(props) {
     getPaymentInfo()
     getUserInfo()
     // const userPayment = getUserInfo().data[0].applicant_orders[0].status
-    console.log('userInfo > ', userInfo)
-    console.log('userPayment > ', getPaymentInfo())
-    // console.log('userPayment > ', userPayment)
-    console.log('userPayment > ', userFormComplete)
+    // console.log('userInfo > ', userInfo)
+    // console.log('userPayment > ', getPaymentInfo())
+    // // console.log('userPayment > ', userPayment)
+    // console.log('userPayment > ', userFormComplete)
 
-    console.log('usertoken', userToken)
+    // console.log('usertoken', userToken)
     // setAuth({username, password})
       // console.log('auth >', auth)
     if (userInfo && !userPayment) {
@@ -137,23 +137,29 @@ function SignIn(props) {
 
   const handledSubmit = async (e) => {
     e.preventDefault()
-    console.log("Data submit >", username)
-    console.log("Data submit >", password)
+    // console.log("Data submit >", username)
+    // console.log("Data submit >", password)
     const data = {
       username: username,
       password: password
     }
     try {
-      // setTimeout(() => {
+
+      // console.log('userInfo before',userInfo)
+      if(!userInfo){
         dispatch(userLogin(data))
+      }else{
+        // console.log('userInfo', userInfo)
+        setModalShow(true)
+      }
+      // if(userInfo)
+      // setTimeout(() => {
 
       // }, 000);
       
 
-      if(userInfo){
-        console.log('userInfo', userInfo)
-        setModalShow(true)
-      }
+      // if(userInfo){
+      // }
       // const response = await axios.post(LOGIN_URL,
       //   JSON.stringify({ username, password }),
       //   {

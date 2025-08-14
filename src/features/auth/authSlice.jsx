@@ -14,7 +14,7 @@ const userToken = Cookies.get('jwt')
   ? Cookies.get('jwt')
   : null
 
-  console.log('userToken from cookiee', userToken)
+  //console.log('userToken from cookiee', userToken)
 
 // const initialState = {
 //   loading: false,
@@ -199,20 +199,20 @@ function createExtraReducers() {
                     state.userToken = action.payload.token_refresh
                     // const token = Cookies.jwt
                     // const token =userToken
-                    // // console.log(token)
-                    // console.log('token from cookie >', state.userToken)
-                    // // console.log('token from cookie >', )
+                    // // //console.log(token)
+                    // //console.log('token from cookie >', state.userToken)
+                    // // //console.log('token from cookie >', )
                     // const {payment, error} = supabase.from('applicant_orders')
                     //                   .select('status, item_id, id')
                     //                   .eq('status', 'processed')
                     //                   // .eq('applicants.refresh_token', state.userToken)
                     //                   // applicant_schools(schools(school_name))
                     //                   // , applicants(refresh_token, participants(is_complete)
-                    // console.log(error)
+                    // //console.log(error)
                     // if(!payment)                                      
                     //   state.error=true
 
-                    // console.log(payment)
+                    // //console.log(payment)
                     // state.userPayment = payment.status
                     // state.userSchool = payment.applicant_schools[0].school.school_name
                     // state.userFormComplete = payment.applicants.participants.is_complete

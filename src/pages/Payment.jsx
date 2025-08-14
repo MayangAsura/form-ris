@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-import axios from '../api/local-server';
-// import axios from '../api/prod-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
@@ -38,7 +38,7 @@ function Payment() {
     const navigate = useNavigate()
     
     useEffect(() => {
-      console.log('masuk')
+      // console.log('masuk')
 
       const getApplicantData = async () =>{
         console.log('on applicantdata')
@@ -52,7 +52,7 @@ function Payment() {
           // setApplicantData({})
         }else{
           setApplicantData(data)
-          console.log('applicantData> ', data)
+          // console.log('applicantData> ', data)
   
           
           // applicantData.full_name = data.full_name
@@ -68,24 +68,24 @@ function Payment() {
             .eq('school_id', data.applicant_schools[0]?.schools.school_id)
             .single() 
           // if(dataSchool){
-          console.log('school_fees > ', dataSchool)
+          // console.log('school_fees > ', dataSchool)
           // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
           applicantDataOrder.total_amount = dataSchool.amount
           
           // if(data.applicant_orders.length > 0){
-            applicantDataOrder.invoice_number = data.applicant_orders[0].invoice_number
-            data.applicant_orders[0].status!== 'pending'?setInvoiceCreated(true):""
+          applicantDataOrder.invoice_number = data.applicant_orders[0].invoice_number
+          data.applicant_orders[0].status!== 'pending'?setInvoiceCreated(true):""
           // }
-          console.log('invoicecreated> ', invoicecreated)
+          // console.log('invoicecreated> ', invoicecreated)
           // if(applicantData.applicant_schools.length>0){
-              applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
-              applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
-            applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
+          applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
+          applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
+          applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
             
             applicantDataOrder.item_id = data.applicant_schools[0]?.schools?.school_id
             applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
             applicantDataOrder.applicant_id = data.applicant_schools[0]?.applicant_id
-            console.log('in applicantdataorder')
+            // console.log('in applicantdataorder')
             // const dataOrder = {
             //   item_id: data.applicant_schools[0]?.schools?.school_id,
             //   created_by: data.applicant_schools[0]?.applicant_id,
@@ -105,13 +105,13 @@ function Payment() {
               
               // const school_id = data.school_id
               // console.log('data >',data)
-              console.log('applicantDataOrder >',applicantDataOrder)
-              console.log('applicantData >',applicantData)
+              // console.log('applicantDataOrder >',applicantDataOrder)
+              // console.log('applicantData >',applicantData)
           }
          
           applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
-            applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
-            applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
+          applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
+          applicantDataOrder.applicant_id = applicantData.applicant_schools[0]?.applicant_id
               
                   
           // }
@@ -119,11 +119,11 @@ function Payment() {
       
 
       const getApplicantPayment = async () => {
-        console.log('on payment')
+        // console.log('on payment')
         // console.log(applicantData.order_status)
         if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished'){
   
-          console.log("status !='' ")
+          // console.log("status !='' ")
           const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
                                             .select('started_at, expired_at, payment_url, status, amount, settlement_at')
                                             .eq('order_id', applicantData.applicant_orders[0]?.id)
@@ -144,7 +144,7 @@ function Payment() {
             settlement_at : dataPayment.settlement_at
           }
           setApplicantDataPayment(dataPay)
-          console.log('applicantDataPayment', applicantDataPayment)
+          // console.log('applicantDataPayment', applicantDataPayment)
           // setApplicantDataPayment(dataPayment)
           // getApplicantPayment()
           // invoicecreated && applicantData.order_status!==='finis'
@@ -153,7 +153,7 @@ function Payment() {
           // applicantData.applicant_orders[0]?.status
         } 
             
-        console.log('invoicecreated >', invoicecreated)
+        // console.log('invoicecreated >', invoicecreated)
         // if(applicantData.order_status !== 'finished'){
           
         // }
@@ -202,7 +202,7 @@ function Payment() {
         
       // }, 1500);
       
-      console.log('paymentdata', applicantData, applicantDataOrder, applicantDataPayment)
+      // console.log('paymentdata', applicantData, applicantDataOrder, applicantDataPayment)
       const new_phone_number = '62'+ applicantData.phone_number.slice(1)
       const no_form_pendaftaran = applicantData.applicant_orders[0].invoice_number
       const settlement_date = formatDate(applicantDataPayment.settlement_at)
@@ -210,7 +210,7 @@ function Payment() {
       const no_registrasi = applicantData.regist_number
       const PSB_URL = 'https://psb-formy.vercel.app/login'
       const type = 'payment'
-      console.log('', no_form_pendaftaran, settlement_date, amount)
+      // console.log('', no_form_pendaftaran, settlement_date, amount)
       // No. Formulir Pendaftaran: ${no_form_pendaftaran}
       // Nominal                 : ${amount}
       //   Tanggal Bayar           : ${settlement_date}
@@ -241,7 +241,7 @@ function Payment() {
         // 
         console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
         if(response.status==200 || response.status==204){
-          console.log('masuk notif', new_phone_number, no_form_pendaftaran, no_registrasi)
+          // console.log('masuk notif', new_phone_number, no_form_pendaftaran, no_registrasi)
           
           // persistor.purge();
           // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
@@ -331,8 +331,8 @@ function Payment() {
     const create_order = async (e) => {
       e.preventDefault()
       
-      console.log(applicantDataPayment.expired_at)
-      console.log("enter")
+      // console.log(applicantDataPayment.expired_at)
+      // console.log("enter")
       if(applicantDataPayment?.expired_at > new Date()){
         console.log("in expired")
 
@@ -349,7 +349,7 @@ function Payment() {
         }
         navigate('/pay')
       }
-      console.log("in new order")
+      // console.log("in new order")
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
@@ -357,7 +357,7 @@ function Payment() {
         applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
-        console.log("applicantDataOrder ",  applicantDataOrder)
+        // console.log("applicantDataOrder ",  applicantDataOrder)
   
         // const { data : }
   
@@ -383,7 +383,7 @@ function Payment() {
         // }else{
         //   console.log('data >', order)
         // }
-        console.log('appli->',order)
+        // console.log('appli->',order)
         const data = {
           order_id : order
         }

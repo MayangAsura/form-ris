@@ -49,7 +49,7 @@ const HorizontalStepper = (props) => {
   const [dataAlertShow, setDataAlertShow] = useState(false)
   
   const scroll = (direction) => {
-    console.log(direction)
+    ////console.log(direction)
     if (stepperRef.current) {
       const scrollAmount = 200; // Adjust scroll distance
       stepperRef.current.scrollBy({
@@ -64,7 +64,7 @@ const HorizontalStepper = (props) => {
     if(props.applicant.length > 0) {
     
       setApplicant(props.applicant[0])
-      console.log('props.applicant[0] >', props.applicant[0])
+      ////console.log('props.applicant[0] >', props.applicant[0])
       if(props.applicant[0].participants.length > 0){
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
@@ -103,7 +103,7 @@ const HorizontalStepper = (props) => {
           photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
         }
         setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
-        console.log('dataVerifikasiKeluarga', dataVerifikasiKeluarga)
+        ////console.log('dataVerifikasiKeluarga', dataVerifikasiKeluarga)
 
         const dataMetodeUangPangkal = {
           metode_uang_pangkal: props.applicant[0]?.participants[0].metode_uang_pangkal
@@ -111,7 +111,7 @@ const HorizontalStepper = (props) => {
         setDataMetodeUangPangkal(dataMetodeUangPangkal)
       }
 
-      console.log('participant >', participant)
+      ////console.log('participant >', participant)
       
       
       if(props.applicant[0].applicant_orders.length > 0) {
@@ -120,7 +120,7 @@ const HorizontalStepper = (props) => {
           applicantOrder.status= props.applicant[0].applicant_orders[0].status  
         // })
       }
-      console.log('applicantOrder > ', applicantOrder) 
+      ////console.log('applicantOrder > ', applicantOrder) 
 
     
       const dataSchool = {
@@ -135,12 +135,12 @@ const HorizontalStepper = (props) => {
 
     }
   
-    console.log('isPending > ',isPending)
-    console.log('applicant >', applicant)
-    console.log('edit >', edit)
+    ////console.log('isPending > ',isPending)
+    ////console.log('applicant >', applicant)
+    ////console.log('edit >', edit)
   }, [props.applicant, participant, isPending]) 
 
-  // console.log('from props > ', props)
+  // ////console.log('from props > ', props)
   
 
   // const getPaymentData = (data) =>{
@@ -154,12 +154,12 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
 
     setDataSeragam(data)
-    console.log('dataSeragam >', dataSeragam)
+    ////console.log('dataSeragam >', dataSeragam)
 
   }
   const getSchoolUniformModel = async (id) => {
@@ -169,12 +169,12 @@ const HorizontalStepper = (props) => {
                         .eq('school_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
 
     setSchoolUniformModel(data)
-    console.log('schoolUniformModel >' , schoolUniformModel)
+    ////console.log('schoolUniformModel >' , schoolUniformModel)
 
   }
 
@@ -187,12 +187,12 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
 
     setDataAyah(data[0])
-    console.log(dataAyah)
+    ////console.log(dataAyah)
   }
 
   const getFatherData = async (id) => {
@@ -201,12 +201,12 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
 
     setDataAyah(data[0])
-    console.log(dataAyah)
+    ////console.log(dataAyah)
   }
   const getMotherData = async (id) => {
     const { data, err} = await supabase.from('participant_mother_data')
@@ -214,14 +214,14 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       // return
     }
 
-    console.log('data', data)
+    ////console.log('data', data)
 
     setDataIbu(data[0])
-    console.log(dataIbu)
+    ////console.log(dataIbu)
   }
   const getWaliData = async (id) => {
     const { data, err} = await supabase.from('participant_wali_data')
@@ -229,12 +229,12 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
 
     setDataWali(data[0])
-    console.log(dataWali)
+    ////console.log(dataWali)
 
   }
 
@@ -244,7 +244,7 @@ const HorizontalStepper = (props) => {
                         .eq('participant_id', id)
                         // .single()
     if(err){
-      console.log(err)
+      ////console.log(err)
       return
     }
     data.map(e => ({
@@ -255,22 +255,22 @@ const HorizontalStepper = (props) => {
     // ]
 
     setDataBerkas(data)
-    console.log('dataBerkas', dataBerkas)
+    ////console.log('dataBerkas', dataBerkas)
 
   }
 
 
   const getIdentitas = async (data) => {
-    console.log("Data Identitas >", data)
+    ////console.log("Data Identitas >", data)
     // setTimeout(() => {
     startTransition(() => {
       if(data){
         setParticipant(data)
-        console.log("Data Identitas cek >,", data)
+        ////console.log("Data Identitas cek >,", data)
         // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
         const newdata = (data) => ({...data, applicant_id: applicant.id}) 
-        console.log('participant ', participant)
-        console.log('newdata ', newdata)
+        ////console.log('participant ', participant)
+        ////console.log('newdata ', newdata)
         data = {...data, applicant_id: applicant.id}
         const data_applicant = {
           full_name: data.full_name, 
@@ -279,14 +279,14 @@ const HorizontalStepper = (props) => {
           email: data.email
         }
         const {full_name,gender,phone_number,email, ...newdatap } = data
-        // console.log()
-        // console.log('editc')
+        // ////console.log()
+        // ////console.log('editc')
           if(!complete){
-          console.log("masuk")
+          ////console.log("masuk")
            if(!edit && applicant.participants.length == 0)
             {
-              console.log("edit >, ", edit)
-              console.log("participant >,", participant)
+              ////console.log("edit >, ", edit)
+              ////console.log("participant >,", participant)
 
               saveData(newdatap, 'participants')}
            else 
@@ -308,17 +308,17 @@ const HorizontalStepper = (props) => {
   }
 
   const getDataAyah =  (data) => {
-    console.log("Data Ayah >", data)
+    ////console.log("Data Ayah >", data)
     startTransition(() => {
 
       setTimeout(() => {
       if(data){
-        console.log('participant dataAyah >', participant)
-        console.log('participant dataAyah >', participant)
+        ////console.log('participant dataAyah >', participant)
+        ////console.log('participant dataAyah >', participant)
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
         
-        console.log("Data Ayah >,", data)
+        ////console.log("Data Ayah >,", data)
         if(!complete){
           if(props.applicant[0].participants.length>0){
             if(!edit && props.applicant[0].participants[0].participant_father_data.length == 0 ){
@@ -333,7 +333,7 @@ const HorizontalStepper = (props) => {
         setDataAyah(data)
         
         
-        console.log('dataAyah ', dataAyah)
+        ////console.log('dataAyah ', dataAyah)
           scroll('right')
           setCurrentStep(currentStep + 1)
         }
@@ -341,19 +341,19 @@ const HorizontalStepper = (props) => {
     })
   }
   const getDataIbu = (data) => {
-    console.log("DataIbu >", data)
+    ////console.log("DataIbu >", data)
     startTransition(() => {
 
       setTimeout(() => {
       if(data){
-        console.log("DataIbu >,", data)
+        ////console.log("DataIbu >,", data)
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
         
         if(!complete){
           if(props.applicant[0].participants.length>0){
             if(!edit && (props.applicant[0].participants[0].participant_mother_data || Array.isArray(props.applicant[0].participants[0].participant_mother_data)? props.applicant[0].participants[0].participant_mother_data.length > 0 : "")){
-              console.log("masuk")
+              ////console.log("masuk")
               saveData(data, 'participant_mother_data')
             }else{
               updateData(data, 'participant_mother_data', pid, 'participant_id')
@@ -370,23 +370,23 @@ const HorizontalStepper = (props) => {
         }
       }, 3000);
       
-      console.log(dataIbu)
+      ////console.log(dataIbu)
     })
   }
   const getDataWali = (data) => {
-    console.log("DataWali >", data)
+    ////console.log("DataWali >", data)
     startTransition(()=>{
 
       setTimeout(() => {
       if(data){
-        console.log("DataWali >,", data)
+        ////console.log("DataWali >,", data)
         
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
         if(!complete){
           if(props.applicant[0].participants.length>0){
             if(!edit && props.applicant[0].participants[0].participant_wali_data.length == 0){
-              console.log("masuk")
+              ////console.log("masuk")
               saveData(data, 'participant_wali_data')
             }else{
               updateData(data, 'participant_wali_data', pid, 'participant_id')
@@ -397,7 +397,7 @@ const HorizontalStepper = (props) => {
         setDataWali(data)
         getWaliData(pid)
 
-        console.log('dataWali >', dataWali)
+        ////console.log('dataWali >', dataWali)
         
           scroll('right')
           setCurrentStep(currentStep + 1)
@@ -406,7 +406,7 @@ const HorizontalStepper = (props) => {
     })
   }
   const getDataBerkas = (data) =>{
-    console.log("DataBerkas >", data)
+    ////console.log("DataBerkas >", data)
     startTransition(() => {
 
       setTimeout(() => {
@@ -416,7 +416,7 @@ const HorizontalStepper = (props) => {
         }
 
         // if(data.length > 0){
-          console.log("DataBerkas >,", data)
+          ////console.log("DataBerkas >,", data)
           // data = {...data, }
           if(!complete){
             if(!edit && dataBerkas.length === 0){
@@ -435,15 +435,15 @@ const HorizontalStepper = (props) => {
     })
   }
   const getDataVerifikasiKeluarga = (data) => {
-    console.log("Data VerifikasiKeluarga >", data)
+    ////console.log("Data VerifikasiKeluarga >", data)
     startTransition(()=> {
       setTimeout(() => {
       if(data){
-        console.log("Data VerifikasiKeluarga >,", data)
+        ////console.log("Data VerifikasiKeluarga >,", data)
         // const {photo_sampul_ijazah} = data.photo_sampul_ijazah
         const {photo_sampul_ijazah,...newdata} = data
         // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-        // console.log(participant)
+        // ////console.log(participant)
         const pid = participant.id?participant.id:participant_id
         if(!complete){
           
@@ -462,15 +462,15 @@ const HorizontalStepper = (props) => {
   }
   const getDataMetodeUangPangkal = (data) => {
  
-    console.log("Data Uang Pangkal >", data)
+    ////console.log("Data Uang Pangkal >", data)
     startTransition(() => {
       
       setTimeout(() => {
       if(data){
-        console.log("Data Uang Pangkal >,", data)
+        ////console.log("Data Uang Pangkal >,", data)
         data = {...data}
         const pid = participant.id?participant.id:participant_id
-        console.log('pid > ', pid)
+        ////console.log('pid > ', pid)
         updateData(data, 'participants', pid, 'id')
           scroll('right')
           setCurrentStep(currentStep + 1)
@@ -482,13 +482,13 @@ const HorizontalStepper = (props) => {
 
   const getPengukuranSeragam = (data) => {
  
-    console.log("Data Pengukuran Seragam >", data)
+    ////console.log("Data Pengukuran Seragam >", data)
     startTransition(() => {
       
       setTimeout(() => {
       if(data){
         const pid = participant.id?participant.id:participant_id
-        console.log("Data Pengukuran Seragam >,", data)
+        ////console.log("Data Pengukuran Seragam >,", data)
         // data = {...data, participant_id:pid}
         // data = {participant_id:pid, uniform_model_id:data.id, size_chart:data.}
         // data.map((e) => {
@@ -496,7 +496,7 @@ const HorizontalStepper = (props) => {
         // })
         // data.forEach(e => { e.participant_id = pid});
         
-        console.log('data > ', data)
+        ////console.log('data > ', data)
         if(complete){
           if(dataSeragam.length == 0){
             saveData(data, 'participant_size_charts')
@@ -516,7 +516,7 @@ const HorizontalStepper = (props) => {
   }
 
   const getStatus = (data) => {
-    // console.log("Data Uang Pangkal >", data)
+    // ////console.log("Data Uang Pangkal >", data)
     startTransition( () => {
 
       setTimeout( async () => {
@@ -526,7 +526,7 @@ const HorizontalStepper = (props) => {
                                 .eq('id', pid)
                                 .single()
         if(data){
-          console.log("Complete >,", data)
+          ////console.log("Complete >,", data)
           setComplete(data.is_complete)
           setDataStatus(data.status_submission)
           // scroll('right')
@@ -546,14 +546,14 @@ const HorizontalStepper = (props) => {
           {cacheControl: '3600', upsert: true}
         )
     if (error_) {
-      console.error("Gagal Upload Berkas", error_.message)
+      ////console.error("Gagal Upload Berkas", error_.message)
       return null
     }
     const { data } = await supabase.storage.from("participant-documents").getPublicUrl(pid+ "/" +filepath)
     const data_url = {
       path: data.publicUrl
     }
-    console.log(data.publicUrl)
+    ////console.log(data.publicUrl)
     setBerkasUrl(data.publicUrl)
     // setBerkasUrl((data.publicUrl).toString())
     // if(name == "Bird-Certificate"){
@@ -578,7 +578,7 @@ const HorizontalStepper = (props) => {
     //   berkasUrl.g = data.publicUrl.toString()
     // }
     // berkasUrl.a = data.publicUrl.toString()
-    // console.log(berkasUrl)
+    // ////console.log(berkasUrl)
     return data.publicUrl??null
     // const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
@@ -587,8 +587,8 @@ const HorizontalStepper = (props) => {
     } 
 
     if (data) {
-      console.log('signedUrl > ', data.signedUrl)
-      console.log('data_ > ', data_)
+      ////console.log('signedUrl > ', data.signedUrl)
+      ////console.log('data_ > ', data_)
       return path
     }
   }
@@ -599,15 +599,15 @@ const HorizontalStepper = (props) => {
     if (type=='file'){
       // const avatarFile = event.target.files[0]
 
-      console.log('dataInput', dataInput)
-      console.log(typeof dataInput)
+      ////console.log('dataInput', dataInput)
+      ////console.log(typeof dataInput)
       
       let path
       if(Array.isArray(dataInput)){
         
           for (let i = 0; i < dataInput.length; i++) {
             const d = dataInput[i];
-            console.log(d)
+            ////console.log(d)
             const url = await upload(d.file, d.name)
             
             // if(d.name == "Bird-Certificate"){
@@ -632,10 +632,10 @@ const HorizontalStepper = (props) => {
             //   path = berkasUrl.g
             // }
             
-            console.log('url >', path)
+            ////console.log('url >', path)
             // berkasUrl.a?(berkasUrl.b?(berkasUrl.c?berkasUrl.d:""):berkasUrl.e):berkasUrl.f
-            console.log('url >', berkasUrl)
-            console.log(participant.id)
+            ////console.log('url >', berkasUrl)
+            ////console.log(participant.id)
 
             const pid = participant.id?participant.id:participant_id
 
@@ -647,13 +647,13 @@ const HorizontalStepper = (props) => {
               file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
               file_title: d.name
             }
-            console.log(dataItem)
+            ////console.log(dataItem)
             if(!edit && dataBerkas.length == 0){
               const { data, err} = await supabase.from(to)
                                 .insert([dataItem])
                                 .select()
-              console.log('data>', data)
-              console.log('err >', err)
+              ////console.log('data>', data)
+              ////console.log('err >', err)
 
             }else{
               dataItem.participant_id = participant.id?participant.id:participant_id
@@ -661,8 +661,8 @@ const HorizontalStepper = (props) => {
               .upsert([dataItem])
               // .eq('participant_id', participant_id)
               .select()
-              console.log('data>', data)
-              console.log('err >', err)
+              ////console.log('data>', data)
+              ////console.log('err >', err)
               
             }
       //       if(d.name == "Bird-Certificate"){
@@ -694,13 +694,13 @@ const HorizontalStepper = (props) => {
         
       }else{
         const d = dataInput
-        // console.logO
-        console.log(participant_id)
+        // ////console.logO
+        ////console.log(participant_id)
           
           upload(d.file, d.name)
 
           const pid = participant.id?participant.id:participant_id
-          // console.log(('url >', url.value('path')));
+          // ////console.log(('url >', url.value('path')));
           const dataItem = {
             participant_id: pid,
             file_url: berkasUrl,
@@ -709,14 +709,14 @@ const HorizontalStepper = (props) => {
             file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
             file_title: d.name
           }
-          console.log(dataItem)
+          ////console.log(dataItem)
 
           if(!edit && dataBerkas.length == 0){
               const { data, err} = await supabase.from(to)
                                 .upsert([dataItem])
                                 .select()
-              console.log('data>', data)
-              console.log('err >', err)
+              ////console.log('data>', data)
+              ////console.log('err >', err)
 
             }else{
               dataItem.participant_id = participant.id?participant.id:participant_id
@@ -724,8 +724,8 @@ const HorizontalStepper = (props) => {
               .upsert([dataItem])
               // .eq('participant_id', participant_id)
               .select()
-              console.log('data>', data)
-              console.log('err >', err)
+              ////console.log('data>', data)
+              ////console.log('err >', err)
             }
 
             // berkasUrl.g = ""
@@ -733,8 +733,8 @@ const HorizontalStepper = (props) => {
           // const { data, err} = await supabase.from(to)
           //                   .insert([dataItem])
           //                   .select()
-          // console.log('data upladed>', data)
-          // console.log('err >', err)
+          // ////console.log('data upladed>', data)
+          // ////console.log('err >', err)
         
       }
       
@@ -764,12 +764,12 @@ const HorizontalStepper = (props) => {
       //   getMedia();
   
       // } else {
-      //   console.log(error);
+      //   ////console.log(error);
       // }
 
     }else{
 
-      console.log('dataInput> ', dataInput)
+      ////console.log('dataInput> ', dataInput)
       
         let input = []
         Array.isArray(dataInput) ? input = dataInput : input.push(dataInput) 
@@ -778,8 +778,8 @@ const HorizontalStepper = (props) => {
                           .insert(input)
                           .select()
         
-        console.log('data>', data)
-        console.log('err >', err)
+        ////console.log('data>', data)
+        ////console.log('err >', err)
         if(dataInput.pob){
           setInserted(true)
           setParticipantId(data[0].id)
@@ -805,22 +805,22 @@ const HorizontalStepper = (props) => {
     // }
     // startTransition(async () => { 
 
-      console.log('dataInput> ' ,dataInput)
+      ////console.log('dataInput> ' ,dataInput)
 
       if(!Array.isArray(dataInput)){
-        console.log('from input object')
+        ////console.log('from input object')
         const { data, err} = await supabase.from(to)
                             .update({...dataInput, updated_at : new Date().toISOString()})
                             .eq(pk, bo)
                             .select()
-        console.log('data>', data[0])
-        console.log('err >', err)
+        ////console.log('data>', data[0])
+        ////console.log('err >', err)
       }else{
-        console.log('from input array')
+        ////console.log('from input array')
         dataInput.forEach( async (e) => {
           // const pk1 = pk
           // const pk2 = e.uniform_model_id
-          console.log('element', e)
+          ////console.log('element', e)
           const pk1 = Object.keys(e)[0]
           const pk2 = Object.keys(e)[1]
           const { data, err} = await supabase.from(to)
@@ -828,8 +828,8 @@ const HorizontalStepper = (props) => {
                               .eq(pk1, e[pk1])
                               .eq(pk2, e[pk2])
                               .select()
-          console.log('data>', data[0])
-          console.log('err >', err)
+          ////console.log('data>', data[0])
+          ////console.log('err >', err)
         });
       }
 
@@ -852,8 +852,8 @@ const HorizontalStepper = (props) => {
                               })
                             .eq('id', participant.id?participant.id:participant_id)
                             .select()
-                            console.log('data participant after klik edit >', data)
-                            console.log(error)
+                            ////console.log('data participant after klik edit >', data)
+                            ////console.log(error)
   }
   const getComplete = async (value) => {
     // setComplete(value)
@@ -864,8 +864,8 @@ const HorizontalStepper = (props) => {
                             })
                             .eq('id', participant.id??participant_id)
                             .select()
-    console.log('data participant after klik complete >', data)
-    console.log(error)
+    ////console.log('data participant after klik complete >', data)
+    ////console.log(error)
 
   }
 

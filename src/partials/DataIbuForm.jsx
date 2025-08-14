@@ -13,7 +13,7 @@ function DataIbuForm(props) {
     const data = { mother_name:mother_name, mother_academic:mother_academic, mother_job:mother_job, mother_salary:mother_salary}
 
     useEffect(() => {
-            console.log('props.dataIbu>', props.dataIbu)
+            //console.log('props.dataIbu>', props.dataIbu)
             setMotherName(props.dataIbu?.mother_name)
             setMotherAcademic(props.dataIbu?.mother_academic)
             setMotherSalary(props.dataIbu?.mother_salary)
@@ -24,7 +24,7 @@ function DataIbuForm(props) {
 
     const saveData = (e) => {
         e.preventDefault()
-        console.log(data)
+        //console.log(data)
         props.onSubmit(data)
         
     }

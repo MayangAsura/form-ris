@@ -25,7 +25,7 @@ const PengukuranSeragam = (props) => {
     // const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
 
     useEffect(() => {
-        // console.log('props.dataAyah>', props.dataAyah)
+        // //console.log('props.dataAyah>', props.dataAyah)
         // setFatherName(props.dataAyah?.father_name)
         // setFatherAcademic(props.dataAyah?.father_academic)
         // setFatherSalary(props.dataAyah?.father_salary)
@@ -39,7 +39,7 @@ const PengukuranSeragam = (props) => {
         if(props.schoolUniformModel.length > 0){
             setSchoolUniformModel(props.schoolUniformModel)
             generateUniformModelForm()
-            console.log('setSchoolUniformModel', setSchoolUniformModel)
+            //console.log('setSchoolUniformModel', setSchoolUniformModel)
             
         }
 
@@ -48,7 +48,7 @@ const PengukuranSeragam = (props) => {
     const models = []
     const saveData = (e) => {
         e.preventDefault()
-        // console.log('e >', e)
+        // //console.log('e >', e)
         for (let i = 0; i < 23; i++) {
             const x = e.target[i];
 
@@ -58,9 +58,9 @@ const PengukuranSeragam = (props) => {
                 size_chart: x.value
             })}     
         }
-        console.log(models)
-        console.log('formData>', formData)
-        console.log('applicantUniformSCData>', applicantUniformSCData)
+        //console.log(models)
+        //console.log('formData>', formData)
+        //console.log('applicantUniformSCData>', applicantUniformSCData)
         props.onSubmit(models)
         
         generateUniformModelForm()
@@ -86,7 +86,7 @@ const PengukuranSeragam = (props) => {
         for (let index = 0; index < schoolUniformModel.length; index++) {
             const m = schoolUniformModel[index];
             // data += '<form action="" onSubmit={saveData}>'
-            // console.log(props.gender)
+            // //console.log(props.gender)
             if(props.gender == m.model_gender && props.school == m.school_id){
 
                 data  += `<tr>
@@ -102,15 +102,15 @@ const PengukuranSeragam = (props) => {
                                                     </tr>
                                                     `
 
-                //    console.log(m.id, JSON.parse(m.model_size_charts))
+                //    //console.log(m.id, JSON.parse(m.model_size_charts))
                 
                 const model_size_charts = JSON.parse(m.model_size_charts)
                 for (let key in model_size_charts) {
                     // const  = model_size_charts[index];
                     const checked = props.dataSeragam[index].uniform_model_id== m.id && props.dataSeragam[index].size_chart==key?'checked':''
-                    console.log(props.dataSeragam[index].uniform_model_id, props.dataSeragam[index].size_chart)
-                    console.log(checked)
-                // console.log(key, model_size_charts[key]);
+                    //console.log(props.dataSeragam[index].uniform_model_id, props.dataSeragam[index].size_chart)
+                    //console.log(checked)
+                // //console.log(key, model_size_charts[key]);
                 // const s = Object.keys(model_size_charts)[i];
                         subdata += `
                         <tr className='flex flex-row justify-start items-center'>
@@ -145,16 +145,16 @@ const PengukuranSeragam = (props) => {
 
 
     const setValue = (model_id, size) => {
-        // console.log(e)
+        // //console.log(e)
         // const { name, value } = e;
-        // console.log(e.target)
+        // //console.log(e.target)
         // setFormData((prevState) => ({ ...prevState, [name]: value }));
         const data = {
             uniform_model_id: size,
             size_chart: size
         }
         if(document.getElementsByName(model_id).checked){
-            console.log(true)
+            //console.log(true)
              models.push({
                 uniform_model_id: model_id,
                 size_chart: size_chart
@@ -164,7 +164,7 @@ const PengukuranSeragam = (props) => {
                 size_chart: size_chart
             }])
         }
-        // console.log('DATA >', data)
+        // //console.log('DATA >', data)
         // let item = models.some(value => { return (i) => value=={
         //     uniform_model_id: model_id,
         //     ...i
@@ -180,19 +180,19 @@ const PengukuranSeragam = (props) => {
         // }, 0)){
         //     next()
         // }else{
-        //     console.log(true)
+        //     //console.log(true)
         //      models.push({
         //         uniform_model_id: model_id,
         //         size_chart: size_chart
         //     })
         // }
         // models = []
-        // console.log(models)
+        // //console.log(models)
         // applicantUniformSCData.push(data)
 
         
 
-        console.log(applicantUniformSCData)
+        //console.log(applicantUniformSCData)
         // setApplicantUniformSCData((e)=>({...e, {
         //     uniform_model_id: model_id,
         //     size_chart: size_chart

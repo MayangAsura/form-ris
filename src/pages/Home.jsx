@@ -32,12 +32,12 @@ function Home() {
       // setParticipantData({submission_status: submission_status})
       participantData.submission_status = data[0].participants[0].submission_status
     }
-    console.log('part data from h',participantData)
+    // console.log('part data from h',participantData)
   }
 
   useEffect(() => {
     if(applicantData){
-      console.log('from home', applicantData)
+      // console.log('from home', applicantData)
       // if(app)
       // if(applicantData.applicant_orders[0]?.status !== 'finished'){
       //   navigate("/pay")

@@ -5,7 +5,8 @@ import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
 import Swal from '../utils/Swal';
 
-import axios from '../api/local-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 const USERCHECK_URL = 'auth/user-check'
@@ -22,7 +23,7 @@ function ResetPassword() {
   const [modal_show, setModalshow] = useState(false)
   const navigate = useNavigate()
 
-  console.log('token > ', token)
+  // console.log('token > ', token)
   const checkUser = async (e) => {
     e.preventDefault()
     const response = await axios.post(USERCHECK_URL,
@@ -32,9 +33,9 @@ function ResetPassword() {
         }
       )
       // 
-      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       setToken(response.data.data.token)
-      console.log(token)
+      // console.log(token)
       const element = document.querySelector('.usernameField');
       const element1 = document.querySelector('.checkUserBtn');
       if (element) {
@@ -53,7 +54,7 @@ function ResetPassword() {
         }
       )
       // 
-      console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+      // console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
       // setToken(response.data.data.token)
       if(response.status=200){
         setDataModal({

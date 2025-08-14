@@ -32,9 +32,9 @@ function BerkasForm(props) {
 
 
     useEffect(() => {
-            console.log('props.dataBerkas>', props.school)
+            ////console.log('props.dataBerkas>', props.school)
             if(props.dataBerkas.length > 0) {
-                // console.log()
+                // ////console.log()
                 setDataBerkas(props.dataBerkas)
                 setLastUpdate(props.dataBerkas[0].updated_at)
 
@@ -48,7 +48,7 @@ function BerkasForm(props) {
             }
 
             // if(props.retrieveData)
-            // console.log(dataBerkas)
+            // ////console.log(dataBerkas)
             // setMotherName(props.dataIbu.mother_name)
             // setMotherAcademic(props.dataIbu.mother_academic)
             // setMotherSalary(props.dataIbu.mother_salary)
@@ -72,7 +72,7 @@ function BerkasForm(props) {
             setError(error)
             return
         }
-        console.log(image)
+        ////console.log(image)
         // const data = {
         //     name: image.name,
         //     size: image.size,
@@ -85,7 +85,7 @@ function BerkasForm(props) {
                 size: image.size,
                 type: image.type,
                 file: image}])
-            console.log(berkasFile)
+            ////console.log(berkasFile)
         }
         
         setError(null)
@@ -99,7 +99,7 @@ function BerkasForm(props) {
     const saveData = (e) => {
         e.preventDefault()
 
-        console.log(berkasFile)
+        ////console.log(berkasFile)
         props.onSubmit(berkasFile)
         
     }

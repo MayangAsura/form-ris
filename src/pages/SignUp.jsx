@@ -14,7 +14,8 @@ import Swal from '../utils/Swal'
 // import axios from 'axios';
 // import ax
 import wablas from '../api/wablas';
-import axios from '../api/local-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -139,7 +140,7 @@ function SignUp() {
 
   const addApplicants = async (e) =>{
     e.preventDefault()
-    console.log('media',media)
+    // console.log('media',media)
     const _full_name = full_name
     const _gender = gender
     const _phone_number = phone_number
@@ -192,7 +193,7 @@ function SignUp() {
 
     console.log(data_appl)
     setDataAppTemp(data_appl)
-    console.log('dataAppTemp >', dataAppTemp)
+    // console.log('dataAppTemp >', dataAppTemp)
     if(error || Object.values(data_appl)[0] === '01'){
       console.log('masuk')
       console.log(Object.values(data_appl)[0] )
@@ -223,7 +224,7 @@ function SignUp() {
 // }'
 console.log(Object.values(data_appl)[0] !== '01')
     if(Object.values(data_appl)[0] !== '01'){
-      console.log(data_appl)
+      // console.log(data_appl)
       // _phone_number.replace()
       setFullName("")
       setGender("")
@@ -245,9 +246,9 @@ console.log(Object.values(data_appl)[0] !== '01')
       modal_data.url2= "/login"
       
       const type ='form-success'
-      console.log(phone_number)
+      // console.log(phone_number)
       const new_phone_number = '62'+ _phone_number.slice(1)
-      console.log(new_phone_number)
+      // console.log(new_phone_number)
       const data = [{
         "phone": new_phone_number,
         // "phone": "6285778650040",
@@ -263,7 +264,7 @@ console.log(Object.values(data_appl)[0] !== '01')
         // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
 
       }]
-      console.log(data)
+      // console.log(data)
 
       setSuccess(true)
       setModalShow(true)

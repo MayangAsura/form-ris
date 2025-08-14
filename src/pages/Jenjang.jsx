@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import Footer from '../partials/Footer';
+import supabase from '../client/supabase_client';
 
 import '../css/additional-styles/card.css';
 import { TbExternalLink, TbCalendarTime, TbMapPin2, TbNotebook } from "react-icons/tb";
@@ -11,6 +12,8 @@ import { BiMoney } from "react-icons/bi";
 import Swal from '../utils/Swal';
 
 function Jenjang() {
+  const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
+  const [admission_schools, setAdmissionSchools] = useState([])
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setmodal_data] = useState({
     title: "Persyaratan Umum Pendaftaran",
@@ -29,24 +32,65 @@ ditetapkan sekolah</li>
   })
 
   useEffect(()=> {
-    getPSBInfo()
-  },[])
+    if(id){
+      getAdmissionsAys(id)
 
-  const getPSBInfo = () => {
-    
-  }
+    }
+    // console.log(id)
+    // console.log(admission_schools)
+  },[id])
+
+  const getAdmissionsAys = async (id) => {
+    let { data: admission_schools, error } = await supabase
+    .from('admission_schools')
+    .select(`
+      *,
+      schools(school_name, address),
+      admission_ays (
+        academic_year,
+        admission_id
+      )
+    `)
+    .eq('admission_ays.admission_id', id)
+
+    if(error){
+      console.log(error)
+    }else{
+      setAdmissionSchools(admission_schools)
+      // console.log(admission_schools)
+      // setAdmissionSchools(admission_schools.map(prev => [...prev, {img}])
+    }
+
+    }
 
   const jenjangData = [
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/04/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/04/TKIT-Modern-ImageCard.png", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SDIT Rabbaanii Islamic School", code:'sdit', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMPI Rabbaanii Islamic School", code:'smpi', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Pesantre.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/Gedung-Pesantre.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantrean', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "https://rabbaanii.sch.id/wp-content/uploads/2025/01/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Open ', registration_fee: 'Rp125.000'}
+    {img: "./public/images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
+    {img: "./public/images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
+    {img: "./public/images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SDIT Rabbaanii Islamic School", code:'sdit', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
+    {img: "./public/images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMPI Rabbaanii Islamic School", code:'smpi', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250000'},
+    {img: "./public/images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
+    {img: "./public/images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
+    {img: "./public/images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantrean', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
+    {img: "./public/images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Open ', registration_fee: 'Rp125.000'}
   ] 
-  console.log(jenjangData)
+  // console.log(jenjangData)
+
+  const formatDate = (date) => {
+      const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  
+      date = new Date(date);
+      const dayName = dayNames[date.getDay()];
+      const day = date.getDate();
+      const monthName = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+  
+      const indonesianFormat = `${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+      return indonesianFormat
+    }
 
   return (
     // <div>Jenjang</div>
@@ -84,11 +128,8 @@ ditetapkan sekolah</li>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-12">
           <div className="displayCard">
-            {/* {jenjangData[0].code} */}
-          {/* {jenjangData.map(function(d) {
-            return {tit}
-          })}   */}
-          {jenjangData.map(function(d) {
+           
+          {jenjangData.map(function(d,k) {
             return(
               <div className="card" key={d.code}>
                 <div className="card-container">
@@ -98,30 +139,33 @@ ditetapkan sekolah</li>
                   </div>
                   <div className="card-content">
                     <div className="title-container">
-                      <h3>{d.title}</h3>
+                      <h3>{d.schools?.school_name??d.title}</h3>
                     </div>
                     <div className="body-containe justify-between text-start ml-1">
                       <table>
+                        <tbody>
+
                         <tr className='text-start leading-tight'>
                           <td><TbMapPin2 className='ounded-lg shadow-green-100 '/>  </td>
-                          <td className=''><small className='text-xs'>{d.address}</small></td>
+                          <td className=''><small className='text-xs'>{d.schools?.address??d.address}</small></td>
                           {/* <td></td> */}
                         </tr>
                         <tr>
                           <td><TbCalendarTime/>  </td>
-                          <td><small className='text-xs'>{d.schedule}</small></td>
+                          <td><small className='text-xs'>{d.started_at?formatDate(d.started_at) -  formatDate(d.ended_at): d.schedule}</small></td>
                           {/* <td></td> */}
                         </tr>
-                        <tr>
+                        {/* <tr>
                           <td><TbNotebook/>  </td>
                           <td><small className='text-xs'>{d.registration_requirements}</small></td>
-                          {/* <td></td> */}
-                        </tr>
+                          <td></td>
+                        </tr> */}
                         <tr>
                           <td><BiMoney/>  </td>
-                          <td><small className='text-xs'>{d.registration_fee}</small></td>
+                          <td><small className='text-xs'>{d.admission_fee??d.registration_fee}</small></td>
                           {/* <td></td> */}
                         </tr>
+                        </tbody>
                       </table>
                       {/* <p className='flex flex-col'>
                         <div className='flex justify-between items-center gap-2'>

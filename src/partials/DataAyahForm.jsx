@@ -14,7 +14,7 @@ const DataAyahForm = (props) => {
     const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
 
     useEffect(() => {
-        console.log('props.dataAyah>', props.dataAyah)
+        //console.log('props.dataAyah>', props.dataAyah)
         setFatherName(props.dataAyah?.father_name)
         setFatherAcademic(props.dataAyah?.father_academic)
         setFatherSalary(props.dataAyah?.father_salary)
@@ -24,7 +24,7 @@ const DataAyahForm = (props) => {
     },[props.dataAyah])
     const saveData = (e) => {
         e.preventDefault()
-        console.log(data)
+        //console.log(data)
         props.onSubmit(data)
         
     }

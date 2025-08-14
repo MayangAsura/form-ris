@@ -12,7 +12,8 @@ import { userLogout } from '../features/auth/authActions';
 import Cookies from 'js-cookie'
 // import Cookies from 'universal-cookie'
 
-import axios from '../api/local-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 // import axios from '../api/prod-server';
 
 
@@ -41,23 +42,22 @@ function Header(props) {
   // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
   // })
-  console.log('props >', props)
-  // cons cookie = 
+  // //console.log('props >', props)
 
   const getProfileData = async () =>{
       // setTimeout(() => {
         const token = userToken
-        console.log('token >', token)
+        //console.log('token >', token)
           if (token) {
           const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name), subschool), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
                               .is('deleted_at', null)
           if(error){
-            console.log(error)
+            //console.log(error)
           //   setProfileData({})
           }else{
-            console.log('dataProf>', data)
+            //console.log('dataProf>', data)
             props.getDataApplicant(data)
             // props.dataApplicant(data)
             const full_name = data.full_name
@@ -85,8 +85,8 @@ function Header(props) {
         getProfileData()
       }
     // }, 2000);
-    console.log('userInfo>', userInfo) 
-    // console.log('dataProfile>', auth)
+    //console.log('userInfo>', userInfo) 
+    // //console.log('dataProfile>', auth)
     // if(auth) dispatch(setCredentials(auth))
     const scrollHandler = () => {
       window.pageYOffset > 10 ? setTop(false) : setTop(true)
@@ -96,22 +96,34 @@ function Header(props) {
   }, [top, dispatch, userInfo, is_refresh]);  
 
   const handleLogoutConfirm = (value) => {
-    console.log(value)
+    //console.log(value)
     handledLogout()
     setComfirm(value)
-    console.log(confirm)
+    //console.log(confirm)
     // if(confirm){
     // }
   }
 
-  const handledLogout = async (confirm) => {
+  const tooltips = {
+    'class': '',
+    'data': 'Klik dua kali untuk keluar aplikasi'
+  }
+
+  const handledOneClick = () => {
+    tooltips.class = 'tooltip tooltip-open'
+    tooltips.data = 'Klik dua kali untuk keluar aplikasi'
+  }
+  const handledLogout = async () => {
     
-    // console.log(confirm)
+    tooltips.class = ''
+    tooltips.data = ''
+    // //console.log(confirm)
     // if(!confirm || confirm ===false){
     //   setModalShow(true)
     // }else{
     //   setModalShow(false)
       // setComfirm()
+      // className="tooltip tooltip-open tooltip-top" data-tip="hello"
       try {
         const response = await axios.get("/api/auth/logout",
         {
@@ -119,12 +131,12 @@ function Header(props) {
         }
         );
         // 
-        console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response)); ////console.log(JSON.stringify(response));
         if(response.status==200 || response.status==204){
           
           persistor.purge();
           // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
-          localStorage.removeItem("persist:auth")
+          // localStorage.removeItem("persist:auth")
           Cookies.remove("jwt")
           dispatch(logout())
           navigate('/login')
@@ -171,8 +183,8 @@ function Header(props) {
               <li>
                 {userInfo ? (
 
-                  <Button onClick={()=> handledLogout(false)} className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center">
-                    <span>LOGOUT</span>
+                  <Button onClick={()=> handledOneClick()} {...tooltips.data} onDoubleClick={() => handledLogout()} className={`btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center ${tooltips.class}`}>
+                    <span>KELUAR</span>
                     <svg className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                       <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
                     </svg>                  

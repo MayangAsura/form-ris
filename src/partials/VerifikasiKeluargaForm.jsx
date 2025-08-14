@@ -27,7 +27,7 @@ function VerifikasiKeluargaForm(props) {
             setError(error)
             return
         }
-        console.log(image)
+        ////console.log(image)
         // const data = {
         //     name: image.name,
         //     size: image.size,
@@ -39,7 +39,7 @@ function VerifikasiKeluargaForm(props) {
             size: image.size,
             type: image.type,
             file: image})
-        console.log(photo_sampul_ijazah)
+        ////console.log(photo_sampul_ijazah)
         
         
         // con[]
@@ -48,10 +48,10 @@ function VerifikasiKeluargaForm(props) {
     }
 
     useEffect(() => {
-            // console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
+            // ////console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
             // setStudentCategory(props.dataVerifikasiKeluarga.student_category)
             // setPhotoSampulIjazah(props.dataVerifikasiKeluarga.photo_sampul_ijazah)
-            console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
+            ////console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
             if(props.dataVerifikasiKeluarga){
 
                 setDataVerifikasiKeluarga(props.dataVerifikasiKeluarga)
@@ -66,7 +66,7 @@ function VerifikasiKeluargaForm(props) {
 
     const saveData = (e) => {
         e.preventDefault()
-        console.log(data)
+        ////console.log(data)
         props.onSubmit(data)
         
     }

@@ -8,7 +8,7 @@ import EXAM_URL from '../api/exam-system'
 function Announcement(props) {
 
   const {userToken} = useSelector(state => state.auth)
-  const [submission_status, setSubmissionStatus] = useState("initial_submission")
+  const [submission_status, setSubmissionStatus] = useState()
   const [participant, setParticipant] = useState({})
   const [token, setToken] = useState("")
 
@@ -16,14 +16,16 @@ function Announcement(props) {
     // if(props.participant){
     //   // setSubmissionStatus(props.participant.submission_status)
     // }
-    // if(props.participant.submission_status){
-    //   console.log('masuk-',props.participant.submission_status)
-    //   getSubmissionStatus(props.participant.submission_status)
-    //   console.log('status sub in announce', submission_status)
-    // }else{
+    if(props.participant.submission_status){
+      console.log('masuk-',props.participant.submission_status)
+      getSubmissionStatus(props.participant.submission_status)
+      console.log('status sub in announce', submission_status)
+    }else{
       getSubmissionStatus()
 
-    // }
+    }
+    console.log('sub', submission_status)
+    console.log('sub props', props.participant)
     if(submission_status=='on_exam'){
       getToken()
     }
@@ -43,33 +45,36 @@ function Announcement(props) {
     // if(participants.length > 0){
     //   setParticipant(participants[0])
     // }
-    let text;
+    let text = "Pengisian Formulir-" ;
+    
     if(value){
 
-      if((submission_status)=="awaiting_processing"){
+      if((value)=="awaiting_processing"){
         text = "Formulir Diproses" 
         setSubmissionStatus(text)
       }
-      if((submission_status)=="on_exam"){
+      if((value)=="on_exam"){
         text = "Mengikuti Seleksi" 
         setSubmissionStatus(text)
       }
-      if((submission_status)=="initial_submission"){
+      if((value)=="initial_submission"){
         text = "Pengisian Formulir" 
         setSubmissionStatus(text)
       }
-      if((submission_status)??"initial_submission"){
+      if((value)??"initial_submission"){
         text = "Pengisian Formulir" 
         setSubmissionStatus(text)
       }
-      if((submission_status)=="accepted"){
+      if((value)=="accepted"){
         text = "LULUS" 
         setSubmissionStatus(text)
       }
-      if((submission_status)=="not_accepted"){
+      if((value)=="not_accepted"){
         text = "Tidak Lulus" 
         setSubmissionStatus(text)
       }
+    }else{
+      setSubmissionStatus(text)
     }
 
     // return text
