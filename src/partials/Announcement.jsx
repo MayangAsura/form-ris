@@ -18,7 +18,7 @@ function Announcement(props) {
     // }
     if(props.participant.submission_status){
       console.log('masuk-',props.participant.submission_status)
-      getSubmissionStatus(props.participant.submission_status)
+      getSubmissionStatus('on_exam')
       console.log('status sub in announce', submission_status)
     }else{
       getSubmissionStatus()
