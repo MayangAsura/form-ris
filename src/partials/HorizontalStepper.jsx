@@ -879,7 +879,7 @@ const HorizontalStepper = (props) => {
 
   return (
     <>
-    <div className="flex items-center justify-center shadow-md p-4 ">
+    <div className="flex items-center justify-center shadow-md p-4">
       {dataAlertShow && (
         <SmallAlert dataAlert={dataAlert} setDataAlertShow={setDataAlertShow_} />
       )}

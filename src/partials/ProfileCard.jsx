@@ -25,6 +25,7 @@ function ProfileCard(props) {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
   const { userToken, userInfo } = useSelector((state) => state.auth)
   const [profileData, setProfileData] = useState({  school_name:"", full_name:"", gender: "", email:"", phone_number:"", regist_number:"", regist_date:"", dob:"", aspiration:"", is_complete: ""})
+  const [pas_photo, setPasPhoto] = useState({})
   const [age, setAge] = useState("")
 
   const [dataSummary, setDataSummary] = useState({identitas: {}, sekolahAsal: {}, jenjangTujuan: {}, dataAyah : {}, dataIbu: {}, dataWali: {}, verifikasiKeluarga: {}, pilihan_metode_uangpangkal: {}})
@@ -53,6 +54,8 @@ function ProfileCard(props) {
           is_complete: props.applicant[0].participants[0].is_complete
         })
 
+        getPasPhotoData()
+
         getDataSummary()
         calculateAge()
         getUsia()
@@ -60,7 +63,21 @@ function ProfileCard(props) {
     }
 
     console.log('DS> ', dataSummary) 
+    // if(props.applicant)
   }, [props.applicant])
+
+  const getPasPhotoData = async () => {
+    const {data: docs, error} = await supabase.from('participant_documents').select('file_url')
+                                .eq('file_title', 'Pas-Photo',)
+                                .eq('participant_id', props.applicant[0].participants[0].id)
+                                if(!error){
+                                  setPasPhoto(docs.map(value => ({
+                                    file_title: value.file_title,
+                                    file_url: value.file_url
+                                  })))
+                                  console.log(pas_photo)
+                                }
+  }
 
   const getDataSummary = () => {
     // full_name: "", gender: "", phone_number: "", email: "", regist_number: "", pob: "", dob: "", child_number:"", child_status: "", distance: "", nationality: "", province:"", region: "", postal_code: "", aspiration: "", nisn: "", kk: ""
@@ -269,7 +286,7 @@ function ProfileCard(props) {
                         </svg> */}
                         {/* <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                         
-                    <img src="/images/image-formal.png" className="text-center object-center" width={180} alt="" />
+                    <img src={`${pas_photo.url??'/images/image-formal.png'}`} className="text-center object-center" width={180} alt="" />
                     </div>
                     {/* <span className='text-sm'>Mendaftar Pada :  Sabtu, 12 Maret 2024</span> */}
                     

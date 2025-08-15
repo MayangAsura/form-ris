@@ -8,6 +8,11 @@
 @import 'additional-styles/range-slider.css';
 @import 'additional-styles/toggle-switch.css';
 @import 'additional-styles/theme.css';
+@import "flowbite/src/themes/default";
+
+/* @plugin "flowbite/plugin";
+
+@source "../node_modules/flowbite"; */
 
 @import 'tailwindcss/utilities';
 

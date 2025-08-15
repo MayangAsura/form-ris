@@ -139,12 +139,33 @@ function BerkasForm(props) {
                                 <div className="border-b border-gray-900/20"></div>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                    {/* <div className="sm:col-span-4">
-                                    <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran</label>
-                                    <div className="mt-2">
-                                        <input id="bird_certificate" name="bird_certificate" type="file" autoComplete="bird_certificate" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-                                    </div>
+                                    {/* <div className="sm:col-span-8">
+                                        <div className="mt-2">
+                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo
+                                            <span className="text-red-600">*</span>
+                                        </label>
+                                            <p className="text-xs/5 text-gray-600">PNG, JPG, PDF up to 2MB</p>
+                                        {dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url? (
+                                            <span className='py-5 mb-3'>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 my-5 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                Sudah Upload
+                                                </span>
+                                            </span>
+                                        ): ""}
+                                        <div className="relative inline-block">
+                                            <input id="bird_certificate" name="pas_photo" onChange={(e) => validateImage(e.target.files[0], 2, 'Pas-Photo')} type="file" 
+                                            className='w-full p-3 mt-3 file:bg-green-500 file:text-white file:border-0
+                                                    file:py-1 file:px-3 file:rounded-lg
+                                                    file:shadow-xl file:shadow-green-500/30
+                                                    text-gray-600'
+                                            accept="image/png, image/jpeg, .pdf"/>
+                                            { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
+                                        </div>
+                                        {dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PNG' && (
+                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width={30}/>
+                                        )}
+                                        </div>
                                     </div> */}
+
                                     <div className="sm:col-span-8">
                                         <div className="mt-2">
                                         <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Akta Kelahiran

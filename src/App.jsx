@@ -91,6 +91,7 @@ function App() {
         <Helmet>
           {/* <script src='https://app-sandbox.duitku.com/lib/js/duitku.js'></script> */}
           <script src='https://app-prod.duitku.com/lib/js/duitku.js'></script>
+          {/* <script src="../path/to/flowbite/dist/flowbite.min.js"></script> */}
         </Helmet>
       </HelmetProvider>
     </>

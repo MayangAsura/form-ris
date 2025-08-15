@@ -10,6 +10,7 @@ import '../css/additional-styles/card.css';
 import { TbExternalLink, TbCalendarTime, TbMapPin2, TbNotebook } from "react-icons/tb";
 import { BiMoney } from "react-icons/bi";
 import Swal from '../utils/Swal';
+import { MdOutlineLaunch } from 'react-icons/md'
 
 function Jenjang() {
   const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
@@ -64,14 +65,14 @@ ditetapkan sekolah</li>
     }
 
   const jenjangData = [
-    {img: "./images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
-    {img: "./images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp125.000'},
-    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SDIT Rabbaanii Islamic School", code:'sdit', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMPI Rabbaanii Islamic School", code:'smpi', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp250000'},
-    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantrean', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp250.000'},
-    {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'1 Mei 2025 - 30 Mei 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Open ', registration_fee: 'Rp125.000'}
+    {img: "./images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT A Rabbaanii Islamic School", code:'tkit-a', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp150.000'},
+    {img: "./images/schools_thumbnails/TKIT-Modern-ImageCard.png", title: "TKIT B Rabbaanii Islamic School", code:'tkit-b', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cisanggiri 2G, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17530', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
+    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SDIT Rabbaanii Islamic School", code:'sdit', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
+    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMPI Rabbaanii Islamic School", code:'smpi', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
+    {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
+    {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
+    {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantrean', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
+    {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Closed ', registration_fee: 'Rp125.000'}
   ] 
   // console.log(jenjangData)
 
@@ -110,7 +111,7 @@ ditetapkan sekolah</li>
       {/* <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-gray-900 pointer-events-none" aria-hidden="true"></div> */}
       {/* <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div> */}
       <h3 className="text-3xl md:text-4xl text-center font-bold leading-tighter tracking-tighter mt-32 mb-5 px-1" data-aos="zoom-y-out">
-              Ahlan wa Sahlan, <br /><span className="text-3xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-orange-400 ">Website Penerimaan Santri Baru <br /> Rabbaanii Islamic School</span>
+              Ahlan wa Sahlan, <br /><span className="text-3xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-orange-400 ">Buku Tamu Penerimaan Santri Baru <br /> Rabbaanii Islamic School</span>
               
             </h3>
             <hr className='w-24 h-1 mx-auto my-4 text-transparent bg-gradient-to-l from-gray-100 to-green-400 border-0 rounded-sm md:my-8 '/>
@@ -122,6 +123,13 @@ ditetapkan sekolah</li>
                           Persyaratan Umum Pendaftaran <TbExternalLink />
                         </span> */}
             </div>
+            {/* <div className='flex flex-row justify-center items-center my-3'>
+              <button onClick={open}>
+                <span className="flex items-center gap-1 rounded-md w-42 bg-green-50 px-2 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                Peta Pendaftaran <MdOutlineLaunch/></span>
+              </button>
+
+            </div> */}
             {modal_show && (
               <Swal dataModal={modal_data}></Swal>
             )}

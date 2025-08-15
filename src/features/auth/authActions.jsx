@@ -24,7 +24,7 @@ export const userLogin = createAsyncThunk(
         { username, password },
         config
       )
-      console.log('sebelum', data)
+      // console.log('sebelum', data)
       // store user's token in local storage
       if (data?.token) {
         console.log(data.token)
@@ -36,7 +36,7 @@ export const userLogin = createAsyncThunk(
         });
       }
       // Cookies.set('jwt', data.token)
-      console.log('setelah', data)
+      // console.log('setelah', data)
 
       return data
     } catch (error) {
