@@ -172,7 +172,7 @@ function Announcement(props) {
           <div className="relative max-w-6xl mx-auto bg-gray-200 px-4 sm:px-6" >
               <div className="py-3 md:py-5">
                 <div className="rounded-2xl relative bg-white p-5">
-                  <h3 className="h3 mb-4 ">Info</h3>
+                  <h3 className="h3 mb-4 ">Pengumuman</h3>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
                   <p className='text-gray-900 mt-2 text-center'>
                     <p>

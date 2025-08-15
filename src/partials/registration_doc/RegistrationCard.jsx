@@ -113,6 +113,9 @@ export default function RegistrationCard(props){
     if(value === 'gel_1') {
       return 'Gelombang 1 (Dibayarkan 2 Pekan Setelah Dinyatakan diterima)'
     }
+    if(value === 'jalur_khusus') {
+      return 'Jalur Khusus'
+    }
   }
     // InvoicePDF = () => (
       return (

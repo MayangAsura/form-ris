@@ -139,7 +139,7 @@ function BerkasForm(props) {
                                 <div className="border-b border-gray-900/20"></div>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                    {/* <div className="sm:col-span-8">
+                                    <div className="sm:col-span-8">
                                         <div className="mt-2">
                                         <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo
                                             <span className="text-red-600">*</span>
@@ -161,10 +161,10 @@ function BerkasForm(props) {
                                             { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
                                         </div>
                                         {dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PNG' && (
-                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width={30}/>
+                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width="80%"/>
                                         )}
                                         </div>
-                                    </div> */}
+                                    </div>
 
                                     <div className="sm:col-span-8">
                                         <div className="mt-2">
@@ -234,7 +234,7 @@ function BerkasForm(props) {
     //                                         </div>                  
                                         )}
                                         {dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_type === 'PNG' && (
-                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url:""} alt="" width={30}/>
+                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url:""} alt="" width="80%"/>
                                         )}
                                         
                                         

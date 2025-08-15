@@ -62,7 +62,7 @@ const HorizontalStepper = (props) => {
 
   useEffect(() => {
     if(props.applicant.length > 0) {
-    
+    console.log('applicant',props.applicant[0].participants[0])
       setApplicant(props.applicant[0])
       ////console.log('props.applicant[0] >', props.applicant[0])
       if(props.applicant[0].participants.length > 0){
@@ -79,7 +79,8 @@ const HorizontalStepper = (props) => {
           setDataAyah(props.applicant[0].participants[0].participant_father_data[0])
         }
         if(props.applicant[0].participants[0].participant_mother_data || Array.isArray(props.applicant[0].participants[0].participant_mother_data)?props.applicant[0].participants[0].participant_mother_data.length > 0 : ""){
-          setDataIbu(props.applicant[0].participants[0].participant_mother_data[0])
+           
+          setDataIbu(props.applicant[0].participants[0].participant_mother_data)
         }
         if(props.applicant[0].participants[0].participant_wali_data.length>0){
           setDataWali(props.applicant[0].participants[0].participant_wali_data[0])
@@ -318,10 +319,10 @@ const HorizontalStepper = (props) => {
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
         
-        ////console.log("Data Ayah >,", data)
         if(!complete){
           if(props.applicant[0].participants.length>0){
             if(!edit && props.applicant[0].participants[0].participant_father_data.length == 0 ){
+              console.log("Data Ayah >,", data)
               
               saveData(data, 'participant_father_data')
             }else{
@@ -352,8 +353,11 @@ const HorizontalStepper = (props) => {
         
         if(!complete){
           if(props.applicant[0].participants.length>0){
-            if(!edit && (props.applicant[0].participants[0].participant_mother_data || Array.isArray(props.applicant[0].participants[0].participant_mother_data)? props.applicant[0].participants[0].participant_mother_data.length > 0 : "")){
+            console.log('dataibu', data)
+            if(!edit && (Array.isArray(props.applicant[0].participants[0].participant_mother_data)? props.applicant[0].participants[0].participant_mother_data.length > 0 : !props.applicant[0].participants[0].participant_mother_data)){
               ////console.log("masuk")
+              console.log('dataibu', data)
+              console.log('dataibu', props.applicant[0].participants[0].participant_mother_data)
               saveData(data, 'participant_mother_data')
             }else{
               updateData(data, 'participant_mother_data', pid, 'participant_id')

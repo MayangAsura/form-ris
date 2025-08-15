@@ -254,7 +254,7 @@ console.log(Object.values(data_appl)[0] !== '01')
         // "phone": "6285778650040",
         "message": `Assalamu'alaikum, Alhamdulillah Ananda telah terdaftar di sistem kami.
         No. Pendaftaran: ${data_appl.f3}
-        Login Aplikasi: https://psb-formy.vercel.app/login
+        Login Aplikasi: https://psb.rabbaanii.sch.id/login
         
         Mohon untuk menyimpan informasi ini. Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
         Jazaakumullahu khayran wa Baarakallaahu fiikum.

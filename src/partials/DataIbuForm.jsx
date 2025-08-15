@@ -139,7 +139,7 @@ function DataIbuForm(props) {
                                 <div className='flex justify-center text-center my-10'>
                                      
                                         {!props.complete && (
-                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={isPending}
+                                            <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                     // onClick={() => {
                                                     //     // currentStep === steps.length
                                                     //     //   ? setComplete(true)

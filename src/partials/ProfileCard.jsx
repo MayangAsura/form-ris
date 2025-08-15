@@ -67,16 +67,17 @@ function ProfileCard(props) {
   }, [props.applicant])
 
   const getPasPhotoData = async () => {
-    const {data: docs, error} = await supabase.from('participant_documents').select('file_url')
+    const {data: docs, error} = await supabase.from('participant_documents').select('file_url, file_title')
                                 .eq('file_title', 'Pas-Photo',)
                                 .eq('participant_id', props.applicant[0].participants[0].id)
                                 if(!error){
-                                  setPasPhoto(docs.map(value => ({
+                                  // setPasPhoto(docs[0])
+                                  setPasPhoto(docs[0].map(value => ({
                                     file_title: value.file_title,
                                     file_url: value.file_url
                                   })))
-                                  console.log(pas_photo)
                                 }
+                                console.log('p as_photo', pas_photo)
   }
 
   const getDataSummary = () => {
@@ -129,10 +130,10 @@ function ProfileCard(props) {
     }
     if(props.applicant[0].participants[0].participant_mother_data){
       const dataIbu = {
-        mother_name : props.applicant[0].participants[0].participant_mother_data[0].mother_name,
-        mother_academic : props.applicant[0].participants[0].participant_mother_data[0].mother_academic,
-        mother_job : props.applicant[0].participants[0].participant_mother_data[0].mother_job,
-        mother_salary : props.applicant[0].participants[0].participant_mother_data[0].mother_salary
+        mother_name : props.applicant[0].participants[0].participant_mother_data.mother_name,
+        mother_academic : props.applicant[0].participants[0].participant_mother_data.mother_academic,
+        mother_job : props.applicant[0].participants[0].participant_mother_data.mother_job,
+        mother_salary : props.applicant[0].participants[0].participant_mother_data.mother_salary
       }
       dataSummary.dataIbu = dataIbu
 
