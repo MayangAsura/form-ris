@@ -65,9 +65,9 @@ export default function RegistrationCard(props){
       // setDataWali(props.dataSummary.dataWali)
       // setDataVerifikasiKeluarga(props.dataSummary.verifikasiKeluarga)
       setPilihanMetodeUangPangkal(props.dataSummary.pilihan_metode_uangpangkal)
-      console.log('DSC> ',props.dataSummary)
-      console.log('DAC> ',dataAyah)
-      console.log('DIC> ',props.dataSummary.identitas)
+      // console.log('DSC> ',props.dataSummary)
+      // console.log('DAC> ',dataAyah)
+      // console.log('DIC> ',props.dataSummary.identitas)
     }, [props.dataSummary])
 
     const formatDate = (date) => {
