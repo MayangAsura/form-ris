@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-import axios from '../api/local-server';
-// import axios from '../api/prod-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
