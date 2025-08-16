@@ -80,7 +80,7 @@ function Payment() {
   
           const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
             .select('amount, fee_type_id')
-            .eq('school_id', 7)
+            .eq('school_id', data.applicant_schools[0]?.schools?.school_id)
             .single() 
           // if(dataSchool){
           // console.log('school_fees > ', dataSchool)
@@ -414,7 +414,7 @@ function Payment() {
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 // applicantData.applicant_schools[0]?.schools?.school_id
-        applicantDataOrder.item_id = 7
+        applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
         // console.log("applicantDataOrder ",  applicantDataOrder)
