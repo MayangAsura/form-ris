@@ -10,11 +10,15 @@ import { useNavigate } from 'react-router-dom'
 
 
 // initialize userToken from local storage
-const userToken = Cookies.get('jwt')
+const userTokenJwt = Cookies.get('jwt')
   ? Cookies.get('jwt')
   : null
+const nuserTokenJwt = localStorage.getItem('token')
+  ? localStorage.getItem('token')
+  : null
 
-  //console.log('userToken from cookiee', userToken)
+const userToken = userTokenJwt || nuserTokenJwt
+  console.log('userToken from authslice', userToken)
 
 // const initialState = {
 //   loading: false,

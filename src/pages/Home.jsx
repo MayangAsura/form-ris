@@ -17,8 +17,10 @@ import HorizontalStepper from '../partials/HorizontalStepper'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Announcement from '../partials/Announcement';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Home() {
+  // const {userToken} = useSelector(state => state.auth)
   const [applicantData, setApplicantData] = useState({})
   const [participantData, setParticipantData] = useState({submission_status:""})
   const [is_refresh, setIsRefresh] = useState(false)
@@ -49,7 +51,7 @@ function Home() {
       // }
       // }
     }
-  }, [applicantData])
+  }, [])
   
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">

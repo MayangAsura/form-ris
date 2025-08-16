@@ -70,6 +70,7 @@ function Payment() {
           // setApplicantData({})
         }else{
           setApplicantData(data)
+          // console.log('applicantData',data)
           // console.log('applicantData> ', data)
   
           
@@ -125,7 +126,7 @@ function Payment() {
             // setApplicantDataOrder(dataOrder)
             // console.log('applicantDataOrder', applicantDataOrder)
 
-            setApplicantData(data)
+            
               // setSchoolName(applicantData?.applicant_schools[0]?.schools?.school_name)
               // setSchoolId(applicantData.applicant_schools[0]?.schools?.school_id) 
               
@@ -159,12 +160,12 @@ function Payment() {
         // console.log(applicantData.order_status)
         // if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished')
         
-        // console.log('or in paymein',r)
+        console.log('or in paymein',r)
         if(r )
           {
           // console.log("status !='' ")
           const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
-          .select('started_at, expired_at, payment_url, status, amount, settlement_at')
+          .select('started_at, expired_at, payment_url, status, amount, settlement_at, order_id')
           .eq(`order_id`,r)
           .single()
           if(dataPayment.status =='paid'){
@@ -192,14 +193,12 @@ function Payment() {
           // getApplicantPayment()
           // invoicecreated && applicantData.order_status!==='finis'
           setInvoiceCreated(true)
-                                            
-                                          }
-
-                                          
-                                          
+        }
+          
+          console.log('order_id', applicantData.applicant_orders[0].id)
           if(applicantData.applicant_orders.length !==0 && applicantData.applicant_orders.length?.status!=='finished'){
             const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
-            .select('started_at, expired_at, payment_url, status, amount, settlement_at')
+            .select('started_at, expired_at, payment_url, status, amount, settlement_at, order_id')
             .eq('order_id', applicantData.applicant_orders[0].id)
             .single()
 
@@ -247,12 +246,12 @@ function Payment() {
             const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
               .select('amount, fee_type_id')
               .eq('school_id', applicantData.school_id)
-              .single() 
+              // .single() 
   
               if(!errorSchool){
-                setAmount(dataSchool.amount)
-                setSchool(dataSchool)
-                applicantDataOrder.total_amount = dataSchool.amount
+                setAmount(dataSchool[0].amount)
+                setSchool(dataSchool[0])
+                applicantDataOrder.total_amount = dataSchool[0].amount
                 // school
                 // dataSchool.amount
                 console.log('amount', amount)
@@ -271,7 +270,6 @@ function Payment() {
       getSchoolId()
 
       if(invoicecreated){
-
         getApplicantPayment()
       }
 
@@ -296,13 +294,19 @@ function Payment() {
 
       
       console.log('sch',applicantData.school_id)
+      console.log('applicantData',applicantData)
+      console.log('school',school)
+      console.log('amount',amount)
       
-    }, [r, o, applicantData])
+    }, [r, o])
 
    
 
     
 
+//     const getSchoolId_ = (id) =>{
+// if(id==1) return 15000
+//     }
 
     const send_notif_success = async () => {
 

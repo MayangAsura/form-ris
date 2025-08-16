@@ -1,12 +1,23 @@
 import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 import Header from '../partials/Header'
+import Cookies from 'js-cookie'
 
 const ProtectedRoute = () => {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userInfo, userToken } = useSelector((state) => state.auth)
+  const userTokenJwt = Cookies.get('jwt')
+    ? Cookies.get('jwt')
+    : null
+  const nuserTokenJwt = localStorage.getItem('token')
+    ? localStorage.getItem('token')
+    : null
+  
+  const _userToken = userTokenJwt || nuserTokenJwt
+    console.log('userToken from protected', userToken)
+  
 
   // show unauthorized screen if no user is found in redux store
-  if (!userInfo) {
+  if (!userInfo || !_userToken) {
     return (
       <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg overflow-hidden relative">
       {/* flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative */}

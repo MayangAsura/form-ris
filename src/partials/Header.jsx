@@ -12,8 +12,8 @@ import { userLogout } from '../features/auth/authActions';
 import Cookies from 'js-cookie'
 // import Cookies from 'universal-cookie'
 
-import axios from '../api/local-server';
-// import axios from '../api/prod-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 // import axios from '../api/prod-server';
 
 
@@ -136,8 +136,11 @@ function Header(props) {
           
           persistor.purge();
           // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
-          // localStorage.removeItem("persist:auth")
+          localStorage.removeItem("persist:auth")
+          localStorage.removeItem("token")
+          // localStorage.removeItem("jwt")
           Cookies.remove("jwt")
+          Cookies.remove("token")
           dispatch(logout())
           navigate('/login')
         }
