@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { redirect, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import queryString from "query-string"
+import { useSearchParams } from 'react-router-dom';
 
 import Swal from '../utils/Swal';
 
 // const CREATE_INVOICE_URL = "/api/create-invoice"
 const CREATE_INVOICE_URL = "/api/create-form-invoice"
-
 
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
@@ -36,13 +36,28 @@ function Payment() {
 
     const { userToken } = useSelector(state => state.auth)
     const navigate = useNavigate()
-    
+    // const use
+    // const o = '00'
+    const [searchParams, setSearchParams] = useSearchParams();
+    const o = searchParams.get('resultCode'); 
+    const r = searchParams.get('merchantOrderId'); 
+
+
+// const r = '73776e1b-2cdf-4348-90b7-49ae218d07dc'
     useEffect(() => {
       // console.log('masuk')
+
+      // getApplicantData()
+      // if(r && o){
+      //   console.log('qp', o, r)
+      //   getApplicantPayment()
+      // }
+
 
       const getApplicantData = async () =>{
         // console.log('on applicantdata')
         // const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA4NTIxNjUyNzM5NyIsImlhdCI6MTc1NDE0ODg1NCwiZXhwIjoxNzU0MjM1MjU0fQ.eG-_ZkjYmzJqJuK1sAELeRiuYSDOnOr5NyAxAyQCqBA';
+        // console.log('qp', o, r)
         const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status, is_notif_sended)')
                             .eq('refresh_token', userToken)                 
                             .eq('status', 'active')
@@ -65,7 +80,7 @@ function Payment() {
   
           const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
             .select('amount, fee_type_id')
-            .eq('school_id', data.applicant_schools[0]?.schools.school_id)
+            .eq('school_id', 7)
             .single() 
           // if(dataSchool){
           // console.log('school_fees > ', dataSchool)
@@ -121,13 +136,20 @@ function Payment() {
       const getApplicantPayment = async () => {
         // console.log('on payment')
         // console.log(applicantData.order_status)
-        if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished'){
-  
+        // if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished')
+        
+        // console.log('or in paymein',r)
+        if(r )
+          {
           // console.log("status !='' ")
           const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
-                                            .select('started_at, expired_at, payment_url, status, amount, settlement_at')
-                                            .eq('order_id', applicantData.applicant_orders[0]?.id)
-                                            .single()
+          .select('started_at, expired_at, payment_url, status, amount, settlement_at')
+          .eq(`order_id`,r)
+          .single()
+          if(dataPayment.status =='paid'){
+            navigate('/home')
+          }
+          // ,order_id.eq.${applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished'?applicantData.applicant_orders[0].id:""}
           applicantDataPayment.started_at = dataPayment.started_at
           applicantDataPayment.expired_at = dataPayment.expired_at
           applicantDataPayment.payment_url = dataPayment.payment_url
@@ -149,9 +171,47 @@ function Payment() {
           // getApplicantPayment()
           // invoicecreated && applicantData.order_status!==='finis'
           setInvoiceCreated(true)
+                                            
+                                          }
+
+                                          
+                                          
+          if(applicantData.applicant_orders.length !==0 && applicantData.applicant_orders.length?.status!=='finished'){
+            const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
+            .select('started_at, expired_at, payment_url, status, amount, settlement_at')
+            .eq('order_id', applicantData.applicant_orders[0].id)
+            .single()
+
+            applicantDataPayment.started_at = dataPayment.started_at
+          applicantDataPayment.expired_at = dataPayment.expired_at
+          applicantDataPayment.payment_url = dataPayment.payment_url
+          applicantDataPayment.status = dataPayment.status
+          applicantDataPayment.amount = dataPayment.amount
+          applicantDataPayment.settlement_at = dataPayment.settlement_at
+
+          const dataPay = {
+            started_at : dataPayment.started_at,
+            expired_at : dataPayment.expired_at,
+            payment_url : dataPayment.payment_url,
+            status : dataPayment.status,
+            amount : dataPayment.amount,
+            settlement_at : dataPayment.settlement_at
+          }
+          setApplicantDataPayment(dataPay)
+          // console.log('applicantDataPayment', applicantDataPayment)
+          // setApplicantDataPayment(dataPayment)
+          // getApplicantPayment()
+          // invoicecreated && applicantData.order_status!==='finis'
+          setInvoiceCreated(true)
+                                            
+          }
+          // const {data: dataPayment, errorPayment} = await supabase.from('applicant_payments')
+          //                                   .select('started_at, expired_at, payment_url, status, amount, settlement_at')
+          //                                   .eq('reference_code', reference)
+          //                                   .single()
   
           // applicantData.applicant_orders[0]?.status
-        } 
+        // } 
             
         // console.log('invoicecreated >', invoicecreated)
         // if(applicantData.order_status !== 'finished'){
@@ -189,7 +249,7 @@ function Payment() {
 
       
       
-    }, [applicantData])
+    }, [r, o])
 
     
 
@@ -334,7 +394,7 @@ function Payment() {
       // console.log(applicantDataPayment.expired_at)
       // console.log("enter")
       if(applicantDataPayment?.expired_at > new Date()){
-        console.log("in expired")
+        // console.log("in expired")
 
         return
 
@@ -342,7 +402,7 @@ function Payment() {
       }else{
         
         if(applicantData.order_status=="proccesed"){
-          console.log("in proccessed")
+          // console.log("in proccessed")
           modal_data.title = "Gagal Membuat Pembayaran" 
           modal_data.message = "Ananda telah melakukan transaksi sebelumnya." 
           setModalShow(true)
@@ -353,8 +413,8 @@ function Payment() {
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
-
-        applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
+// applicantData.applicant_schools[0]?.schools?.school_id
+        applicantDataOrder.item_id = 7
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
         // console.log("applicantDataOrder ",  applicantDataOrder)
@@ -367,8 +427,9 @@ function Payment() {
                                         _foundation_id: applicantDataOrder.foundation_id, 
                                         _item_id: applicantDataOrder.item_id, 
                                         _refresh_token: userToken, 
-                                        _total_amount: applicantDataOrder.total_amount
+                                        _total_amount: 11000
                                       })
+                                      // applicantDataOrder.total_amount
         if (error) console.error('error > ', error)
         // else console.log(order)
   
@@ -511,7 +572,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
                     <label className="block text-gray-800 text-sm font-medium mb-1" >Biaya Pendaftaran</label>
-                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(applicantDataOrder?.total_amount)??'Tidak ditemukan'}</h2>
+                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(12000)??'Tidak ditemukan'}</h2>
                     {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                   </div>
                 </div>

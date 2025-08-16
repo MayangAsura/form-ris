@@ -34,7 +34,6 @@ const HorizontalStepper = (props) => {
   const [dataMetodeUangPangkal, setDataMetodeUangPangkal] = useState({})
   const [dataStatus, setDataStatus] = useState({})
   const [berkasUrl, setBerkasUrl] = useState("")
-  // const [berkasUrl, setBerkasUrl] = useState({a: "", b: "", c: "", d: "", e: "", f: "", g: ""})
   const [dataSeragam, setDataSeragam] = useState([])
   const [schoolUniformModel, setSchoolUniformModel] = useState([])
   const [applicant_id, setApplicantId] = useState("")
@@ -321,11 +320,12 @@ const HorizontalStepper = (props) => {
         
         if(!complete){
           if(props.applicant[0].participants.length>0){
-            if(!edit && props.applicant[0].participants[0].participant_father_data.length == 0 ){
+            if(!edit && props.applicant[0].participants[0].participant_father_data.length === 0 ){
               console.log("Data Ayah >,", data)
               
               saveData(data, 'participant_father_data')
             }else{
+              console.log("Data Ayah U>,", data)
               updateData(data, 'participant_father_data', pid, 'participant_id')
             }
 

@@ -18,7 +18,7 @@ import axios from '../api/prod-server';
 
 
 function Header(props) {
-  Cookies.remove("jwt")
+  // Cookies.remove("jwt")
 
   const [top, setTop] = useState(true);
   const { userToken, userInfo } = useSelector((state) => state.auth)

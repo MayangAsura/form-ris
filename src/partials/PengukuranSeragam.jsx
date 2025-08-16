@@ -25,6 +25,7 @@ const PengukuranSeragam = (props) => {
     // const data = { father_name:father_name, father_academic:father_academic, father_job:father_job, father_salary:father_salary, why_chooses:why_chooses}
 
     useEffect(() => {
+        
         // //console.log('props.dataAyah>', props.dataAyah)
         // setFatherName(props.dataAyah?.father_name)
         // setFatherAcademic(props.dataAyah?.father_academic)

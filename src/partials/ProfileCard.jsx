@@ -34,7 +34,7 @@ function ProfileCard(props) {
     // getProfileData()
 
     if(props.applicant.length > 0) {
-      console.log('masuk')
+      // console.log('masuk')
       // setProfileData(props.applicant[0])
       
       profileData.school_name = props.applicant[0].applicant_schools[0].schools.school_name
@@ -44,7 +44,7 @@ function ProfileCard(props) {
       profileData.regist_number = props.applicant[0].regist_number
       profileData.regist_date = props.applicant[0].created_at
 
-      console.log('profileData>', profileData)
+      // console.log('profileData>', profileData)
 
       if(props.applicant[0].participants.length > 0) {
         setProfileData({
@@ -62,7 +62,7 @@ function ProfileCard(props) {
       }
     }
 
-    console.log('DS> ', dataSummary) 
+    // console.log('DS> ', dataSummary) 
     // if(props.applicant)
   }, [props.applicant])
 
@@ -70,14 +70,14 @@ function ProfileCard(props) {
     const {data: docs, error} = await supabase.from('participant_documents').select('file_url, file_title')
                                 .eq('file_title', 'Pas-Photo',)
                                 .eq('participant_id', props.applicant[0].participants[0].id)
-                                if(!error){
-                                  // setPasPhoto(docs[0])
-                                  setPasPhoto(docs[0].map(value => ({
-                                    file_title: value.file_title,
-                                    file_url: value.file_url
-                                  })))
-                                }
-                                console.log('p as_photo', pas_photo)
+                                if(docs){
+                                  setPasPhoto(docs[0])
+                                  // setPasPhoto(docs[0].map(value => ({
+                                    //   file_title: value.file_title,
+                                    //   file_url: value.file_url
+                                    // })))
+                                  }
+                                  console.log('pas_photo', pas_photo)
   }
 
   const getDataSummary = () => {
@@ -287,7 +287,7 @@ function ProfileCard(props) {
                         </svg> */}
                         {/* <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                         
-                    <img src={`${pas_photo.url??'/images/image-formal.png'}`} className="text-center object-center" width={180} alt="" />
+                    <img src={`${pas_photo.file_url??'/images/image-formal.png'}`} className="text-center object-center" width={180} alt="" />
                     </div>
                     {/* <span className='text-sm'>Mendaftar Pada :  Sabtu, 12 Maret 2024</span> */}
                     
