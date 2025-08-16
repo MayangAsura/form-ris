@@ -12,6 +12,7 @@ import queryString from "query-string"
 import { useSearchParams } from 'react-router-dom';
 
 import Swal from '../utils/Swal';
+import { data } from 'autoprefixer';
 
 // const CREATE_INVOICE_URL = "/api/create-invoice"
 const CREATE_INVOICE_URL = "/api/create-form-invoice"
@@ -28,6 +29,7 @@ function Payment() {
     const [school_name, setSchoolName] = useState("")
     const [applicant_id, setApplicantId] = useState("")
     const [amount, setAmount] = useState("")
+    const [school, setSchool] = useState({})
     const [applicantPayment, setApplicantPayment] = useState({})
     const [invoicecreated, setInvoiceCreated] = useState(false)
     const [modal_data, setModalData] = useState({title: "", message: ""})
@@ -45,6 +47,7 @@ function Payment() {
 
 // const r = '73776e1b-2cdf-4348-90b7-49ae218d07dc'
     useEffect(() => {
+      
       // console.log('masuk')
 
       // getApplicantData()
@@ -78,14 +81,7 @@ function Payment() {
           //   applicantData.order_status = data.applicant_orders[0].status
           // }
   
-          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
-            .select('amount, fee_type_id')
-            .eq('school_id', data.applicant_schools[0]?.schools?.school_id)
-            .single() 
-          // if(dataSchool){
-          // console.log('school_fees > ', dataSchool)
-          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
-          applicantDataOrder.total_amount = dataSchool.amount
+          // getSchoolId(data.data.applicant_schools[0]?.schools?.school_id)
           
           // if(data.applicant_orders.length > 0){
           applicantDataOrder.invoice_number = data.applicant_orders[0].invoice_number
@@ -132,6 +128,26 @@ function Payment() {
           // }
         }
       
+        const getSchoolId = async ()=> {
+          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
+            .select('amount, fee_type_id')
+            .eq('school_id', applicantData.applicant_schools[0]?.schools?.school_id)
+            .single() 
+
+            if(!errorSchool){
+              setAmount(dataSchool.amount)
+              setSchool(dataSchool)
+              // dataSchool.amount
+              console.log('amount', amount)
+              
+            }
+          // if(dataSchool){
+          // console.log('school_fees > ', dataSchool)
+          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
+          
+        }
+
+        getSchoolId()
 
       const getApplicantPayment = async () => {
         // console.log('on payment')
@@ -249,7 +265,7 @@ function Payment() {
 
       
       
-    }, [r, o])
+    }, [r, o, applicantData])
 
     
 
@@ -414,6 +430,8 @@ function Payment() {
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 // applicantData.applicant_schools[0]?.schools?.school_id
+        applicantDataOrder.total_amount = amount
+        applicantDataOrder.total_amount = school.amount
         applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
@@ -427,7 +445,7 @@ function Payment() {
                                         _foundation_id: applicantDataOrder.foundation_id, 
                                         _item_id: applicantDataOrder.item_id, 
                                         _refresh_token: userToken, 
-                                        _total_amount: 11000
+                                        _total_amount: applicantDataOrder.total_amount
                                       })
                                       // applicantDataOrder.total_amount
         if (error) console.error('error > ', error)
@@ -572,7 +590,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
                     <label className="block text-gray-800 text-sm font-medium mb-1" >Biaya Pendaftaran</label>
-                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(12000)??'Tidak ditemukan'}</h2>
+                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(school?.amount?school?.amount:amount)??'Tidak ditemukan'}</h2>
                     {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                   </div>
                 </div>

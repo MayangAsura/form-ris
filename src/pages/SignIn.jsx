@@ -145,8 +145,10 @@ function SignIn(props) {
     }
     try {
 
+      const token =  localStorage.getItem('token')
+      const _token = Cookies.get('token')
       // console.log('userInfo before',userInfo)
-      if(!userInfo){
+      if(!userInfo || !token || _token){
         dispatch(userLogin(data))
       }else{
         // console.log('userInfo', userInfo)
