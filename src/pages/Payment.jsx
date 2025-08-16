@@ -81,6 +81,24 @@ function Payment() {
           //   applicantData.order_status = data.applicant_orders[0].status
           // }
   
+          // if()
+          // getSchoolId()
+          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
+              .select('amount, fee_type_id')
+              .eq('school_id', data.applicant_schools[0]?.schools?.school_id)
+              .single() 
+  
+              if(dataSchool){
+                setAmount(dataSchool.amount)
+                setSchool(dataSchool)
+
+                applicantDataOrder.total_amount = dataSchool.amount
+                // school
+                // dataSchool.amount
+                console.log('amount', amount)
+                console.log('school', school)
+                
+              }
           // getSchoolId(data.data.applicant_schools[0]?.schools?.school_id)
           
           // if(data.applicant_orders.length > 0){
@@ -128,26 +146,13 @@ function Payment() {
           // }
         }
       
-        const getSchoolId = async ()=> {
-          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
-            .select('amount, fee_type_id')
-            .eq('school_id', applicantData.applicant_schools[0]?.schools?.school_id)
-            .single() 
+        
 
-            if(!errorSchool){
-              setAmount(dataSchool.amount)
-              setSchool(dataSchool)
-              // dataSchool.amount
-              console.log('amount', amount)
-              
-            }
-          // if(dataSchool){
-          // console.log('school_fees > ', dataSchool)
-          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
-          
-        }
 
-        getSchoolId()
+        // if(applicantData.school_id){
+
+        //   getSchoolId()
+        // }
 
       const getApplicantPayment = async () => {
         // console.log('on payment')
@@ -235,9 +240,35 @@ function Payment() {
         // }
       }
       
+       const getSchoolId = async ()=> {
+
+          // if(applicantData.school_id){
+
+            const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
+              .select('amount, fee_type_id')
+              .eq('school_id', applicantData.school_id)
+              .single() 
+  
+              if(!errorSchool){
+                setAmount(dataSchool.amount)
+                setSchool(dataSchool)
+                applicantDataOrder.total_amount = dataSchool.amount
+                // school
+                // dataSchool.amount
+                console.log('amount', amount)
+                console.log('school', school)
+                
+              }
+          // }
+          // if(dataSchool){
+          // console.log('school_fees > ', dataSchool)
+          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
+          
+        }
 
 
       getApplicantData()
+      getSchoolId()
 
       if(invoicecreated){
 
@@ -264,8 +295,11 @@ function Payment() {
       // }
 
       
+      console.log('sch',applicantData.school_id)
       
     }, [r, o, applicantData])
+
+   
 
     
 
@@ -590,7 +624,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
                     <label className="block text-gray-800 text-sm font-medium mb-1" >Biaya Pendaftaran</label>
-                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(school?.amount?school?.amount:amount)??'Tidak ditemukan'}</h2>
+                    <h2 className='text-4xl font-900 font-medium flex justify-start'> { formatRupiah(applicantDataOrder.total_amount)??'Tidak ditemukan'}</h2>
                     {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                   </div>
                 </div>
