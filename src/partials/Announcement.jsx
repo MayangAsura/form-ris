@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import AdmissionFlowShort from './AdmissionFlowShort'
 import AdmissionFlow from './AdmissionFlow'
 import { Accordion, AccordionHeader, AccordionBody } from '@material-tailwind/react'
+import { createSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 function Announcement(props) {
 
@@ -16,6 +18,7 @@ function Announcement(props) {
   const [participant, setParticipant] = useState({})
   const [open, setOpen] = useState(1)
   const [token, setToken] = useState("")
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate()
 
 
@@ -36,7 +39,10 @@ function Announcement(props) {
     if(submission_status=='on_exam'){
       getToken()
     }
-  },[props.participant.submission_status])
+    if(token){
+      // navigate('')
+    }
+  },[props.participant.submission_status, token])
 
   const handleOpen = (value) => {
     setOpen( open ===value ? 0 : value)

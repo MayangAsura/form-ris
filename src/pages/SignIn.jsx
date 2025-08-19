@@ -4,6 +4,8 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogin } from '../features/auth/authActions'
 import supabase from '../client/supabase_client';
+// import { useMutation } from "@tanstack/react-query";
+// import { AuthService } from "../services/auth";
 
 import { TbEye, TbEyeOff } from "react-icons/tb";
 
@@ -16,10 +18,12 @@ import { data } from 'autoprefixer';
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
 import axios from '../api/prod-server'
+
+// import { useLogin } from "../features/hooks/use-login";
 const LOGIN_URL = 'api/auth/login'
 
 function SignIn(props) {
-  const {loading, userInfo, userToken, errorMsg, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
+  const {userInfo, userToken, errorMsg, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {setAuth} = useContext(AuthContext)
@@ -30,6 +34,7 @@ function SignIn(props) {
     school_name: "",
     status: ""
   })
+  // const { onSubmit, form, loading } = useLogin();
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setmodal_data] = useState({
     title: "Login Berhasil",
@@ -37,6 +42,11 @@ function SignIn(props) {
     text: "OK",
     url: "/home"
   })
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = form;
 
   const getUserInfo = async () =>{
     // setTimeout(() => {
@@ -114,6 +124,7 @@ function SignIn(props) {
     // const userPayment = getPaymentInfo()
     getPaymentInfo()
     getUserInfo()
+    
     // const userPayment = getUserInfo().data[0].applicant_orders[0].status
     // console.log('userInfo > ', userInfo)
     // console.log('userPayment > ', getPaymentInfo())
@@ -128,11 +139,11 @@ function SignIn(props) {
       navigate('/pay')
       
     }
-    if (userInfo && userPayment) {
-      modal_data.url = "/home"
-      navigate('/home')
-    }
-  }, [navigate, userInfo, userPayment, userSchool, userFormComplete, modal_data, userToken])
+    // if (userInfo && userPayment) {
+    //   modal_data.url = "/home"
+    //   navigate('/home')
+    // }
+  }, [userInfo, userPayment, userSchool, userFormComplete, modal_data, userToken])
 
 
   const handledSubmit = async (e) => {
@@ -147,13 +158,18 @@ function SignIn(props) {
 
       const token =  localStorage.getItem('token')
       const _token = Cookies.get('token')
-      // console.log('userInfo before',userInfo)
-      if(!token || _token){
-        dispatch(userLogin(data))
-      }else{
-        // console.log('userInfo', userInfo)
-        setModalShow(true)
-      }
+      // // console.log('userInfo before',userInfo)
+      // setTimeout(() => {
+        if(!token || !_token || !userToken){
+          dispatch(userLogin(data))
+        }else{
+          // console.log('userInfo', userInfo)
+          setModalShow(true)
+        }
+        
+      // }, 1000);
+      
+      
       // if(userInfo)
       // setTimeout(() => {
 
@@ -247,11 +263,14 @@ function SignIn(props) {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form>
+                <form onSubmit={handledSubmit}>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="username">No. WhatsApp / No. Pendaftaran</label>
                       <input id="username" type="text" onChange={(e) => setUsername(e.target.value)} className="form-input w-full text-gray-800" placeholder="Masukkan No. WhatsApp terdaftar" required />
+                      {/* {errors.username && (
+                        <p className="text-xs text-red-500"> {errors.username.message} </p>
+                      )} */}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -261,7 +280,10 @@ function SignIn(props) {
                         <Link to="/reset-password" className="text-sm font-medium text-blue-600 hover:underline">Lupa Password?</Link>
                       </div>
                       <div className='flex mb-4'>
-                        <input id="password" type={isVisible? "text" : "password"}  onChange={(e) => setPassword(e.target.value)} className="form-input w-full text-gray-800 " placeholder="Masukkan password" required />
+                        <input id="password" type={isVisible? "text" : "password"} onChange={(e) => setPassword(e.target.value)} className="form-input w-full text-gray-800 " placeholder="Masukkan password" required />
+                        {/* {errors.password && (
+                        <p className="text-xs text-red-500"> {errors.password.message} </p>
+                      )} */}
                         <button type="button" onClick={hanledVisible} 
                         className="flex justify-around items-center">
                           {isVisible? (
@@ -288,8 +310,13 @@ function SignIn(props) {
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
                       <button className="btn text-white bg-green-600 hover:bg-green-700 w-full"
-                              onClick={handledSubmit}
-                      >MASUK</button>
+                              // onClick={handledSubmit}
+                              // disabled={loading}
+                              
+                      >
+                        Masuk
+                        {/* {islo ? "Loading..." : "MASUK"} */}
+                        </button>
                     </div>
                   </div>
                 </form>

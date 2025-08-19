@@ -12,6 +12,8 @@ import {Helmet, HelmetProvider} from "react-helmet-async";
 //redux
 import {Provider } from 'react-redux'
 import store from './app/store'
+// import TanstackProvider from '../tanstack';
+// import TanstackProvider from './app/tanstacks';
 
 import AOS from 'aos';
 
@@ -25,6 +27,7 @@ import Jenjang from './pages/Jenjang';
 import RedirectPayment from './pages/RedirectPayment';
 import ProtectedRoute from './routing/ProtectedRoute';
 import NotFoundRoute from './routing/NotFoundRoute';
+
 
 // import RequireAuth from 'react-auth-kit'
 // import {AuthProvider} from 'react-auth-kit'
