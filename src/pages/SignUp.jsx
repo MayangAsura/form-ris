@@ -51,7 +51,7 @@ function SignUp() {
     url2: ""
   })
 
-  const []
+  const [is_validated, setIsValidated] = useState(false)
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
