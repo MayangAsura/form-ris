@@ -9,8 +9,8 @@ import Swal from '../utils/Swal';
 import axios from '../api/prod-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
-const USERCHECK_URL = 'api/auth/user-check'
-const RESETPASSWORD_URL = 'api/forget-password'
+const USERCHECK_URL = '/api/auth/user-check'
+const RESETPASSWORD_URL = '/api/forget-password'
 // const RESETPASSWORD_URL = 'auth/reset-password'
 
 function ResetPassword() {
