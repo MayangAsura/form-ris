@@ -180,7 +180,7 @@ function Header(props) {
             {/* ml-5 */}
                 {!userInfo && pathname!=='/login' && (
               <li>
-                  <Link to="/login" className="font-medium -ml-5 text-gray-600 hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out">PENGISIAN FORMULIR</Link>
+                  <Link to="/login" className="font-medium -ml-5 text-gray-600 hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out">MASUK</Link>
               </li>
                 )}
               <li>

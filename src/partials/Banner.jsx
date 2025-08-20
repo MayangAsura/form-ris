@@ -9,7 +9,7 @@ function Banner() {
     { bannerOpen && (
       <div className="fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-60">
         <div className="bg-slate-800 text-slate-50 text-sm p-3 md:rounded shadow-lg flex justify-between">
-          <div className='text-slate-200 inline-flex'>Ada Kendala? <a className="font-sm hover:underline text-slate-50" href="https://rabbaanii.sch.id/faq/" target="_blank" rel="noreferrer"><span className="hidden sm:inline"> FAQ</span></a> <span className="italic px-1.5">atau</span> <a className="font-medium hover:underline text-emerald-400" href="#" target="_blank" rel="noreferrer">WA CS</a></div>
+          <div className='text-slate-200 inline-flex'>Ada Kendala? <a className="font-sm hover:underline text-slate-50" href="https://rabbaanii.sch.id/faq/" target="_blank" rel="noreferrer"><span className="hidden sm:inline"> FAQ</span></a> <span className="italic px-1.5">atau</span> <a className="font-medium hover:underline text-emerald-400" href="https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20(nama)%20ingin%20bertanya%20terkait%20PSB." target="_blank" rel="noreferrer">WA CS</a></div>
           <button className="text-slate-500 hover:text-slate-400 pl-2 ml-3 border-l border-gray-700" onClick={() => setBannerOpen(false) }>
             <span className="sr-only">Close</span>
             <svg className="w-4 h-4 shrink-0 fill-current" viewBox="0 0 16 16">

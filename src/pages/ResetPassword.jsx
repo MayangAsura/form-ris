@@ -20,7 +20,7 @@ function ResetPassword() {
   const [newpassword, setNewPassword] = useState("")
   const [success, setSuccess] = useState("")
   const [data_modal, setDataModal] = useState({})
-  const [modal_show, setModalshow] = useState(false)
+  const [modal_show, setModalShow] = useState(false)
   const navigate = useNavigate()
 
   // console.log('token > ', token)
@@ -71,7 +71,7 @@ function ResetPassword() {
         // navigate('/login')
       }else{
         setDataModal({
-          title: "Reset Password Gagagl",
+          title: "Reset Password Gagal",
           message: ""
           // text: "Masuk Aplikasi",
           // url: "/login",
@@ -79,7 +79,7 @@ function ResetPassword() {
           // text2: "",
           // url2: ""
         })
-        setModalhow(true)
+        setModalShow(true)
       }
       // console.log(token)
       // const  = response?.token

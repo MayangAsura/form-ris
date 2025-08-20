@@ -9,6 +9,7 @@ import { ScaleIcon } from '@heroicons/react/24/solid';
 import Modal from '../utils/Modal';
 // import {Toaster, Position} from  @blue
 import Swal from '../utils/Swal'
+// import { Spinner } from "flowbite-react";
 
 // import axios from '../api/axios';
 // import axios from 'axios';
@@ -52,6 +53,7 @@ function SignUp() {
   })
 
   const [is_validated, setIsValidated] = useState(false)
+  const [is_Loading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
@@ -139,7 +141,10 @@ function SignUp() {
 
 
   const addApplicants = async (e) =>{
+    setIsLoading(true)
     e.preventDefault()
+    // console.log('data', full_name, gender, phone_number, email, password, media, school_id)
+    
     // console.log('media',media)
     const _full_name = full_name
     const _gender = gender
@@ -161,40 +166,19 @@ function SignUp() {
     console.log(_subschool)
     console.log(code)
 
-    if(_full_name && _gender && _phone_number && _email && _password && _media && _school_id && _subschool){
-      setIsValidated(true)
-    }
-
-    
-    if(!is_validated){
+    if(!_full_name || !_gender || !_phone_number || !_email || !_password || !_media || !_school_id){
+      console.log('not valid')
+      // setIsValidated(true)
+      setIsLoading(false)
       setSuccess(false)
       modal_data.title = "Pendaftaran Gagal"
       modal_data.message = "Mohon periksa kembali data Anda"
-      modal_data.url2 = "/"
-      modal_data.text2 = "OK"
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Halaman Utama"
       setModalShow(true)
-    }
+    }else{
 
-    // const newapplicants =  {full_name, gender, phone_number, email, password}
-  
-    // console.log(newapplicants)
-    
-    // const { data, error } = await supabase
-    //   .from('applicants')
-    //   .insert([
-    //     newapplicants
-    //   ])
-    //   .single()
-
-    //   if(error){
-    //     console.log(error)
-    //   }else{
-    //     console.log(data)
-    //   }
-
-      // const
-    
-    const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
+      const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
       _email,
       _full_name,
       _gender,
@@ -209,14 +193,16 @@ function SignUp() {
     setDataAppTemp(data_appl)
     // console.log('dataAppTemp >', dataAppTemp)
     if(error || Object.values(data_appl)[0] === '01'){
+      setIsLoading(false)
       console.log('masuk')
       console.log(Object.values(data_appl)[0] )
       setSuccess(false)
       modal_data.title = "Pendaftaran Gagal"
       modal_data.message = error??Object.values(data_appl)[1]
-      modal_data.url2 = "/"
-      modal_data.text2 = "OK"
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Kembali"
       setModalShow(true)
+      return
     }
 
 //     curl --location 'https://jogja.wablas.com/api/v2/send-message' \
@@ -303,7 +289,9 @@ console.log(Object.values(data_appl)[0] !== '01')
         }
     } catch (error) {
       console.log(error)
-    } 
+    } finally {
+      setIsLoading(false)
+    }
       
 //       console.log(phone_number)
 //       const new_phone_number = '62'+ _phone_number.slice(1)
@@ -333,6 +321,44 @@ console.log(Object.values(data_appl)[0] !== '01')
       // console.log('response', JSON.stringify(response)); //console.log(JSON.stringify(response));
       // const token = response?.token
     }
+    
+
+    }
+
+    
+
+    // console.log('validated>',is_validated)
+    // if(!is_validated){ 
+    //   setIsLoading(false)
+    //   setSuccess(false)
+    //   modal_data.title = "Pendaftaran Gagal"
+    //   modal_data.message = "Mohon periksa kembali data Anda"
+    //   // modal_data.url2 = "/"
+    //   // modal_data.text2 = "Halaman Utama"
+    //   setModalShow(true)
+
+    //   return
+    // }
+
+    // const newapplicants =  {full_name, gender, phone_number, email, password}
+  
+    // console.log(newapplicants)
+    
+    // const { data, error } = await supabase
+    //   .from('applicants')
+    //   .insert([
+    //     newapplicants
+    //   ])
+    //   .single()
+
+    //   if(error){
+    //     console.log(error)
+    //   }else{
+    //     console.log(data)
+    //   }
+
+      // const
+    
     
     // console.log('data_applicant =>', data_appl)
 
@@ -449,7 +475,8 @@ console.log(Object.values(data_appl)[0] !== '01')
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      {/* pattern="^[A-Za-z0-9.']{3,50}$" */}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -540,7 +567,20 @@ console.log(Object.values(data_appl)[0] !== '01')
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full">DAFTAR</button>
+                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_Loading} > 
+                        {is_Loading ? (
+                          <>
+                          <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                {/* SVG path for your spinner */}
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+                            {/* <Spinner aria-label="Spinner button example" size="sm" light /> */}
+                            <span className='pl-3'>Menyimpan...</span>
+                          </>
+                        )
+                         : 'DAFTAR'}
+                      </button>
                     </div>
                   </div>
                   <hr />
