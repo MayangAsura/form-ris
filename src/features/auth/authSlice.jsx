@@ -1,7 +1,8 @@
 import React from 'react'
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser, userLogin, userLogout } from './authActions'
+import { registerUser, userLogin, userInfo, userLogout } from './authActions'
 import Cookies from "js-cookie";
+import { useLogin } from '../hooks/use-login';
 // import { Cookies } from 'react-cookie';
 
 // import supabase from '../../../../form-project/src/client/supabase_client'
@@ -10,16 +11,17 @@ import { useNavigate } from 'react-router-dom'
 
 
 // initialize userToken from local storage
-const userTokenJwt = Cookies.get('jwt')
-  ? Cookies.get('jwt')
+const _userToken = Cookies.get('token-refresh')
+  ? Cookies.get('token-refresh')
   : null
-const nuserTokenJwt = localStorage.getItem('token')
-  ? localStorage.getItem('token')
+const _nuserToken = localStorage.getItem('token-refresh')
+  ? localStorage.getItem('token-refresh')
   : null
 
-const userToken = userTokenJwt || nuserTokenJwt
-  console.log('userToken from authslice', userToken)
+const userToken = _userToken || _nuserToken
 
+console.log('userToken from authSlice', userToken)
+// const { onSubmit, form, results, loading } = useLogin();
 // const initialState = {
 //   loading: false,
 //   userInfo: null,
@@ -29,6 +31,8 @@ const userToken = userTokenJwt || nuserTokenJwt
 // }
 
 const initialState = createInitialState()
+
+// const 
 
 // const navigate = useNavigate()
 
@@ -185,6 +189,60 @@ function createExtraReducers() {
     return (builder) => {
         login();
         logout()
+        getUser()
+
+        function getUser(){
+          var { pending, fulfilled, rejected } = userInfo;
+            builder
+                .addCase(pending, (state) => {
+                    state.loading = true
+                    state.error = null;
+                })
+                .addCase(fulfilled, (state, action) => {
+                    // const user = action.payload;
+
+                    // store user details and basic auth data in local storage to keep user logged in between page refreshes
+                    // localStorage.setItem('user', JSON.stringify(user));
+                    state.loading = false
+                    state.userInfo = action.payload
+                    state.userToken = action.payload.refresh_token
+
+                    
+                    // const token = Cookies.jwt
+                    // const token =userToken
+                    console.log('action.payload', action.payload)
+                    // //console.log('token from cookie >', state.userToken)
+                    // // //console.log('token from cookie >', )
+                    // const {payment, error} = supabase.from('applicant_orders')
+                    //                   .select('status, item_id, id')
+                    //                   .eq('status', 'processed')
+                    //                   // .eq('applicants.refresh_token', state.userToken)
+                    //                   // applicant_schools(schools(school_name))
+                    //                   // , applicants(refresh_token, participants(is_complete)
+                    // //console.log(error)
+                    // if(!payment)                                      
+                    //   state.error=true
+
+                    // //console.log(payment)
+                    // state.userPayment = payment.status
+                    // state.userSchool = payment.applicant_schools[0].school.school_name
+                    // state.userFormComplete = payment.applicants.participants.is_complete
+
+                    
+                    // if(action.payload.status!==200){
+                    //   state.error
+                    // }
+
+                    // get return url from location state or default to home page
+                    // const { from } = history.location.state || { from: { pathname: '/' } };
+                    // history.navigate(from);
+                })
+                .addCase(rejected, (state, action) => {
+                    state.loading = false
+                    state.error = action.error
+                    state.errorMsg = action.payload.message
+                });
+        }
 
         function login() {
             var { pending, fulfilled, rejected } = userLogin;
@@ -201,6 +259,8 @@ function createExtraReducers() {
                     state.loading = false
                     state.userInfo = action.payload
                     state.userToken = action.payload.token_refresh
+
+                    
                     // const token = Cookies.jwt
                     // const token =userToken
                     // // //console.log(token)

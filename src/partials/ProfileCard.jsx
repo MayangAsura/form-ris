@@ -115,6 +115,7 @@ function ProfileCard(props) {
       kk: props.applicant[0].participants[0].kk_number
       
     }
+    // console.log('identitas', identitas)
     dataSummary.identitas = identitas
 
     if(props.applicant[0].participants[0].participant_father_data.length > 0){
@@ -287,7 +288,7 @@ function ProfileCard(props) {
                         </svg> */}
                         {/* <p className="text-gray-600 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                         
-                    <img src={`${pas_photo.file_url??'/images/image-formal.png'}`} className="text-center object-center" width={180} alt="" />
+                    <img src={`${pas_photo?.file_url??'/images/image-formal.png'}`} className="text-center object-center" width={180} alt="" />
                     </div>
                     {/* <span className='text-sm'>Mendaftar Pada :  Sabtu, 12 Maret 2024</span> */}
                     
@@ -352,7 +353,7 @@ function ProfileCard(props) {
                         {/* <div className='flex justify-center'> */}
                           <div className="flex justify-center items-center text-center">
 
-                          <blockquote class="text-xl italic font-semibold text-gray-900 dark:text-dark items-center text-center">
+                          <blockquote className="text-xl italic font-semibold text-gray-900 dark:text-dark items-center text-center">
                                       <div className=' flex justify-center items-center'>
                                         <svg className="w-8 h-8 text-gray-400 dark:text-gray-600 mb-4 items-center text-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                                             <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>

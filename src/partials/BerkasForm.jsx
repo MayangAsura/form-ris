@@ -121,6 +121,19 @@ function BerkasForm(props) {
         return indonesianFormat
     }
 
+    const download = () => {
+        fetch("https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8").then((response) => {
+            response.blob().then((blob) => {
+                const fileURL =
+                    window.URL.createObjectURL(blob);
+                let alink = document.createElement("a");
+                alink.href = fileURL;
+                alink.download = "Surat Kesanggupan.pdf";
+                alink.click();
+            });
+        });
+    };
+
 
     return (
         <section className="relative">
@@ -141,7 +154,7 @@ function BerkasForm(props) {
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-8">
                                         <div className="mt-2">
-                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo
+                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo (3 x 4)
                                             <span className="text-red-600">*</span>
                                         </label>
                                             <p className="text-xs/5 text-gray-600">PNG, JPG, PDF up to 2MB</p>
@@ -347,9 +360,19 @@ function BerkasForm(props) {
                                         </label>
                                         <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
                                         <div className="relative inline-block">
-                                            <div className="mt-2">
+                                            <div className="mt-2 flex justify-center items-center">
+                                                <button onClick={download} 
+                                                className='w-full p-3 mt-3 flex-1 items-center bg-green-700 text-white border-0
+                                                py-2 px-3 rounded-lg text-sm shadow-xl 
+                                                    '
+                                                // className='btn w-1/3 block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                >Template</button>
+                                                {/* <div className='flex flex-grow gap-1 px-2 mt-10'> */}
+                                                {/* {submission_status ==='' && } */}
+                                                                        
+                                                {/* </div> */}
                                                 <input id="surat_kesanggupan" name="surat_kesanggupan" onChange={(e) => validateImage(e.target.files[0],2, 'Surat-Kesanggupan')} type="file" 
-                                                className='w-full p-3 mt-3 file:bg-green-500 file:text-white file:border-0
+                                                className='w-full p-3 mt-3 flex items-center file:bg-green-500 file:text-white file:border-0
                                                     file:py-1 file:px-3 file:rounded-lg
                                                     file:shadow-xl file:shadow-green-500/30
                                                     text-gray-600'

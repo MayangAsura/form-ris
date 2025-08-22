@@ -76,7 +76,7 @@ const DataAyahForm = (props) => {
                                         </span>
                                     </div>
                                     </div>
-                                    <div  className="sm:col-span-4">
+                                    <div  className="sm:col-span-4" >
                                         <label htmlFor="father_academic"  className="block text-sm/6 font-medium text-gray-900">Pendidikan Ayah</label>
                                         <span className="text-sm italic">Pendidikan terakhir ayah kandung</span>
                                         {/* <div  className="mt-2 grid"> */}

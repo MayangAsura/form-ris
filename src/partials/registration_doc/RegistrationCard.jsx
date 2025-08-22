@@ -18,7 +18,7 @@ export default function RegistrationCard(props){
     const [jenjangTujuan, setjenjangTujuan] = useState({})
     const [dataAyah, setDataAyah] = useState({data:{}})
     // {father_name: "", father_academic: "", father_job: "", father_salary: "", why_chooses: ""}
-    const [dataIbu, setDataIbu] = useState({})
+    const [dataIbu, setDataIbu] = useState({data:{}})
     // {mother_name: "", mother_academic: "", mother_job: "", mother_salary: ""}
     const [dataWali, setDataWali] = useState({data:{}})
     // wali_name: "", wali_academic: "", wali_job: "", wali_salary: ""
@@ -48,7 +48,9 @@ export default function RegistrationCard(props){
         dataAyah.data = props.dataSummary.dataAyah
       }
       if(Object.keys(props.dataSummary.dataIbu)>0){
-        setDataIbu(props.dataSummary.dataIbu)
+        console.log('dataibu',props.dataSummary.dataIbu)
+        setDataIbu({...dataIbu, data: props.dataSummary.dataIbu})
+        console.log('dataibu',props.dataSummary.dataIbu)
         // dataIbu.data = props.dataSummary.dataIbu
       }
       if(Object.keys(props.dataSummary.dataWali)>0){
@@ -100,7 +102,7 @@ export default function RegistrationCard(props){
     let text = ''
     if(salary=='less_than_1jt') text = 'Kurang dari Rp1 Jt'
     if(salary=='less_than_2jt') text = 'Kurang dari Rp2 Jt'
-    if(salary=='5jt_-_10j') text = 'Rp5 Jt - Rp10 Jt'
+    if(salary=='5jt_-_10jt') text = 'Rp5 Jt - Rp10 Jt'
     if(salary=='10jt_-_15jt') text = 'Rp10 Jt - Rp15 Jt'
     if(salary=='15jt_-_20jt') text = 'Rp15 Jt - Rp20 Jt'
     if(salary=='more_than_20jt') text = 'Lebih dari Rp20 Jt'
@@ -145,13 +147,13 @@ export default function RegistrationCard(props){
                             <TR >
                                 <TD style={[styles.td]}>Nama</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD > {props.dataSummary.identitas.full_name?? nama}</TD>
+                                <TD > {props.dataSummary.identitas.full_name?? identitas.full_name}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Jenis Kelamin</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[]}> {props.dataSummary.identitas.gender??identitas.gender=='male'?'Laki-Laki': 'Perempuan'}</TD>
+                                <TD style={[]}> {props.dataSummary.identitas.gender?(props.dataSummary.identitas.gender==='male'?'Laki-Laki': 'Perempuan' ): (identitas.data.gender==='male'?'Laki-Laki': 'Perempuan' )}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
@@ -163,79 +165,79 @@ export default function RegistrationCard(props){
                             <TR >
                                 <TD style={[styles.td]}>Email</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.email??identitas.email}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.email??identitas.data.email}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. Pendaftaran</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.regist_number??identitas.regist_number}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.regist_number??identitas.data.regist_number}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Tempat, Tanggal Lahir</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {`${props.dataSummary.identitas.pob??identitas.pob}, ${formatDate(props.dataSummary.identitas.dob??identitas.dob)}`}</TD>
+                                <TD style={[styles.td]}> {`${props.dataSummary.identitas.pob??identitas.data.pob}, ${formatDate(props.dataSummary.identitas.dob??identitas.data.dob)}`}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Anak ke-</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.child_number??identitas.child_number}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.child_number??identitas.data.child_number}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Alamat</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.address??identitas.address}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.address??identitas.data.address}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Negara</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.nationality??identitas.nationality}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.nationality??identitas.data.nationality}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Provinsi</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.province??identitas.province}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.province??identitas.data.province}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Kabupaten</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.region??identitas.region}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.region??identitas.data.region}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Kode Pos</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.postal_code??identitas.postal_code}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.postal_code??identitas.data.postal_code}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Cita-Cita</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.aspiration??identitas.aspiration}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.aspiration??identitas.data.aspiration}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>NISN</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.nisn??identitas.nisn}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.nisn??identitas.data.nisn}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. NIK</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.nik??identitas.nik}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.nik??identitas.data.nik}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. KK</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.kk??identitas.kk}</TD>
+                                <TD style={[styles.td]}> {props.dataSummary.identitas.kk??identitas.data.kk}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             </Table>
@@ -307,7 +309,7 @@ export default function RegistrationCard(props){
                 <TR>
                   <TD style={[styles.td]}>Kelas</TD>
                   <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {jenjangTujuan.class??props.dataSummary.jenjangTujuan.class}</TD>
+                  <TD style={[styles.td]}> {jenjangTujuan.class??props.dataSummary.jenjangTujuan.class??'-'}</TD>
                 </TR>
                 {/* <TR>
                   <TD>Sekolah Asal</TD>
@@ -334,7 +336,7 @@ export default function RegistrationCard(props){
                 <TR>
                   <TD style={[styles.td]}>Pendidikan Terakhir</TD>
                   <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {dataAyah.father_academic??props.dataSummary.dataAyah.father_academic}</TD>
+                  <TD style={[styles.td]}> {(dataAyah.father_academic??props.dataSummary.dataAyah.father_academic).toUpperCase()}</TD>
                 </TR>
                 <TR>
                   <TD style={[styles.td]}>Pekerjaan</TD>
@@ -373,22 +375,22 @@ export default function RegistrationCard(props){
             <TR>
               <TD style={[styles.td]}>Nama</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataIbu.mother_name??props.dataSummary.dataIbu.mother_name}</TD>
+              <TD style={[styles.td]}> {dataIbu.data.mother_name??props.dataSummary.dataIbu.mother_name}</TD>
             </TR>
             <TR>
               <TD style={[styles.td]}>Pendidikan Terakhir</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> { dataIbu.mother_academic??props.dataSummary.dataIbu.mother_academic}</TD>
+              <TD style={[styles.td]}> {(dataIbu.data.mother_academic??props.dataSummary.dataIbu.mother_academic).toUpperCase()}</TD>
             </TR>
             <TR>
               <TD style={[styles.td]}>Pekerjaan</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataIbu.mother_job??props.dataSummary.dataIbu.mother_job}</TD>
+              <TD style={[styles.td]}> {dataIbu.data.mother_job??props.dataSummary.dataIbu.mother_job}</TD>
             </TR>
             <TR>
               <TD style={[styles.td]}>Penghasilan</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {getSalaryText(dataIbu.mother_salary??props.dataSummary.dataIbu.mother_salary)}</TD>
+              <TD style={[styles.td]}> {getSalaryText(dataIbu.data.mother_salary??props.dataSummary.dataIbu.mother_salary)?? '-'}</TD>
             </TR>
             {/* <TR>
               <TD>Alasan Memilih Rabbaanii Islamic School</TD>
@@ -481,7 +483,7 @@ export default function RegistrationCard(props){
           <Text>No. Pendaftaran</Text> */}
         </View>
         <View style={[styles.footer]}>
-          <Text style={[styles.textCenter]}>PSB Form - Info CS 08123456789</Text>
+          <Text style={[styles.textCenter]}>Rabbaanii Islamic School - PSB Form - Info CS 085313642033</Text>
           <Text style={[styles.textCenter]}>Halaman ini diunduh pada {formatDate(new Date().toISOString())} </Text>
         </View>
 

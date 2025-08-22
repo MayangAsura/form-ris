@@ -53,7 +53,7 @@ function SignUp() {
   })
 
   const [is_validated, setIsValidated] = useState(false)
-  const [is_Loading, setIsLoading] = useState(false)
+  const [is_loading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
@@ -166,7 +166,7 @@ function SignUp() {
     console.log(_subschool)
     console.log(code)
 
-    if(!_full_name || !_gender || !_phone_number || !_email || !_password || !_media || !_school_id){
+    if(!_full_name || !_gender || !_phone_number || !_email || !_password || !_media || !_school_id || !confirm_password){
       console.log('not valid')
       // setIsValidated(true)
       setIsLoading(false)
@@ -438,6 +438,11 @@ console.log(Object.values(data_appl)[0] !== '01')
     }
   }
 
+  const handleCloseModal = (value) => {
+    if(value){
+      setModalShow(!value)
+    }
+  }
 
  
   
@@ -466,7 +471,7 @@ console.log(Object.values(data_appl)[0] !== '01')
               </div>
               {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
                 {modal_show && (
-                  <Swal dataModal={modal_data}/>
+                  <Swal dataModal={modal_data} setClose={handleCloseModal} />
                 )}
                 
               {/* Form */}
@@ -567,8 +572,8 @@ console.log(Object.values(data_appl)[0] !== '01')
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_Loading} > 
-                        {is_Loading ? (
+                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_loading} > 
+                        {is_loading ? (
                           <>
                           <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
                 {/* SVG path for your spinner */}

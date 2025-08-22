@@ -5,7 +5,7 @@ import App from './App';
 // import {AuthProvider} from 'react-auth-kit';
 import createStore from 'react-auth-kit/createStore';
 import { AuthProvider } from './context/AuthProvider';
-
+// import 
 //redux
 import {Provider } from 'react-redux'
 import store, {persistor} from './app/store'
@@ -20,10 +20,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 //   cookieSecure: false
 // })
 
+import { QueryClient } from '@tanstack/react-query'; // Or 'react-query' for older versions
+import MainProvider from './providers';
+const queryClient = new QueryClient();
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   // React.StrictMode
   <>
-  {/* <TanstackProvider> */}
+  <MainProvider>
     <Provider store={store} >
     <PersistGate loading={null} persistor={persistor}>
     {/* <AuthProvider  
@@ -39,7 +44,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </PersistGate>
     {/* </AuthProvider> */}
     </Provider>
-    {/* </TanstackProvider> */}
+    </MainProvider>
     {/* React.StrictMode */}
   </>
 );

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
+import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { redirect, useNavigate } from 'react-router-dom';
@@ -20,6 +21,9 @@ const CREATE_INVOICE_URL = "/api/create-form-invoice"
 function Payment() {
   // const supabase = createClient('https://cnpcpmdrblvjfzzeqoau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGNwbWRyYmx2amZ6emVxb2F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMDc5MjgsImV4cCI6MjA0ODY4MzkyOH0.KDzEImvYqvh6kv9o5eMuWzWuYZIElWNtPyWDdLMi46w' )
     const queryParams = queryString.parse(window.location.search)
+    const { userToken, userInfo } = useSelector((state) => state.auth)
+    const { onSubmit, form, results, loading } = useLogin();
+    const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
     const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "", school_name:"", full_name: "",phone_number: "",email: "", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
     const [applicantDataPayment, setApplicantDataPayment] = useState({started_at: "",expired_at: "",payment_url:"",status:"", amount: "", settlement_at: ""} )
@@ -36,7 +40,7 @@ function Payment() {
     const [modal_show, setModalShow] = useState(false)
     const [detail_tagihan_show, setDetailTagihanShow] = useState(false)
 
-    const { userToken } = useSelector(state => state.auth)
+    // const { userToken } = useSelector(state => state.auth)
     const navigate = useNavigate()
     // const use
     // const o = '00'
@@ -56,13 +60,72 @@ function Payment() {
       //   getApplicantPayment()
       // }
 
+      getApplicantData()
+      getSchoolId()
 
-      const getApplicantData = async () =>{
+      if(invoicecreated || applicantData?.applicant_orders[0]?.status){
+        getApplicantPayment()
+      }
+
+      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === true){
+      //   // setTimeout(() => {
+      //     navigate('/home')
+      //   // }, 1200);
+      //   }
+      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === false){
+
+      //   getApplicantData()
+      //   getApplicantPayment()
+      //   // }, 1200);
+
+      //   // setTimeout(() => {
+          
+      //   send_notif_success()
+      // }
+      // if(invoicecreated){
+      //   console.log(invoicecreated)
+      // }
+
+      
+      console.log('sch',applicantData.school_id)
+      console.log('applicantData',applicantData)
+      console.log('school',school)
+      console.log('amount',amount)
+      
+    }, [r, o, invoicecreated, applicantData?.applicant_orders[0]?.status])
+
+    const getSchoolId = async ()=> {
+
+        // if(applicantData.school_id){
+
+          const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
+            .select('amount, fee_type_id')
+            .eq('school_id', applicantData.school_id)
+            // .single() 
+
+            if(!errorSchool){
+              setAmount(dataSchool[0].amount)
+              setSchool(dataSchool[0])
+              applicantDataOrder.total_amount = dataSchool[0].amount
+              // school
+              // dataSchool.amount
+              console.log('amount', amount)
+              console.log('school', school)
+              
+            }
+        // }
+        // if(dataSchool){
+        // console.log('school_fees > ', dataSchool)
+        // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
+        
+    }
+
+   const getApplicantData = async () =>{
         // console.log('on applicantdata')
         // const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA4NTIxNjUyNzM5NyIsImlhdCI6MTc1NDE0ODg1NCwiZXhwIjoxNzU0MjM1MjU0fQ.eG-_ZkjYmzJqJuK1sAELeRiuYSDOnOr5NyAxAyQCqBA';
         // console.log('qp', o, r)
         const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status, is_notif_sended)')
-                            .eq('refresh_token', userToken)                 
+                            .eq('refresh_token', auth_token)                 
                             .eq('status', 'active')
                             .single()
         if(error){
@@ -145,15 +208,7 @@ function Payment() {
               
                   
           // }
-        }
-      
-        
-
-
-        // if(applicantData.school_id){
-
-        //   getSchoolId()
-        // }
+      }
 
       const getApplicantPayment = async () => {
         // console.log('on payment')
@@ -238,75 +293,6 @@ function Payment() {
           
         // }
       }
-      
-       const getSchoolId = async ()=> {
-
-          // if(applicantData.school_id){
-
-            const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
-              .select('amount, fee_type_id')
-              .eq('school_id', applicantData.school_id)
-              // .single() 
-  
-              if(!errorSchool){
-                setAmount(dataSchool[0].amount)
-                setSchool(dataSchool[0])
-                applicantDataOrder.total_amount = dataSchool[0].amount
-                // school
-                // dataSchool.amount
-                console.log('amount', amount)
-                console.log('school', school)
-                
-              }
-          // }
-          // if(dataSchool){
-          // console.log('school_fees > ', dataSchool)
-          // setApplicantDataOrder({...applicantDataOrder, total_amount: dataSchool.amount})
-          
-        }
-
-
-      getApplicantData()
-      getSchoolId()
-
-      if(invoicecreated){
-        getApplicantPayment()
-      }
-
-      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === true){
-      //   // setTimeout(() => {
-      //     navigate('/home')
-      //   // }, 1200);
-      //   }
-      // if(applicantData.applicant_orders[0]?.status === 'finished' && applicantData.is_notif_sended === false){
-
-      //   getApplicantData()
-      //   getApplicantPayment()
-      //   // }, 1200);
-
-      //   // setTimeout(() => {
-          
-      //   send_notif_success()
-      // }
-      // if(invoicecreated){
-      //   console.log(invoicecreated)
-      // }
-
-      
-      console.log('sch',applicantData.school_id)
-      console.log('applicantData',applicantData)
-      console.log('school',school)
-      console.log('amount',amount)
-      
-    }, [r, o])
-
-   
-
-    
-
-//     const getSchoolId_ = (id) =>{
-// if(id==1) return 15000
-//     }
 
     const send_notif_success = async () => {
 
@@ -468,8 +454,8 @@ function Payment() {
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 // applicantData.applicant_schools[0]?.schools?.school_id
-        applicantDataOrder.total_amount = amount
-        applicantDataOrder.total_amount = school.amount
+        applicantDataOrder.total_amount = 14000??amount
+        applicantDataOrder.total_amount = 14000??school.amount
         applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
@@ -482,7 +468,7 @@ function Payment() {
                                         _description: applicantDataOrder.description, 
                                         _foundation_id: applicantDataOrder.foundation_id, 
                                         _item_id: applicantDataOrder.item_id, 
-                                        _refresh_token: userToken, 
+                                        _refresh_token: auth_token, 
                                         _total_amount: applicantDataOrder.total_amount
                                       })
                                       // applicantDataOrder.total_amount
@@ -543,6 +529,8 @@ function Payment() {
                   
                       console.log('error');
                       console.log(result);
+                      getApplicantData()
+                      getApplicantPayment()
                       modal_data.title = "Pembayaran Gagal"
                       modal_data.message = "Error : ", result?? "Pembayaran tidak ditemukan."
                       setModalShow(true)

@@ -173,6 +173,7 @@ function DataWaliForm(props) {
                                                     // props.setCurrentStep((prev) => prev + 1);
                                                     // callback(data)
                                                     }
+                                                    // props.setParamNavigasi(props.currentStep + 1)
                                                 //     // handleSubmit
     
                                                     

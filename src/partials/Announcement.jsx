@@ -3,17 +3,23 @@ import { TiPinOutline} from 'react-icons/ti'
 import supabase from '../client/supabase_client'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import EXAM_URL from '../api/exam-system'
+// import EXAM_URL from '../api/exam-system'
 import { useNavigate } from 'react-router-dom'
 import AdmissionFlowShort from './AdmissionFlowShort'
 import AdmissionFlow from './AdmissionFlow'
 import { Accordion, AccordionHeader, AccordionBody } from '@material-tailwind/react'
 import { createSearchParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
+import { useLogin } from '../features/hooks/use-login'
+
+
 
 function Announcement(props) {
-
+  
+  const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3003"
   const {userToken} = useSelector(state => state.auth)
+  const { onSubmit, form, results, loading } = useLogin();
+  const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
   const [submission_status, setSubmissionStatus] = useState()
   const [participant, setParticipant] = useState({})
   const [open, setOpen] = useState(1)
@@ -26,19 +32,25 @@ function Announcement(props) {
     // if(props.participant){
     //   // setSubmissionStatus(props.participant.submission_status)
     // }
-    getSubmissionStatus('on_exam')
-    if(props.participant.submission_status){
-      console.log('masuk-',props.participant.submission_status)
-      console.log('status sub in announce', submission_status)
-    }else{
-      getSubmissionStatus()
+    // getSubmissionStatus()
+    // if(props.participant){
+    //   // setParticipant(props.participant)
+    //   // getSubmissionStatus(props.participant.submission_status)
+    //     console.log('masuk-',props.participant.submission_status)
+    // }
+    // if(props.participant.submission_status){
+    //   // console.log('status sub in announce', submission_status)
+    //   getSubmissionStatus()
+    // }else{
+    //   getSubmissionStatus()
 
-    }
+    // }
     console.log('sub', submission_status)
     console.log('sub props', props.participant)
     if(submission_status=='on_exam'){
       getToken()
     }
+    // getSubmissionStatus()
     if(token){
       // navigate('')
     }
@@ -50,14 +62,15 @@ function Announcement(props) {
 
   const loginExamWithParams = () => {
     const params = { token: token};
-    navigate({
-      pathname: `${EXAM_URL}/login`,
-      search: `?${createSearchParams(params)}`,
-    });
+    window.location.href=`${EXAM_URL}/login?${createSearchParams(params)}`
+    // navigate({
+    //   pathname: `${EXAM_URL}/login`,
+    //   search: `?${createSearchParams(params)}`,
+    // });
   };
 
 
-  const getSubmissionStatus = async (value=null) => {
+  const getSubmissionStatus = (value=null) => {
     console.log('value', value)
     // const { data: participants , error} = await supabase.from("participants")
     //                       .select("submission_status, applicants(full_name, refresh_token)")
@@ -75,39 +88,40 @@ function Announcement(props) {
     
     if(value){
 
-      if((value)=="awaiting_processing"){
-        text = "Formulir Diproses" 
-        // setSubmissionStatus(text)
-      }
-      if((value)=="on_exam"){
+      // if(value=="awaiting_processing"){
+      //   text = "Formulir Diproses" 
+      //   // setSubmissionStatus(text)
+      // }
+      if(value=="on_exam"){
         text = "Mengikuti Seleksi" 
         // setSubmissionStatus(text)
       }
-      if((value)=="initial_submission"){
+      if(value=="initial_submission"){
         text = "Pengisian Formulir" 
         // setSubmissionStatus(text)
       }
-      if((value)??"initial_submission"){
-        text = "Pengisian Formulir" 
-        // setSubmissionStatus(text)
-      }
-      if((value)=="accepted"){
+      // if(value??"initial_submission"){
+      //   text = "Pengisian Formulir" 
+      //   // setSubmissionStatus(text)
+      // }
+      if(value=="accepted"){
         text = "LULUS" 
         // setSubmissionStatus(text)
       }
-      if((value)=="not_accepted"){
+      if(value=="not_accepted"){
         text = "Tidak Lulus" 
         // setSubmissionStatus(text)
       }
 
-      setSubmissionStatus(text)
+      // setSubmissionStatus(text)
+      // return text
     }else{
-      setSubmissionStatus(text)
+      // setSubmissionStatus(text)
     }
 
     
-
-    // return text
+console.log(text, value)
+    return text
     // if(participants.submission_status=="awaiting_processing"){
     //   const text = "Formulir Diproses" 
     //   setSubmissionStatus(text)
@@ -161,7 +175,8 @@ function Announcement(props) {
     };
 
   const getToken = () => {
-    setToken(userToken)
+    console.log(auth_token)
+    setToken(auth_token)
   }
 
   const loginExam = () => {
@@ -180,14 +195,14 @@ function Announcement(props) {
                 <div className="rounded-2xl relative bg-white p-5">
                   <h3 className="h3 mb-4 ">Pengumuman</h3>
                   <div className="rounded-2xl" style={{ height: '5px', backgroundColor: 'green', position: 'absolute',left: '+10px', top: '-1px', width: 'calc(97% - 10px)' }}></div>
-                  <p className='text-gray-900 mt-2 text-center'>
+                  <div className='text-gray-900 mt-2 text-center'>
                     <p>
                     Jazaakumullahu khayran telah mendaftar di Rabbaanii Islamic School, status pendaftaran saat ini:
                     </p>
                     {/* Status : */}
                     <br />
                     <span className="rounded-md w-24 bg-green-100 px-3 py-2 mt-15 text-base font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
-                        {submission_status}
+                        {getSubmissionStatus(props.participant.submission_status)??'Pengisian Formulir-]'}
                           
                     </span>
 
@@ -205,7 +220,7 @@ function Announcement(props) {
                         )}
                   
                    
-                    <div className='flex flex-grow px-2 mt-10'>
+                    <div className='flex flex-grow gap-1 px-2 mt-10'>
                       {/* {submission_status ==='' && } */}
                       <button onClick={download_surat_kesanggupan} className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                       >Download Surat Kesanggupan</button> <br />
@@ -258,7 +273,7 @@ function Announcement(props) {
                       </div>
                     )}
                     
-                  </p>
+                  </div>
                 </div>
               </div>
 
@@ -287,7 +302,14 @@ function Announcement(props) {
                   {/* style={{ height: '320px', width:"465px", backgroundColor: 'white', padding: '10px', position: 'relative' }} */}
                   <div className="rounded-2xl relative bg-white p-5">
                     <Accordion open={open === 1}>
-                    <AccordionHeader onClick={() => handleOpen(1)}>Peta Status Calon Santri</AccordionHeader>
+                    <AccordionHeader onClick={() => handleOpen(1)} className='flex justify-between items-center '>
+                      <p className='flex-1'>
+                        Peta Status Calon Santri
+                      </p> 
+                      <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                      </svg>
+                    </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>
                     
                     <AccordionBody>
@@ -305,7 +327,14 @@ function Announcement(props) {
                 <div className="py-2 md:py-1">
                   <div className="rounded-2xl relative bg-white p-5">
                     <Accordion open={open === 2}>
-                    <AccordionHeader onClick={() => handleOpen(2)}>Berkas Syarat Pendaftaran</AccordionHeader>
+                    <AccordionHeader onClick={() => handleOpen(2)} className='flex justify-between items-center '>
+                      <p className="flex-1">
+                        Berkas Syarat Pendaftaran
+                      </p>
+                      <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                      </svg>
+                      </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>
                     
                     <AccordionBody>
@@ -329,7 +358,14 @@ function Announcement(props) {
                 <div className="py-2 md:py-1">
                   <div className="rounded-2xl relative bg-white p-5">
                     <Accordion open={open === 3}>
-                    <AccordionHeader onClick={() => handleOpen(3)}>Ketentuan Upload Berkas</AccordionHeader>
+                    <AccordionHeader onClick={() => handleOpen(3)} className='flex justify-between items-center '>
+                      <p className="flex-1">
+                        Ketentuan Upload Berkas
+                      </p>
+                      <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                      </svg>
+                    </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>
                     
                     <AccordionBody>

@@ -10,10 +10,12 @@ import { Button } from '@headlessui/react';
 import supabase from '../client/supabase_client';
 import { userLogout } from '../features/auth/authActions';
 import Cookies from 'js-cookie'
+import { useLogin } from '../features/hooks/use-login';
 // import Cookies from 'universal-cookie'
 
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 // import axios from '../api/prod-server';
 
 
@@ -22,6 +24,8 @@ function Header(props) {
 
   const [top, setTop] = useState(true);
   const { userToken, userInfo } = useSelector((state) => state.auth)
+  const { onSubmit, form, results, loading } = useLogin();
+  const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
   const dispatch = useDispatch()
   const {setAuth} = useContext(AuthContext)
   const location = useLocation()
@@ -39,21 +43,39 @@ function Header(props) {
 
   const {getDataApplicant, is_refresh} = props
   // automatically authenticate user if token is found
-  // const { d, isFetching } = useGetUserDetailsQuery('userDetails', {
   //   pollingInterval: 900000, // 15mins
   // })
   // //console.log('props >', props)
 
   const getProfileData = async () =>{
       // setTimeout(() => {
-        const token = userToken
-        //console.log('token >', token)
+        const token = auth_token
+        console.log('token >', token)
           if (token) {
           const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name), subschool), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
                               .is('deleted_at', null)
-          if(error){
+          if(error || data.length === 0){
+            // modal_data.title = "Token tidak valid."
+            // modal_data.message = "Informasi Akun tidak ditemukan"
+            // modal_data.text = 'Masuk'
+            // modal_data.url = "/login"
+            // modal_data.type = "static"
+
+            // setModalShow(true)
+
+            // persistor.purge();
+            // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+            // localStorage.removeItem("persist:auth")
+            // localStorage.removeItem("token")
+            // localStorage.removeItem("token-refresh")
+            // // localStorage.removeItem("jwt")
+            // Cookies.remove("jwt")
+            // Cookies.remove("token")
+            // Cookies.remove("token-refresh")
+            
+            // navigate('/protec')
             //console.log(error)
           //   setProfileData({})
           }else{
@@ -138,10 +160,14 @@ function Header(props) {
           // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
           localStorage.removeItem("persist:auth")
           localStorage.removeItem("token")
+          localStorage.removeItem("token-refresh")
           // localStorage.removeItem("jwt")
           Cookies.remove("jwt")
           Cookies.remove("token")
+          Cookies.remove("token-refresh")
+
           dispatch(logout())
+          
           navigate('/login')
         }
     } catch (error) {
@@ -178,21 +204,26 @@ function Header(props) {
             <ul className="flex flex-1 items-center justify-end gap-3 ">
             {/* flex flex-1 items-center justify-end gap-3 */} 
             {/* ml-5 */}
-                {!userInfo && pathname!=='/login' && (
+                {!(userToken || auth_token) && pathname!=='/login' && (
               <li>
                   <Link to="/login" className="font-medium -ml-5 text-gray-600 hover:text-gray-600 px-2 py-2 flex items-center transition duration-150 ease-in-out">MASUK</Link>
               </li>
                 )}
               <li>
-                {userInfo ? (
-
-                  <Button onClick={handledLogout} {...tooltips.data} onDoubleClick={() => handledLogout()} className={`btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center ${tooltips.class}`}>
+                {(userToken || auth_token) ? (
+                  <>
+                  <Button onClick={handledLogout} onDoubleClick={() => handledLogout()} data-tooltip-target="tooltip-click" data-tooltip-trigger="click" className={`btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center ${tooltips.class}`}>
                     <span>KELUAR</span>
                     <svg className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                       <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                    </svg>                  
+                    </svg>
+                    {/* data-tooltip-target="tooltip-click"                */}
                   </Button>
-                  
+                  <div id="tooltip-click" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                      Tooltip content
+                      <div className="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                  </>
                 ):(
                   <Link to="/" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 flex flex-grow items-center">
                     <span>PENDAFTARAN</span>

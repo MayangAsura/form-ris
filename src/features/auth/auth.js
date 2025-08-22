@@ -1,8 +1,8 @@
 // import { supabase } from "@/lib/supabase/client";
 // import { AuthReturn } from "../types";
 // import PATHS from "@/configs/route";
-// import axios from '../../api/local-server'
-import axios from '../../api/prod-server'
+import axios from '../../api/local-server'
+// import axios from '../../api/prod-server'
 import Cookies from 'js-cookie'
 // import supabase from "../../client/supabase_client";
 
@@ -28,16 +28,6 @@ export class AuthService {
     )
     // console.log('sebelum', data)
     // store user's token in local storage
-    localStorage.setItem('token', data?.token)
-    if (data?.token) {
-    console.log(data.token)
-    Cookies.set('token', data.token, {
-        expires: 1, // Expires in 1 day
-        secure: false, // Secure in production
-        sameSite: 'strict', // CSRF protection
-        path: '/' // Accessible across entire site
-    });
-    }
 
     if (data?.status == 400) {
     //   if (error.code === "invalid_credentials") {
@@ -54,7 +44,7 @@ export class AuthService {
       throw new Error(data?.message);
     }
 
-    return userData;
+    return data;
   }
 
 //   static async logout(): Promise<void> {

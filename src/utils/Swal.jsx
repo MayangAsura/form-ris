@@ -1,6 +1,6 @@
 // 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
@@ -10,19 +10,26 @@ export default function Swal(props) {
   const navigate = useNavigate()
   console.log(props)
 
-  const {dataModal, setConfirm} = props
+  const {dataModal, setConfirm, setClose} = props
 
   const confirmWithYes = () => {
     if(dataModal.content_type == 'logout'){
       setConfirm(true)
     }
-    
     setOpen(false)
-    
+    setClose(true)
+    console.log(open)
   }
 
+  useEffect(() => {
+    console.log(props.dataModal)
+    if(!open){
+      setClose(true)
+    }
+  },[open])
+
   return (
-    <div data-modal-backdrop={props.dataModal.type=='static'?'static': ''} >
+    <div >
       <Dialog open={open} onClose={setOpen} className="relative z-30" >
         <DialogBackdrop
           transition

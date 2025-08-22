@@ -32,9 +32,11 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-      },
+      serializableCheck: false
+      
+      // {
+      //   ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      // },
     }),
   // reducer: {
   //   auth: authReducer

@@ -2,22 +2,30 @@ import { useSelector } from 'react-redux'
 import { Link, Outlet } from 'react-router-dom'
 import Header from '../partials/Header'
 import Cookies from 'js-cookie'
+import { useLogin } from '../features/hooks/use-login'
+import { useEffect, useState } from 'react'
 
 const ProtectedRoute = () => {
+  const [hasAccess, setHasAccess] = useState(false)
   const { userInfo, userToken } = useSelector((state) => state.auth)
-  const userTokenJwt = Cookies.get('jwt')
-    ? Cookies.get('jwt')
+  const { onSubmit, form, results, loading } = useLogin();
+  const userTokenRefresh = localStorage.getItem('token-refresh')
+    ? localStorage.getItem('token-refresh')
     : null
-  const nuserTokenJwt = localStorage.getItem('token')
-    ? localStorage.getItem('token')
-    : null
+  // const nuserTokenJwt = localStorage.getItem('token-refresh')
+  //   ? localStorage.getItem('token-refresh')
+  //   : null
   
-  const _userToken = userTokenJwt || nuserTokenJwt
-    console.log('userToken from protected', userToken)
-  
+  const _userToken = userTokenRefresh || userToken
+    console.log('userToken from userInfo', _userToken)
+
+  useEffect(()=> {
+    console.log('userInfo', userInfo)
+  }, [])
+
 
   // show unauthorized screen if no user is found in redux store
-  if (!userInfo || !_userToken) {
+  if (results.code !== '00' && !_userToken) {
     return (
       <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto shadow-lg overflow-hidden relative">
       {/* flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative */}

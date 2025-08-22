@@ -14,8 +14,8 @@ import Swal from '../utils/Swal'
 // import axios from 'axios';
 // import ax
 import wablas from '../api/wablas';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -39,12 +39,15 @@ function SignUp() {
   const [password, setPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
-  const [class_code, setClassCode] = useState("website")
+  const [class_code, setClassCode] = useState("")
+  const [is_loading, setIsLoading] = useState(false)
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
     type: "",
     title: "",
     message: "",
+    text: "OK",
+    url: "location.reload()",
     // text: "Konfirmasi Pendaftaran ke CS",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
@@ -164,26 +167,24 @@ function SignUp() {
     console.log(code)
     console.log(_class_code)
 
-    // const newapplicants =  {full_name, gender, phone_number, email, password}
-  
-    // console.log(newapplicants)
-    
-    // const { data, error } = await supabase
-    //   .from('applicants')
-    //   .insert([
-    //     newapplicants
-    //   ])
-    //   .single()
+    console.log('modal_show', modal_show, modal_data)
 
-    //   if(error){
-    //     console.log(error)
-    //   }else{
-    //     console.log(data)
-    //   }
+    if(!_full_name || !_gender || !_phone_number || !_email || !_password || !_media || !_school_id || !_class_code || !confirm_password){
+      // console.log('not valid')
+      // setIsValidated(true)
+      setIsLoading(false)
+      setSuccess(false)
+      setModalShow(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = "Mohon periksa kembali data Anda"
+      modal_data.url = "location.reload()"
+      modal_data.text = "OK"
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Halaman Utama"
+      setModalShow(true)
+    }else{
 
-      // const
-    
-    const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
+      const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
       _email,
       _full_name,
       _gender,
@@ -197,16 +198,20 @@ function SignUp() {
     });
 
     console.log(data_appl)
+    console.log('modal_show', modal_show, modal_data)
     setDataAppTemp(data_appl)
     console.log('dataAppTemp >', dataAppTemp)
     if(error || Object.values(data_appl)[0] === '01'){
       console.log('masuk')
       console.log(Object.values(data_appl)[0] )
       setSuccess(false)
+      setModalShow(false)
       modal_data.title = "Pendaftaran Gagal"
       modal_data.message = error??Object.values(data_appl)[1]
+      modal_data.url = "location.reload()"
+      modal_data.text = "OK"
       modal_data.url2 = "/"
-      modal_data.text2 = "OK"
+      modal_data.text2 = "Halaman Utama"
       setModalShow(true)
     }
 
@@ -242,12 +247,16 @@ console.log(Object.values(data_appl)[0] !== '01')
       setConfirmPassword("")
       setClassCode("")
 
+      setModalShow(false)
+      console.log('modal_show', modal_show, modal_data)
       modal_data.type= "basic",
       modal_data.title= "Pendaftaran Berhasil",
       modal_data.message= "Alhamdulillah, pendaftaran pindah sekolah berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
       // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
       // tex.t: "Konfirmasi Pendaftaran ke CS",
       // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+      modal_data.text = "OK"
+      modal_data.url = location.reload()
       modal_data.text2= "Lanjut Pembayaran",
       modal_data.url2= "/login"
       
@@ -294,7 +303,9 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
         }
     } catch (error) {
       console.log(error)
-    } 
+    } finally {
+      setIsLoading(false)
+    }
       
 //       console.log(phone_number)
 //       const new_phone_number = '62'+ _phone_number.slice(1)
@@ -325,7 +336,10 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
       // const token = response?.token
     }
     
-    console.log('data_applicant =>', data)
+    // console.log('data_applicant =>', data)
+    }
+    
+    
 
     
   
@@ -403,6 +417,20 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
     }
   }
 
+  const handleCloseModal = (value) => {
+    if(value){
+      setModalShow(value)
+      setModalData({type: "",
+    title: "OK",
+    message: "/login",
+    // text: "Konfirmasi Pendaftaran ke CS",
+    // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+    text2: "",
+    url2: ""})
+      console.log('modal_show',value, modal_show, modal_data)
+    }
+  }
+
 
   
   return (
@@ -430,7 +458,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
               </div>
               {/* <Modal children={children} id={1} aria-label="ffgdfg" show={true} handleClose={handleClose}   /> */}
                 {modal_show && (
-                  <Swal dataModal={modal_data}/>
+                  <Swal dataModal={modal_data} setClose={handleCloseModal} />
                 )}
                 
               {/* Form */}
@@ -477,6 +505,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       <div className="mt-2 grid grid-cols-1">
                             {code == 'sdit' && (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option >-Pilih Kelas-</option>
                                 <option value={class_code== '2'? class_code:"2"}>Kelas 2 </option>
                                 <option value={class_code== '3'? class_code:"3"}>Kelas 3</option>
                                 <option value={class_code== '4'? class_code:"4"}>Kelas 4 </option>
@@ -487,6 +516,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                           )}
                             {(code == 'smpi' || code == 'smp-pesantren')&& (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option >-Pilih Kelas-</option>
                                 <option value={class_code== '8'? class_code:"8"}>Kelas 8 </option>
                                 <option value={class_code== '9'? class_code:"9"}>Kelas 9</option>
 
@@ -494,6 +524,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                           )}
                             {(code == 'sma-pesantren' || code == 'smai') && (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                                <option >-Pilih Kelas-</option>
                                 <option value={class_code== '11'? class_code:"11"}>Kelas 11 </option>
                                 <option value={class_code== '12'? class_code:"12"}>Kelas 12 </option>
                           </select>
@@ -509,14 +540,14 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       {/* <div></div> */}
                       <label className="block text-gray-900 text-sm font-medium mb-1 tooltip tooltip-open tooltip-right" data-tip="Buatlah password yang mudah diingat" htmlFor="password">Password <span className="text-red-600">*</span></label>
                       <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
-                      <div class="flex items-center p-4 mb-4 my-1 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-  <svg class="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="flex items-center p-4 mb-4 my-1 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+  <svg className="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
   </svg>
   {/* Info alert! */}
-  <span class="sr-only">Info</span>
+  <span className="sr-only">Info</span>
   <div>
-    <span class="font-thin text-sm">Buatlah password yang sederhana dan mudah diingat.</span>
+    <span className="font-thin text-sm">Buatlah password yang sederhana dan mudah diingat.</span>
   </div>
 </div>
                       {/* <ul>
@@ -561,7 +592,21 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full">DAFTAR</button>
+                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_loading}>
+                        {is_loading ? (
+                          <>
+                          <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                            {/* SVG path for your spinner */}
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                            {/* <Spinner aria-label="Spinner button example" size="sm" light /> */}
+                            <span className='pl-3'>Menyimpan...</span>
+                          </>
+                        )
+                         : 'DAFTAR'}
+                        {/* DAFTAR */}
+                        </button>
                     </div>
                   </div>
                   <hr />

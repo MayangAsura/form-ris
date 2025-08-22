@@ -19,22 +19,23 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn'
 // import axios from 'axios';
 import axios from '../api/prod-server'
 
-// import { useLogin } from "../features/hooks/use-login";
+import { useLogin } from "../features/hooks/use-login";
 const LOGIN_URL = 'api/auth/login'
 
 function SignIn(props) {
-  const {userInfo, userToken, errorMsg, userPayment, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
+  const {userInfo, userToken, errorMsg, userSchool, userFormComplete, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {setAuth} = useContext(AuthContext)
   const [username, setUsername] = useState("")
+  const [userPayment, setUserPayment] = useState({})
   const [password, setPassword] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [userData, setUserData] = useState({
     school_name: "",
     status: ""
   })
-  // const { onSubmit, form, loading } = useLogin();
+  const { onSubmit, form, results, loading } = useLogin();
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setmodal_data] = useState({
     title: "Login Berhasil",
@@ -42,18 +43,22 @@ function SignIn(props) {
     text: "OK",
     url: "/home"
   })
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = form;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = form;
+  
+  const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
 
   const getUserInfo = async () =>{
     // setTimeout(() => {
-      const token = userToken
+      const token = auth_token
       // console.log('token >', token)
         if (token) {
-        const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))').eq('refresh_token', token)
+        const {data, error} = await supabase.from('applicants')
+                              .select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))')
+                              .eq('refresh_token', token)
         if(error){
           console.log(error)
           return null
@@ -75,21 +80,36 @@ function SignIn(props) {
   } 
   const getPaymentInfo = async () => {
     // const user, error = await
-    const token = Cookies.jwt
+    // const token = Cookies.jwt
     // console.log(token)
     // console.log('userToken > ', userToken)
-    if(!userToken){
-      return false
-    }
+    // if(results.code === '01'){
+    //   return false
+    // }
+    // || localStorage.getItem('token-refresh') || results.data.token_refresh
+  
     // const userId = JSON.parse(atob(token.split('.')[1])).id
     // const {data, error} = await supabase.from("applicant_orders")
     //                     .select("status, item_id, applicant_id, applicants(refresh_token)").eq('applicants.refresh_token', token)
     // const payment = data[0]
     // console.log('token from cookie >', state.userToken)
                     // console.log('token from cookie >', )
-    const {payment, error} = await supabase.from('applicant_orders')
-                      .select('status, item_id, applicant_id, applicants(refresh_token)')
-                      .eq('applicants.refresh_token', userToken.toString())
+
+    console.log('token',  auth_token)
+    const {data: payment, error} = await supabase.from('applicants')
+                                  .select('applicant_orders(status, item_id, applicant_id), status,refresh_token,deleted_at')
+                                  .eq('refresh_token', auth_token)
+                                  .eq('status', 'active')
+                                  .is('deleted_at', null)
+
+                      if(payment.length>0){
+                        console.log('payment', payment)
+                        if(payment[0].applicant_orders.length>0){
+
+                          setUserPayment(payment[0].applicant_orders[0])
+                        }
+                      }
+
                       // .eq('applicants.refresh_token', state.userToken)
                       // applicant_schools(schools(school_name))
                       // , applicants(refresh_token, participants(is_complete)
@@ -100,6 +120,7 @@ function SignIn(props) {
     // state.userFormComplete = payment.applicants.participants.is_complete
 
     // console.log(payment)
+    setUserPayment(payment)
     return payment?.status=='finished'?true:false
 
 
@@ -122,8 +143,12 @@ function SignIn(props) {
   // const login = useSignIn()
   useEffect(() => {
     // const userPayment = getPaymentInfo()
-    getPaymentInfo()
-    getUserInfo()
+    
+    if(auth_token){
+      getPaymentInfo()
+      getUserInfo()
+
+    }
     
     // const userPayment = getUserInfo().data[0].applicant_orders[0].status
     // console.log('userInfo > ', userInfo)
@@ -131,20 +156,46 @@ function SignIn(props) {
     // // console.log('userPayment > ', userPayment)
     // console.log('userPayment > ', userFormComplete)
 
-    // console.log('usertoken', userToken)
+    console.log('usertoken', auth_token)
     // setAuth({username, password})
-      // console.log('auth >', auth)
-    if (userInfo && !userPayment) {
-      modal_data.url = "/pay"
-      navigate('/pay')
-      
-    }
+      console.log('results & userToken >', results,auth_token, userInfo)
+    // if(!userToken){
+    //   return false
+    // }sd
+    // if(!loading){
+
+      if ( (results.code === '00' || auth_token) && isObjectEmpty(userPayment)  && !loading ) {
+        modal_data.url = "/pay"
+        setModalShow(true)
+        console.log('results', results, )
+        navigate('/pay')
+        
+      }
+      if((results.code === '00' || auth_token) && !isObjectEmpty(userPayment) && !loading)
+      {
+        console.log('results.', results, userInfo, userPayment)
+        setModalShow(true)
+        navigate('/home')
+      }
+    // }
+
+    // if((results)){
+    //   console.log('results', results, userInfo)
+    //   // navigate('/home')
+    // }
     // if (userInfo && userPayment) {
     //   modal_data.url = "/home"
     //   navigate('/home')
     // }
-  }, [userInfo, userPayment, userSchool, userFormComplete, modal_data, userToken])
+  }, [results, userInfo, userPayment, userToken])
 
+  const isObjectEmpty = async (objectName) => {
+    return (
+      objectName &&
+      Object.keys(objectName).length === 0 &&
+      objectName.constructor === Object
+    );
+  };
 
   const handledSubmit = async (e) => {
     e.preventDefault()
@@ -154,17 +205,29 @@ function SignIn(props) {
       username: username,
       password: password
     }
-    try {
+    // try {
 
       const token =  localStorage.getItem('token')
       const _token = Cookies.get('token')
       // // console.log('userInfo before',userInfo)
       // setTimeout(() => {
         if(!token || !_token || !userToken){
-          dispatch(userLogin(data))
-        }else{
-          // console.log('userInfo', userInfo)
-          setModalShow(true)
+          try {
+            dispatch(userLogin(data))
+            if(!loading){
+              setModalShow(true)
+              // navigate('/home')
+            }
+            
+            
+          } catch (error) {
+            console.log("Error >", error )
+            modal_data.title = "Login Gagal"
+            modal_data.message = errorMsg
+
+            setModalShow(true)
+            
+          }
         }
         
       // }, 1000);
@@ -203,16 +266,16 @@ function SignIn(props) {
       //   // tokenType: "Bearer",
       //   userState: {username: username}
       // })
-    } catch (error) {
-      console.log("Error >", error )
-      modal_data.title = "Login Gagal"
-      modal_data.message = errorMsg
+    // } catch (error) {
+    //   console.log("Error >", error )
+    //   modal_data.title = "Login Gagal"
+    //   modal_data.message = errorMsg
 
-      setModalShow(true)
-      // if (error && error instanceof AxiosError){
+    //   setModalShow(true)
+    //   // if (error && error instanceof AxiosError){
   
-      // }
-    }
+    //   // }
+    // }
 
     if(error){
           modal_data.title = "Login Gagal"
@@ -263,14 +326,14 @@ function SignIn(props) {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form onSubmit={handledSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="username">No. WhatsApp / No. Pendaftaran</label>
-                      <input id="username" type="text" onChange={(e) => setUsername(e.target.value)} className="form-input w-full text-gray-800" placeholder="Masukkan No. WhatsApp terdaftar" required />
-                      {/* {errors.username && (
+                      <input id="username" type="text" onChange={(e) => setUsername(e.target.value)} {...register('username')} className="form-input w-full text-gray-800" placeholder="Masukkan No. WhatsApp terdaftar"  required />
+                      {errors.username && (
                         <p className="text-xs text-red-500"> {errors.username.message} </p>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -279,11 +342,8 @@ function SignIn(props) {
                         <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="password">Password</label>
                         <Link to="/reset-password" className="text-sm font-medium text-blue-600 hover:underline">Lupa Password?</Link>
                       </div>
-                      <div className='flex mb-4'>
-                        <input id="password" type={isVisible? "text" : "password"} onChange={(e) => setPassword(e.target.value)} className="form-input w-full text-gray-800 " placeholder="Masukkan password" required />
-                        {/* {errors.password && (
-                        <p className="text-xs text-red-500"> {errors.password.message} </p>
-                      )} */}
+                      <div className='flex'>
+                        <input id="password" type={isVisible? "text" : "password"} onChange={(e) => setPassword(e.target.value)} {...register('password')} className="form-input w-full text-gray-800 " placeholder="Masukkan password" required />
                         <button type="button" onClick={hanledVisible} 
                         className="flex justify-around items-center">
                           {isVisible? (
@@ -293,8 +353,10 @@ function SignIn(props) {
                           ) }
                           
                         </button>
-                        
                       </div>
+                      {errors.password && (
+                        <p className="text-xs text-red-500"> {errors.password.message} </p>
+                      )}
                     </div>
                   </div>
                   {/* <div className="flex flex-wrap -mx-3 mb-4">
@@ -311,11 +373,11 @@ function SignIn(props) {
                     <div className="w-full px-3">
                       <button className="btn text-white bg-green-600 hover:bg-green-700 w-full"
                               // onClick={handledSubmit}
-                              // disabled={loading}
+                              disabled={loading}
                               
                       >
-                        Masuk
-                        {/* {islo ? "Loading..." : "MASUK"} */}
+                        {/* Masuk */}
+                        {loading ? "Loading..." : "MASUK"}
                         </button>
                     </div>
                   </div>

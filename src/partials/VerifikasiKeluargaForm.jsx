@@ -9,6 +9,7 @@ function VerifikasiKeluargaForm(props) {
     const [student_category, setStudentCategory] = useState("")
     const [photo_sampul_ijazah, setPhotoSampulIjazah] = useState("")
     const [dataVerifikasiKeluarga, setDataVerifikasiKeluarga] = useState({})
+    const [dataBerkasPhotoSampul, setDataBerkasPhotoSampul] = useState([])
     const [last_update, setLastUpdate] = useState({})
     
     const data = { student_category:student_category, photo_sampul_ijazah:photo_sampul_ijazah}
@@ -58,11 +59,15 @@ function VerifikasiKeluargaForm(props) {
                 setStudentCategory(props.dataVerifikasiKeluarga.student_category)
                 setLastUpdate(props.dataVerifikasiKeluarga.updated_at)
             }
+
+            if(props.dataBerkas){
+                setDataBerkasPhotoSampul(props.dataBerkas)
+            }
             // setMotherAcademic(props.dataWali[0].wali_academic)
             // setMotherSalary(props.dataWali[0].wali_salary)
             // setMotherJob(props.dataWali[0].wali_job)
             // setLastUpdate(props.dataWali[0].updated_at)
-    },[props.dataVerifikasiKeluarga])
+    },[props.dataVerifikasiKeluarga, props.dataBerkas])
 
     const saveData = (e) => {
         e.preventDefault()
@@ -135,22 +140,34 @@ function VerifikasiKeluargaForm(props) {
                                     {/* if () {
                                         
                                     } */}
-                                    <div className="sm:col-span-4 mt-2 mb-0"> 
+                                    <div className="sm:col-span-6 mt-2 mb-0"> 
+                                        <div className="relative inline-block">
 
-                                    {dataVerifikasiKeluarga?.photo_sampul_ijazah? (
-                                            <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                                Sudah Upload
+                                        {dataVerifikasiKeluarga?.photo_sampul_ijazah? (
+                                                <span>Status : <span className="rounded-md w-24 bg-green-400 px-2 py-1 mt-2 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                    Sudah Upload
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        ): ""}
-                                    </div>
-                                         
-                                        {/* <img src={props.dataBerkas[4]?.file_url?dataBerkas[4]?.file_url : ""} alt="" width={30}/> */}
-                                    <div className="sm:col-span-4 mt-2 mb-0">
-                                        <img src={dataVerifikasiKeluarga?.photo_sampul_ijazah} alt="" width={250} className='w-full'/>
-                                        <span className=' text-green-600 cursor-pointer flex gap- items-center' onClick={() => window.open(dataVerifikasiKeluarga?.photo_sampul_ijazah)}> Buka <FiExternalLink></FiExternalLink> </span>
-                                    </div>
-                                    <div className="sm:col-span-4">
+                                            ): ""}
+                                        </div>
+                                            {(dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/PDF' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PDF' && dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url !== "") && (
+                                                <div className="max-w-xl max-auto my-10">
+                                                    <iframe src={dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url} width={'100%'} height={'500px'} />
+                                                </div>                  
+                                            )}
+                                            {dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PNG' && (
+                                                <img src={dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url?dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url : ""} alt="" width={30}/>
+                                            )}
+                                        </div>
+                                        {/* <img src={props.dataBerkasPhotoSampul[4]?.file_url?dataBerkasPhotoSampul[4]?.file_url : ""} alt="" width={30}/> */}
+                                    {/* {(dataVerifikasiKeluarga?.photo_sampul_ijazah) && ( 
+                                        <div className="sm:col-span-4 mt-2 mb-0">
+                                            <img src={dataVerifikasiKeluarga?.photo_sampul_ijazah} alt="" width={250} className='w-full'/>
+                                            <span className=' text-green-600 cursor-pointer flex gap- items-center' onClick={() => window.open(dataVerifikasiKeluarga?.photo_sampul_ijazah)}> Buka <FiExternalLink></FiExternalLink> </span>
+                                        </div>
+
+                                      )} */}
+                                    <div className="sm:col-span-6">
                                     <label htmlFor="photo_sampul_ijazah" className="block text-sm/6 font-medium text-gray-900">Upload foto sampul depan Raport/Ijazah Rabbaanii</label>
                                     <span className="text-sm italic">Bagi calon santri yang memiliki keluarga terdaftar dalam satu Kartu Keluarga</span>
                                     <p className="text-xs/5 text-gray-600">PNG, JPG, PDF, maks 2MB</p>
