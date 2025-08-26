@@ -352,7 +352,7 @@ const HorizontalStepper = (props) => {
               updateData(data_applicant, "applicants", applicant.id, 'id')
           }
           // setApplicant(newdatap)
-          getParticipantData(applicant.id)
+          getParticipantData(participant.id?participant.id:participant_id)
           // if(applicant.participants.length > 0){
         scroll('right')
         setCurrentStep(currentStep + 1)
