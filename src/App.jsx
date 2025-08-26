@@ -24,6 +24,7 @@ import SignUp_Transferred from './pages/SignUp-Transferred';
 import ResetPassword from './pages/ResetPassword';
 import Payment from './pages/Payment';
 import Jenjang from './pages/Jenjang';
+import JenjangTransfer from './pages/JenjangTransfer';
 import RedirectPayment from './pages/RedirectPayment';
 import ProtectedRoute from './routing/ProtectedRoute';
 import NotFoundRoute from './routing/NotFoundRoute';
@@ -66,6 +67,7 @@ function App() {
       <Routes>
         {/* <Route exact path="/" element={<Jenjang />} /> */}
         <Route exact path="/" element={<Jenjang />} />
+        <Route exact path="/transfer" element={<JenjangTransfer />} />
         
         <Route element={<ProtectedRoute />}>
           <Route path="/pay" element={<Payment />} />
@@ -84,7 +86,7 @@ function App() {
         })
         } */}
         <Route path="/:code" element={<SignUp />} />
-        <Route path="/tsf/:code" element={<SignUp_Transferred />} />
+        <Route path="/transfer/:code" element={<SignUp_Transferred />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/landing" element={<RedirectPayment />} />
         <Route path="/*" element={<NotFoundRoute />} />

@@ -19,6 +19,7 @@ import { setActive } from '@material-tailwind/react/components/Tabs/TabsContext'
 import { useNavigate } from 'react-router-dom';
 import { createSearchParams } from 'react-router-dom'
 import { step } from '@material-tailwind/react';
+import { G } from '@react-pdf/renderer';
 
 const PATH_URL = import.meta.env.URL_LOCAL
 
@@ -30,6 +31,7 @@ const HorizontalStepper = (props) => {
   const [edit, setEdit] = useState(false);
   const [inserted, setInserted] = useState(false);
   const [ isPending, startTransition ] = useTransition()
+  const [ loading, setLoading ] = useState(false)
 
   const [participant, setParticipant] = useState({})
   const [dataAyah, setDataAyah] = useState({})
@@ -205,21 +207,32 @@ const HorizontalStepper = (props) => {
 
   }
 
-  const getApplicantData = () => {
-    
-  }
-  const getParticipantData = async () => {
-    const { data, err} = await supabase.from('participants')
+  const getApplicantData = async (id) => {
+    const { data, err} = await supabase.from('applicants')
                         .select('*')
-                        .eq('participant_id', id)
+                        .eq('id', id)
                         // .single()
     if(err){
       ////console.log(err)
       return
     }
 
-    // setdataIde(data[0])
-    ////console.log(dataAyah)
+    console.log('dataAppl',data)
+    setApplicant(data[0])
+    
+  }
+  const getParticipantData = async (id) => {
+    const { data, err} = await supabase.from('participants')
+                        .select('*')
+                        .eq('id', id)
+                        // .single()
+    if(err){
+      ////console.log(err)
+      return
+    }
+
+    console.log('dataPart',data)
+    setParticipant(data[0])
   }
 
   const getFatherData = async (id) => {
@@ -248,7 +261,7 @@ const HorizontalStepper = (props) => {
       return
     }
 
-    ////console.log('data', data)
+    console.log('dataibu', data, id)
 
     setDataIbu(data[0])
     
@@ -300,49 +313,56 @@ const HorizontalStepper = (props) => {
   const getIdentitas = async (data) => {
     ////console.log("Data Identitas >", data)
     // setTimeout(() => {
+    setLoading(true)
     startTransition(() => {
-      if(data){
-        setParticipant(data)
-        ////console.log("Data Identitas cek >,", data)
-        // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-        const newdata = (data) => ({...data, applicant_id: applicant.id}) 
-        ////console.log('participant ', participant)
-        ////console.log('newdata ', newdata)
-        data = {...data, applicant_id: applicant.id}
-        const data_applicant = {
-          full_name: data.full_name, 
-          gender: data.gender, 
-          phone_number: data.phone_number, 
-          email: data.email
+      setTimeout(() => {
+        // console.log('1')
+        if(data){
+          setParticipant(data)
+          ////console.log("Data Identitas cek >,", data)
+          // setParticipant(d => ({...d, applicant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
+          const newdata = (data) => ({...data, applicant_id: applicant.id}) 
+          ////console.log('participant ', participant)
+          ////console.log('newdata ', newdata)
+          data = {...data, applicant_id: applicant.id}
+          const data_applicant = {
+            full_name: data.full_name, 
+            gender: data.gender, 
+            phone_number: data.phone_number, 
+            email: data.email
+          }
+          const {full_name,gender,phone_number,email, ...newdatap } = data
+          // ////console.log()
+          // ////console.log('editc')
+            if(!complete){
+            ////console.log("masuk")
+             if(!edit && applicant.participants.length == 0)
+              {
+                ////console.log("edit >, ", edit)
+                ////console.log("participant >,", participant)
+  
+                saveData(newdatap, 'participants')}
+             else 
+              {
+                updateData(newdatap, 'participants', participant.id?participant.id:participant_id, 'id')
+              }
+            
+          // }else{
+            
+              updateData(data_applicant, "applicants", applicant.id, 'id')
+          }
+          // setApplicant(newdatap)
+          getParticipantData(applicant.id)
+          // if(applicant.participants.length > 0){
+        scroll('right')
+        setCurrentStep(currentStep + 1)
+        // setParamNavigasi(currentStep + 1)
+      // }
         }
-        const {full_name,gender,phone_number,email, ...newdatap } = data
-        // ////console.log()
-        // ////console.log('editc')
-          if(!complete){
-          ////console.log("masuk")
-           if(!edit && applicant.participants.length == 0)
-            {
-              ////console.log("edit >, ", edit)
-              ////console.log("participant >,", participant)
-
-              saveData(newdatap, 'participants')}
-           else 
-            {updateData(newdatap, 'participants', participant.id?participant.id:participant_id, 'id')}
-          
-        // }else{
-          
-            updateData(data_applicant, "applicants", applicant.id, 'id')
-        }
-        // if(applicant.participants.length > 0){
-      scroll('right')
-      setParamNavigasi(currentStep + 1)
-      setCurrentStep(currentStep + 1)
-    // }
-      }
-      
+      }, 3000);
+      // console.log('2')
+      setLoading(false)
     })
-    // }, 4000);
-    
   }
 
   const getDataAyah =  (data) => {
@@ -355,15 +375,19 @@ const HorizontalStepper = (props) => {
         ////console.log('participant dataAyah >', participant)
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
-        
+        console.log('pid', pid)
         if(!complete){
-          if(props.applicant[0].participants.length>0){
-            if(!edit && props.applicant[0].participants[0].participant_father_data.length === 0 ){
-              console.log("Data Ayah >,", data)
+          if(props.applicant[0].participants.length>0 || participant){
+            console.log('data ayah',props.applicant[0].participants[0])
+            console.log('data ayah',!props.applicant[0].participants[0].participant_father_data)
+            console.log('data ayah',props.applicant[0].participants[0].participant_father_data.length ===0, props.applicant[0].participants[0].participant_father_data.length)
+            console.log('data ayah',!dataAyah)
+            if(!edit && (!props.applicant[0].participants[0].participant_father_data || !dataAyah) ){
+              // console.log("Data Ayah >,", data)
               
               saveData(data, 'participant_father_data')
             }else{
-              console.log("Data Ayah U>,", data)
+              // console.log("Data Ayah U>,", data)
               updateData(data, 'participant_father_data', pid, 'participant_id')
             }
 
@@ -374,8 +398,8 @@ const HorizontalStepper = (props) => {
         
         ////console.log('dataAyah ', dataAyah)
           scroll('right')
-          // setParamNavigasi(currentStep + 1)
           setCurrentStep(currentStep + 1)
+          // setParamNavigasi(currentStep + 1)
         }
       }, 3000);
     })
@@ -391,12 +415,16 @@ const HorizontalStepper = (props) => {
         data = {...data, participant_id:pid}
         
         if(!complete){
-          if(props.applicant[0].participants.length>0){
-            console.log('dataibu', data)
-            if(!edit && (Array.isArray(props.applicant[0].participants[0].participant_mother_data)? props.applicant[0].participants[0].participant_mother_data.length > 0 : !props.applicant[0].participants[0].participant_mother_data)){
+          if(props.applicant[0].participants.length>0 || participant){
+            // console.log('dataibu', data)
+            console.log('data ibu',props.applicant[0].participants[0])
+            console.log('data ibu',!props.applicant[0].participants[0].participant_mother_data)
+            // console.log('data ibu',props.applicant[0].participants[0].participant_mother_data.length ===0, props.applicant[0].participants[0].participant_mother_data.length)
+            console.log('data ibu',!dataIbu)
+            if(!edit && (!dataIbu)){
               ////console.log("masuk")
-              console.log('dataibu', data)
-              console.log('dataibu', props.applicant[0].participants[0].participant_mother_data)
+              // console.log('dataibu', data)
+              // console.log('dataibu', props.applicant[0].participants[0].participant_mother_data)
               saveData(data, 'participant_mother_data')
             }else{
               console.log('dataibu-', data)
@@ -407,7 +435,7 @@ const HorizontalStepper = (props) => {
           
         }
           setDataIbu(data)
-          getMotherData(pid)
+          // getMotherData(pid)
         
           scroll('right')
           // setParamNavigasi(currentStep + 1)
@@ -419,18 +447,23 @@ const HorizontalStepper = (props) => {
     })
   }
   const getDataWali = (data) => {
-    ////console.log("DataWali >", data)
+    console.log("DataWali >", data)
     startTransition(()=>{
 
       setTimeout(() => {
       if(data){
         ////console.log("DataWali >,", data)
-        
+        // console.log('data wali',props.applicant[0].participants[0])
         const pid = participant_id?participant_id:participant.id
         data = {...data, participant_id:pid}
         if(!complete){
-          if(props.applicant[0].participants.length>0){
-            if(!edit && props.applicant[0].participants[0].participant_wali_data.length == 0){
+          if(props.applicant[0].participants.length>0 || participant){
+            console.log('data wali',props.applicant[0].participants[0])
+            console.log('data wali',!props.applicant[0].participants[0].participant_wali_data)
+            console.log('data wali',props.applicant[0].participants[0].participant_wali_data.length ===0, props.applicant[0].participants[0].participant_wali_data.length)
+            console.log('data wali',!dataWali)
+            // || props.applicant[0].participants[0].participant_wali_data.length === 0 ||
+            if(!edit && (!props.applicant[0].participants[0].participant_wali_data || !dataWali)){
               ////console.log("masuk")
               saveData(data, 'participant_wali_data')
             }else{
@@ -440,7 +473,7 @@ const HorizontalStepper = (props) => {
           }
         }
         setDataWali(data)
-        getWaliData(pid)
+        // getWaliData(pid)
 
         ////console.log('dataWali >', dataWali)
         
@@ -929,7 +962,7 @@ const HorizontalStepper = (props) => {
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
@@ -1034,7 +1067,7 @@ const HorizontalStepper = (props) => {
               else{
                 setCurrentStep((prev) => prev + 1);
                 // callback(data)
-                setParamNavigasi(currentStep)
+                // setParamNavigasi(currentStep)
               }
               // handleSubmit
               scroll('right')
@@ -1042,7 +1075,7 @@ const HorizontalStepper = (props) => {
             type='submit'
             
           >
-            {isPending? (
+            {isPending ? (
                <div
       className="inline-block h-8 w-8 animate-[spinner-grow_0.75s_linear_infinite] rounded-full bg-current align-[-0.125em] text-primary opacity-0 motion-reduce:animate-[spinner-grow_1.5s_linear_infinite]"
       role="status">
@@ -1076,16 +1109,57 @@ const HorizontalStepper = (props) => {
                     // currentStep === steps.length
                     //   ? setComplete(true)
                     //   : setCurrentStep((prev) => prev + 1); 
-                    setCurrentStep((prev) => prev - 1);
                     
+                    setCurrentStep((prev) => prev - 1);
                     // callback(data)
                     
                     // handleSubmit
-                    scroll('left')
-                    setParamNavigasi(currentStep)
-                    if(currentStep===5){
-                      getParticipantDocuments(participant_id??participant.id)
-                    }
+                    // setParamNavigasi(currentStep)
+                    console.log(currentStep, 'current')
+                    // startTransition(()=>{
+                      
+                      // if(currentStep===2){
+                      //   getParticipantData(participant_id?participant_id:participant.id)
+                      //   // getFatherData(participant_id?participant_id:participant.id)
+                      //   setCurrentStep(2)
+                      // }
+                      // if(currentStep===3){
+                      //   getFatherData(participant_id?participant_id:participant.id)
+                      //   // getMotherData(participant_id?participant_id:participant.id)
+                      //   setCurrentStep(3)
+                      // }
+                      // if(currentStep===4){
+                      //   getMotherData(participant_id?participant_id:participant.id)
+                      //   // getWaliData(participant_id?participant_id:participant.id)
+                      //   setCurrentStep(4)
+                      // }
+                      // if(currentStep===5){
+                      //   getWaliData(participant_id?participant_id:participant.id)
+                      //   // getParticipantDocuments(participant_id?participant_id:participant.id)
+                      //   setCurrentStep(5)
+                      // }
+                      // if(currentStep===6 ){
+                      //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                      //   getParticipantData(participant_id?participant_id: participant.id)
+                      //   setCurrentStep(6)
+                      // }                                
+                      // if(currentStep===7){
+                      //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                      //   getParticipantData(participant_id?participant_id: participant.id)
+                      //   setCurrentStep(7)
+                      // }                                
+                      // if(currentStep===8){
+                      //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                      //   getParticipantData(participant_id?participant_id: participant.id)
+                      //   setCurrentStep(8)
+                      // }                                
+                      // })
+                      scroll('left')
+                      // setTimeout(() => {
+                        
+                      //   
+                      // }, 3000);
+                    
                   }}
                   
                   
@@ -1123,7 +1197,44 @@ const HorizontalStepper = (props) => {
                     scroll('left')
                     setTimeout(() => {
                       
-                      setParamNavigasi(currentStep)
+                      // setParamNavigasi(currentStep)
+
+                      console.log(currentStep, 'current')
+                    // if(currentStep===2){
+                    //   getParticipantData(participant_id?participant_id:participant.id)
+                    //   // getFatherData(participant_id?participant_id:participant.id)
+                    //   setCurrentStep(2)
+                    // }
+                    // if(currentStep===3){
+                    //   getFatherData(participant_id?participant_id:participant.id)
+                    //   // getMotherData(participant_id?participant_id:participant.id)
+                    //   setCurrentStep(2)
+                    // }
+                    // if(currentStep===4){
+                    //   getMotherData(participant_id?participant_id:participant.id)
+                    //   // getWaliData(participant_id?participant_id:participant.id)
+                    //   setCurrentStep(4)
+                    // }
+                    // if(currentStep===5){
+                    //   getWaliData(participant_id?participant_id:participant.id)
+                    //   // getParticipantDocuments(participant_id?participant_id:participant.id)
+                    //   setCurrentStep(5)
+                    // }
+                    // if(currentStep===6){
+                    //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                    //   getParticipantData(participant_id?participant_id: participant.id)
+                    //   setCurrentStep(6)
+                    // }
+                    // if(currentStep===7){
+                    //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                    //   getParticipantData(participant_id?participant_id: participant.id)
+                    //   setCurrentStep(7)
+                    // }                                
+                    // if(currentStep===8){
+                    //   getParticipantDocuments(participant_id?participant_id:participant.id)
+                    //   getParticipantData(participant_id?participant_id: participant.id)
+                    //   setCurrentStep(8)
+                    // } 
                     }, 1000);
                 }}
                 type='submit'
@@ -1142,7 +1253,7 @@ const HorizontalStepper = (props) => {
                     // callback(data)
                   // handleSubmit
                   scroll('right')
-                  setParamNavigasi(currentStep)
+                  // setParamNavigasi(currentStep)
                 }}
                 type='submit'
                 

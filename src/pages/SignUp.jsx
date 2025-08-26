@@ -15,8 +15,8 @@ import Swal from '../utils/Swal'
 // import axios from 'axios';
 // import ax
 import wablas from '../api/wablas';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 

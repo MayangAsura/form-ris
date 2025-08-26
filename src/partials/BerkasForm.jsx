@@ -154,7 +154,7 @@ function BerkasForm(props) {
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-8">
                                         <div className="mt-2">
-                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo (3 x 4)
+                                        <label htmlFor="bird_certificate" className="block text-sm/6 font-medium text-gray-900">Pas Photo (Merah 3 x 4)
                                             <span className="text-red-600">*</span>
                                         </label>
                                             <p className="text-xs/5 text-gray-600">PNG, JPG, PDF up to 2MB</p>
