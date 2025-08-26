@@ -454,8 +454,8 @@ function Payment() {
         applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 // applicantData.applicant_schools[0]?.schools?.school_id
-        applicantDataOrder.total_amount = 140000??amount
-        applicantDataOrder.total_amount = 140000??school.amount
+        applicantDataOrder.total_amount = 14000??amount
+        applicantDataOrder.total_amount = 14000??school.amount
         applicantDataOrder.item_id = applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.created_by = applicantData.applicant_schools[0]?.applicant_id
         applicantDataOrder.foundation_id = 1
