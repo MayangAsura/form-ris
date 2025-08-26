@@ -308,7 +308,7 @@ function Payment() {
       const settlement_date = formatDate(applicantDataPayment.settlement_at)
       const amount = applicantDataPayment.amount
       const no_registrasi = applicantData.regist_number
-      const PSB_URL = 'https://psb-formy.vercel.app/login'
+      const PSB_URL = 'https://psb.rabbaanii.sch.id/login'
       const type = 'payment'
       // console.log('', no_form_pendaftaran, settlement_date, amount)
       // No. Formulir Pendaftaran: ${no_form_pendaftaran}
