@@ -72,7 +72,7 @@ ditetapkan sekolah</li>
     {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
     {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
     {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantren', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
-    {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Closed ', registration_fee: 'Rp0.000'}
+    // {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Closed ', registration_fee: 'Rp0.000'}
   ] 
   // console.log(jenjangData)
 
@@ -139,7 +139,7 @@ ditetapkan sekolah</li>
            
           {jenjangData.map(function(d,k) {
             return(
-              <div className="card" key={d.code}>
+              <div className="card rounded-sm"  key={d.code}>
                 <div className="card-container">
                   <div className="image-container">
                     <div className="absolute scale-[0.2] h-0 -ml-20 p-2 pb-2/3 sm:pt-1/3 lg:pb-1/3 justify-start object-scale-down max" width={5} ><img src={"/images/rabbaanii-logo.png"} width={5} className="w-5 h-5"/></div>

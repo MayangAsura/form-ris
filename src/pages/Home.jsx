@@ -69,8 +69,18 @@ function Home() {
       setCurrentStep(parseInt(step))
     }
 
+    if(currentStep){
+
+      console.log('current from home', currentStep)
+    }
+    
+
          
-  }, [step])
+  }, [step, currentStep])
+
+  const getCurrentStep = (value) => {
+    setCurrentStep(value)
+  }
   
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
@@ -84,7 +94,7 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
-        <Announcement participant={participantData}/>
+        <Announcement participant={participantData} setCurrentStep={setCurrentStep} />
         <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} currentStep={currentStep} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}

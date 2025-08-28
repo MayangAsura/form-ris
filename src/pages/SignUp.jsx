@@ -11,12 +11,11 @@ import Modal from '../utils/Modal';
 import Swal from '../utils/Swal'
 // import { Spinner } from "flowbite-react";
 
-// import axios from '../api/axios';
-// import axios from 'axios';
-// import ax
+import { useRegister } from '../features/hooks/use-register';
+
 import wablas from '../api/wablas';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -33,11 +32,13 @@ function SignUp() {
   const [full_name, setFullName] = useState("")
   const [gender, setGender] = useState("")
   const [phone_number, setPhoneNumber] = useState("")
+  const [_phone_number, set_PhoneNumber] = useState("")
   const [email, setEmail] = useState("")
   const [school_id, setSchoolId] = useState("")
   const [school_name, setSchoolName] = useState("")
   const [subschool, setSubschool] = useState("")
   const [password, setPassword] = useState("")
+  const [temp_password, setTempPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
   const [modal_show, setModalShow] = useState(false)
@@ -56,6 +57,8 @@ function SignUp() {
   const [is_loading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
+  const { onSubmit, results, form, loading, error, notified } = useRegister()
+  const { register, handleSubmit, formState: { errors }} = form;
 
   let code = useParams().code
     // const dataModal = () => {
@@ -77,8 +80,8 @@ function SignUp() {
       'smpi',
       'smai',
       'smp-pesantren',
-      'sma-pesantren',
-      'rabbaanii-ciwidey'
+      'sma-pesantren'
+      // 'rabbaanii-ciwidey'
     ]
 
     if(!allowed_codes.includes(code)){
@@ -89,9 +92,32 @@ function SignUp() {
       modal_data.type = "static"
       setModalShow(true)
     }
+    console.log('pass>', password)
+    console.log('temppass', temp_password)
+    console.log('cpass>', confirm_password)
+    console.log('results>', results)
+
+    if(results?.f1){
+      console.log('masuk', results)
+      handleResults(results)
+    }
+
+    if(code || !school_id || !subschool){
+      setSchoolId(getSchoolIdSchoolName(code).substring(0,1))
+      setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2))
+
+      form.setValue('school_id', school_id)
+      form.setValue('subschool', subschool)
+      console.log('id',school_id, subschool)
+    }
+
     // getSchoolIdSchoolName()
     // getSchoolIdSchoolName()
-  },[code])
+  },[code, results, form, password, confirm_password, school_id, subschool])
+
+  // const handleResults = () => {
+  //   if(Object.values)
+  // }
   // const [applicants, setApplicants] = useState({
   //   full_name: "",
   //   gender: "",
@@ -139,9 +165,132 @@ function SignUp() {
   //   //   .then(json => setApplicants(json))
   // }, [])
 
+  const isObjectEmpty = async (objectName) => {
+    return (
+      objectName &&
+      Object.keys(objectName).length === 0 &&
+      objectName.constructor === Object
+    );
+  };
+  const handleResults = async (_results) => {
+
+    // const _full_name = full_name
+    // const _gender = gender
+    // const _phone_number = phone_number
+    // const _email = email
+    // const _school_id = parseInt(getSchoolIdSchoolName(code).substring(0,1)) 
+    // const _subschool = getSchoolIdSchoolName(code).split("-")[0].substring(1,2)
+    // const _password = password
+    // const _media = media
+    console.log('handl',results, error)
+    if(error){
+      console.log('not valid')
+      // setIsValidated(true)
+      // setIsLoading(false)
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = "Mohon periksa kembali data Anda"
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Halaman Utama"
+      setModalShow(true)
+    }
+
+
+    if(results?.f1 === '01'){
+      // setIsLoading(false)
+      console.log('masuk', results  )
+      // console.log(Object.values(results)[0] )
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = results?.f2
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Kembali"
+      setModalShow(true)
+      return
+    }
+    
+    if(results && results?.f1 !== '01'){
+      console.log('masuk', results)
+
+      console.log('_phone_number', _phone_number)
+      const new_phone_number = '62'+ _phone_number.slice(1)
+      // console.log(data_appl)
+      // _phone_number.replace()
+      setFullName("")
+      setGender("")
+      setPhoneNumber("")
+      setEmail("")
+      setSchoolId("")
+      setSchoolName("")
+      setSubschool("")
+      setPassword("")
+      setConfirmPassword("")
+      modal_data.type= "basic",
+      modal_data.title= "Pendaftaran Berhasil",
+      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
+      // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+      // tex.t: "Konfirmasi Pendaftaran ke CS",
+      // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+      modal_data.text2= "Lanjut Pembayaran",
+      modal_data.url2= "/login"
+      
+      const type ='form-success'
+      
+      // console.log(new_phone_number)
+      const data = [{
+        "phone": new_phone_number,
+        // "phone": "6285778650040",
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. 
+        No. Pendaftaran: ${results?.f3}
+        Login Aplikasi: https://psb.rabbaanii.sch.id/login
+        
+        Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran. Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
+        
+        Jazaakumullahu khayran wa Baarakallaahu fiikum.
+        
+        -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+        - Mohon simpan nomor ini untuk mendapatkan update informasi -`
+        // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
+
+      }]
+      // console.log(data)
+
+      if(notified){
+
+        setSuccess(true)
+        setModalShow(true)
+      }
+
+      
+          // try {
+          //   const response = await axios.post("/api/auth/send-notif", {message: data , type: type, token: null},
+          //   {
+          //     headers: {'Content-Type': 'application/json' }
+          //   }
+          //   );
+          //   // 
+          //   console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+          //   if(response.status==200 || response.status==204){
+              
+          //     // persistor.purge();
+          //     // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+          //     // localStorage.removeItem("persist:auth")
+          //     // Cookies.remove("jwt")
+          //     // dispatch(logout())
+          //     // navigate('/login')
+          //   }
+          // } catch (error) {
+          //   console.log(error)
+          // } finally {
+          //   // setIsLoading(false)
+          // }
+        }
+
+  }
+
 
   const addApplicants = async (e) =>{
-    setIsLoading(true)
+    // setIsLoading(true)
     e.preventDefault()
     // console.log('data', full_name, gender, phone_number, email, password, media, school_id)
     
@@ -166,6 +315,8 @@ function SignUp() {
     console.log(_subschool)
     console.log(code)
 
+    // handleSubmit(onSubmit(full_name,gender,phone_number, email, _school_id, _subschool, password, media))
+
     if(!_full_name || !_gender || !_phone_number || !_email || !_password || !_media || !_school_id || !confirm_password){
       console.log('not valid')
       // setIsValidated(true)
@@ -179,15 +330,15 @@ function SignUp() {
     }else{
 
       const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
-      _email,
-      _full_name,
-      _gender,
-      _media,
-      _password,
-      _phone_number,
-      _school_id,
-      _subschool
-    });
+        _email,
+        _full_name,
+        _gender,
+        _media,
+        _password,
+        _phone_number,
+        _school_id,
+        _subschool
+      });
 
     // console.log(data_appl)
     setDataAppTemp(data_appl)
@@ -476,31 +627,43 @@ console.log(Object.values(data_appl)[0] !== '01')
                 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} {...register('full_name')} type="text" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
                       {/* pattern="^[A-Za-z0-9.']{3,50}$" */}
+                      {errors.full_name && (
+                        <p className="text-xs text-red-500"> {errors.full_name.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='male' {...register('gender')} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='female' {...register('gender')} type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      {errors.gender && (
+                        <p className="text-xs text-red-500"> {errors.gender.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="phone_number">No. WhatsApp <span className="text-red-600">*</span></label>
-                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} value={phone_number} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      <input id="phone_number" name='phone_number' onChange={(e) => {setPhoneNumber(e.target.value), set_PhoneNumber(e.target.value)}} {...register('phone_number')}className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      {errors.phone_number && (
+                        <p className="text-xs text-red-500"> {errors.phone_number.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} {...register('email')} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                      {errors.email && (
+                        <p className="text-xs text-red-500"> {errors.email.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -510,8 +673,15 @@ console.log(Object.values(data_appl)[0] !== '01')
                       {/* {code} */}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
                       {/* <input id="subschool" name='subschool' type="text" hidden disabled value={} onChange={e => (setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2)))}  className="form-input w-full text-gray-800" placeholder="" required /> */}
-                      <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_id" name='school_id' type="text" hidden disabled onChange={(e) => setSchoolId(e.target.value)} {...register('school_id')} className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="subschool" name='subschool' type="text" hidden disabled onChange={(e) => setSubschool(e.target.value)} {...register('subschool')} className="form-input w-full text-gray-800" placeholder="" required />
+                      {errors.school_id &&(
+                        <p className="text-xs text-red-500"> {errors.school_id.message} </p>
+                      )}
+                      {errors.subschool && (
+                        <p className="text-xs text-red-500"> {errors.subschool.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className='h4 separator'>Informasi Akun</div>
@@ -519,7 +689,10 @@ console.log(Object.values(data_appl)[0] !== '01')
                     <div className="w-full px-3 ">
                       {/* <div></div> */}
                       <label className="block text-gray-900 text-sm font-medium mb-1 tooltip tooltip-open tooltip-right" data-tip="Buatlah password yang mudah diingat" htmlFor="password">Password <span className="text-red-600">*</span></label>
-                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                      <input id="password" name='password' onChange={(e) => {setPassword(e.target.value), setTempPassword(e.target.value)}} {...register('password')} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                      {errors.password && (
+                        <p className="text-xs text-red-500"> {errors.password.message} </p>
+                      )}
                       <div class="flex items-center p-4 mb-4 my-1 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                         <svg class="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -540,16 +713,19 @@ console.log(Object.values(data_appl)[0] !== '01')
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
-                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
-                      <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} {...register('confirm_password')} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
+                      {errors.confirm_password && (
+                        <p className="text-xs text-red-500"> {errors.confirm_password.message} </p>
+                      )}
+                      {/* <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                           Konfirmasi password tidak sama dengan password
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <div className="sm:col-span-4">
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
-                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} {...register('media')} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                           <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
                           <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
                           <option value={media== 'karyawan/guru'? media:"karyawan/guru"}>Karyawan/Guru </option>
@@ -565,6 +741,9 @@ console.log(Object.values(data_appl)[0] !== '01')
                           <option value={media== 'mesin_pencari'? media:"mesin_pencari"}>Rekomendasi mesin pencarian internet</option>
 
                           </select>
+                          {errors.media && (
+                            <p className="text-xs text-red-500"> {errors.media.message} </p>
+                          )}
                           {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                           <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                           </svg> */}
@@ -572,8 +751,10 @@ console.log(Object.values(data_appl)[0] !== '01')
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_loading} > 
-                        {is_loading ? (
+                      <button className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={loading} 
+                      // onClick={addApplicants}
+                      >
+                        {loading ? (
                           <>
                           <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
                 {/* SVG path for your spinner */}

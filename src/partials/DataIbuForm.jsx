@@ -169,7 +169,10 @@ function DataIbuForm(props) {
                                                                 
                                                             </div>
                                                         ) : 
+                                                        (
+                                                            props.edit? 'Edit':
                                                             "Simpan"
+                                                        )
                                                         }
                                             </button>
                                         )}

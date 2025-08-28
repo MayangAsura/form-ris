@@ -229,7 +229,10 @@ function VerifikasiKeluargaForm(props) {
                                                                 
                                                             </div>
                                                         ) : 
+                                                        (
+                                                            props.dataVerifikasiKeluarga? 'Edit':
                                                             "Simpan"
+                                                        )
                                                         }
                                             </button>
                                         )}

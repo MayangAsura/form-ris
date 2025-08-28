@@ -252,11 +252,12 @@ console.log(text, value)
                         )}
                                               
                     </div>
-                    {props.participant.submission_status == 'accepted' && (
+                    {props.participant.submission_status === 'accepted' && (
                       <div className='flex flex-grow gap-4 px-2 mt-2'>
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {
-                                                        setCurrentStep(10)
+                                                        props.setCurrentStep(10)
+                                                        props.scrollToStep()
                                                         // currentStep === steps.length
                                                         //   ? setComplete(true)
                                                         //   : setCurrentStep((prev) => prev + 1); 

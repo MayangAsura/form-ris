@@ -4,9 +4,10 @@ import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import { TiArrowRightThick  } from "react-icons/ti";
 import Swal from '../utils/Swal';
+import {TbEyeOff, TbEye} from 'react-icons/tb';
 
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 const USERCHECK_URL = '/api/auth/user-check'
@@ -19,6 +20,8 @@ function ResetPassword() {
   const [username, setUsername] = useState("")
   const [newpassword, setNewPassword] = useState("")
   const [success, setSuccess] = useState("")
+  const [isVisibleP, setIsVisibleP] = useState(false)
+  const [isVisibleCP, setIsVisibleCP] = useState(false)
   const [data_modal, setDataModal] = useState({})
   const [modal_show, setModalShow] = useState(false)
   const navigate = useNavigate()
@@ -85,6 +88,14 @@ function ResetPassword() {
       // const  = response?.token
       // const roles = response?.data?.roles 
   }
+
+  const hanledVisibleP = () => {
+    setIsVisibleP(prevState => !prevState)
+  }
+  const hanledVisibleCP = () => {
+    setIsVisibleCP(prevState => !prevState)
+  }
+  
   return (
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto overflow-hidden relative">
     {/* <div className="flex flex-col max-w-lg min-h-screen mx-auto overflow-hidden"> */}
@@ -126,14 +137,34 @@ function ResetPassword() {
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Password Baru<span className="text-red-600">*</span></label>
-                          <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan password baru" required />
+                          <div className="flex">
+                            <input id="newpassword" name="newpassword" onChange={(e) => setNewPassword(e.target.value)} type={isVisibleP?'text':'password'} className="form-input w-full text-gray-800" placeholder="Masukkan password baru" required />
+                            <button type="button" onClick={hanledVisibleP} 
+                              className="flex justify-around items-center">
+                                {isVisibleP? (
+                                  <TbEyeOff size={20} className='absolute mr-10'></TbEyeOff>
+                                ):(
+                                  <TbEye size={20} className='absolute mr-10'></TbEye>
+                                ) }
+                                
+                            </button>
+                          </div>
                           <input id="token" disabled hidden name="token" value={token??""} type="text" className="form-input w-full text-gray-800" placeholder="" required />
                         </div>
                       </div>
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Konfirmasi Password<span className="text-red-600">*</span></label>
-                          <input id="confirm_password" name='confirm_password' pattern={newpassword} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan konfirmasi password" required />
+                          <input id="confirm_password" name='confirm_password' pattern={newpassword} type={`${isVisibleCP?'text':'password'}`} className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan konfirmasi password" required />
+                          <button type="button" onClick={hanledVisibleCP} 
+                            className="flex justify-around items-center">
+                              {isVisibleCP? (
+                                <TbEyeOff size={20} className='absolute mr-10'></TbEyeOff>
+                              ):(
+                                <TbEye size={20} className='absolute mr-10'></TbEye>
+                              ) }
+                              
+                          </button>
                           <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                               Konfirmasi password tidak sama dengan password
                           </span>

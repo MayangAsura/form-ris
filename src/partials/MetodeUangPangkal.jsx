@@ -2,19 +2,19 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { useEffect, useState } from 'react';
 
-import PaymentUangPangkalNonRabTKIT from './PaymentUangPangkalNonRabTKIT';
-import PaymentUangPangkalNonRabSDIT from './PaymentUangPangkalNonRabSDIT';
-import PaymentUangPangkalNonRabSMPI from './PaymentUangPangkalNonRabSMPI';
-import PaymentUangPangkalNonRabSMAI from './PaymentUangPangkalNonRabSMAI';
-import PaymentUangPangkalNonRabSMPPesantren from './PaymentUangPangkalNonRabSMPPesantren';
-import PaymentUangPangkalNonRabSMAPesantren from './PaymentUangPangkalNonRabSMAPesantren';
-import PaymentUangPangkalPondokCiwidey from './PaymentUangPangkalPondokCiwidey';
-import PaymentUangPangkalRabTKIT from './PaymentUangPangkalRabTKIT';
-import PaymentUangPangkalRabSDIT from './PaymentUangPangkalRabSDIT';
-import PaymentUangPangkalRabSMPI from './PaymentUangPangkalRabSMPI';
-import PaymentUangPangkalRabSMAI from './PaymentUangPangkalRabSMAI';
-import PaymentUangPangkalRabSMPPesantren from './PaymentUangPangkalRabSMPPesantren';
-import PaymentUangPangkalRabSMAPesantren from './PaymentUangPangkalRabSMAPesantren';
+import PaymentUangPangkalNonRabTKIT from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabTKIT';
+import PaymentUangPangkalNonRabSDIT from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabSDIT';
+import PaymentUangPangkalNonRabSMPI from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabSMPI';
+import PaymentUangPangkalNonRabSMAI from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabSMAI';
+import PaymentUangPangkalNonRabSMPPesantren from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabSMPPesantren';
+import PaymentUangPangkalNonRabSMAPesantren from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalNonRabSMAPesantren';
+import PaymentUangPangkalPondokCiwidey from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalPondokCiwidey';
+import PaymentUangPangkalRabTKIT from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabTKIT';
+import PaymentUangPangkalRabSDIT from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabSDIT';
+import PaymentUangPangkalRabSMPI from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabSMPI';
+import PaymentUangPangkalRabSMAI from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabSMAI';
+import PaymentUangPangkalRabSMPPesantren from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabSMPPesantren';
+import PaymentUangPangkalRabSMAPesantren from './metode_uang_pangkal/jalur_khusus/PaymentUangPangkalRabSMAPesantren';
 
 
 function MetodeUangPangkal(props) {
@@ -265,7 +265,10 @@ function MetodeUangPangkal(props) {
                                                             
                                                         </div>
                                                     ) : 
+                                                    (
+                                                        props.dataMetodeUangPangkal? 'Edit':
                                                         "Simpan"
+                                                    )
                                                     }
                                         </button>
                                     )}

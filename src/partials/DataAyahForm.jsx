@@ -201,7 +201,10 @@ const DataAyahForm = (props) => {
                                                             
                                                         </div>
                                                     ) : 
+                                                    (
+                                                        props.edit? 'Edit':
                                                         "Simpan"
+                                                    )
                                                     }
                                         </button>
                                     )}

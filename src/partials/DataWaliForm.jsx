@@ -157,7 +157,10 @@ function DataWaliForm(props) {
                                                                     
                                                                 </div>
                                                             ) : 
+                                                            (
+                                                                props.edit? 'Edit':
                                                                 "Simpan"
+                                                            )
                                                             }
                                                 </button>
                                                 <button className='btn w-full py-3 block btn-sm  text-gray-200 bg-gray-800 hover:bg-gray-700'

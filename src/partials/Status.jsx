@@ -6,9 +6,11 @@ function Status(props) {
 
   useEffect(() => {
     
+    console.log('dataStatus', props.dataStatus)
     if(props.dataStatus){
       setSubmissionStatus(props.dataStatus)
-    }
+      
+  }
   }, [props.dataStatus])
   return (
    

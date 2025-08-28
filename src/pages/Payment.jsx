@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
@@ -451,7 +451,7 @@ function Payment() {
       }
       // console.log("in new order")
        const applicantDataX = {item_id: 1, foundation_id: 1, description: 'paying registration fee', total_amount: 125000, created_by: '04f84c3c-11e2-4154-8c88-df1e2f3a6c3a'}
-        applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + ' ' + applicantData.applicant_schools[0]?.schools.school_name??''
+        applicantDataOrder.description = 'Biaya Formulir Pendaftaran' + '-' + applicantData.applicant_schools[0]?.schools.school_name??''
         // applicantDataOrder.description = 'invoice registration fee'
 // applicantData.applicant_schools[0]?.schools?.school_id
         applicantDataOrder.total_amount = amount

@@ -479,7 +479,10 @@ function BerkasForm(props) {
                                                                 
                                                             </div>
                                                         ) : 
+                                                        (
+                                                            props.dataBerkas? 'Edit':
                                                             "Simpan"
+                                                        )
                                                         }
                                             </button>
                                         )}

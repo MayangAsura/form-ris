@@ -14,8 +14,8 @@ import Swal from '../utils/Swal'
 // import axios from 'axios';
 // import ax
 import wablas from '../api/wablas';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -78,8 +78,8 @@ function SignUp() {
       'smpi',
       'smai',
       'smp-pesantren',
-      'sma-pesantren',
-      'rabbaanii-ciwidey'
+      'sma-pesantren'
+      // 'rabbaanii-ciwidey'
     ]
 
     if(!allowed_codes.includes(code)){

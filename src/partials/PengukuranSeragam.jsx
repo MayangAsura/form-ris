@@ -1,7 +1,7 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
 // import e from 'cors'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { json } from 'react-router-dom'
 // import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
@@ -45,6 +45,7 @@ const PengukuranSeragam = (props) => {
         }
 
         props.participant? setParticipantId(props.participant): ""
+        props.pengSeragamRef(peng_seragam)
     },[props.dataSeragam, props.schoolUniformModel, props.gender, props.participant])
     const models = []
     const saveData = (e) => {
@@ -103,12 +104,12 @@ const PengukuranSeragam = (props) => {
                                                     </tr>
                                                     `
 
-                //    //console.log(m.id, JSON.parse(m.model_size_charts))
+                   console.log('model_size_charts',m.id, JSON.parse(m.model_size_charts))
                 
                 const model_size_charts = JSON.parse(m.model_size_charts)
                 for (let key in model_size_charts) {
                     // const  = model_size_charts[index];
-                    const checked = props.dataSeragam[index].uniform_model_id== m.id && props.dataSeragam[index].size_chart==key?'checked':''
+                    const checked = props.dataSeragam[index]?.uniform_model_id== m.id && props.dataSeragam[index]?.size_chart==key?'checked':''
                     //console.log(props.dataSeragam[index].uniform_model_id, props.dataSeragam[index].size_chart)
                     //console.log(checked)
                 // //console.log(key, model_size_charts[key]);
@@ -218,7 +219,7 @@ const PengukuranSeragam = (props) => {
     }
 
     return (
-        <section className="relative">
+        <section ref={peng_seragam} className="relative">
             <div className='max-w-6xl mx-auto px-4 sm:px-6 '>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>

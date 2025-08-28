@@ -32,6 +32,8 @@ const HorizontalStepper = (props) => {
   const [inserted, setInserted] = useState(false);
   const [ isPending, startTransition ] = useTransition()
   const [ loading, setLoading ] = useState(false)
+  const pengSeragam = useRef()
+  // const [ pengSeragam, setPengSeragam ] = useRef()
 
   const [participant, setParticipant] = useState({})
   const [dataAyah, setDataAyah] = useState({})
@@ -145,11 +147,12 @@ const HorizontalStepper = (props) => {
 
     }
 
-    // if(props.currentStep) {
-    //   console.log('query from stepper', props.currentStep)
-    //   setCurrentStep(props.currentStep)
-    //   setParamNavigasi(props.currentStep)
-    // }
+    if(props.currentStep && participant?.submission_status== 'accepted') {
+      console.log('currentStep from stepper', props.currentStep)
+      setCurrentStep(props.currentStep)
+      getStatus()
+      // setParamNavigasi(props.currentStep)
+    }
 
 
   
@@ -157,7 +160,8 @@ const HorizontalStepper = (props) => {
     ////console.log('applicant >', applicant)
     console.log('path >', PATH_URL)
     
-  }, [props.applicant, participant, isPending, props.currentStep]) 
+    
+  }, [props.applicant, participant, isPending]) 
 
   const setParamNavigasi  = (nstep) => {
       const params = { step: nstep};
@@ -246,7 +250,7 @@ const HorizontalStepper = (props) => {
     }
 
     setDataAyah(data[0])
-    if(data.length>0){
+    if(data.length>0 && participant?.submission_status!== 'accepted'){
       setCurrentStep(4)
     }
     ////console.log(dataAyah)
@@ -265,7 +269,7 @@ const HorizontalStepper = (props) => {
 
     setDataIbu(data[0])
     
-    if(data.length>0){
+    if(data.length>0 && participant?.submission_status!== 'accepted'){
       setCurrentStep(5)
     }
     ////console.log(dataIbu)
@@ -281,7 +285,7 @@ const HorizontalStepper = (props) => {
     }
 
     setDataWali(data[0])
-    if(data.length>0){
+    if(data.length>0 && participant?.submission_status!== 'accepted'){
       setCurrentStep(6)
     }
     ////console.log(dataWali)
@@ -302,7 +306,7 @@ const HorizontalStepper = (props) => {
     // ]
 
     setDataBerkas(data)
-    if(data.length>0){
+    if(data.length>0 && participant?.submission_status!== 'accepted'){
       setCurrentStep(7)
     }
     ////console.log('dataBerkas', dataBerkas)
@@ -597,7 +601,7 @@ const HorizontalStepper = (props) => {
     })
   }
 
-  const getStatus = (data) => {
+  const getStatus = () => {
     // ////console.log("Data Uang Pangkal >", data)
     startTransition( () => {
 
@@ -960,9 +964,21 @@ const HorizontalStepper = (props) => {
     setDataAlertShow(value)
   }
 
+  const pengSeragamRef = (data) => {
+    setPengSeragam(data)
+  }
+
+  const scrollToStep = () => {
+    console.log('el')
+    window.scrollTo({
+      top: pengSeragam.current.offsetTop,
+      behavior: "smooth"
+    })
+  }
+
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} setParamNavigasi={setParamNavigasi} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} pengSeragamRef={pengSeragamRef} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
