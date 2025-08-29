@@ -793,6 +793,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
                 if(data){
                   modal_data.title = "Data Berhasil Disimpan"
                   setModalShow(true)
+                }else{
+                  modal_data.title = "Data Gagal Disimpan"
+                  setModalShow(true)
                 }
               
 
@@ -806,6 +809,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
               ////console.log('err >', err)
               if(data){
                 modal_data.title = "Data Berhasil Diedit"
+                setModalShow(true)
+              }else{
+                modal_data.title = "Data Gagal Diedit"
                 setModalShow(true)
               }
               
@@ -867,6 +873,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
               if(data){
                 modal_data.title = "Data Berhasil Disimpan"
                 setModalShow(true)
+              }else{
+                modal_data.title = "Data Gagal Disimpan"
+                setModalShow(true)
               }
             }else{
               console.log('dataItem>',dataItem)
@@ -881,6 +890,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
 
               if(data){
                 modal_data.title = "Data Berhasil Diedit"
+                setModalShow(true)
+              }else{
+                modal_data.title = "Data Gagal Diedit"
                 setModalShow(true)
               }
               ////console.log('err >', err)
@@ -938,6 +950,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
         if(data){
           modal_data.title = "Data Berhasil Disimpan"
           setModalShow(true)
+        }else{
+          modal_data.title = "Data Gagal Disimpan"
+          setModalShow(true)
         }
         ////console.log('data>', data)
         ////console.log('err >', err)
@@ -982,6 +997,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
         if(data){
           modal_data.title = "Data Berhasil Disimpan"
           setModalShow(true)
+        }else{
+          modal_data.title = "Data Gagal Disimpan"
+          setModalShow(true)
         }
       }else{
         ////console.log('from input array')
@@ -1000,6 +1018,9 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
 
         if(data){
           dataAlert.title = "Data Berhasil Diedit"
+          setDataAlertShow(true)
+        }else{
+          dataAlert.title = "Data Gagal Diedit"
           setDataAlertShow(true)
         }
       }
