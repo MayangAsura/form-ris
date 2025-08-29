@@ -23,53 +23,53 @@ const PengukuranSeragam = forwardRef((props, ref) => {
             setSchoolUniformModel(props.schoolUniformModel)
         }
         props.participant? setParticipantId(props.participant): ""
-    },[props.dataSeragam, props.schoolUniformModel, formData])
+    },[])
 
     const models = []
 
-    const saveData = (e) => {
-        e.preventDefault()
-        console.log('formData >', e)
+    // const saveData = (e) => {
+    //     e.preventDefault()
+    //     console.log('formData >', e)
 
-        // for
-        formData?.map((i, key) => {
+    //     // for
+    //     formData.map((i, key) => {
 
-            models.push({
-                uniform_model_id: i,
-                participant_id: participant_id,
-                size_chart: i.value()
-            });
-        })
-        for (let i in formData) {
-            const x = e.target[i];
-                const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
+    //         models.push({
+    //             uniform_model_id: i,
+    //             participant_id: participant_id,
+    //             size_chart: i.value()
+    //         });
+    //     })
+    //     for (let i in formData) {
+    //         const x = e.target[i];
+    //             const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
             
-        //         console.log('checkedRadios', checkedRadios)
-        //         checkedRadios.forEach(radio => {
-        // });
-        // models.push({
-        //         uniform_model_id: i,
-        //         participant_id: participant_id,
-        //         size_chart: i
-        //     });
-            // if(x.checked){
-                // models.push({
-                // uniform_model_id: i.name,
-                // participant_id: participant_id,
-                // size_chart: i.value
-            // })
-            // }     
-        }
-        console.log('models', models)
-        // console.log('formData>', formData)
-        //console.log('applicantUniformSCData>', applicantUniformSCData)
-        props.onSubmit(models)
+    //     //         console.log('checkedRadios', checkedRadios)
+    //     //         checkedRadios.forEach(radio => {
+    //     // });
+    //     // models.push({
+    //     //         uniform_model_id: i,
+    //     //         participant_id: participant_id,
+    //     //         size_chart: i
+    //     //     });
+    //         // if(x.checked){
+    //             // models.push({
+    //             // uniform_model_id: i.name,
+    //             // participant_id: participant_id,
+    //             // size_chart: i.value
+    //         // })
+    //         // }     
+    //     }
+    //     console.log('models', models)
+    //     // console.log('formData>', formData)
+    //     //console.log('applicantUniformSCData>', applicantUniformSCData)
+    //     props.onSubmit(models)
         
-        // generateUniformModelForm()
+    //     // generateUniformModelForm()
         
-    }
+    // }
     
-    const saveData_ = (e) => {
+    const saveData = (e) => {
         e.preventDefault()
         const formModels = [];
         
@@ -230,7 +230,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                                                 // ) 
                                                 : 
                                                  */}
-                                                 {props.dataSeragam? 'Edit': 'Simpan'}
+                                                 {props.dataSeragam.length>0? 'Edit': 'Simpan'}
                                                     {/* :  */}
                                                     {/* Simpan */}
                                                 
