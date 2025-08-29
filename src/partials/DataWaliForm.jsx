@@ -12,7 +12,7 @@ function DataWaliForm(props) {
         const data = { wali_name:wali_name, wali_academic:wali_academic, wali_job:wali_job, wali_salary:wali_salary}
     
         useEffect(() => {
-            //console.log('props.dataWali>', props.dataWali)
+            console.log('props.dataWali>', props.dataWali)
             setWaliName(props.dataWali?.wali_name)
             setWaliAcademic(props.dataWali?.wali_academic)
             setWaliSalary(props.dataWali?.wali_salary)
@@ -158,7 +158,7 @@ function DataWaliForm(props) {
                                                                 </div>
                                                             ) : 
                                                             (
-                                                                props.dataWali? 'Edit':
+                                                                props.dataWali.lenght>0? 'Edit':
                                                                 "Simpan"
                                                             )
                                                             }

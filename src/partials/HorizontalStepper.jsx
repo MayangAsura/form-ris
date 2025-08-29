@@ -403,7 +403,7 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
             // console.log('data ayah',!props.applicant[0].participants[0].participant_father_data)
             // console.log('data ayah',props.applicant[0].participants[0].participant_father_data.length ===0, props.applicant[0].participants[0].participant_father_data.length)
             console.log('data ayah',!dataAyah)
-            if(!edit && (!props.applicant[0].participants[0].participant_father_data || !dataAyah) ){
+            if(!edit && (!props.applicant[0].participants[0]?.participant_father_data || !dataAyah) ){
               // console.log("Data Ayah >,", data)
               
               saveData(data, 'participant_father_data')
@@ -449,8 +449,8 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
         if(!complete){
           if(props.applicant[0].participants.length>0 || participant){
             // console.log('dataibu', data)
-            console.log('data ibu',props.applicant[0].participants[0])
-            console.log('data ibu',!props.applicant[0].participants[0].participant_mother_data)
+            // console.log('data ibu',props.applicant[0].participants[0])
+            // console.log('data ibu',!props.applicant[0].participants[0]?.participant_mother_data)
             // console.log('data ibu',props.applicant[0].participants[0].participant_mother_data.length ===0, props.applicant[0].participants[0].participant_mother_data.length)
             console.log('data ibu',!dataIbu)
             if(!edit && (!dataIbu)){
@@ -493,7 +493,7 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
         if(!complete){
           if(props.applicant[0].participants.length>0 || participant){
             console.log('data wali',props.applicant[0].participants[0])
-            console.log('data wali',!props.applicant[0].participants[0].participant_wali_data)
+            console.log('data wali',!props.applicant[0].participants[0]?.participant_wali_data)
             console.log('data wali',props.applicant[0].participants[0].participant_wali_data.length ===0, props.applicant[0].participants[0].participant_wali_data.length)
             console.log('data wali',!dataWali)
             // || props.applicant[0].participants[0].participant_wali_data.length === 0 ||
@@ -959,7 +959,7 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
         if(dataInput.pob){
           setInserted(true)
           setParticipantId(data[0].id)
-
+          getParticipantData(data[0].id)
           // if(dataIbu){
             
           // }
@@ -1046,6 +1046,7 @@ const HorizontalStepper =forwardRef ( (props, ref) => {
                             .select()
                             ////console.log('data participant after klik edit >', data)
                             ////console.log(error)
+                            getDataBerkas(participant.id?participant.id:participant_id)
   }
   const getComplete = async (value) => {
     // setComplete(value)

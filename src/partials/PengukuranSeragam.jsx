@@ -230,7 +230,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                                                 // ) 
                                                 : 
                                                  */}
-                                                 {props.dataSeragam.length>0 || formData? 'Edit': 'Simpan'}
+                                                 {props.dataSeragam? 'Edit': 'Simpan'}
                                                     {/* :  */}
                                                     {/* Simpan */}
                                                 

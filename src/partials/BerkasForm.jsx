@@ -129,6 +129,7 @@ function BerkasForm(props) {
                 let alink = document.createElement("a");
                 alink.href = fileURL;
                 alink.download = "Surat Kesanggupan.pdf";
+                document.body.  appendChild(alink); // Required for this to work in FireFox
                 alink.click();
             });
         });
