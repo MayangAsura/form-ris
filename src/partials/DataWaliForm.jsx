@@ -144,7 +144,7 @@ function DataWaliForm(props) {
                                                 
                                                 <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                         >
-                                                            {props.isPending? (
+                                                            {(props.isPending || props.loading) ? (
                                                                 <div>
                                                                     {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
                                                                         <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@ function DataWaliForm(props) {
                                                                 </div>
                                                             ) : 
                                                             (
-                                                                props.edit? 'Edit':
+                                                                props.dataWali? 'Edit':
                                                                 "Simpan"
                                                             )
                                                             }

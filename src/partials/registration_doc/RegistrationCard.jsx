@@ -110,6 +110,10 @@ export default function RegistrationCard(props){
       
   }
 
+  const getAcademicText = (academic) => {
+    return academic?.toString().toUpperCase()
+  }
+
   const getPilihanMetodeUangPangkalText = (value) => {
 
     if(value === 'gel_1') {
@@ -336,7 +340,7 @@ export default function RegistrationCard(props){
                 <TR>
                   <TD style={[styles.td]}>Pendidikan Terakhir</TD>
                   <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {(dataAyah.father_academic??props.dataSummary.dataAyah.father_academic)}</TD>
+                  <TD style={[styles.td]}> {getAcademicText(dataAyah.father_academic??props.dataSummary.dataAyah.father_academic)}</TD>
                 </TR>
                 <TR>
                   <TD style={[styles.td]}>Pekerjaan</TD>
@@ -380,7 +384,7 @@ export default function RegistrationCard(props){
             <TR>
               <TD style={[styles.td]}>Pendidikan Terakhir</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {(dataIbu.data.mother_academic??props.dataSummary.dataIbu.mother_academic)}</TD>
+              <TD style={[styles.td]}> {getAcademicText(dataIbu.data.mother_academic??props.dataSummary.dataIbu.mother_academic)}</TD>
             </TR>
             <TR>
               <TD style={[styles.td]}>Pekerjaan</TD>

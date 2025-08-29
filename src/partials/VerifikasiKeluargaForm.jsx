@@ -216,7 +216,7 @@ function VerifikasiKeluargaForm(props) {
                                                         
                                                     // }}
                                                     >
-                                                        {props.isPending? (
+                                                        {(props.isPending || props.loading)? (
                                                             <div>
                                                                 {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
                                                                     <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

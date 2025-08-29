@@ -257,7 +257,7 @@ console.log(text, value)
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {
                                                         props.setCurrentStep(10)
-                                                        props.scrollToStep()
+                                                        props.toUniformClick()
                                                         // currentStep === steps.length
                                                         //   ? setComplete(true)
                                                         //   : setCurrentStep((prev) => prev + 1); 

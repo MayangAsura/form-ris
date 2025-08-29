@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition, forwardRef } from 'react';
 import { TiTick } from "react-icons/ti";
 import IdentitasForm from './IdentitasForm';
 import DataAyahForm from './DataAyahForm';
@@ -15,6 +15,7 @@ import PengukuranSeragam from './PengukuranSeragam';
 // import { createClient } from '@supabase/supabase-js';
 
 import SmallAlert from '../utils/SmallAlert';
+import Swal from '../utils/Swal';
 import { setActive } from '@material-tailwind/react/components/Tabs/TabsContext';
 import { useNavigate } from 'react-router-dom';
 import { createSearchParams } from 'react-router-dom'
@@ -23,7 +24,7 @@ import { G } from '@react-pdf/renderer';
 
 const PATH_URL = import.meta.env.URL_LOCAL
 
-const HorizontalStepper = (props) => {
+const HorizontalStepper =forwardRef ( (props, ref) => {
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -54,8 +55,19 @@ const HorizontalStepper = (props) => {
   const [applicantStudentCategory, setApplicantStudentCategory] = useState({})
   // const [applicantSchool, setApplicantSchool] = useState({})
 
-  const [dataAlert, setDataAlert] = useState({message:""})
+  const [dataAlert, setDataAlert] = useState({title:"", message:"Data Berhasil Disimpan"})
   const [dataAlertShow, setDataAlertShow] = useState(false)
+  const [modal_show, setModalShow] = useState(false)
+    const [modal_data, setModalData] = useState({
+      type: "",
+      title: "",
+      message: "",
+      text: "OK",
+      // url: "/login",
+      // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+      text2: "",
+      url2: ""
+    })
   const navigate = useNavigate()
   // const { applicant, setIsRefresh, currentStep} = props
   
@@ -72,6 +84,7 @@ const HorizontalStepper = (props) => {
   
 
   useEffect(() => {
+    console.log('ref', ref)
     if(props.applicant.length > 0) {
     console.log('applicant',props.applicant[0].participants[0])
       setApplicant(props.applicant[0])
@@ -84,6 +97,9 @@ const HorizontalStepper = (props) => {
           // setComplete(true)
         }else if(participant.is_complete && participant.submission_status== 'accepted'){
           setCurrentStep(steps.length)
+          // if(ref){
+            
+          // }
         }
         setEdit(props.applicant[0].participants[0].is_draft)
         if(props.applicant[0].participants[0].participant_father_data.length>0){
@@ -158,7 +174,7 @@ const HorizontalStepper = (props) => {
   
     ////console.log('isPending > ',isPending)
     ////console.log('applicant >', applicant)
-    console.log('path >', PATH_URL)
+    // console.log('path >', PATH_URL)
     
     
   }, [props.applicant, participant, isPending]) 
@@ -191,7 +207,7 @@ const HorizontalStepper = (props) => {
 
     setDataSeragam(data)
     // if()
-    // setCurrentStep(10)
+    setCurrentStep(10)
     ////console.log('dataSeragam >', dataSeragam)
 
   }
@@ -358,19 +374,20 @@ const HorizontalStepper = (props) => {
           // setApplicant(newdatap)
           getParticipantData(participant_id?participant_id:participant.id)
           // if(applicant.participants.length > 0){
+            // setParamNavigasi(currentStep + 1)
+            // }
+          }
+        }, 3000);
+        // console.log('2')
+        setLoading(false)
         scroll('right')
         setCurrentStep(currentStep + 1)
-        // setParamNavigasi(currentStep + 1)
-      // }
-        }
-      }, 3000);
-      // console.log('2')
-      setLoading(false)
     })
   }
 
   const getDataAyah =  (data) => {
     ////console.log("Data Ayah >", data)
+    setLoading(true)
     startTransition(() => {
 
       setTimeout(() => {
@@ -382,9 +399,9 @@ const HorizontalStepper = (props) => {
         console.log('pid', pid)
         if(!complete){
           if(props.applicant[0].participants.length>0 || participant){
-            console.log('data ayah',props.applicant[0].participants[0])
-            console.log('data ayah',!props.applicant[0].participants[0].participant_father_data)
-            console.log('data ayah',props.applicant[0].participants[0].participant_father_data.length ===0, props.applicant[0].participants[0].participant_father_data.length)
+            // console.log('data ayah',props.applicant[0].participants[0])
+            // console.log('data ayah',!props.applicant[0].participants[0].participant_father_data)
+            // console.log('data ayah',props.applicant[0].participants[0].participant_father_data.length ===0, props.applicant[0].participants[0].participant_father_data.length)
             console.log('data ayah',!dataAyah)
             if(!edit && (!props.applicant[0].participants[0].participant_father_data || !dataAyah) ){
               // console.log("Data Ayah >,", data)
@@ -401,15 +418,26 @@ const HorizontalStepper = (props) => {
         
         
         ////console.log('dataAyah ', dataAyah)
-          scroll('right')
-          setCurrentStep(currentStep + 1)
-          // setParamNavigasi(currentStep + 1)
-        }
-      }, 3000);
+        // setParamNavigasi(currentStep + 1)
+      }
+    }, 2000);
+
+    setLoading(false)
+    setCurrentStep(currentStep + 1)
+    scroll('right')
+      // if(dataAyah){
+      //   modal_data.title = "Data Ayah Berhasil Disimpan"
+      //   // modal_data.message = "Mohon periksa link pendaftaran"
+      //   // modal_data.url2 = "/home"
+      //   // modal_data.text2 = "Halaman Utama"
+      //   // modal_data.type = "static"
+      //   setModalShow(true)
+      // }
     })
   }
   const getDataIbu = (data) => {
     ////console.log("DataIbu >", data)
+    setLoading(true)
     startTransition(() => {
 
       setTimeout(() => {
@@ -441,17 +469,19 @@ const HorizontalStepper = (props) => {
           setDataIbu(data)
           // getMotherData(pid)
         
-          scroll('right')
-          // setParamNavigasi(currentStep + 1)
-          setCurrentStep(currentStep + 1)
         }
-      }, 3000);
-      
+      }, 2000);
+
+      setLoading(false)
+      scroll('right')
+      // setParamNavigasi(currentStep + 1)
+      setCurrentStep(currentStep + 1)
       ////console.log(dataIbu)
     })
   }
   const getDataWali = (data) => {
     console.log("DataWali >", data)
+    setLoading(true)
     startTransition(()=>{
 
       setTimeout(() => {
@@ -481,15 +511,21 @@ const HorizontalStepper = (props) => {
 
         ////console.log('dataWali >', dataWali)
         
-          scroll('right')
-          // setParamNavigasi(currentStep + 1)
-          setCurrentStep(currentStep + 1)
-        }
-      }, 3000);
+      }
+    }, 2000);
+    // if(success && dataWali){
+      setLoading(false)
+      scroll('right')
+      // setParamNavigasi(currentStep + 1)
+      setCurrentStep(currentStep + 1)
+      //   modal_data.title = "Data Wali Berhasil Disimpan"
+      //   setModalShow(true)
+      // }
     })
   }
   const getDataBerkas = (data) =>{
     ////console.log("DataBerkas >", data)
+    setLoading(true)
     startTransition(() => {
 
       setTimeout(() => {
@@ -511,64 +547,73 @@ const HorizontalStepper = (props) => {
           }
           setDataBerkas(data)
           // saveData(data, 'participant_documents', 'file')
-            scroll('right')
-            // setParamNavigasi(currentStep + 1)
-            setCurrentStep(currentStep + 1)
           // }
-      }, 3000);
+        }, 2000);
+
+        setLoading(false)
+        scroll('right')
+        // setParamNavigasi(currentStep + 1)
+        setCurrentStep(currentStep + 1)
     })
   }
   const getDataVerifikasiKeluarga = (data) => {
     ////console.log("Data VerifikasiKeluarga >", data)
+    setLoading(true)
     startTransition(()=> {
       setTimeout(() => {
-      if(data){
-        ////console.log("Data VerifikasiKeluarga >,", data)
-        // const {photo_sampul_ijazah} = data.photo_sampul_ijazah
-        const {photo_sampul_ijazah,...newdata} = data
-        // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
-        // ////console.log(participant)
-        const pid = participant.id?participant.id:participant_id
-        if(!complete){
-          
-          updateData(newdata, 'participants', pid, 'id')
+        if(data){
+          ////console.log("Data VerifikasiKeluarga >,", data)
+          // const {photo_sampul_ijazah} = data.photo_sampul_ijazah
+          const {photo_sampul_ijazah,...newdata} = data
+          // setParticipant(d => ({...d, participant_id: "04f84c3c-11e2-4154-8c88-df1e2f3a6c3a"})  )
+          // ////console.log(participant)
+          const pid = participant.id?participant.id:participant_id
+          if(!complete){
+            
+            updateData(newdata, 'participants', pid, 'id')
 
-          // if(!edit && inserted && )
-          
-          saveData(photo_sampul_ijazah, 'participant_documents', 'file')
+            // if(!edit && inserted && )
+            
+            saveData(photo_sampul_ijazah, 'participant_documents', 'file')
+          }
         }
-          scroll('right')
-          // setParamNavigasi(currentStep + 1)
-          setCurrentStep(currentStep + 1)
-        }
-      }, 3000);
+      }, 2000);
+      
+      setLoading(false)
+      scroll('right')
+      // setParamNavigasi(currentStep + 1)
+      setCurrentStep(currentStep + 1)
 
     })
   }
   const getDataMetodeUangPangkal = (data) => {
  
     ////console.log("Data Uang Pangkal >", data)
+    setLoading(true)
     startTransition(() => {
       
       setTimeout(() => {
-      if(data){
-        ////console.log("Data Uang Pangkal >,", data)
-        data = {...data}
-        const pid = participant.id?participant.id:participant_id
-        ////console.log('pid > ', pid)
-        updateData(data, 'participants', pid, 'id')
-          scroll('right')
-          // setParamNavigasi(currentStep + 1)
-          setCurrentStep(currentStep + 1)
+        if(data){
+          ////console.log("Data Uang Pangkal >,", data)
+          data = {...data}
+          const pid = participant.id?participant.id:participant_id
+          ////console.log('pid > ', pid)
+          updateData(data, 'participants', pid, 'id')
         }
         getComplete(true)
-      }, 3000);
+      }, 2000);
+
+      setLoading(false)
+      scroll('right')
+      // setParamNavigasi(currentStep + 1)
+      setCurrentStep(currentStep + 1)
     })
   }
 
   const getPengukuranSeragam = (data) => {
  
-    ////console.log("Data Pengukuran Seragam >", data)
+    console.log("Data Pengukuran Seragam >", data)
+    setLoading(true)
     startTransition(() => {
       
       setTimeout(() => {
@@ -598,27 +643,30 @@ const HorizontalStepper = (props) => {
         }
       }, 3000);
       setComplete(true)
+      setLoading(false)
     })
   }
 
   const getStatus = () => {
     // ////console.log("Data Uang Pangkal >", data)
+    setLoading(true)
     startTransition( () => {
 
       setTimeout( async () => {
         const pid = participant.id?participant.id:participant_id
         const { data, error } = await supabase.from('participants')
-                                .select('is_complete, status_submission')
+                                .select('is_complete, submission_status')
                                 .eq('id', pid)
                                 .single()
         if(data){
           ////console.log("Complete >,", data)
           setComplete(data.is_complete)
-          setDataStatus(data.status_submission)
+          setDataStatus(data.submission_status)
           // scroll('right')
           //   setCurrentStep(currentStep + 1)
           }
       }, 3000);
+      setLoading(false)
     })
   }
 
@@ -730,7 +778,7 @@ const HorizontalStepper = (props) => {
               participant_id: pid,
               file_url: berkasUrl?berkasUrl : file_url,
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
-              file_size: d.size.toString(),
+              file_size: d.size?.toString(),
               file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
               file_title: d.name
             }
@@ -741,6 +789,12 @@ const HorizontalStepper = (props) => {
                                 .select()
               ////console.log('data>', data)
               ////console.log('err >', err)
+              
+                if(data){
+                  modal_data.title = "Data Berhasil Disimpan"
+                  setModalShow(true)
+                }
+              
 
             }else{
               dataItem.participant_id = participant.id?participant.id:participant_id
@@ -750,6 +804,10 @@ const HorizontalStepper = (props) => {
               .select()
               ////console.log('data>', data)
               ////console.log('err >', err)
+              if(data){
+                modal_data.title = "Data Berhasil Diedit"
+                setModalShow(true)
+              }
               
             }
       //       if(d.name == "Bird-Certificate"){
@@ -792,7 +850,7 @@ const HorizontalStepper = (props) => {
             participant_id: pid,
             file_url: berkasUrl?berkasUrl : file_url,
             file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
-            file_size: d.size.toString(),
+            file_size: d.size?.toString(),
             file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
             file_title: d.name
           }
@@ -806,6 +864,10 @@ const HorizontalStepper = (props) => {
               console.log('data>', data)
               ////console.log('err >', err)
 
+              if(data){
+                modal_data.title = "Data Berhasil Disimpan"
+                setModalShow(true)
+              }
             }else{
               console.log('dataItem>',dataItem)
               // console.log(da)
@@ -816,6 +878,11 @@ const HorizontalStepper = (props) => {
               .eq('file_title', d.name)
               .select()
               console.log('data>>', data)
+
+              if(data){
+                modal_data.title = "Data Berhasil Diedit"
+                setModalShow(true)
+              }
               ////console.log('err >', err)
             }
 
@@ -868,12 +935,19 @@ const HorizontalStepper = (props) => {
         const { data, err} = await supabase.from(to)
                           .insert(input)
                           .select()
-        
+        if(data){
+          modal_data.title = "Data Berhasil Disimpan"
+          setModalShow(true)
+        }
         ////console.log('data>', data)
         ////console.log('err >', err)
         if(dataInput.pob){
           setInserted(true)
           setParticipantId(data[0].id)
+
+          // if(dataIbu){
+            
+          // }
         }   
       
     }
@@ -899,13 +973,16 @@ const HorizontalStepper = (props) => {
       ////console.log('dataInput> ' ,dataInput)
 
       if(!Array.isArray(dataInput)){
-        ////console.log('from input object')
         const { data, err} = await supabase.from(to)
                             .update({...dataInput, updated_at : new Date().toISOString()})
                             .eq(pk, bo)
                             .select()
         ////console.log('data>', data[0])
         ////console.log('err >', err)
+        if(data){
+          modal_data.title = "Data Berhasil Disimpan"
+          setModalShow(true)
+        }
       }else{
         ////console.log('from input array')
         dataInput.forEach( async (e) => {
@@ -919,9 +996,12 @@ const HorizontalStepper = (props) => {
                               .eq(pk1, e[pk1])
                               .eq(pk2, e[pk2])
                               .select()
-          ////console.log('data>', data[0])
-          ////console.log('err >', err)
         });
+
+        if(data){
+          dataAlert.title = "Data Berhasil Diedit"
+          setDataAlertShow(true)
+        }
       }
 
     // } )
@@ -964,9 +1044,9 @@ const HorizontalStepper = (props) => {
     setDataAlertShow(value)
   }
 
-  const pengSeragamRef = (data) => {
-    setPengSeragam(data)
-  }
+  // const pengSeragamRef = (data) => {
+  //   setPengSeragam(data)
+  // }
 
   const scrollToStep = () => {
     console.log('el')
@@ -976,15 +1056,24 @@ const HorizontalStepper = (props) => {
     })
   }
 
+  const handleCloseModal = (value) => {
+    if(value){
+      setModalShow(!value)
+    }
+  }
+
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} pengSeragamRef={pengSeragamRef} isPending={isPending} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} ref={ref} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
     <div className="flex items-center justify-center shadow-md p-4">
       {dataAlertShow && (
         <SmallAlert dataAlert={dataAlert} setDataAlertShow={setDataAlertShow_} />
+      )}
+      {modal_show && (
+        <Swal dataModal={modal_data} setClose={handleCloseModal} />
       )}
 
       {/* Left Scroll Button */}
@@ -1287,6 +1376,6 @@ const HorizontalStepper = (props) => {
     </div>
     </>
   );
-};
+});
 
 export default HorizontalStepper;
