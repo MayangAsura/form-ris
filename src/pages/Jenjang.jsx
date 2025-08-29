@@ -142,24 +142,32 @@ ditetapkan sekolah</li>
               <div className="card rounded-sm"  key={d.code}>
                 <div className="card-container">
                   <div className="image-container">
-                    <div className="absolute scale-[0.2] h-0 -ml-20 p-2 pb-2/3 sm:pt-1/3 lg:pb-1/3 justify-start object-scale-down max" width={5} ><img src={"/images/rabbaanii-logo.png"} width={5} className="w-5 h-5"/></div>
+                    <div className="absolute scale-[0.2] h-0 -ml-20 p-2 pb-2/3 sm:pt-1/3 lg:pb-1/3 justify-start object-scale-down max " width={5} >
+                    <img src={"/images/rabbaanii-logo.png"} width={5} className="w-5 h-5 "/>
+                    
+                    </div>
+                    
+
                     <img src={d.img} alt="" className='object-cover' />
+                    {/* </div> */}
                   </div>
                   <div className="card-content">
                     <div className="title-container">
-                      <h3>{d.schools?.school_name??d.title}</h3>
+                      {/* <div className="p-1 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"> */}
+                      <h4 className='font-semibold'>{d.schools?.school_name??d.title}</h4>
+                      {/* </div> */}
                     </div>
                     <div className="body-containe justify-between text-start ml-1">
                       <table>
                         <tbody>
 
                         <tr className='text-start leading-tight'>
-                          <td><TbMapPin2 className='ounded-lg shadow-green-100 '/>  </td>
+                          <td><TbMapPin2 className='rounded-sm shadow-green-100 bg-green-200 '/>  </td>
                           <td className=''><small className='text-xs'>{d.schools?.address??d.address}</small></td>
                           {/* <td></td> */}
                         </tr>
                         <tr>
-                          <td><TbCalendarTime/>  </td>
+                          <td><TbCalendarTime className='rounded-sm shadow-green-100 bg-green-200'/>  </td>
                           <td><small className='text-xs'>{d.started_at?formatDate(d.started_at) -  formatDate(d.ended_at): d.schedule}</small></td>
                           {/* <td></td> */}
                         </tr>
@@ -169,7 +177,7 @@ ditetapkan sekolah</li>
                           <td></td>
                         </tr> */}
                         <tr>
-                          <td><BiMoney/>  </td>
+                          <td><BiMoney className='rounded-sm shadow-green-100 bg-green-200'/>  </td>
                           <td><small className='text-xs'>{d.admission_fee??d.registration_fee}</small></td>
                           {/* <td></td> */}
                         </tr>
