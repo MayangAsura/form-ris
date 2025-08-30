@@ -202,7 +202,7 @@ const DataAyahForm = (props) => {
                                                         </div>
                                                     ) : 
                                                     (
-                                                        props.dataAyah.length>0? 'Edit':
+                                                        props.dataAyah? 'Edit':
                                                         "Simpan"
                                                     )
                                                     }

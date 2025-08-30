@@ -11,17 +11,29 @@ import { Accordion, AccordionHeader, AccordionBody } from '@material-tailwind/re
 import { createSearchParams } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { useLogin } from '../features/hooks/use-login'
+import ExamInvitationCard from './exam_invitation_doc/ExamInvitationCard'
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  PDFViewer,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
+import { FiExternalLink } from 'react-icons/fi'
+import { TbDownload } from 'react-icons/tb'
 
 
 
 function Announcement(props) {
   
-  const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3003"
+  const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3002"
   const {userToken} = useSelector(state => state.auth)
   const { onSubmit, form, results, loading } = useLogin();
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
   const [submission_status, setSubmissionStatus] = useState()
   const [participant, setParticipant] = useState({})
+  const [dataExam, setDataExam] = useState([])
   const [open, setOpen] = useState(1)
   const [token, setToken] = useState("")
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,14 +59,33 @@ function Announcement(props) {
     // }
     console.log('sub', submission_status)
     console.log('sub props', props.participant)
-    if(submission_status=='on_exam'){
+    if(props.participant.submission_status =='on_exam' || submission_status=='on_exam'){
       getToken()
     }
     // getSubmissionStatus()
     if(token){
       // navigate('')
     }
-  },[props.participant.submission_status, token])
+    if(props.applicant && props.participant.submission_status=='on_exam'){
+      // dataExam.regist_number
+      console.log('props.applicant', props.applicant)
+      getDataExam()
+    }
+    
+  },[props.participant.submission_status, props.applicant])
+
+  const getDataExam = async () => {
+    
+    let { data: exam_tests, error } = await supabase
+      .from('exam_test_participants')
+      .select('*, exam_tests(*) ')
+      .eq('appl_id', props.applicant[0]?.id)
+      .is('deleted_at', null)
+      if(exam_tests){
+        setDataExam(exam_tests)
+      }
+          
+  }
 
   const handleOpen = (value) => {
     setOpen( open ===value ? 0 : value)
@@ -175,7 +206,7 @@ console.log(text, value)
     };
 
   const getToken = () => {
-    console.log(auth_token)
+    console.log('auth_token', auth_token)
     setToken(auth_token)
   }
 
@@ -212,18 +243,23 @@ console.log(text, value)
                       <span className='my-5'>Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan berhak melanjutkan ke tahap Seleksi.
                       </span>
                       <p className='text-sm'>Silakan klik login untuk melaksanakan ujian.</p>
-                      <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-900 hover:bg-gray-800 my-5'
+                      <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-700 hover:bg-gray-700 my-5'
                       onClick={() => loginExamWithParams()}>
                         Login Ujian
+                        <FiExternalLink className='ml-1'/>
                       </button>
                       </div>
                         )}
                   
                    
-                    <div className='flex flex-grow gap-1 px-2 mt-10'>
-                      {/* {submission_status ==='' && } */}
+                    <div className='flex flex-col gap-1 px-2 mt-10'>
+                      {props.participant.submission_status ==='initial_submission' && 
+                      <>
                       <button onClick={download_surat_kesanggupan} className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
-                      >Download Surat Kesanggupan</button> <br />
+                      >Download Surat Kesanggupan <TbDownload className='ml-2'/>
+                      </button> <br />
+                      </>
+                      }
                       {/* <button onClick={download} className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   // onClick={() => {
                                                   //     // currentStep === steps.length
@@ -239,10 +275,26 @@ console.log(text, value)
                                                   //     // handleSubmit 
                                                   // }}
                                                   >Download Surat Pengumuman</button> <br /> */}
+                                                  
                       {props.participant.submission_status==='on_exam' && (
-                      <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
-                      onClick={window.open("")}
-                                                  >Download Undangan Seleksi</button>
+                        <PDFDownloadLink document={<ExamInvitationCard dataExam={dataExam} applicant={props.applicant} />} fileName="Kartu-Seleksi.pdf">
+                          {/* <div className="flex flex-col justify-between item-center"> */}
+                                                  <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                                          onClick={() => {
+                                                                              
+                                                                          }}
+                                                                          >Cetak Kartu Seleksi 
+                                                                          <TbDownload className='ml-2'/>
+                                                                          </button>
+
+                          {/* </div> */}
+                                                            {/* <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                                                              Download PDF
+                                                            </button> */}
+                                                          </PDFDownloadLink>
+                      // <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                      // onClick={window.open("")}
+                      //                             >Download Undangan Seleksi</button>
                       )}
                       {submission_status == 'accepted' && (
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
@@ -257,7 +309,7 @@ console.log(text, value)
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {
                                                         props.setCurrentStep(10)
-                                                        props.toUniformClick()
+                                                        // props.toUniformClick()
                                                         // currentStep === steps.length
                                                         //   ? setComplete(true)
                                                         //   : setCurrentStep((prev) => prev + 1); 
@@ -308,7 +360,7 @@ console.log(text, value)
                         Peta Status Calon Santri
                       </p> 
                       <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
                       </svg>
                     </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>
@@ -333,7 +385,7 @@ console.log(text, value)
                         Berkas Syarat Pendaftaran
                       </p>
                       <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
                       </svg>
                       </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>
@@ -364,7 +416,7 @@ console.log(text, value)
                         Ketentuan Upload Berkas
                       </p>
                       <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
                       </svg>
                     </AccordionHeader>
                     <div className="border-b border-gray-900/10"></div>

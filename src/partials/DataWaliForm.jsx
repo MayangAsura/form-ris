@@ -158,7 +158,7 @@ function DataWaliForm(props) {
                                                                 </div>
                                                             ) : 
                                                             (
-                                                                props.dataWali.lenght>0? 'Edit':
+                                                                props.dataWali? 'Edit':
                                                                 "Simpan"
                                                             )
                                                             }

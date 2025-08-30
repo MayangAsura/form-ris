@@ -726,6 +726,7 @@ console.log(Object.values(data_appl)[0] !== '01')
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
                           <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} {...register('media')} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <option value="">-Pilih Media-</option>
                           <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
                           <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
                           <option value={media== 'karyawan/guru'? media:"karyawan/guru"}>Karyawan/Guru </option>

@@ -3,7 +3,7 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
 import { useEffect, useRef, useState } from 'react'
 
-const PengukuranSeragam = forwardRef((props, ref) => {
+const PengukuranSeragam = (props) => {
     const [schoolUniformModel, setSchoolUniformModel] = useState({})
     const [applicantUniformSC, setApplicantUniformSC] = useState([])
     const [applicantUniformSCData, setApplicantUniformSCData] = useState([])
@@ -13,7 +13,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
     const [last_update, setLastUpdate] = useState("")
 
     useEffect(() => {
-        console.log('ref', ref)
+        // console.log('ref', ref)
         if(props.dataSeragam.length > 0){
             console.log('formData', props.dataSeragam)
             setApplicantUniformSC(props.dataSeragam)
@@ -184,7 +184,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
     }
 
     return (
-        <section ref={ref} className="relative">
+        <section className="relative">
             <div className='max-w-6xl mx-auto px-4 sm:px-6 '>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
@@ -246,7 +246,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
             </div>
         </section>
     )
-})
+}
 
 export default PengukuranSeragam;
 // import { forwardRef } from 'react'

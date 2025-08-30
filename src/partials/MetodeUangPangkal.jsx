@@ -41,7 +41,7 @@ function MetodeUangPangkal(props) {
 
         
         getSchoolCode(props.dataApplicant?.id)
-        //console.log('schoolCode > ', applicantSchoolCode)
+        // console.log('schoolCode > ', applicantSchoolCode)
 
         setDataMetodeUangPangkal(props.dataMetodeUangPangkal?props.dataMetodeUangPangkal:{})
         
@@ -266,7 +266,7 @@ function MetodeUangPangkal(props) {
                                                         </div>
                                                     ) : 
                                                     (
-                                                        props.dataMetodeUangPangkal? 'Edit':
+                                                        props.dataMetodeUangPangkal?.metode_uang_pangkal? 'Edit':
                                                         "Simpan"
                                                     )
                                                     }

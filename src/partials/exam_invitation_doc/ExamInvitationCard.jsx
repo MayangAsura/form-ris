@@ -5,6 +5,7 @@ import {
   Document,
   PDFViewer,
   PDFDownloadLink,
+  Image
 } from "@react-pdf/renderer";
 import { styles } from "./style";
 import { Table, TD, TH, TR } from "@ag-media/react-pdf-table";
@@ -25,6 +26,8 @@ export default function ExamInvitationCard(props){
     const [verifikasiKeluarga, setDataVerifikasiKeluarga] = useState({})
     const [pilihan_metode_uangpangkal, setPilihanMetodeUangPangkal] = useState({})
     const [nama, setName] = useState("")
+
+    const {dataExam, applicant} = props
     // const [, setIdentitas] = useState({full_name: "", gender: "", phone_number: "", email: "", regist_number: "", pob: "", dob: "", child_number:"", child_status: "", nationality: "", province:"", region: "", postal_code: "", aspiration: "", nisn: "", kk: "" })
 
     useEffect(() => {
@@ -32,43 +35,43 @@ export default function ExamInvitationCard(props){
       // setsekolahAsal(props.dataSummary.sekolahAsal)
       // setjenjangTujuan(props.dataSummary.jenjangTujuan)
       // setDataAyah(props.dataSummary.dataAyah)
-      if(Object.keys(props.dataSummary.identitas)>0){
-        identitas.data = props.dataSummary.identitas
-        // jenjangTujuan.class = props.dataSummary.dataAyah
-      }
-      if(Object.keys(props.dataSummary.jenjangTujuan)>0){
-        jenjangTujuan.school_name = props.dataSummary.school_name
-        jenjangTujuan.class = props.dataSummary.class
-      }
-      if(Object.keys(props.dataSummary.sekolahAsal)>0){
-        sekolahAsal.prev_school = props.dataSummary.prev_school
-        sekolahAsal.prev_school_address = props.dataSummary.prev_school_address
-      }
-      if(Object.keys(props.dataSummary.dataAyah)>0){
-        dataAyah.data = props.dataSummary.dataAyah
-      }
-      if(Object.keys(props.dataSummary.dataIbu)>0){
-        setDataIbu(props.dataSummary.dataIbu)
-        // dataIbu.data = props.dataSummary.dataIbu
-      }
-      if(Object.keys(props.dataSummary.dataWali)>0){
-        setDataWali(props.dataSummary.dataWali)
-        dataWali.data = props.dataSummary.dataWali
-      }
-      if(Object.keys(props.dataSummary.verifikasiKeluarga)>0){
-        verifikasiKeluarga.student_category = props.dataSummary.verifikasiKeluarga.student_category
-      }
-      if(Object.keys(props.dataSummary.pilihan_metode_uangpangkal)>0){
-        pilihan_metode_uangpangkal.metode_uang_pangkal = props.dataSummary.pilihan_metode_uangpangkal.metode_uang_pangkal
-      }
-      // setDataIbu(props.dataSummary.dataIbu)
-      // setDataWali(props.dataSummary.dataWali)
-      // setDataVerifikasiKeluarga(props.dataSummary.verifikasiKeluarga)
-      setPilihanMetodeUangPangkal(props.dataSummary.pilihan_metode_uangpangkal)
-      console.log('DSC> ',props.dataSummary)
-      console.log('DAC> ',dataAyah)
-      console.log('DIC> ',props.dataSummary.identitas)
-    }, [props.dataSummary])
+      // if(Object.keys(props.dataSummary.identitas)>0){
+      //   identitas.data = props.dataSummary.identitas
+      //   // jenjangTujuan.class = props.dataSummary.dataAyah
+      // }
+      // if(Object.keys(props.dataSummary.jenjangTujuan)>0){
+      //   jenjangTujuan.school_name = props.dataSummary.school_name
+      //   jenjangTujuan.class = props.dataSummary.class
+      // }
+      // if(Object.keys(props.dataSummary.sekolahAsal)>0){
+      //   sekolahAsal.prev_school = props.dataSummary.prev_school
+      //   sekolahAsal.prev_school_address = props.dataSummary.prev_school_address
+      // }
+      // if(Object.keys(props.dataSummary.dataAyah)>0){
+      //   dataAyah.data = props.dataSummary.dataAyah
+      // }
+      // if(Object.keys(props.dataSummary.dataIbu)>0){
+      //   setDataIbu(props.dataSummary.dataIbu)
+      //   // dataIbu.data = props.dataSummary.dataIbu
+      // }
+      // if(Object.keys(props.dataSummary.dataWali)>0){
+      //   setDataWali(props.dataSummary.dataWali)
+      //   dataWali.data = props.dataSummary.dataWali
+      // }
+      // if(Object.keys(props.dataSummary.verifikasiKeluarga)>0){
+      //   verifikasiKeluarga.student_category = props.dataSummary.verifikasiKeluarga.student_category
+      // }
+      // if(Object.keys(props.dataSummary.pilihan_metode_uangpangkal)>0){
+      //   pilihan_metode_uangpangkal.metode_uang_pangkal = props.dataSummary.pilihan_metode_uangpangkal.metode_uang_pangkal
+      // }
+      // // setDataIbu(props.dataSummary.dataIbu)
+      // // setDataWali(props.dataSummary.dataWali)
+      // // setDataVerifikasiKeluarga(props.dataSummary.verifikasiKeluarga)
+      // setPilihanMetodeUangPangkal(props.dataSummary.pilihan_metode_uangpangkal)
+      // console.log('DSC> ',props.dataSummary)
+      // console.log('DAC> ',dataAyah)
+      // console.log('DIC> ',props.dataSummary.identitas)
+    }, [props.applicant, props.dataExam])
 
     const formatDate = (date) => {
     const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -119,9 +122,13 @@ export default function ExamInvitationCard(props){
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <View style={styles.textCenter}>
+          <View style={styles.brand}>
+            <Image src="https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/public/foundations/images/1746411026819.png" style={styles.image}></Image>
+          </View>
+          <View style={[styles.textCenter, styles.heading]}>
             {/* <Text style={[styles.title, styles.textBold]}>ضصثقفغعهخحشسيبلاتنمئءؤرلاىةو  RABBAANII ISLAMIC SCHOOL</Text> */}
-            <Text style={[styles.title, styles.textBold]}>RABBAANII ISLAMIC SCHOOL</Text>
+            <Text style={[styles.title, styles.textBold]}>KARTU PESERTA SELEKSI</Text>
+            <Text style={[styles.title, styles.textBold]}>PENERIMAAN SISWA BARAU RABBAANII ISLAMIC SCHOOL</Text>
             <Text style={[styles.address]}>Jl. Cimandiri 8B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550.</Text>
             {/* <Text style={[styles.borderT]}></Text> */}
             {/* <Text style={[styles.borderT]}></Text> */}
@@ -137,104 +144,110 @@ export default function ExamInvitationCard(props){
         <View >
           {/* <View style={styles.flex1}> */}
             <View style={styles.spaceY}>
-              <Text style={[styles.heading, styles.textBold]}>A. Identitas Calon Santri</Text>
+              {/* <Text style={[styles.heading, styles.textBold]}>A. Identitas Calon Santri</Text> */}
               <Table style={styles.table}>
                             <TR >
-                                <TD style={[styles.td]}>Nama</TD>
+                                <TD style={[styles.th]}>No. Pendaftaran</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD > {props.dataSummary.identitas.full_name?? nama}</TD>
+                                <TD > {props.applicant[0]?.regist_number??'-'}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
                             <TR >
-                                <TD style={[styles.td]}>Jenis Kelamin</TD>
+                                <TD style={[styles.th]}>Nama Peserta</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[]}> {props.dataSummary.identitas.gender??identitas.gender=='male'?'Laki-Laki': 'Perempuan'}</TD>
+                                <TD style={[]}> {props.applicant[0]?.full_name??'-'}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
-                            <TR >
-                                <TD style={[styles.td]}>No. WhatsApp</TD>
+                            {/* <TR >
+                                <TD style={[styles.td]}>Jenis Kel</TD>
                                 <Text style={[styles.td]}>:</Text>
-                                <TD style={[styles.td]}> {props.dataSummary.identitas.phone_number??identitas.data.phone_number}</TD>
+                                <TD style={[]}> {props.applicant[0]?.full_nameidentitas.gender??identitas.gender=='male'?'Laki-Laki': 'Perempuan'}</TD>
+                                <TD >Total</TD>
+                            </TR> */}
+                            <TR >
+                                <TD style={[styles.td]}>No. HP</TD>
+                                <Text style={[styles.td]}>:</Text>
+                                <TD style={[styles.td]}> {props.applicant[0]?.phone_number??'-'}</TD>
                                 {/* <TD >Total</TD> */}
                             </TR>
-                            <TR >
-                                <TD style={[styles.td]}>Email</TD>
+                            {/* <TR >
+                                <TD style={[styles.td]}></TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.email??identitas.email}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. Pendaftaran</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.regist_number??identitas.regist_number}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Tempat, Tanggal Lahir</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {`${props.dataSummary.identitas.pob??identitas.pob}, ${formatDate(props.dataSummary.identitas.dob??identitas.dob)}`}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Anak ke-</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.child_number??identitas.child_number}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Alamat</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.address??identitas.address}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Negara</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.nationality??identitas.nationality}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Provinsi</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.province??identitas.province}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Kabupaten</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.region??identitas.region}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Kode Pos</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.postal_code??identitas.postal_code}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>Cita-Cita</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.aspiration??identitas.aspiration}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>NISN</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.nisn??identitas.nisn}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. NIK</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.nik??identitas.nik}</TD>
-                                {/* <TD >Total</TD> */}
+                                <TD >Total</TD>
                             </TR>
                             <TR >
                                 <TD style={[styles.td]}>No. KK</TD>
                                 <Text style={[styles.td]}>:</Text>
                                 <TD style={[styles.td]}> {props.dataSummary.identitas.kk??identitas.kk}</TD>
-                                {/* <TD >Total</TD> */}
-                            </TR>
+                                <TD >Total</TD>
+                            </TR> */}
                             </Table>
 
               {/* <Text style={[styles.content]}>Nama              : </Text>
@@ -255,32 +268,6 @@ export default function ExamInvitationCard(props){
               <Text>NIK</Text>
               <Text>No. KK</Text> */}
             </View>
-            <View style={styles.spaceY}>
-              <Text style={[styles.heading, styles.textBold]}>B. Data Sekolah Asal</Text>
-              <Table style={styles.table}>
-                <TR>
-                  <TD style={[styles.td]}>Nama Sekolah</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {sekolahAsal.prev_school??props.dataSummary.sekolahAsal.prev_school}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Alamat</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {sekolahAsal.prev_school_address??props.dataSummary.sekolahAsal.prev_school_address}</TD>
-                </TR>
-                {/* <TR>
-                  <TD>Sekolah Asal</TD>
-                  <TD>:</TD>
-                  <TD>{sekolahAsal.prev_school}</TD>
-                </TR> */}
-              </Table>
-              {/* <Text>Nama </Text>
-              <Text>Jenis Kelamin </Text>
-              <Text>No. WhatsApp</Text>
-              <Text>Email</Text>
-              <Text>No. Pendaftaran</Text> */}
-              
-              </View>
             {/* <Text >A. Identitas Calon Santri</Text> */}
             {/* <Table style={styles.table}>
                         <TR >
@@ -292,69 +279,13 @@ export default function ExamInvitationCard(props){
                         </Table> */}
           </View>
           {/* <View style={styles.flexNone}> */}
-            <View style={styles.spaceY}>
-          {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-              <Text style={[styles.heading, styles.textBold]}>C. Jenjang Tujuan</Text>
-              <Table style={styles.table}>
-                <TR>
-                  <TD style={[styles.td]}>Jenjang</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {jenjangTujuan.school_name??props.dataSummary.jenjangTujuan.school_name}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Kelas</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {jenjangTujuan.class??props.dataSummary.jenjangTujuan.class}</TD>
-                </TR>
-                {/* <TR>
-                  <TD>Sekolah Asal</TD>
-                  <TD>:</TD>
-                  <TD>{sekolahAsal.prev_school}</TD>
-                </TR> */}
-              </Table>
-              {/* <Text>Nama </T                                                                                                                                                                                                                                                                                                                               ext>
-              <Text>Jenis Kelamin </Text>
-              <Text>No. WhatsApp</Text>
-              <Text>Email</Text>
-              <Text>No. Pendaftaran</Text> */}
-              
-            </View>
-            <View style={styles.spaceY}>
-              {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-              <Text style={[styles.heading, styles.textBold]}>D. Data Ayah</Text>
-              <Table style={styles.table}>
-                <TR>
-                  <TD style={[styles.td]}>Nama</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {dataAyah.father_name??props.dataSummary.dataAyah.father_name}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Pendidikan Terakhir</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {dataAyah.father_academic??props.dataSummary.dataAyah.father_academic}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Pekerjaan</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {dataAyah.father_job??props.dataSummary.dataAyah.father_job}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Penghasilan</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {getSalaryText(dataAyah.father_salary??props.dataSummary.dataAyah.father_salary)}</TD>
-                </TR>
-                <TR>
-                  <TD style={[styles.td]}>Alasan Memilih Rabbaanii Islamic School</TD>
-                  <Text style={[styles.td]}>:</Text>
-                  <TD style={[styles.td]}> {dataAyah.why_chooses??props.dataSummary.dataAyah.why_chooses}</TD>
-                </TR>
-              </Table>
+            
               {/* <Text>Nama </Text>
               <Text>Jenis Kelamin </Text>
               <Text>No. WhatsApp</Text>
               <Text>Email</Text>
               <Text>No. Pendaftaran</Text> */}
-            </View>
+            
                         {/* <Text >B. Data Ayah</Text> */}
           {/* </View> */}
             {/* <Text><hr /></Text> */}
@@ -362,30 +293,35 @@ export default function ExamInvitationCard(props){
         {/* </View> */}
 
         
-        
-        <View style={styles.spaceY}>
+        {dataExam.map((item, index) => (
+        // <View key={index} style={styles.section}>
+        //   <Text>Item Name: {item.name}</Text>
+        //   <Text>Item Value: {item.value}</Text>
+        // </View>
+      
+        <View key={index} style={styles.spaceY}>
           {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-          <Text style={[styles.heading, styles.textBold]}>E. Data Ibu</Text>
+          <Text style={[styles.heading, styles.textBold]}>{item.title}</Text>
           <Table style={styles.table}>
             <TR>
-              <TD style={[styles.td]}>Nama</TD>
+              <TD style={[styles.td]}>Tipe</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataIbu.mother_name??props.dataSummary.dataIbu.mother_name}</TD>
+              <TD style={[styles.td]}> {item.scheme} </TD>
             </TR>
             <TR>
-              <TD style={[styles.td]}>Pendidikan Terakhir</TD>
+              <TD style={[styles.td]}>Lokasi</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> { dataIbu.mother_academic??props.dataSummary.dataIbu.mother_academic}</TD>
+              <TD style={[styles.td]}> {item.location}</TD>
             </TR>
             <TR>
-              <TD style={[styles.td]}>Pekerjaan</TD>
+              <TD style={[styles.td]}>Ruangan</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataIbu.mother_job??props.dataSummary.dataIbu.mother_job}</TD>
+              <TD style={[styles.td]}>{item.room} </TD>
             </TR>
             <TR>
-              <TD style={[styles.td]}>Penghasilan</TD>
+              <TD style={[styles.td]}>Hari, Tanggal</TD>
               <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {getSalaryText(dataIbu.mother_salary??props.dataSummary.dataIbu.mother_salary)}</TD>
+              <TD style={[styles.td]}>{formatDate(item.started_at)}</TD>
             </TR>
             {/* <TR>
               <TD>Alasan Memilih Rabbaanii Islamic School</TD>
@@ -399,84 +335,7 @@ export default function ExamInvitationCard(props){
           <Text>Email</Text>
           <Text>No. Pendaftaran</Text> */}
         </View>
-        <View style={styles.spaceY}>
-          {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-          <Text style={[styles.heading, styles.textBold]}>F. Data Wali</Text>
-          <Table style={styles.table}>
-            <TR>
-              <TD style={[styles.td]}>Nama</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataWali.wali_name??props.dataSummary.dataWali.wali_name}</TD>
-            </TR>
-            <TR>
-              <TD style={[styles.td]}>Pendidikan Terakhir</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataWali.wali_academic??props.dataSummary.dataWali.wali_academic}</TD>
-            </TR>
-            <TR>
-              <TD style={[styles.td]}>Pekerjaan</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {dataWali.wali_job??props.dataSummary.dataWali.wali_job}</TD>
-            </TR>
-            <TR>
-              <TD style={[styles.td]}>Penghasilan</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {getSalaryText(dataWali.wali_salary??props.dataSummary.dataWali.wali_salary)}</TD>
-            </TR>
-            {/* <TR>
-              <TD>Alasan Memilih Rabbaanii Islamic School</TD>
-              <TD>:</TD>
-              <TD>{dataIbu.why_chooses}</TD>
-            </TR> */}
-          </Table>
-          {/* <Text>Nama </Text>
-          <Text>Jenis Kelamin </Text>
-          <Text>No. WhatsApp</Text>
-          <Text>Email</Text>
-          <Text>No. Pendaftaran</Text> */}
-        </View>
-        <View style={styles.spaceY}>
-          {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-          <Text style={[styles.heading, styles.textBold]}>G. Data Verifikasi Keluarga</Text>
-          <Table style={styles.table}>
-            <TR>
-              <TD style={[styles.td]}>Kategori Siswa</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {(verifikasiKeluarga.student_category??props.dataSummary.verifikasiKeluarga.student_category)=='alumni'?"Alumni":((verifikasiKeluarga.student_category??props.dataSummary.verifikasiKeluarga.student_category)=='hasfamily'?"Memiliki saudara kandung sekolah di Rabbaanii":"Bukan Alumni/Keluarga Rabbaanii") }</TD>
-            </TR>
-            {/* <TR>
-              <TD>Alasan Memilih Rabbaanii Islamic School</TD>
-              <TD>:</TD>
-              <TD>{dataIbu.why_chooses}</TD>
-            </TR> */}
-          </Table>
-          {/* <Text>Nama </Text>
-          <Text>Jenis Kelamin </Text>
-          <Text>No. WhatsApp</Text>
-          <Text>Email</Text>
-          <Text>No. Pendaftaran</Text> */}
-        </View>
-        <View style={styles.spaceY}>
-          {/* <Text style={[styles.number, styles.textBold]}>A.</Text> */}
-          <Text style={[styles.heading, styles.textBold]}>H. Metode Pembayaran Uang Pangkal</Text>
-          <Table style={styles.table}>
-            <TR>
-              <TD style={[styles.td]}>Pilihan Pembayaran</TD>
-              <Text style={[styles.td]}>:</Text>
-              <TD style={[styles.td]}> {getPilihanMetodeUangPangkalText(pilihan_metode_uangpangkal.metode_uang_pangkal??props.dataSummary.pilihan_metode_uangpangkal.metode_uang_pangkal)}</TD>
-            </TR>
-            {/* <TR>
-              <TD>Alasan Memilih Rabbaanii Islamic School</TD>
-              <TD>:</TD>
-              <TD>{dataIbu.why_chooses}</TD>
-            </TR> */}
-          </Table>
-          {/* <Text>Nama </Text>
-          <Text>Jenis Kelamin </Text>
-          <Text>No. WhatsApp</Text>
-          <Text>Email</Text>
-          <Text>No. Pendaftaran</Text> */}
-        </View>
+        ))}
         <View style={[styles.footer]}>
           <Text style={[styles.textCenter]}>PSB Form - Info CS 08123456789</Text>
           <Text style={[styles.textCenter]}>Halaman ini diunduh pada {formatDate(new Date().toISOString())} </Text>
