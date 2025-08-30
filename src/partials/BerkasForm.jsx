@@ -174,8 +174,8 @@ function BerkasForm(props) {
                                             accept="image/png, image/jpeg, .pdf"/>
                                             { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
                                         </div>
-                                        {dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PNG' && (
-                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width="80%"/>
+                                        {(dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PNG') && (
+                                            <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width="50%"/>
                                         )}
                                         </div>
                                     </div>
@@ -363,6 +363,7 @@ function BerkasForm(props) {
                                         <div className="relative inline-block">
                                             <div className="mt-2 flex justify-center items-center">
                                                 <a href={'https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8'} 
+                                                target='_blank'
                                                 className='w-full p-3 mt-3 flex-1 items-center bg-green-700 text-white border-0
                                                 py-2 px-3 rounded-lg text-sm shadow-xl 
                                                     '

@@ -29,6 +29,7 @@ const HorizontalStepper = (props) => {
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const [edit, setEdit] = useState(false);
   const [inserted, setInserted] = useState(false);
   const [ isPending, startTransition ] = useTransition()
@@ -93,6 +94,7 @@ const HorizontalStepper = (props) => {
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
         if(participant.is_complete && participant.submission_status!== 'accepted'){
+          setIsComplete(true)
           setCurrentStep(steps.length - 1 )
           // setComplete(true)
         }else if(participant.is_complete && participant.submission_status== 'accepted'){
@@ -175,9 +177,15 @@ const HorizontalStepper = (props) => {
     ////console.log('isPending > ',isPending)
     ////console.log('applicant >', applicant)
     // console.log('path >', PATH_URL)
+    // if(complete && participant.submission_status!== 'accepted'){
+    //   setCurrentStep(steps.length - 1 )
+    // }
+    // if(complete && participant.submission_status== 'accepted'){
+    //   setCurrentStep(steps.length )
+    // }
     
     
-  }, [props.applicant, participant, isPending]) 
+  }, [props.applicant, participant, isPending, complete]) 
 
   const setParamNavigasi  = (nstep) => {
       const params = { step: nstep};
@@ -269,9 +277,10 @@ const HorizontalStepper = (props) => {
     }
 
     setDataAyah(data[0])
-    if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 4){
-      setCurrentStep(4)
-    }
+    // if(data.length>0 && participant?.submission_status!== 'accepted' && (currentStep < maxStep) ){
+    //   setMaxStep(2)
+    //   setCurrentStep(2)
+    // }
     ////console.log(dataAyah)
   }
   const getMotherData = async (id) => {
@@ -288,9 +297,9 @@ const HorizontalStepper = (props) => {
 
     setDataIbu(data[0])
     
-    if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 5){
-      setCurrentStep(5)
-    }
+    // if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 4){
+    //   setCurrentStep(5)
+    // }
     ////console.log(dataIbu)
   }
   const getWaliData = async (id) => {
@@ -304,9 +313,9 @@ const HorizontalStepper = (props) => {
     }
 
     setDataWali(data[0])
-    if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 6){
-      setCurrentStep(6)
-    }
+    // if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 5){
+    //   setCurrentStep(6)
+    // }
     ////console.log(dataWali)
 
   }
@@ -325,9 +334,9 @@ const HorizontalStepper = (props) => {
     // ]
 
     setDataBerkas(data)
-    if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 7){
-      setCurrentStep(7)
-    }
+    // if(data.length>0 && participant?.submission_status!== 'accepted' && currentStep > 6){
+    //   setCurrentStep(7)
+    // }
     ////console.log('dataBerkas', dataBerkas)
 
   }
@@ -563,14 +572,17 @@ const HorizontalStepper = (props) => {
             }
           }
           setDataBerkas(data)
+          setCurrentStep(currentStep + 1)
           // saveData(data, 'participant_documents', 'file')
           // }
         }, 2000);
 
         setLoading(false)
-        scroll('right')
+        if(!isPending || !loading){
+          scroll('right')
+
+        }
         // setParamNavigasi(currentStep + 1)
-        setCurrentStep(currentStep + 1)
     })
   }
   const getDataVerifikasiKeluarga = (data) => {
@@ -593,12 +605,12 @@ const HorizontalStepper = (props) => {
             
             saveData(photo_sampul_ijazah, 'participant_documents', 'file')
           }
+          setCurrentStep(currentStep + 1)
         }
       }, 2000);
       
       setLoading(false)
       if(!isPending || !loading){
-        setCurrentStep(currentStep + 1)
         scroll('right')
       }
       getParticipantData(participant.id?participant.id:participant_id)
@@ -619,13 +631,13 @@ const HorizontalStepper = (props) => {
           ////console.log('pid > ', pid)
           updateData(data, 'participants', pid, 'id')
         }
+        setCurrentStep(currentStep + 1)
         getComplete(true)
       }, 2000);
 
       setLoading(false)
       scroll('right')
       // setParamNavigasi(currentStep + 1)
-      setCurrentStep(currentStep + 1)
     })
   }
 
@@ -1078,6 +1090,9 @@ const HorizontalStepper = (props) => {
                             .select()
     ////console.log('data participant after klik complete >', data)
     ////console.log(error)
+    if(data){
+      setComplete(value)
+    }
 
   }
 
