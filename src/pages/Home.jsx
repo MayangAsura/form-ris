@@ -48,6 +48,13 @@ function Home() {
       participantData.full_name = data[0].full_name
       participantData.submission_status = data[0].participants[0].submission_status
     }
+
+    if(data[0].applicant_orders.length>0 && data[0].applicant_orders[0]?.status !== 'finished'){
+      navigate('/pay')
+    }
+    if(data[0].applicant_orders.length===0){
+      navigate('/pay')
+    }
     // console.log('part data from h',participantData)
   }
 
