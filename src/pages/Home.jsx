@@ -30,7 +30,7 @@ function Home() {
   const step = searchParams.get('step'); 
 
   const[currentStep, setCurrentStep] = useState("")
-  // const pengSeragam = useRef(null)
+  const pengSeragam = useRef(null)
   // const r = searchParams.get('merchantOrderId');
 
   const { userToken, userInfo } = useSelector((state) => state.auth)
@@ -91,13 +91,30 @@ function Home() {
     setCurrentStep(value)
   }
   
-  // const toUniformClick = () => {
-  //   console.log('masuk')
-  //   setCurrentStep(10)
-  //       if (pengSeragam.current) {
-  //         pengSeragam.current.focus(); // Example: Focusing the input in the child
-  //       }
-  //     };
+  const toUniformClick = () => {
+    console.log('masuk toUniformClick');
+  console.log('pengSeragam ref:', pengSeragam.current);
+  
+  setCurrentStep(10);
+  
+  // Add a timeout to ensure the component has rendered
+  setTimeout(() => {
+    if (pengSeragam.current && typeof pengSeragam.current.scrollTo === 'function') {
+      console.log('Calling scrollTo()');
+      pengSeragam.current.scrollTo();
+    } else {
+      console.log('Ref not ready or scrollTo not available');
+      
+      // Fallback: scroll to the section by ID
+      const section = document.getElementById('pengukuran_seragam');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, 300); // Increased timeout to ensure rendering
+  
+  window.location.hash = 'pengukuran_seragam';
+  };
   
   return (
     <div className="flex flex-col max-w-lg my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
@@ -111,9 +128,9 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
-        <Announcement applicant={applicantData} participant={participantData} setCurrentStep={setCurrentStep}  />
+        <Announcement applicant={applicantData} participant={participantData} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
         {/* toUniformClick={toUniformClick} */}
-        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} currentStep={currentStep} />
+        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} currentStep={currentStep} ref={pengSeragam} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}

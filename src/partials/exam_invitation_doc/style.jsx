@@ -26,23 +26,91 @@ export const styles = StyleSheet.create({
       brand: {
         display: 'flex',
         flex: '1',
+        justifyContent: 'start',
+        alignItems: 'start',
         // flexDirection: 'wrap',
         width: '80%', // Example: image takes full width of its parent View
-        height: 'auto', // Maintain aspect ratio
+        height: '80%', // Maintain aspect ratio
         marginBottom: 10, // Add some spacing below the image
+      },
+      brandName: {
+        // fontFamily: "Calligrapher",
+      },
+      profile: {
+        width: '30%'
       },
       heading: {
         display: 'flex',
         flex: 'none',
+        fontColor: '#00008B',
+        // fontFamily: "Calligrapher",
         // flexDirection: 'wrap',
         width: '80%', // Example: image takes full width of its parent View
         height: 'auto', // Maintain aspect ratio
         marginBottom: 10, // Add some spacing below the image
       },
-      spaceY: {
+      headingTitle: {
+        display: 'flex',
+        flex: 'none',
+        fontColor: '#00008B',
+        // fontFamily: "Calligrapher",
+        // flexDirection: 'wrap',
+        width: '80%', // Example: image takes full width of its parent View
+        height: 'auto', // Maintain aspect ratio
+        marginBottom: 10, // Add some spacing below the image
+      },
+      title: {
+        display: 'flex',
+        fontColor: '00008B',
+        fontSize: '300px',
+        fontFamily: 'Helvetica-Bold'
+      },
+      subheading: {
+        display: 'flex',
+        flex: 'none',
+        fontColor: '#00008B',
+        // fontFamily: "Calligrapher",
+        // justifyContent
+        alignItems: 'center',
+        // flexDirection: 'wrap',
+        width: '80%', // Example: image takes full width of its parent View
+        height: 'auto', // Maintain aspect ratio
+        marginBottom: 10, // Add some spacing below the image
+      },
+      subheading: {
+        display: 'flex',
+        flex: 'none',
+        fontColor: '#00008B',
+        // fontFamily: "Calligrapher",
+        // justifyContent
+        alignItems: 'center',
+        // flexDirection: 'wrap',
+        width: '80%', // Example: image takes full width of its parent View
+        height: 'auto', // Maintain aspect ratio
+        marginBottom: 10, // Add some spacing below the image
+      },
+
+      heading2: {
+        display: 'flex',
+        flex: '1',                                                                                                                                                                                                                                                                                                                                                                                                                                     
+        flexDirection: 'row',
+        marginRight: '10px',
+        fontColor: '#5f83f6',
+        width: '80%', // Example: image takes full width of its parent View
+        height: 'auto', // Maintain aspect ratio
+        marginBottom: 10, // Add some spacing below the image
+      },
+      th: {
+        margin: '3px 0 0 3px',
+      },
+      td: {
+        padding: '3px 0',
+        // fontSize: '10px'
+      },
+      spaceX: {
         display: "flex",
-        flexDirection: "column",
-        gap: "2px",
-        marginTop: "8px"
+        flexDirection: "row",
+        gap: "1px",
+        marginTop: "2px"
       },
     })

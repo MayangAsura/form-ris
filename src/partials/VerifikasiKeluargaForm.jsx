@@ -49,7 +49,7 @@ function VerifikasiKeluargaForm(props) {
     }
 
     useEffect(() => {
-            // console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
+            console.log('props.student_category>', student_category)
             // setStudentCategory(props.dataVerifikasiKeluarga.student_category)
             // setPhotoSampulIjazah(props.dataVerifikasiKeluarga.photo_sampul_ijazah)
             ////console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
@@ -69,7 +69,7 @@ function VerifikasiKeluargaForm(props) {
             // setMotherSalary(props.dataWali[0].wali_salary)
             // setMotherJob(props.dataWali[0].wali_job)
             // setLastUpdate(props.dataWali[0].updated_at)
-    },[props.dataVerifikasiKeluarga, props.dataBerkas])
+    },[props.dataVerifikasiKeluarga, props.dataBerkas, student_category])
 
     const saveData = (e) => {
         e.preventDefault()
@@ -127,9 +127,9 @@ function VerifikasiKeluargaForm(props) {
                                         <div className="mt-2 grid grid-cols-1">
                                             <select id="student_category" name="student_category" value={student_category} onChange={(e) => setStudentCategory(e.target.value)} autoComplete="student_category" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required>
                                                 <option value="">Pilih Kategori Siswa</option>
-                                                <option value="alumni">(Keluarga Rabbaanii) Alumni Rabbaanii</option>
-                                                <option value="hasfamily">(Keluarga Rabbaanii) Memiliki saudara kandung sekolah di Rabbaanii</option>
-                                                <option value="newstudent">Non Keluarga Rabbaanii</option>
+                                                <option value={student_category == 'alumni'?student_category:'alumni'} selected={student_category=='alumni'}>(Keluarga Rabbaanii) Alumni Rabbaanii</option>
+                                                <option value="hasfamily" selected={student_category=='has_family'}>(Keluarga Rabbaanii) Memiliki saudara kandung sekolah di Rabbaanii</option>
+                                                <option value="newstudent" selected={student_category=='newstudent'}>Non Keluarga Rabbaanii</option>
                                             </select>
                                             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                                 Kategori tidak valid

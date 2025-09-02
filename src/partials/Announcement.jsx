@@ -33,7 +33,8 @@ function Announcement(props) {
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
   const [submission_status, setSubmissionStatus] = useState()
   const [participant, setParticipant] = useState({})
-  const [dataExam, setDataExam] = useState([])
+  const [examData, setExamData] = useState([])
+  const [profileData, setProfileData] = useState({})
   const [open, setOpen] = useState(1)
   const [token, setToken] = useState("")
   const [searchParams, setSearchParams] = useSearchParams();
@@ -70,9 +71,24 @@ function Announcement(props) {
       // dataExam.regist_number
       console.log('props.applicant', props.applicant)
       getDataExam()
+      getProfileData()
     }
     
   },[props.participant.submission_status, props.applicant])
+
+  const getProfileData = async () => {
+    const {data: docs, error} = await supabase.from('participant_documents').select('file_url, file_title')
+                                .eq('file_title', 'Pas-Photo',)
+                                .eq('participant_id', props.applicant[0].participants[0].id)
+                                if(docs){
+                                  setProfileData(docs[0])
+                                  // setPasPhoto(docs[0].map(value => ({
+                                    //   file_title: value.file_title,
+                                    //   file_url: value.file_url
+                                    // })))
+                                  }
+                                  console.log('pas_photo', profileData)
+  }
 
   const getDataExam = async () => {
     
@@ -82,7 +98,7 @@ function Announcement(props) {
       .eq('appl_id', props.applicant[0]?.id)
       .is('deleted_at', null)
       if(exam_tests){
-        setDataExam(exam_tests)
+        setExamData(exam_tests)
       }
           
   }
@@ -277,7 +293,7 @@ console.log(text, value)
                                                   >Download Surat Pengumuman</button> <br /> */}
                                                   
                       {props.participant.submission_status==='on_exam' && (
-                        <PDFDownloadLink document={<ExamInvitationCard dataExam={dataExam} applicant={props.applicant} />} fileName="Kartu-Seleksi.pdf">
+                        <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} data={props.applicant} />} fileName="Kartu-Seleksi.pdf">
                           {/* <div className="flex flex-col justify-between item-center"> */}
                                                   <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
                                                                           onClick={() => {
@@ -309,7 +325,7 @@ console.log(text, value)
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {
                                                         props.setCurrentStep(10)
-                                                        // props.toUniformClick()
+                                                        props.toUniformClick()
                                                         // currentStep === steps.length
                                                         //   ? setComplete(true)
                                                         //   : setCurrentStep((prev) => prev + 1); 
@@ -366,7 +382,7 @@ console.log(text, value)
                     <div className="border-b border-gray-900/10"></div>
                     
                     <AccordionBody>
-                      <AdmissionFlow/>
+                      <AdmissionFlow submission_status={props.participant.submission_status}/>
                       {/* We&apos;re not always in the position that we want to be at. We&apos;re constantly
                       growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
                       ourselves and actualize our dreams. */}

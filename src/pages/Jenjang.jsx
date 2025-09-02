@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import { TiPinOutline } from 'react-icons/ti'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
 import Footer from '../partials/Footer';
 import supabase from '../client/supabase_client';
+import { useSelector } from 'react-redux';
+import { useLogin } from '../features/hooks/use-login';
 
 import '../css/additional-styles/card.css';
 import { TbExternalLink, TbCalendarTime, TbMapPin2, TbNotebook } from "react-icons/tb";
@@ -15,6 +17,10 @@ import { MdOutlineLaunch } from 'react-icons/md'
 function Jenjang() {
   const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
   const [admission_schools, setAdmissionSchools] = useState([])
+  const { userToken, userInfo } = useSelector((state) => state.auth)
+  const { onSubmit, form, results, loading } = useLogin();
+  const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
+  const navigate = useNavigate()
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setmodal_data] = useState({
     title: "Persyaratan Umum Pendaftaran",
@@ -37,9 +43,12 @@ ditetapkan sekolah</li>
       getAdmissionsAys(id)
 
     }
+    if(auth_token){
+      navigate('/home')
+    }
     // console.log(id)
     // console.log(admission_schools)
-  },[id])
+  },[id, auth_token])
 
   const getAdmissionsAys = async (id) => {
     let { data: admission_schools, error } = await supabase

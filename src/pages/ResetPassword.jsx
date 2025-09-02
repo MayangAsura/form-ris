@@ -6,8 +6,8 @@ import { TiArrowRightThick  } from "react-icons/ti";
 import Swal from '../utils/Swal';
 import {TbEyeOff, TbEye} from 'react-icons/tb';
 
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 import { useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 const USERCHECK_URL = '/api/auth/user-check'

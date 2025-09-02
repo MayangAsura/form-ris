@@ -24,7 +24,7 @@ import { G } from '@react-pdf/renderer';
 
 const PATH_URL = import.meta.env.URL_LOCAL
 
-const HorizontalStepper = (props) => {
+const HorizontalStepper = forwardRef((props, ref) => {
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);
@@ -94,6 +94,7 @@ const HorizontalStepper = (props) => {
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
         if(participant.is_complete && participant.submission_status!== 'accepted'){
+          console.log(participant.is_complete)
           setIsComplete(true)
           setCurrentStep(steps.length - 1 )
           // setComplete(true)
@@ -340,6 +341,15 @@ const HorizontalStepper = (props) => {
     ////console.log('dataBerkas', dataBerkas)
 
   }
+   const getVerifikasiKeluarga = () => {
+      const dataVerifikasiKeluarga = {
+        student_category: props.applicant[0].participants[0].student_category,
+        updated_at : props.applicant[0].participants[0].updated_at,
+        photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
+      }
+      console.log(dataVerifikasiKeluarga, 'dataVerifikasiKeluarga')
+      setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
+   }
 
 
   const getIdentitas = async (data) => {
@@ -374,7 +384,7 @@ const HorizontalStepper = (props) => {
                 ////console.log("participant >,", participant)
   
                 
-                (newdatap, 'participants')}
+                saveData(newdatap, 'participants')}
              else 
               {
                 updateData(newdatap, 'participants', participant.id?participant.id:participant_id, 'id')
@@ -609,11 +619,13 @@ const HorizontalStepper = (props) => {
         }
       }, 2000);
       
+      // getParticipantData(participant.id?participant.id:participant_id)
+      getVerifikasiKeluarga()
+      getParticipantDocuments(participant.id?participant.id:participant_id)
       setLoading(false)
       if(!isPending || !loading){
         scroll('right')
       }
-      getParticipantData(participant.id?participant.id:participant_id)
 
     })
   }
@@ -1120,7 +1132,7 @@ const HorizontalStepper = (props) => {
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant.id} school={applicantSchool.id} gender={applicant.gender} ref={ref} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
@@ -1432,6 +1444,6 @@ const HorizontalStepper = (props) => {
     </div>
     </>
   );
-};
+});
 
 export default HorizontalStepper;

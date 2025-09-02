@@ -1,9 +1,9 @@
-import { forwardRef } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
 import { useEffect, useRef, useState } from 'react'
 
-const PengukuranSeragam = (props) => {
+const PengukuranSeragam = forwardRef((props, ref) => {
     const [schoolUniformModel, setSchoolUniformModel] = useState({})
     const [applicantUniformSC, setApplicantUniformSC] = useState([])
     const [applicantUniformSCData, setApplicantUniformSCData] = useState([])
@@ -11,6 +11,7 @@ const PengukuranSeragam = (props) => {
     const [tableData, setTableData] = useState([])
     const [formData, setFormData] = useState({})
     const [last_update, setLastUpdate] = useState("")
+    const sectionRef = useRef(null)
 
     useEffect(() => {
         // console.log('ref', ref)
@@ -23,7 +24,14 @@ const PengukuranSeragam = (props) => {
             setSchoolUniformModel(props.schoolUniformModel)
         }
         props.participant? setParticipantId(props.participant): ""
+        
     },[])
+
+    useImperativeHandle(ref, () => ({
+        scrollTo: () => {
+          sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+      }));
 
     const models = []
 
@@ -94,7 +102,7 @@ const PengukuranSeragam = (props) => {
         }));
     }
 
-    const formatDate = (date) => {
+    const formatDate = (date)    => {
         const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
@@ -184,7 +192,7 @@ const PengukuranSeragam = (props) => {
     }
 
     return (
-        <section className="relative">
+        <section ref={sectionRef} id="pengukuran_seragam" className="relative">
             <div className='max-w-6xl mx-auto px-4 sm:px-6 '>
                 <div className='py-12 md:py-12'>
                     <div className='max-w-sm md:max-w-4xl mx-auto'>
@@ -246,7 +254,7 @@ const PengukuranSeragam = (props) => {
             </div>
         </section>
     )
-}
+})
 
 export default PengukuranSeragam;
 // import { forwardRef } from 'react'

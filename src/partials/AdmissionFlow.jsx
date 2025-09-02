@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function RegistrationProcess({submission_status}) {
+export default function AdmissionFlow({submission_status}) {
   const [activeStep, setActiveStep] = useState(3);
 
   useEffect(()=> {
@@ -39,7 +39,7 @@ export default function RegistrationProcess({submission_status}) {
       title: "Mengisi Formulir Pendaftaran dan Melengkapi Berkas",
       details: "Melengkapi data calon santri, orangtua/wali, dan upload berkas",
     //   description: "Tes IPA, Matematika, Bahasa Inggris, PKn",
-      type: "test"
+      type: "form"
     },
     {
       id: 4,
