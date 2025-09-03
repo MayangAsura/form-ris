@@ -40,11 +40,25 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 15,
   },
+  profilePhotoContainer: {
+    width: '20%',
+    paddingRight: 10,
+  },
+  profilePhoto: {
+    width: 60,
+    height: 70,
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  headerText: {
+    width: '80%',
+  },
   sectionTitle: {
     fontSize: 14,
+    color: '#558fef',
     fontWeight: 'bold',
     marginBottom: 8,
-    backgroundColor: '#f0f0f0',
+    // backgroundColor: '#558fef',
     padding: 4,
   },
   table: {
@@ -66,7 +80,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderTopWidth: 0,
     padding: 5,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#558fef',
     fontWeight: 'bold',
   },
   tableCol: {
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderTopWidth: 0,
     padding: 5,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#fff',
     fontWeight: 'bold',
   },
   tableCol2: {
@@ -118,20 +132,33 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#666',
   },
+  color: {
+    color: '#558fef'
+  }
 });
 
 // Create Document Component
 const ExamInvitationCard = ({ data, profileData, examData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
+      <View style={styles.profilePhotoContainer}>
+          {profileData ? (
+            <Image style={styles.profilePhoto} src={profileData} />
+          ) : (
+            <View style={styles.photoPlaceholder}>
+              <Text style={styles.photoPlaceholderText}>Foto</Text>
+              <Text style={styles.photoPlaceholderText}>3x4</Text>
+            </View>
+          )}
+      </View>
+      <View style={styles.headerText}>
         <Text style={styles.title}>SMPMB</Text>
         <Text style={styles.subtitle}>Seleksi Nasional Penerimaan Mahasiswa Baru</Text>
         <Text style={styles.subtitle}>@Balai Pengelolaan Pengujian Pendidikan</Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>KARTU TANDA PESERTA UTBK-SNBT TAHUN 2025</Text>
+        <Text style={[styles.sectionTitle, styles.color]}>KARTU TANDA PESERTA UTBK-SNBT TAHUN 2025</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <View style={styles.tableColHeader}>

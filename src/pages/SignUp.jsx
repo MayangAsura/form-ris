@@ -14,8 +14,8 @@ import Swal from '../utils/Swal'
 import { useRegister } from '../features/hooks/use-register';
 
 import wablas from '../api/wablas';
-import axios from '../api/local-server';
-// import axios from '../api/prod-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 import { stringify } from 'postcss';
 const SEND_MSG_URL ='/send-message'
 
@@ -244,7 +244,7 @@ function SignUp() {
         No. Pendaftaran: ${results?.f3}
         Login Aplikasi: https://psb.rabbaanii.sch.id/login
         
-        Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran. Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
+        Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
         
         Jazaakumullahu khayran wa Baarakallaahu fiikum.
         
@@ -254,6 +254,7 @@ function SignUp() {
 
       }]
       // console.log(data)
+      // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
 
       if(notified){
 

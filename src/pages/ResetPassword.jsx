@@ -155,6 +155,7 @@ function ResetPassword() {
                       <div className="flex flex-wrap -mx-3 mb-4">
                         <div className="w-full px-3">
                           <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Konfirmasi Password<span className="text-red-600">*</span></label>
+                          <div className="flex">
                           <input id="confirm_password" name='confirm_password' pattern={newpassword} type={`${isVisibleCP?'text':'password'}`} className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan konfirmasi password" required />
                           <button type="button" onClick={hanledVisibleCP} 
                             className="flex justify-around items-center">
@@ -165,6 +166,7 @@ function ResetPassword() {
                               ) }
                               
                           </button>
+                          </div>
                           <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                               Konfirmasi password tidak sama dengan password
                           </span>

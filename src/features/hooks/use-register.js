@@ -79,7 +79,7 @@ const useRegister = () => {
             No. Pendaftaran: ${_results?.f3}
             Login Aplikasi: https://psb.rabbaanii.sch.id/login
             
-            Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran. Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
+            Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
             
             Jazaakumullahu khayran wa Baarakallaahu fiikum.
             
@@ -88,6 +88,8 @@ const useRegister = () => {
             // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
     
           }]
+
+          // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
           // console.log(data)
     
           // setSuccess(true)
