@@ -997,7 +997,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                           .select()
         if(data){
           if(to == 'participant_size_charts'){
-            modal_data.url = '/home#pengukuran_seragam'
+            modal_data.url = '/home'
             modal_data.text = 'OK'
           }
           modal_data.title = "Data Berhasil Disimpan"
