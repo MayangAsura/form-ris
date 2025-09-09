@@ -7,8 +7,8 @@ function PaymentUangPangkalRabSMPPesantren() {
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
       <p>- Uang Pangkal = Rp 20.000.000,-</p>
-      <p>&nbsp; Diskon = Rp 3.000.000,-&nbsp;</p>
-      <p>&nbsp; Total Bayar = Rp 17.000.000,-&nbsp;</p>
+      <p>&nbsp; Diskon = Rp 4.000.000,-&nbsp;</p>
+      <p>&nbsp; Total Bayar = Rp 16.000.000,-&nbsp;</p>
       <p>- SPP per bulan = Rp 2.000.000,-</p>
       <p>- Uang Tahunan = Rp 3.000.000,-</p>
       <p><br/></p>

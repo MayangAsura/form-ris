@@ -4,28 +4,35 @@ import { isPending } from '@reduxjs/toolkit'
 import { useEffect, useRef, useState } from 'react'
 
 const PengukuranSeragam = forwardRef((props, ref) => {
-    const [schoolUniformModel, setSchoolUniformModel] = useState({})
+    const [schoolUniformModel_, setSchoolUniformModel_] = useState({})
     const [applicantUniformSC, setApplicantUniformSC] = useState([])
     const [applicantUniformSCData, setApplicantUniformSCData] = useState([])
     const [participant_id, setParticipantId] = useState([])
     const [tableData, setTableData] = useState([])
     const [formData, setFormData] = useState({})
+    const [formModels, setFormModels] = useState([])
     const [last_update, setLastUpdate] = useState("")
     const sectionRef = useRef(null)
 
+    const {dataSeragam, schoolUniformModel} = props
     useEffect(() => {
         // console.log('ref', ref)
+        console.log('formData', props.dataSeragam, schoolUniformModel)
         if(props.dataSeragam.length > 0){
-            console.log('formData', props.dataSeragam)
             setApplicantUniformSC(props.dataSeragam)
             setLastUpdate(props.dataSeragam[0].updated_at)
         }
         if(props.schoolUniformModel.length > 0){
-            setSchoolUniformModel(props.schoolUniformModel)
+            setSchoolUniformModel_(props.schoolUniformModel)
         }
+        if(formModels){
+            setApplicantUniformSC(formModels)
+        }
+
+        console.log('props.participant',props.participant)
+        getSchoolUniformModel(props.participant)
         props.participant? setParticipantId(props.participant): ""
-        
-    },[])
+    },[formModels])
 
     useImperativeHandle(ref, () => ({
         scrollTo: () => {
@@ -34,6 +41,20 @@ const PengukuranSeragam = forwardRef((props, ref) => {
       }));
 
     const models = []
+
+    const getSchoolUniformModel = async (pid) => {
+        const { data, err} = await supabase.from('participant_size_charts')
+                        .select('uniform_model_id, size_chart, updated_at')
+                        .eq('participant_id', pid)
+                        .is('deleted_at', null)
+                        // .single()
+        if(err){
+        ////console.log(err)
+            return
+        }
+
+        setSchoolUniformModel_(data)
+    }
 
     // const saveData = (e) => {
     //     e.preventDefault()
@@ -79,7 +100,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
     
     const saveData = (e) => {
         e.preventDefault()
-        const formModels = [];
+        
         
         // Get all checked radio buttons
         const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
@@ -92,7 +113,10 @@ const PengukuranSeragam = forwardRef((props, ref) => {
         });
         console.log('formModels', formModels)
         
-        props.onSubmit(formModels)
+        setTimeout(() => {
+            
+            props.onSubmit(formModels)
+        }, 1000);
     }
 
     const handleRadioChange = (model_id, size) => {
@@ -119,9 +143,9 @@ const PengukuranSeragam = forwardRef((props, ref) => {
 
     // Render table using React components instead of HTML strings
     const renderUniformTable = () => {
-        if (!schoolUniformModel.length) return null;
+        if (!schoolUniformModel_.length) return null;
 
-        return schoolUniformModel
+        return schoolUniformModel_
             .filter(m => props.gender === m.model_gender && props.school === m.school_id)
             .map(m => {
                 const model_size_charts = JSON.parse(m.model_size_charts);
@@ -130,7 +154,8 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                 const measurementKeys = Object.keys(firstObject);
 
                 // Find existing selection for this model
-                const existingSelection = props.dataSeragam?.find(item => item.uniform_model_id === m.id);
+                const existingSelection = dataSeragam?.find(item => item.uniform_model_id === m.id);
+                const existingSelectionInput = formModels?.find(item => item.uniform_model_id === m.id);
 
                 return (
                     <div key={m.id} className="mb-8">
@@ -155,9 +180,10 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                             </thead>
                             <tbody>
                                 {Object.entries(model_size_charts).map(([size, measurements]) => {
-                                    const value = existingSelection?.size_chart === size
+                                    const value = existingSelectionInput?.size_chart === size
+                                    const inputValue = existingSelection?.size_chart === size
                                     const newValue = formData[m.id] == size
-                                    const isChecked = newValue || (!formData[m.id] && value) ;
+                                    const isChecked = newValue || (!formData[m.id] && (value || inputValue)) ;
                                     return (
                                         <tr key={size} className=""> 
                                         {/* hover:bg-gray-50 */}
@@ -212,7 +238,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                                     <div className="flex flex-col">
                                         {renderUniformTable()}
                                         
-                                        {schoolUniformModel.length === 0 && (
+                                        {schoolUniformModel_.length === 0 && (
                                             <div className="text-center py-8 text-gray-500">
                                                 Belum ada data ukuran seragam
                                             </div>
@@ -238,7 +264,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                                                 // ) 
                                                 : 
                                                  */}
-                                                 {props.dataSeragam.length>0? 'Edit': 'Simpan'}
+                                                 {(dataSeragam.length>0 || formModels.length>0)? 'Edit': 'Simpan'}
                                                     {/* :  */}
                                                     {/* Simpan */}
                                                 

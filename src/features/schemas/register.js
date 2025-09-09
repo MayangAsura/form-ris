@@ -6,7 +6,7 @@ export const registerSchema = z.object({
   full_name : z.string().min(3, { message: "Nama Lengkap tidak valid." }),
   gender : z.string().min(1, { message: "Jenis kelamin tidak valid." }),
   phone_number : z.string().min(3, { message: "No. WhatsApp tidak valid." }),
-  email : z.email().min(3, {message: "Email tidak valid." }),
+  email : z.email("Email tidak valid."),
   school_id : z.string().max(1, { message: "Jenjang tidak valid." }),
   subschool : z.string().min(0, { message: "Kelas tidak valid." }),
   password : z.string().min(6, { message: "Password minimal 6 karakter." }),

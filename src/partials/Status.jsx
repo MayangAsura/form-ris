@@ -40,7 +40,14 @@ function Status(props) {
                         </span>
                           {/* <TiInputCheckedOutline  size={512} className='items-center'/> */}
                           {/* <p className="pb-1">Status Pembayaran</p> */}
-                          <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran.</p>
+                          <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. 
+                            {status_submission == 'initial_submission' ? (
+                              "Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran."
+                            ) : ( 
+                              "Ananda tidak dapat lagi melakukan pembaruan data tanggal pendaftaran telah berakhir."
+                            )
+                            }
+                            </p>
 
                           {/* <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   onClick={() => {
@@ -58,25 +65,28 @@ function Status(props) {
                                                       // handleSubmit 
                                                   }}
                                                   >Selesaikan</button> */}
-                                                  <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
-                                                  onClick={() => {
-                                                      // currentStep === steps.length
-                                                      //   ? setComplete(true)
-                                                      //   : setCurrentStep((prev) => prev + 1); 
-                                                      if(props.currentStep === 9){
-                                                      // props.handledComplete(true)
-                                                      props.getCurrentStep(2)
-                                                      props.getEdit(true)
-                                                      }else{
-                                                        
-                                                      // props.handledCurrentStep(props.currentStep + 1) ;
-                                                      // props.setCurrentStep((prev) => prev + 1);
-                                                      // callback(data)
-                                                      }
-                                                      // handleSubmit 
-                                                  }}
-                                                  >Edit Data</button>
-                                                  {status_submission == 'accepted' && (
+                                                  {status_submission == 'initial_submission' && (
+
+                                                    <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
+                                                    onClick={() => {
+                                                        // currentStep === steps.length
+                                                        //   ? setComplete(true)
+                                                        //   : setCurrentStep((prev) => prev + 1); 
+                                                        if(props.currentStep === 9){
+                                                        // props.handledComplete(true)
+                                                        props.getCurrentStep(2)
+                                                        props.getEdit(true)
+                                                        }else{
+                                                          
+                                                        // props.handledCurrentStep(props.currentStep + 1) ;
+                                                        // props.setCurrentStep((prev) => prev + 1);
+                                                        // callback(data)
+                                                        }
+                                                        // handleSubmit 
+                                                    }}
+                                                    >Edit Data</button>
+                                                  )}
+                                                  {(status_submission == 'accepted' || status_submission == 'on_measurement') && (
                                                       <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                       onClick={() => {
                                                           // currentStep === steps.length

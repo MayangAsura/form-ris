@@ -7,13 +7,13 @@ function PaymentUangPangkalRabTKIT() {
         <p><br/></p>
         <p>JALUR KHUSUS&nbsp;</p>
         <p>- Uang Pangkal = Rp 3.750.000,-</p>
-        <p>&nbsp; Diskon = Rp 1.000.000,-&nbsp;</p>
-        <p>&nbsp; Total Bayar = Rp 2.750.000,-&nbsp;</p>
+        <p>&nbsp; Diskon = Rp 1.250.000,-&nbsp;</p>
+        <p>&nbsp; Total Bayar = Rp 2.500.000,-&nbsp;</p>
         <p>- SPP per bulan = Rp 270.000,-</p>
         <p>- Uang Tahunan = Rp 1.800.000,-</p>
         <p><br/></p>
         <p>Catatan :</p>
-        <p>1.⁠ ⁠Fasilitas: Seragam 5 Stel, dan Buku Paket Tahun Pertama</p>
+        <p>1.⁠ ⁠Fasilitas: Seragam 3 Stel, dan Buku Paket Tahun Pertama</p>
         <p>2.⁠ ⁠Belum Termasuk SPP Bulan Juli 2026, dan Uang Tahunan</p>
         <p>3.⁠ ⁠Uang Tahunan dapat dicicil 2x, dan dibayarkan pada bulan Juli-Agustus 2026</p>
         <p>4.⁠ ⁠Apabila mengundurkan diri atas kemauan sendiri, maka uang pangkal tidak bisa dikembalikan ataupun dialihkan</p>

@@ -118,6 +118,7 @@ const DataAyahForm = (props) => {
                                             <option value="">Pilih Penghasilan</option>
                                             <option value="less_than_1jt">Kurang dari Rp1 Jt</option>
                                             <option value="less_than_2jt">Kurang dari Rp2 Jt</option>
+                                            <option value="2jt_-_5jt">Rp2 Jt - Rp 5jt</option>
                                             <option value="5jt_-_10jt">Rp5 Jt - Rp10 Jt</option>
                                             <option value="10jt_-_15jt">Rp10 Jt - Rp15 Jt</option>
                                             <option value="15jt_-_20jt">Rp15 Jt - Rp20 Jt</option>

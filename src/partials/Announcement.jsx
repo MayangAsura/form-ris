@@ -63,8 +63,10 @@ function Announcement(props) {
     if(props.participant.submission_status =='on_exam' || submission_status=='on_exam'){
       getToken()
     }
+    console.log(auth_token)
     // getSubmissionStatus()
     if(token){
+      
       // navigate('')
     }
     if(props.applicant && props.participant.submission_status=='on_exam'){
@@ -74,7 +76,7 @@ function Announcement(props) {
       getProfileData()
     }
     
-  },[props.participant.submission_status, props.applicant])
+  },[props.participant.submission_status, props.applicant, auth_token])
 
   const getProfileData = async () => {
     const {data: docs, error} = await supabase.from('participant_documents').select('file_url, file_title')
@@ -94,7 +96,7 @@ function Announcement(props) {
     
     let { data: exam_tests, error } = await supabase
       .from('exam_test_participants')
-      .select('*, exam_tests(*) ')
+      .select('*, exam_tests!inner(*) ')
       .eq('appl_id', props.applicant[0]?.id)
       .is('deleted_at', null)
       if(exam_tests){
@@ -108,8 +110,10 @@ function Announcement(props) {
   }
 
   const loginExamWithParams = () => {
-    const params = { token: token};
+    console.log(token)
+    const params = { auth: token};
     window.location.href=`${EXAM_URL}/login?${createSearchParams(params)}`
+    sessionStorage.setItem('token-auth', token)
     // navigate({
     //   pathname: `${EXAM_URL}/login`,
     //   search: `?${createSearchParams(params)}`,
@@ -157,6 +161,10 @@ function Announcement(props) {
       }
       if(value=="not_accepted"){
         text = "Tidak Lulus" 
+        // setSubmissionStatus(text)
+      }
+      if(value=="on_measurement"){
+        text = "Pengukuran Seragam" 
         // setSubmissionStatus(text)
       }
 
@@ -293,7 +301,7 @@ console.log(text, value)
                                                   >Download Surat Pengumuman</button> <br /> */}
                                                   
                       {props.participant.submission_status==='on_exam' && (
-                        <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} data={props.applicant} />} fileName="Kartu-Seleksi.pdf">
+                        <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} dataApplicant={props.applicant[0]} />} fileName="Kartu-Seleksi.pdf">
                           {/* <div className="flex flex-col justify-between item-center"> */}
                                                   <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
                                                                           onClick={() => {
@@ -320,7 +328,7 @@ console.log(text, value)
                         )}
                                               
                     </div>
-                    {props.participant.submission_status === 'accepted' && (
+                    {props.participant.submission_status === 'on_measurement' && (
                       <div className='flex flex-grow gap-4 px-2 mt-2'>
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {

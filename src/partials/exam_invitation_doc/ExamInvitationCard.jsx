@@ -1,5 +1,6 @@
-import React from 'react';
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer';
+import React, { useEffect } from 'react';
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font, Image} from '@react-pdf/renderer';
+import Callighrafer from '/font/calln.ttf';
 
 // Register fonts (you'll need to handle font loading appropriately)
 Font.register({
@@ -9,6 +10,15 @@ Font.register({
     { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf', fontWeight: 400 },
     { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf', fontWeight: 500 },
     { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf', fontWeight: 700 },
+  ],
+});
+Font.register({
+  family: 'Callighrafer',
+  fonts: [
+    { src: Callighrafer, fontWeight: 300 },
+    // { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf', fontWeight: 400 },
+    // { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf', fontWeight: 500 },
+    // { src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf', fontWeight: 700 },
   ],
 });
 
@@ -27,33 +37,65 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 48,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 2,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 12,
-    marginBottom: 5,
+    fontSize: 16,
+    smarginBottom: 2,
     textAlign: 'center',
+  },
+  brandName: {
+    fontSize: 16,
+    marginBottom: 2,
+    textAlign: 'center',
+    backgroundColor: '#FFFFFF',
+    fontFamily: 'Callighrafer',
   },
   section: {
     marginBottom: 15,
   },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    paddingBottom: 10,
+    gap: '2px',
+    marginBottom: 10
+  },
   profilePhotoContainer: {
+    display: 'flex',
+    direction: '',
     width: '20%',
-    paddingRight: 10,
+    paddingRight: 0,
   },
   profilePhoto: {
-    width: 60,
-    height: 70,
+    width: 100,
+    height: 120,
     borderWidth: 1,
     borderColor: '#000',
   },
   headerText: {
+    display: 'flex',
+    direction: 'column',
+    // flex: '1',
     width: '80%',
   },
   sectionTitle: {
+    display: 'flex',
+    fontSize: 20,
+    color: '#558fef',
+    fontWeight: 'bold',
+    marginBottom: 8,
+    // backgroundColor: '#558fef',
+    padding: 4,
+  },
+  sectionSubTitle: {
+    display: 'flex',
     fontSize: 14,
     color: '#558fef',
     fontWeight: 'bold',
@@ -62,34 +104,48 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   table: {
+    display: 'flex',
     display: 'table',
     width: 'auto',
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    textAlign: 'left'
   },
   tableRow: {
     margin: 'auto',
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
   },
   tableColHeader: {
     width: '40%',
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    padding: 5,
-    backgroundColor: '#558fef',
+    padding: '5px',
+    marginLeft: '5px',
+    backgroundColor: '#fff',
     fontWeight: 'bold',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    // color: ''
+    // textAlign: 'left'
   },
   tableCol: {
     width: '40%',
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    padding: 5,
+    padding: '5px',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    textAlign: 'left'
   },
   tableCol2Header: {
     width: '60%',
@@ -97,22 +153,37 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    padding: 5,
+    padding: '5px',
     backgroundColor: '#fff',
     fontWeight: 'bold',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    // textAlign: 'left'
   },
   tableCol2: {
     width: '60%',
     borderStyle: 'solid',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    padding: 5,
+    paddingLeft: 5,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    // textAlign: 'left'
   },
   tableCell: {
-    margin: 'auto',
-    marginTop: 5,
+    margin: '3px 5px 0',
+    // marginTop: 5,
+    fontSize: 12,
+    // justifyContent: 'flex-start',
+    textAlign: 'left'
+  },
+  tableCell2: {
+    margin: '2px 5px 0',
+    // marginTop: 5,
     fontSize: 10,
+    // justifyContent: 'flex-start',
+    textAlign: 'left'
   },
   noteSection: {
     marginTop: 15,
@@ -121,6 +192,12 @@ const styles = StyleSheet.create({
   noteTitle: {
     fontWeight: 'bold',
     marginBottom: 5,
+  },
+  notes: {
+    marginTop: 15,
+    marginBottom: 3,
+    fontSize: 10,
+    color: '#FF0000'
   },
   noteItem: {
     marginLeft: 10,
@@ -137,208 +214,236 @@ const styles = StyleSheet.create({
   }
 });
 
+const formatDate = (date) => {
+    const dayNames = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    date = new Date(date);
+    const dayName = dayNames[date.getDay()];
+    const day = date.getDate();
+    const monthName = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    const indonesianFormat = `${day} ${monthName} ${year} ${hour}:${minute} WIB`;
+    return indonesianFormat
+  }
+  
 // Create Document Component
-const ExamInvitationCard = ({ data, profileData, examData }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.profilePhotoContainer}>
-          {profileData ? (
-            <Image style={styles.profilePhoto} src={profileData} />
-          ) : (
-            <View style={styles.photoPlaceholder}>
-              <Text style={styles.photoPlaceholderText}>Foto</Text>
-              <Text style={styles.photoPlaceholderText}>3x4</Text>
-            </View>
-          )}
-      </View>
-      <View style={styles.headerText}>
-        <Text style={styles.title}>SMPMB</Text>
-        <Text style={styles.subtitle}>Seleksi Nasional Penerimaan Mahasiswa Baru</Text>
-        <Text style={styles.subtitle}>@Balai Pengelolaan Pengujian Pendidikan</Text>
-      </View>
+const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
 
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, styles.color]}>KARTU TANDA PESERTA UTBK-SNBT TAHUN 2025</Text>
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>NOMOR PESERTA</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.regist_number || '25-3340-170490'}</Text>
-            </View>
+  useEffect(() => {
+    if(examData){
+      console.log('examData', examData)
+    }
+    if(dataApplicant){
+      console.log('dataApplicant', dataApplicant)
+    }
+    if(profileData){
+      console.log('profileData', profileData)
+    }
+  },[examData, dataApplicant, profileData])
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.container}>
+          <View style={styles.profilePhotoContainer}>
+              {profileData ? (
+                <Image style={styles.profilePhoto} src={profileData.file_url} />
+              ) : (
+                <View style={styles.photoPlaceholder}>
+                  <Text style={styles.photoPlaceholderText}>Foto</Text>
+                  <Text style={styles.photoPlaceholderText}>3x4</Text>
+                </View>
+              )}
           </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>NAMA PESERTA</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.full_name || 'RAIHAN ANAL FAMILI'}</Text>
-            </View>
+          <View style={styles.headerText}>
+            <Text style={styles.title}>PSB</Text>
+            <Text style={styles.subtitle}>Penerimaan Santri Baru</Text>
+            <Text style={[styles.subtitle, styles.brandName]}>Rabbaanii Islamic School</Text>
+            <Text style={[styles.sectionTitle, styles.color]}>KARTU TANDA PESERTA PSB TA. 2026/2027</Text>
           </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.dob}>TANGGAL LAHIR</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.dob || '19-07-2007'}</Text>
-            </View>
-          </View>
-          {/* <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>NISN</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.nisn || '007745896'}</Text>
-            </View>
-          </View> */}
         </View>
-      </View>
 
-      {/* Dynamic Exam Data Section */}
-      {examData && examData.length > 0 && examData.map((exam, index) => (
-        <View key={index} style={styles.section}>
-          <Text style={styles.sectionTitle}>JADWAL UTBK - {exam.title || `Seleksi ${index + 1}`}</Text>
+        <View style={styles.section}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
-                <Text style={styles.tableCell}>SKEMA UJIAN</Text>
+                <Text style={styles.tableCell}>NOMOR PESERTA</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {exam.scheme || '-'}</Text>
+                <Text style={[styles.tableCell, styles.textBold]} >: {dataApplicant.regist_number || '-'}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
-                <Text style={styles.tableCell}>LOKASI</Text>
+                <Text style={styles.tableCell}>NAMA PESERTA</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {exam.location || '-'}</Text>
+                <Text style={styles.tableCell}>: {dataApplicant.full_name || '-'}</Text>
+            </View>
+          </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>NO. TELEPON</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.phone_number || '-'}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
-                <Text style={styles.tableCell}>RUANGAN</Text>
+                <Text style={styles.tableCell}>TANGGAL LAHIR</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {exam.room || '-'}</Text>
+                <Text style={styles.tableCell}>: {dataApplicant.participants[0].dob || '-'}</Text>
+              </View>
+            </View>
+            
+            {/* <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>NISN</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.nisn || '007745896'}</Text>
+              </View>
+            </View> */}
+          </View>
+        </View>
+
+        {/* Dynamic Exam Data Section */}
+        {examData && examData.length > 0 && examData.map((exam, index) => (
+          <>
+          <View key={index} style={styles.section}>
+            <Text style={styles.sectionSubTitle}>JADWAL - {exam.exam_tests.title || `Seleksi ${index + 1}`}</Text>
+            <View style={styles.table}>
+              <View style={styles.tableRow}>
+                <View style={styles.tableColHeader}>
+                  <Text style={styles.tableCell2}>SKEMA UJIAN</Text>
+                </View>
+                <View style={styles.tableCol2}>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests.scheme || '-'}</Text>
+                </View>
+              </View>
+              <View style={styles.tableRow}>
+                <View style={styles.tableColHeader}>
+                  <Text style={styles.tableCell2}>LOKASI</Text>
+                </View>
+                <View style={styles.tableCol2}>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests.location || '-'}</Text>
+                </View>
+              </View>
+              <View style={styles.tableRow}>
+                <View style={styles.tableColHeader}>
+                  <Text style={styles.tableCell2}>RUANGAN</Text>
+                </View>
+                <View style={styles.tableCol2}>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests.room || '-'}</Text>
+                </View>
+              </View>
+              <View style={styles.tableRow}>
+                <View style={styles.tableColHeader}>
+                  <Text style={styles.tableCell2}>WAKTU MULAI</Text>
+                </View>
+                <View style={styles.tableCol2}>
+                  <Text style={styles.tableCell2}>: {formatDate(exam.exam_tests.started_at) || '-'}</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          </>
+        ))}
+        <View style={styles.noteSection}>
+
+            <Text style={[styles.notes, styles.noteItem, {marginTop: 5}]}>
+              Catatan: Peserta harus hadir 1 jam sebelum ujian dimulai.
+            </Text>
+        </View>
+
+        {/* <View style={styles.section}>
+          <Text style={styles.sectionTitle}>LOKASI UTBK</Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>PUSAT UTBK</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.pusatUtbk || 'UNIVERSITAS PENDIDIKAN INDONESIA - BANDUNG'}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
               <View style={styles.tableColHeader}>
-                <Text style={styles.tableCell}>WAKTU MULAI</Text>
+                <Text style={styles.tableCell}>ALAMAT</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {exam.started_at || '-'}</Text>
+                <Text style={styles.tableCell}>: {dataApplicant.alamat || 'Jl. Dr Setiabudhi 229 Bandung'}</Text>
               </View>
             </View>
           </View>
-          <Text style={[styles.noteItem, {marginTop: 5}]}>
-            Peserta harus hadir 1 jam sebelum ujian dimulai.
-          </Text>
+        </View> */}
+
+        {/* <View style={styles.section}>
+          <Text style={styles.sectionTitle}>PILIHAN PROGRAM STUDI</Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>PILIHAN 1</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.pilihan1 || 'UNIVERSITAS BRAWIJAYA 13721096 - SL - INDUSTRI PERIKANAN CEDINS'}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>PILIHAN 2</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.pilihan2 || 'UNIVERSITAS BRAWIJAYA 13721039 - SL - TEKNIK GEOFISIKA'}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>PILIHAN 3</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.pilihan3 || '-'}</Text>
+              </View>
+            </View>
+            <View style={styles.tableRow}>
+              <View style={styles.tableColHeader}>
+                <Text style={styles.tableCell}>PILIHAN 4</Text>
+              </View>
+              <View style={styles.tableCol2}>
+                <Text style={styles.tableCell}>: {dataApplicant.pilihan4 || '-'}</Text>
+              </View>
+            </View>
+          </View>
+        </View> */}
+
+        <View style={styles.noteSection}>
+          <Text style={styles.noteTitle}>PERLENGKAPAN YANG HARUS DIBAWA PADA SAAT UJIAN:</Text>
+          <Text style={styles.noteItem}>• Kartu Peserta Seleksi PSB 2026/2027</Text>
+          {/* <Text style={styles.noteItem}>• Bagi Angkatan 2025: Surat Keterangan Kelas 12 asli yang ditandatangani oleh Kepala Sekolah serta berisi nama siswa, NISN, NPSN sekolah, dan pasfoto siswa terbaru (3 bulan terakhir)</Text>
+          <Text style={styles.noteItem}>• Bagi lulusan 2023 dan 2024: Ijazah/Legalisir Ijazah</Text> */}
+          <Text style={styles.noteItem}>• Identitas diri seperti KTP </Text>
+          
+          {/* <Text style={[styles.noteTitle, {marginTop: 10}]}>CATATAN PENTING:</Text> */}
+          {/* <Text style={styles.noteItem}>• LOKASI UTBK HARUS DILIHAT SATU HARI SEBELUM PELAKSANAAN UJIAN.</Text> */}
+          {/* <Text style={styles.noteItem}>• PESERTA HARUS DALAM KONDISI SEHAT.</Text> */}
         </View>
-      ))}
 
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionTitle}>LOKASI UTBK</Text>
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>PUSAT UTBK</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.pusatUtbk || 'UNIVERSITAS PENDIDIKAN INDONESIA - BANDUNG'}</Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>ALAMAT</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.alamat || 'Jl. Dr Setiabudhi 229 Bandung'}</Text>
-            </View>
-          </View>
+        <View style={styles.footer}>
+          <Text style={[styles.textCenter]}>Rabbaanii Islamic School - PSB Form - Info CS 085313642033</Text>
+          <Text style={[styles.textCenter]}>Halaman ini diunduh pada {formatDate(new Date().toISOString())} </Text>
+          {/* <Text>Dicetak pada: {new Date().toLocaleDateString('id-ID')}</Text> */}
         </View>
-      </View> */}
+      </Page>
+    </Document>
 
-      {/* <View style={styles.section}>
-        <Text style={styles.sectionTitle}>PILIHAN PROGRAM STUDI</Text>
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>PILIHAN 1</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.pilihan1 || 'UNIVERSITAS BRAWIJAYA 13721096 - SL - INDUSTRI PERIKANAN CEDINS'}</Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>PILIHAN 2</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.pilihan2 || 'UNIVERSITAS BRAWIJAYA 13721039 - SL - TEKNIK GEOFISIKA'}</Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>PILIHAN 3</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.pilihan3 || '-'}</Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableColHeader}>
-              <Text style={styles.tableCell}>PILIHAN 4</Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCell}>: {data.pilihan4 || '-'}</Text>
-            </View>
-          </View>
-        </View>
-      </View> */}
-
-      <View style={styles.noteSection}>
-        <Text style={styles.noteTitle}>PERLENGKAPAN YANG HARUS DIBAWA PADA SAIT UJIAN:</Text>
-        <Text style={styles.noteItem}>• Kartu Peserta Seleksi PSB 2026/2027</Text>
-        {/* <Text style={styles.noteItem}>• Bagi Angkatan 2025: Surat Keterangan Kelas 12 asli yang ditandatangani oleh Kepala Sekolah serta berisi nama siswa, NISN, NPSN sekolah, dan pasfoto siswa terbaru (3 bulan terakhir)</Text>
-        <Text style={styles.noteItem}>• Bagi lulusan 2023 dan 2024: Ijazah/Legalisir Ijazah</Text> */}
-        <Text style={styles.noteItem}>• Identitas diri seperti KTP </Text>
-        
-        <Text style={[styles.noteTitle, {marginTop: 10}]}>CATATAN PENTING:</Text>
-        <Text style={styles.noteItem}>• LOKASI UTBK HARUS DILIHAT SATU HARI SEBELUM PELAKSANAAN UJIAN.</Text>
-        <Text style={styles.noteItem}>• PESERTA HARUS DALAM KONDISI SEHAT.</Text>
-      </View>
-
-      <View style={styles.footer}>
-        <Text>Dicetak pada: {new Date().toLocaleDateString('id-ID')}</Text>
-      </View>
-    </Page>
-  </Document>
-);
-
-// React component for downloading the PDF
-// const ExamCardDownload = ({ data }) => (
-//   <div style={{ textAlign: 'center', margin: '20px' }}>
-//     <PDFDownloadLink
-//       document={<ExamCardDocument data={data} />}
-//       fileName="kartu_peserta_utbk.pdf"
-//       style={{
-//         textDecoration: 'none',
-//         padding: '10px 20px',
-//         backgroundColor: '#4CAF50',
-//         color: 'white',
-//         borderRadius: '4px',
-//         fontWeight: 'bold',
-//       }}
-//     >
-//       {({ blob, url, loading, error }) =>
-//         loading ? 'Menyiapkan dokumen...' : 'Download Kartu Peserta UTBK'
-//       }
-//     </PDFDownloadLink>
-//   </div>
-// );
+  )
+};
 
 export default ExamInvitationCard;
 
@@ -731,7 +836,7 @@ export default ExamInvitationCard;
 //             <TD style={styles.td}>Unit Price</TD>
 //             <TD style={styles.td}>Total</TD>
 //           </TH>
-//           {tableData.map((item, index) => (
+//           {tabledataApplicant.map((item, index) => (
 //             <TR key={index}>
 //               <TD style={styles.td}>{item.description}</TD>
 //               <TD style={styles.td}>{item.quantity}</TD>
@@ -747,7 +852,7 @@ export default ExamInvitationCard;
 //               minWidth: "256px",
 //             }}
 //           >
-//             {totalData.map((item) => (
+//             {totaldataApplicant.map((item) => (
 //               <View
 //                 style={{
 //            View       flexDirection: "row",

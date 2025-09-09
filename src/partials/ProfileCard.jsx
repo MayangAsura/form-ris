@@ -382,19 +382,19 @@ function ProfileCard(props) {
                           </div>
                         </div> */}
                         {/* {profileData.is_complete} */}
-                        {profileData.is_complete && (
+                        {/* {profileData.is_complete && (
                           <PDFDownloadLink document={<RegistrationCard dataSummary={dataSummary}/>} fileName="Kartu-Pendaftaran.pdf">
                           <button  className='btn w-full py-3 btn-sm my-5  text-gray-200 bg-green-900 hover:bg-gray-800'
                                                   onClick={() => {
                                                       
                                                   }}
                                                   >Cetak Kartu Pendaftaran</button>
-                                    {/* <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                                    <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
                                       Download PDF
-                                    </button> */}
+                                    </button>
                                   </PDFDownloadLink>
 
-                        )}
+                        )} */}
                         <div className='my-3'>
                           
                         </div>

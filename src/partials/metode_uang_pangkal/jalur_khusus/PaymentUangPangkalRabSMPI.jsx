@@ -7,7 +7,7 @@ function PaymentUangPangkalRabSMPI() {
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
       <p>- Uang Pangkal = Rp 16.700.000,-</p>
-      <p>&nbsp; Diskon = Rp 4.000.000,-&nbsp;</p>
+      <p>&nbsp; Diskon = Rp 4.500.000,-&nbsp;</p>
       <p>&nbsp; Total Bayar = Rp 12.200.000,-&nbsp;</p>
       <p>- SPP per bulan = Rp 750.000,-</p>
       <p>- Uang Tahunan = Rp 2.500.000,-</p>

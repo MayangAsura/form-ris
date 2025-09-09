@@ -64,7 +64,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
       title: "",
       message: "",
       text: "OK",
-      // url: "/login",
+      url: "",
       // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
       text2: "",
       url2: ""
@@ -93,12 +93,13 @@ const HorizontalStepper = forwardRef((props, ref) => {
       if(props.applicant[0].participants.length > 0){
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
-        if(participant.is_complete && participant.submission_status!== 'accepted'){
+        if(participant.is_complete && participant.submission_status!== 'accepted' && participant.submission_status!== 'on_measurement' ){
           console.log(participant.is_complete)
           setIsComplete(true)
           setCurrentStep(steps.length - 1 )
           // setComplete(true)
-        }else if(participant.is_complete && participant.submission_status== 'accepted'){
+        }else if(participant.is_complete && (participant.submission_status== 'accepted' || participant.submission_status== 'on_measurement') ){
+          // setIsComplete(true)
           setCurrentStep(steps.length)
           // if(ref){
             
@@ -166,7 +167,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
     }
 
-    if(props.currentStep && participant?.submission_status== 'accepted') {
+    if(props.currentStep && (participant?.submission_status== 'accepted' || participant.submission_status== 'on_measurement' )) {
       console.log('currentStep from stepper', props.currentStep)
       setCurrentStep(props.currentStep)
       getStatus()
@@ -216,8 +217,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
     setDataSeragam(data)
     // if()
-    if(data && participant?.submission_status=='accepted'){
+    if(data && (participant?.submission_status=='accepted'|| participant.submission_status== 'on_measurement')){
       setCurrentStep(10)
+      setComplete(true)
 
     }
     ////console.log('dataSeragam >', dataSeragam)
@@ -655,7 +657,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
   const getPengukuranSeragam = (data) => {
  
-    console.log("Data Pengukuran Seragam >", data)
+    console.log("Data Pengukuran Seragam >", data, complete)
     setLoading(true)
     startTransition(() => {
       
@@ -672,7 +674,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
         
         ////console.log('data > ', data)
         if(complete){
+          console.log("Data Pengukuran Seragam >>", data)
           if(dataSeragam.length == 0){
+            console.log("Data Pengukuran Seragam >>", data)
             saveData(data, 'participant_size_charts')
           }else{
             updateData(data, 'participant_size_charts', pid, 'id')
@@ -684,9 +688,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
           // scroll('right')
           // setCurrentStep(currentStep + 1)
         }
-      }, 3000);
+      }, 1000);
       setComplete(true)
       setLoading(false)
+      getSeragamData(participant.id?participant.id:participant_id)
     })
   }
 
@@ -991,6 +996,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
                           .insert(input)
                           .select()
         if(data){
+          if(to == 'participant_size_charts'){
+            modal_data.url = '/home#pengukuran_seragam'
+            modal_data.text = 'OK'
+          }
           modal_data.title = "Data Berhasil Disimpan"
           setModalShow(true)
         }else{
@@ -1046,7 +1055,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
         }
       }else{
         ////console.log('from input array')
-        dataInput.forEach( async (e) => {
+        let error = false
+        let dataError = ""
+        dataInput.forEach( async (e, key) => {
           // const pk1 = pk
           // const pk2 = e.uniform_model_id
           ////console.log('element', e)
@@ -1057,13 +1068,20 @@ const HorizontalStepper = forwardRef((props, ref) => {
                               .eq(pk1, e[pk1])
                               .eq(pk2, e[pk2])
                               .select()
+          if(err){
+            error = true
+            dataError = key
+          }
+        
+          // if(data)
+          //   error = false
         });
 
-        if(data){
+        if(!error){
           dataAlert.title = "Data Berhasil Diedit"
           setDataAlertShow(true)
         }else{
-          dataAlert.title = "Data Gagal Diedit"
+          dataAlert.title = `Data ke ${dataError} Gagal Diedit`
           setDataAlertShow(true)
         }
       }
