@@ -1,6 +1,6 @@
 // import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import axios from '../../api/local-server'
+// import axios from '../../api/local-server'
 import Cookies from 'js-cookie'
 import axios from '../../api/prod-server'
 
