@@ -65,7 +65,7 @@ function Status(props) {
                                                       // handleSubmit 
                                                   }}
                                                   >Selesaikan</button> */}
-                                                  {status_submission == 'initial_submission' && (
+                                                  {/* {status_submission == 'initial_submission' && ( */}
 
                                                     <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                     onClick={() => {
@@ -85,7 +85,7 @@ function Status(props) {
                                                         // handleSubmit 
                                                     }}
                                                     >Edit Data</button>
-                                                  )}
+                                                  {/* )} */}
                                                   {(status_submission == 'accepted' || status_submission == 'on_measurement') && (
                                                       <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                       onClick={() => {
