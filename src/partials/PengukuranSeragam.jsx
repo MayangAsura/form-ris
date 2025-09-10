@@ -17,6 +17,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
     const {dataSeragam, schoolUniformModel} = props
     useEffect(() => {
         // console.log('ref', ref)
+        getSchoolUniformModel(props.participant)
         console.log('formData', props.dataSeragam, schoolUniformModel)
         if(props.dataSeragam.length > 0){
             setApplicantUniformSC(props.dataSeragam)
@@ -30,9 +31,8 @@ const PengukuranSeragam = forwardRef((props, ref) => {
         }
 
         console.log('props.participant',props.participant)
-        getSchoolUniformModel(props.participant)
         props.participant? setParticipantId(props.participant): ""
-    },[dataSeragam, schoolUniformModel, formModels])
+    },[formModels])
 
     useImperativeHandle(ref, () => ({
         scrollTo: () => {
