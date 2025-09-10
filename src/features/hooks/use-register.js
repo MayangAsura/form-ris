@@ -75,16 +75,14 @@ const useRegister = () => {
     const data = [{
             "phone": new_phone_number,
             // "phone": "6285778650040",
-            "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. 
-            No. Pendaftaran: ${_results?.f3}
-            Login Aplikasi: https://psb.rabbaanii.sch.id/login
-            
-            Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
-            
-            Jazaakumullahu khayran wa Baarakallaahu fiikum.
-            
-            -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
-            - Mohon simpan nomor ini untuk mendapatkan update informasi -`
+            "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. No. Pendaftaran: ${_results?.f3}
+Login Aplikasi: https://psb.rabbaanii.sch.id/login
+
+Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+Jazaakumullahu khayran wa Baarakallaahu fiikum.
+
+-- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+- Mohon simpan nomor ini untuk mendapatkan update informasi -`
             // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
     
           }]
