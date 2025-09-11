@@ -6,7 +6,7 @@ function Status(props) {
 
   useEffect(() => {
     
-    console.log('dataStatus', props.dataStatus)
+    console.log('dataStatus', props.dataStatus, status_submission)
     if(props.dataStatus){
       setSubmissionStatus(props.dataStatus)
       
@@ -41,7 +41,7 @@ function Status(props) {
                           {/* <TiInputCheckedOutline  size={512} className='items-center'/> */}
                           {/* <p className="pb-1">Status Pembayaran</p> */}
                           <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. 
-                            {status_submission == 'initial_submission' ? (
+                            {status_submission === 'initial_submission' ? (
                               "Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran."
                             ) : ( 
                               "Ananda tidak dapat lagi melakukan pembaruan data tanggal pendaftaran telah berakhir."
@@ -65,7 +65,8 @@ function Status(props) {
                                                       // handleSubmit 
                                                   }}
                                                   >Selesaikan</button> */}
-                                                  {/* {status_submission == 'initial_submission' && ( */}
+                                                  
+                                                  {props.dataStatus === 'initial_submission' && (
 
                                                     <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                     onClick={() => {
@@ -85,8 +86,8 @@ function Status(props) {
                                                         // handleSubmit 
                                                     }}
                                                     >Edit Data</button>
-                                                  {/* )} */}
-                                                  {(status_submission == 'accepted' || status_submission == 'on_measurement') && (
+                                                  )}
+                                                  {(status_submission === 'accepted' || status_submission === 'on_measurement') && (
                                                       <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                       onClick={() => {
                                                           // currentStep === steps.length

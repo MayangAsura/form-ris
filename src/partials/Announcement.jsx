@@ -27,7 +27,8 @@ import { TbDownload } from 'react-icons/tb'
 
 function Announcement(props) {
   
-  const EXAM_URL = import.meta.env.EXAM_URL_PROD??"https://exam.rabbaanii.sch.id"
+  const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3002"
+  // const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"https://exam.rabbaanii.sch.id"
   const {userToken} = useSelector(state => state.auth)
   const { onSubmit, form, results, loading } = useLogin();
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken

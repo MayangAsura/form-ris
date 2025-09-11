@@ -105,6 +105,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             
           // }
         }
+        getStatus()
         setEdit(props.applicant[0].participants[0].is_draft)
         if(props.applicant[0].participants[0].participant_father_data.length>0){
           setDataAyah(props.applicant[0].participants[0].participant_father_data[0])
@@ -397,7 +398,13 @@ const HorizontalStepper = forwardRef((props, ref) => {
               updateData(data_applicant, "applicants", applicant.id, 'id')
           }
           // setApplicant(newdatap)
-          getParticipantData(participant_id?participant_id:participant.id)
+          setTimeout(() => {
+            
+            if(participant_id?participant_id:participant.id){
+
+              getParticipantData(participant_id?participant_id:participant.id)
+            }
+          }, 1000);
           // if(applicant.participants.length > 0){
             // setParamNavigasi(currentStep + 1)
             // }
@@ -707,7 +714,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                                 .eq('id', pid)
                                 .single()
         if(data){
-          ////console.log("Complete >,", data)
+          console.log("Complete >,", data)
           setComplete(data.is_complete)
           setDataStatus(data.submission_status)
           // scroll('right')
@@ -1155,9 +1162,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
   return (
     <>
     <div className="flex items-center justify-center shadow-md p-4">
-      {dataAlertShow && (
+      {/* {dataAlertShow && (
         <SmallAlert dataAlert={dataAlert} setDataAlertShow={setDataAlertShow_} />
-      )}
+      )} */}
       {modal_show && (
         <Swal dataModal={modal_data} setClose={handleCloseModal} />
       )}

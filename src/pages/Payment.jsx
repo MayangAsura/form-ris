@@ -599,7 +599,7 @@ function Payment() {
                 <div className="flex flex-wrap -mx-3 mb-4 ">
                     <div className="w-full px-3">
                     {/* flex-wrap */}
-                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nama-</label>
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nama</label>
                       <h2 className='text-lg font-800 font-medium flex justify-start'> {applicantData?.full_name??'-'}</h2>
                       {/* <h2>{applicantOrder?.applicants?.full_name?? '-'}</h2> */}
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
