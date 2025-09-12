@@ -15,6 +15,9 @@ function VerifikasiKeluargaForm(props) {
     const data = { student_category:student_category, photo_sampul_ijazah:photo_sampul_ijazah}
 
     const validateImage = (image, size, file_name) => {
+        if(!image || !size || !file_name) {
+            return
+        }
         if (!image.name.match(/\.(jpg|jpeg|png|pdf)$/)){
 
             const error = "Tipe file berkas salah. Mohon ulangi upload berkas."

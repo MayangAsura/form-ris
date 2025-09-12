@@ -83,6 +83,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     }
   };
   
+  // {applicant} = props
 
   useEffect(() => {
     // console.log('ref', ref)
@@ -188,8 +189,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
     // }
     
     
-  }, [props.applicant, participant, isPending, complete]) 
-
+  }, [props.applicant]) 
+// props.applicant, participant, isPending, complete
   const setParamNavigasi  = (nstep) => {
       const params = { step: nstep};
       // console.log('params', params)
@@ -488,7 +489,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             // console.log('data ibu',props.applicant[0].participants[0].participant_mother_data.length ===0, props.applicant[0].participants[0].participant_mother_data.length)
             console.log('data ibu',!dataIbu)
             if(!edit && (!dataIbu)){
-              ////console.log("masuk")
+              console.log("masuk")
               // console.log('dataibu', data)
               // console.log('dataibu', props.applicant[0].participants[0].participant_mother_data)
               saveData(data, 'participant_mother_data')
@@ -574,7 +575,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     startTransition(() => {
 
       setTimeout(() => {
-        if(data.length === 0 && !dataBerkas.length === 0) {
+        if(data.length === 0 && dataBerkas.length === 0) {
           dataAlert.message = "Data berkas tidak boleh kosong"
           setDataAlertShow(true) 
         }
@@ -591,6 +592,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             }
           }
           setDataBerkas(data)
+          getParticipantDocuments(participant.id?participant.id:participant_id)
           setCurrentStep(currentStep + 1)
           // saveData(data, 'participant_documents', 'file')
           // }
@@ -709,17 +711,20 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
       setTimeout( async () => {
         const pid = participant.id?participant.id:participant_id
-        const { data, error } = await supabase.from('participants')
-                                .select('is_complete, submission_status')
-                                .eq('id', pid)
-                                .single()
-        if(data){
-          console.log("Complete >,", data)
-          setComplete(data.is_complete)
-          setDataStatus(data.submission_status)
-          // scroll('right')
-          //   setCurrentStep(currentStep + 1)
-          }
+        if(pid){
+          const { data, error } = await supabase.from('participants')
+                                  .select('is_complete, submission_status')
+                                  .eq('id', pid)
+                                  .single()
+
+          if(data){
+            console.log("Complete >,", data)
+            setComplete(data.is_complete)
+            setDataStatus(data.submission_status)
+            // scroll('right')
+            //   setCurrentStep(currentStep + 1)
+            }
+        }
       }, 3000);
       setLoading(false)
     })
@@ -833,7 +838,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
             const dataItem = {
               participant_id: pid,
-              file_url: berkasUrl?berkasUrl : file_url,
+              file_url: file_url? file_url : berkasUrl,
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
               file_size: d.size?.toString(),
               file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
@@ -841,6 +846,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             }
             ////console.log(dataItem)
             if(!edit && dataBerkas.length == 0){
+              console.log('in insert', dataItem)
               const { data, err} = await supabase.from(to)
                                 .insert([dataItem])
                                 .select()
@@ -851,10 +857,13 @@ const HorizontalStepper = forwardRef((props, ref) => {
               }
 
             }else{
+              console.log('in upsert', dataItem)
               dataItem.participant_id = participant.id?participant.id:participant_id
+              dataItem.updated_at = new Date().toISOString()
               const { data, err} = await supabase.from(to)
-              .upsert([dataItem])
-              // .eq('participant_id', participant_id)
+              .update([dataItem])
+              .eq('participant_id', dataItem.participant_id)
+              .eq('file_title', dataItem.file_title)
               .select()
               ////console.log('data>', data)
               ////console.log('err >', err)
@@ -865,10 +874,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
             }
 
             if(countError>0){
-              modal_data.title = "Data Gagal Diedit"
+              modal_data.title = "Data Gagal Disimpan"
               setModalShow(true)
             }else{
-              modal_data.title = "Data Berhasil Diedit"
+              modal_data.title = "Data Berhasil Disimpan"
               setModalShow(true)
               }
       //       if(d.name == "Bird-Certificate"){
@@ -909,16 +918,18 @@ const HorizontalStepper = forwardRef((props, ref) => {
           // ////console.log(('url >', url.value('path')));
           const dataItem = {
             participant_id: pid,
-            file_url: berkasUrl?berkasUrl : file_url,
+            file_url: file_url? file_url : berkasUrl,
             file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
             file_size: d.size?.toString(),
             file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
             file_title: d.name
           }
           ////console.log(dataItem)
-
-          if(!edit && !dataBerkas.find(e => e.file_title == d.name)){
+          const currentFile = dataBerkas.find(e => e.file_title == d.name)
+          console.log('currentFile', currentFile)
+          if(!edit && !currentFile){
             console.log('dataItem',dataItem, !dataBerkas.find(e => e.file_title == d.name))
+            console.log('in insert not single', dataItem)
               const { data, err} = await supabase.from(to)
                                 .insert([dataItem])
                                 .select()
@@ -934,6 +945,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
               }
             }else{
               console.log('dataItem>',dataItem)
+              console.log('in update not single', dataItem)
               // console.log(da)
               // dataItem.participant_id = participant.id?participant.id:participant_id
               const { data, err} = await supabase.from(to)
@@ -1003,6 +1015,14 @@ const HorizontalStepper = forwardRef((props, ref) => {
                           .insert(input)
                           .select()
         if(data){
+          if(dataInput.pob){
+            setInserted(true)
+            setParticipantId(data[0].id)
+            getParticipantData(data[0].id)
+            // if(dataIbu){
+              
+            // }
+          }  
           if(to == 'participant_size_charts'){
             modal_data.url = '/home'
             modal_data.text = 'OK'
@@ -1015,14 +1035,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
         }
         ////console.log('data>', data)
         ////console.log('err >', err)
-        if(dataInput.pob){
-          setInserted(true)
-          setParticipantId(data[0].id)
-          getParticipantData(data[0].id)
-          // if(dataIbu){
-            
-          // }
-        }   
+         
       
     }
     
@@ -1114,7 +1127,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                             .select()
                             ////console.log('data participant after klik edit >', data)
                             ////console.log(error)
-                            getDataBerkas(participant.id?participant.id:participant_id)
+                            getParticipantDocuments(participant.id?participant.id:participant_id)
   }
   const getComplete = async (value) => {
     // setComplete(value)

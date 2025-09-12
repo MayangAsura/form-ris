@@ -317,7 +317,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
         {examData && examData.length > 0 && examData.map((exam, index) => (
           <>
           <View key={index} style={styles.section}>
-            <Text style={styles.sectionSubTitle}>JADWAL - {exam.exam_tests.title || `Seleksi ${index + 1}`}</Text>
+            <Text style={styles.sectionSubTitle}>JADWAL - {exam.exam_tests.name || `Seleksi ${index + 1}`}</Text>
             <View style={styles.table}>
               <View style={styles.tableRow}>
                 <View style={styles.tableColHeader}>

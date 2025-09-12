@@ -41,6 +41,7 @@ function SignUp() {
   const [temp_password, setTempPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
+  const [dob, setDob] = useState("")
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
     type: "",
@@ -664,6 +665,15 @@ console.log(Object.values(data_appl)[0] !== '01')
                       <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} {...register('email')} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
                       {errors.email && (
                         <p className="text-xs text-red-500"> {errors.email.message} </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full px-3">
+                      <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
+                    <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} {...register('dob')} type="date" className="form-input w-full text-gray-800" required/>
+                      {errors.dob && (
+                        <p className="text-xs text-red-500"> {errors.dob.message} </p>
                       )}
                     </div>
                   </div>

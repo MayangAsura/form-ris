@@ -44,7 +44,8 @@ const useRegister = () => {
             data.password,
             data.phone_number,
             data.school_id,
-            data.subschool
+            data.subschool,
+            data.dob,
           );
     },
     onSuccess: (data) => {

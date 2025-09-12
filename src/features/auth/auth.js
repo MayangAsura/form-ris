@@ -57,7 +57,8 @@ export class AuthService {
             password,
             phone_number,
             school_id,
-            subschool
+            subschool,
+            dob
         ){
     const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
             _email : email,
@@ -67,7 +68,8 @@ export class AuthService {
             _password : password,
             _phone_number : phone_number,
             _school_id : parseInt(school_id),
-            _subschool : subschool
+            _subschool : subschool,
+            _dob : dob
           });
 
     if (error) {

@@ -32,7 +32,7 @@ function BerkasForm(props) {
 
 
     useEffect(() => {
-            ////console.log('props.dataBerkas>', props.school)
+            console.log('props.dataBerkas>', props.school)
             if(props.dataBerkas.length > 0) {
                 // ////console.log()
                 setDataBerkas(props.dataBerkas)
@@ -59,6 +59,10 @@ function BerkasForm(props) {
     const data = { bird_certificate:bird_certificate, pas_photo:pas_photo, parent_ktp:parent_ktp, surat_kesanggupan:surat_kesanggupan, kk:kk, certificate:certificate}
 
     const validateImage = (image, size, file_name) => {
+
+        if(!image || !size || !file_name) {
+            return
+        }
         if (!image.name.match(/\.(jpg|jpeg|png|pdf)$/)){
 
             const error = "Tipe file berkas salah. Mohon ulangi upload berkas."
@@ -102,6 +106,9 @@ function BerkasForm(props) {
         ////console.log(berkasFile)
         props.onSubmit(berkasFile)
         
+        setBerkasFile([])
+        setTimeout(() => {
+        }, 1000);
     }
 
     const formatDate = (date) => {
@@ -362,7 +369,7 @@ function BerkasForm(props) {
                                         <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
                                         <div className="relative inline-block">
                                             <div className="mt-2 flex justify-center items-center">
-                                                <a href={'https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8'} 
+                                                <a href={(dataSchool.id === 4 || dataSchool.id === 5) ? 'https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8' : (dataSchool.id === 1 || dataSchool.id === 2 || dataSchool.id === 3 || dataSchool.id === 6) ? 'https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/SURAT%20KESANGGUPAN-FULLDAY.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU1VSQVQgS0VTQU5HR1VQQU4tRlVMTERBWS5wZGYiLCJpYXQiOjE3NTc2NDgwNjQsImV4cCI6MTc4OTE4NDA2NH0.mCRdS-e9Q_dIUCTGj67KPl6MLYYPP-3cSoDqVxuNuCU': ''} 
                                                 target='_blank'
                                                 className='w-full p-3 mt-3 flex-1 items-center bg-green-700 text-white border-0
                                                 py-2 px-3 rounded-lg text-sm shadow-xl 

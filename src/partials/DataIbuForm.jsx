@@ -171,7 +171,7 @@ function DataIbuForm(props) {
                                                             </div>
                                                         ) : 
                                                         (
-                                                            (typeof props.dataIbu =='object' && props.dataIbu !==null && Object.keys(props.dataIbu).length===0)? 'Edit':
+                                                            (typeof props.dataIbu !=='object' || props.dataIbu !==null || Object.keys(props.dataIbu).length>0)? 'Edit':
                                                             "Simpan"
                                                         )
                                                         }

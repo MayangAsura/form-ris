@@ -27,8 +27,8 @@ import { TbDownload } from 'react-icons/tb'
 
 function Announcement(props) {
   
-  // const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3002"
-  const EXAM_URL = import.meta.env.EXAM_URL_PROD??"https://exam.rabbaanii.sch.id"
+  const EXAM_URL = import.meta.env.EXAM_URL_LOCAL??"http://localhost:3002"
+  // const EXAM_URL = import.meta.env.EXAM_URL_PROD??"https://exam.rabbaanii.sch.id"
   const {userToken} = useSelector(state => state.auth)
   const { onSubmit, form, results, loading } = useLogin();
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
@@ -36,6 +36,7 @@ function Announcement(props) {
   const [participant, setParticipant] = useState({})
   const [examData, setExamData] = useState([])
   const [profileData, setProfileData] = useState({})
+  const [applicantSchool, setApplicantSchool] = useState("")
   const [open, setOpen] = useState(1)
   const [token, setToken] = useState("")
   const [searchParams, setSearchParams] = useSearchParams();
@@ -75,6 +76,13 @@ function Announcement(props) {
       console.log('props.applicant', props.applicant)
       getDataExam()
       getProfileData()
+    }
+    
+    if(props.applicant[0]){
+      console.log('props.applicant', props.applicant)
+      console.log(props.applicant[0].applicant_schools[0].schools.school_id)
+      setApplicantSchool(props.applicant[0].applicant_schools[0].schools.school_id)
+      console.log('applicantSchool', applicantSchool)
     }
     
   },[props.participant.submission_status, props.applicant, auth_token])
@@ -218,7 +226,7 @@ console.log(text, value)
         });
     };
   const download_surat_kesanggupan = () => {
-        fetch("https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/SURAT%20KESANGGUPAN.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU1VSQVQgS0VTQU5HR1VQQU4ucGRmIiwiaWF0IjoxNzU0OTYwMzU2LCJleHAiOjE4MTgwMzIzNTZ9.SmB_bF7yoepPfs30sIimJJCGLceYfmC9ijCouQih-RA").then((response) => {
+        fetch((applicantSchool===1 || applicantSchool == 2 || applicantSchool == 3 || applicantSchool == 6)? "https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/SURAT%20KESANGGUPAN-FULLDAY.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU1VSQVQgS0VTQU5HR1VQQU4tRlVMTERBWS5wZGYiLCJpYXQiOjE3NTc2NDgwNjQsImV4cCI6MTc4OTE4NDA2NH0.mCRdS-e9Q_dIUCTGj67KPl6MLYYPP-3cSoDqVxuNuCU": "https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/sign/uploads/student_submissions/Surat%20Orang%20Tua%20Siap%20Mengikuti%20Aturan%20RIS.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80MzczNjc5MC01MTU4LTQ5N2YtOTUwOS1mM2Y0NDU2NzBiYWMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1cGxvYWRzL3N0dWRlbnRfc3VibWlzc2lvbnMvU3VyYXQgT3JhbmcgVHVhIFNpYXAgTWVuZ2lrdXRpIEF0dXJhbiBSSVMucGRmIiwiaWF0IjoxNzQ4OTQ4MTAyLCJleHAiOjE3ODA0ODQxMDJ9.3NiPzmZ-zD2PTvq3JNNU1DnQi3ciIs33ChwF5UNiDo8").then((response) => {
             response.blob().then((blob) => {
                 const fileURL =
                     window.URL.createObjectURL(blob);

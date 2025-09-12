@@ -6,11 +6,11 @@ function Status(props) {
 
   useEffect(() => {
     
-    console.log('dataStatus', props.dataStatus, status_submission)
     if(props.dataStatus){
       setSubmissionStatus(props.dataStatus)
       
-  }
+    }
+    console.log('dataStatus', props.dataStatus, status_submission)
   }, [props.dataStatus])
   return (
    
@@ -42,9 +42,9 @@ function Status(props) {
                           {/* <p className="pb-1">Status Pembayaran</p> */}
                           <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. 
                             {status_submission === 'initial_submission' ? (
-                              "Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran."
+                              " Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran."
                             ) : ( 
-                              "Ananda tidak dapat lagi melakukan pembaruan data tanggal pendaftaran telah berakhir."
+                              " Ananda tidak dapat lagi melakukan pembaruan data tanggal pendaftaran telah berakhir."
                             )
                             }
                             </p>
@@ -65,8 +65,8 @@ function Status(props) {
                                                       // handleSubmit 
                                                   }}
                                                   >Selesaikan</button> */}
-                                                  
-                                                  {(props.dataStatus !== 'accepted' || props.dataStatus !== 'on_exam' || props.dataStatus !== 'on_measurement') && (
+                                                  {/* status_submission */}
+                                                  {(status_submission === 'initial_submission') && (
 
                                                     <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                     onClick={() => {
