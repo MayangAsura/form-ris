@@ -857,7 +857,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
               }
 
             }else{
-              console.log('in upsert', dataItem)
+              console.log('in update', dataItem)
               dataItem.participant_id = participant.id?participant.id:participant_id
               dataItem.updated_at = new Date().toISOString()
               const { data, err} = await supabase.from(to)
@@ -929,7 +929,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
           console.log('currentFile', currentFile)
           if(!edit && !currentFile){
             console.log('dataItem',dataItem, !dataBerkas.find(e => e.file_title == d.name))
-            console.log('in insert not single', dataItem)
+            console.log('in insert single', dataItem)
               const { data, err} = await supabase.from(to)
                                 .insert([dataItem])
                                 .select()
@@ -945,7 +945,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
               }
             }else{
               console.log('dataItem>',dataItem)
-              console.log('in update not single', dataItem)
+              console.log('in update single', dataItem)
               // console.log(da)
               // dataItem.participant_id = participant.id?participant.id:participant_id
               const { data, err} = await supabase.from(to)
