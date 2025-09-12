@@ -86,7 +86,7 @@ function IdentitasForm(props) {
         setNIK(props.dataParticipant.nik)
         setNISN(props.dataParticipant.nisn)
         setPob(props.dataParticipant.pob)
-        setDob(props.dataParticipant.dob)
+        setDob(props.dataApplicant.dob?props.dataApplicant.dob:props.dataParticipant.dob)
         setMedicalHistory(props.dataParticipant.medical_history)
         setSicknessHistory (props.dataParticipant.sickness_history)
         setAddress(props.dataParticipant.home_address)
