@@ -7,7 +7,8 @@ export const registerSchema = z.object({
   gender : z.string().min(1, { message: "Jenis kelamin tidak valid." }),
   phone_number : z.string().min(3, { message: "No. WhatsApp tidak valid." }),
   email : z.email("Email tidak valid."),
-  // dob : z.string().max(0, { message: "Tanggal lahir tidak valid." }),
+  dob : z.string().date(),
+  // dob : z.string().datetime({date: true}),
   school_id : z.string().max(1, { message: "Jenjang tidak valid." }),
   subschool : z.string().min(0, { message: "Kelas tidak valid." }),
   password : z.string().min(6, { message: "Password minimal 6 karakter." }),
@@ -23,7 +24,7 @@ export const registerSchema = z.object({
           });
         }
       });
-
+//  date().max(0, { message: "Tanggal lahir tidak valid." })
 // export type registerSchemaType = z.infer<typeof registerSchema>;
 
 // export default values for the form

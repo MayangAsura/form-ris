@@ -52,7 +52,7 @@ function VerifikasiKeluargaForm(props) {
     }
 
     useEffect(() => {
-            console.log('props.student_category>', student_category)
+            console.log('props.student_category>', student_category, props.dataVerifikasiKeluarga)
             // setStudentCategory(props.dataVerifikasiKeluarga.student_category)
             // setPhotoSampulIjazah(props.dataVerifikasiKeluarga.photo_sampul_ijazah)
             ////console.log('props.dataVerifikasiKeluarga>', props.dataVerifikasiKeluarga)
@@ -66,6 +66,7 @@ function VerifikasiKeluargaForm(props) {
             }
 
             if(props.dataBerkas){
+                console.log('props.databerkas',props.dataBerkas)
                 setDataBerkasPhotoSampul(props.dataBerkas)
             }
             // setMotherAcademic(props.dataWali[0].wali_academic)
@@ -155,6 +156,8 @@ function VerifikasiKeluargaForm(props) {
                                                 </span>
                                             ): ""}
                                         </div>
+                                        {dataBerkasPhotoSampul? (
+                                            <>
                                             {(dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/PDF' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PDF' && dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url !== "") && (
                                                 <div className="max-w-xl max-auto my-10">
                                                     <iframe src={dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url} width={'100%'} height={'500px'} />
@@ -163,6 +166,22 @@ function VerifikasiKeluargaForm(props) {
                                             {dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PNG' && (
                                                 <img src={dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url?dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url : ""} alt="" width={30}/>
                                             )}
+                                            </>
+                                        ):(
+                                            <>
+                                            {/* {(dataVerifikasiKeluarga.photo_sampul_ijazah.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/PDF' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PDF' && dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url !== "") && ( */}
+                                                <div className="max-w-xl max-auto my-10">
+                                                    {/* <iframe src={dataVerifikasiKeluarga.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url} width={'100%'} height={'500px'} /> */}
+                                                    <iframe src={dataVerifikasiKeluarga.photo_sampul_ijazah} width={'100%'} height={'500px'} />
+                                                </div>                  
+                                            {/* )} */}
+                                            {/* {dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === '/JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPEG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'JPG' || dataBerkasPhotoSampul.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_type === 'PNG' && ( */}
+                                                <img src={dataVerifikasiKeluarga.photo_sampul_ijazah} alt="" width={30}/>
+                                            {/* )} */}
+                                            </>
+                                        )}
+
+
                                         </div>
                                         {/* <img src={props.dataBerkasPhotoSampul[4]?.file_url?dataBerkasPhotoSampul[4]?.file_url : ""} alt="" width={30}/> */}
                                     {/* {(dataVerifikasiKeluarga?.photo_sampul_ijazah) && ( 

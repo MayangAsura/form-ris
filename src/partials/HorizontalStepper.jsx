@@ -631,8 +631,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
       }, 2000);
       
       // getParticipantData(participant.id?participant.id:participant_id)
-      getVerifikasiKeluarga()
       getParticipantDocuments(participant.id?participant.id:participant_id)
+      getVerifikasiKeluarga()
       setLoading(false)
       if(!isPending || !loading){
         scroll('right')
@@ -1432,11 +1432,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
                         // }
                         if(currentStep===6){
                           getParticipantDocuments(participant_id?participant_id:participant.id)
-                          // getParticipantData(participant_id?participant_id: participant.id)
+                          getParticipantData(participant_id?participant_id: participant.id)
                           // setCurrentStep(6)
                         }
                         if(currentStep===7){
-                          // getParticipantDocuments(participant_id?participant_id:participant.id)
+                          getParticipantDocuments(participant_id?participant_id:participant.id)
                           getParticipantData(participant_id?participant_id: participant.id)
                           // setCurrentStep(7)
                         }                                
@@ -1463,6 +1463,24 @@ const HorizontalStepper = forwardRef((props, ref) => {
                     setCurrentStep((prev) => prev + 1);
                     // callback(data)
                   // handleSubmit
+                  setTimeout(() => {
+                    
+                    if(currentStep===6){
+                          getParticipantDocuments(participant_id?participant_id:participant.id)
+                          getParticipantData(participant_id?participant_id: participant.id)
+                          // setCurrentStep(6)
+                        }
+                        if(currentStep===7){
+                          getParticipantDocuments(participant_id?participant_id:participant.id)
+                          getParticipantData(participant_id?participant_id: participant.id)
+                          // setCurrentStep(7)
+                        }                                
+                        if(currentStep===8){
+                          // getParticipantDocuments(participant_id?participant_id:participant.id)
+                          getParticipantData(participant_id?participant_id: participant.id)
+                          // setCurrentStep(8)
+                        } 
+                  }, 1000);
                   scroll('right')
                   // setParamNavigasi(currentStep)
                 }}

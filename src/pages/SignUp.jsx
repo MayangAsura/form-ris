@@ -48,7 +48,7 @@ function SignUp() {
     title: "",
     message: "",
     text: "OK",
-    url: "/login",
+    url: "",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
     url2: ""
@@ -93,13 +93,13 @@ function SignUp() {
       modal_data.type = "static"
       setModalShow(true)
     }
-    console.log('pass>', password)
-    console.log('temppass', temp_password)
-    console.log('cpass>', confirm_password)
-    console.log('results>', results)
+    // console.log('pass>', password)
+    // console.log('temppass', temp_password)
+    // console.log('cpass>', confirm_password)
+    // console.log('results>', results)
 
     if(results?.f1){
-      console.log('masuk', results)
+      // console.log('masuk', results)
       handleResults(results)
     }
 

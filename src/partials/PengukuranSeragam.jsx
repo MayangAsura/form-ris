@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { isPending } from '@reduxjs/toolkit'
 import { useEffect, useRef, useState } from 'react'
+import supabase from '../client/supabase_client'
 
 const PengukuranSeragam = forwardRef((props, ref) => {
     const [schoolUniformModel_, setSchoolUniformModel_] = useState({})
