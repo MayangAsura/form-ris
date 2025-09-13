@@ -48,7 +48,7 @@ function SignUp() {
     title: "",
     message: "",
     text: "OK",
-    url: "",
+    url: "/login",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
     url2: ""
