@@ -48,7 +48,7 @@ function SignUp() {
     title: "",
     message: "",
     text: "OK",
-    url: "/login",
+    url: "/",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
     url2: ""
@@ -204,7 +204,9 @@ function SignUp() {
       setSuccess(false)
       modal_data.title = "Pendaftaran Gagal"
       modal_data.message = results?.f2
-      // modal_data.url2 = "/"
+      if(results?.f2== 'No. WhatsApp sudah terdaftar'){
+        modal_data.url2 = "/login"
+      }
       // modal_data.text2 = "Kembali"
       setModalShow(true)
       return
@@ -258,7 +260,7 @@ function SignUp() {
       // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
 
       if(notified){
-
+        modal_data.url2 = "/login"
         setSuccess(true)
         setModalShow(true)
       }
