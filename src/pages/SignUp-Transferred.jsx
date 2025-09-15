@@ -39,6 +39,7 @@ function SignUp() {
   const [password, setPassword] = useState("")
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
+  const [dob, setDob] = useState("")
   const [class_code, setClassCode] = useState("")
   const [is_loading, setIsLoading] = useState(false)
   const [modal_show, setModalShow] = useState(false)
@@ -154,6 +155,7 @@ function SignUp() {
     const _media = media
     const _class_code = class_code
     const _is_new = false
+    const _dob = dob
   
     // if(school_id)
     console.log(_full_name)
@@ -194,7 +196,8 @@ function SignUp() {
       _school_id,
       _subschool,
       _is_new,
-      _class_code
+      _class_code,
+      _dob
     });
 
     console.log(data_appl)
@@ -487,6 +490,15 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
                       <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full px-3">
+                      <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Tanggal Lahir <span className="text-red-600">*</span></label>
+                    <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} {...register('dob')} type="date" className="form-input w-full text-gray-800" required/>
+                      {errors.dob && (
+                        <p className="text-xs text-red-500"> {errors.dob.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
