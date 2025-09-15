@@ -426,7 +426,7 @@ console.log(text, value)
                     <AccordionBody>
                       <ul className="list-disc pl-5 space-y-2 text-gray-700">
                       <li>Akta Kelahiran (PDF).</li>
-                      <li>Pasfoto Background Merah(3x4) maksimal 1MB (JPEG, JPG, ).</li>
+                      <li>Pasfoto Background Merah(3x4) maksimal 1MB (JPEG, JPG, PNG).</li>
                       {/* <li>KTP Orang Tua / Wali.</li> */}
                       <li>Kartu Keluarga (KK) (PDF).</li>
                       <li>Surat Kesanggupan (PDF).</li>
@@ -440,45 +440,45 @@ console.log(text, value)
                   </div>
                 </div>
               </div>
-              <div className="relative max-w-6xl mx-auto bg-gray-200 mb-12">
-                <div className="py-2 md:py-1">
-                  <div className="rounded-2xl relative bg-white p-5">
-                    <Accordion open={open === 3}>
-                    {/* <AccordionHeader onClick={() => handleOpen(3)} className='flex justify-between items-center '>
-                      <p className="flex-1">
-                        Ketentuan Upload Berkas
-                      </p>
-                      <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
-                      </svg>
-                    </AccordionHeader> */}
-                    <div className="border-b border-gray-900/10"></div>
-                    
-                    <AccordionBody>
-                      <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                      {/* <li>Berkas dapat dibaca dengan jelas.</li> */}
-                      {/* <li>Ukuran berkas di bawah 5 MB.</li> */}
-                      {/* <li>Pasfoto ukuran 3 cm x 4 cm.</li>
-                      <li>Pasfoto latar belakang polos berwarna merah.</li>
-                      <li>File pasfoto bertipe JPG/JPEG.</li> */}
-                      {/* <li>Ukuran minimal file pasfoto adalah 40 KB.</li>
-                      <li>Ukuran maksimal file pasfoto adalah 1 MB</li>
-                      <li>File bertipe PDF, selain dari pasfoto.</li> */}
-                      {/* <li>Orientasi pasfoto adalah vertikal/potrait</li>
-                      <li>Posisi badan dan kepala tegak sejajar menghadap kamera.</li>
-                      <li>Kualitas foto harus tajam dan fokus</li>
-                      <li>Tidak ada bagian kepala yang terpotong dan wajah tidak boleh tertutupi ornamen</li>
-                      <li>Kepala terletak di tengah secara horisontal (jarak kepala ke batas kiri kurang lebih sama dengan jarak kepala ke batas kanan)</li> */}
-                      {/* dengan resolusi minimal 200pxx300px (+250 dpl) dan rasio aspek 2:3 */}
-                  </ul>
-                      {/* We&apos;re not always in the position that we want to be at. We&apos;re constantly
-                      growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
-                      ourselves and actualize our dreams. */}
-                    </AccordionBody>
-                  </Accordion>
-                  </div>
+            {/* <div className="relative max-w-6xl mx-auto bg-gray-200 mb-12">
+              <div className="py-2 md:py-1">
+                <div className="rounded-2xl relative bg-white p-5">
+                  <Accordion open={open === 3}>
+                  <AccordionHeader onClick={() => handleOpen(3)} className='flex justify-between items-center '>
+                    <p className="flex-1">
+                      Ketentuan Upload Berkas
+                    </p>
+                    <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                  </AccordionHeader>
+                  <div className="border-b border-gray-900/10"></div>
+                  
+                  <AccordionBody>
+                    <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                    <li>Berkas dapat dibaca dengan jelas.</li>
+                    <li>Ukuran berkas di bawah 5 MB.</li>
+                    <li>Pasfoto ukuran 3 cm x 4 cm.</li>
+                    <li>Pasfoto latar belakang polos berwarna merah.</li>
+                    <li>File pasfoto bertipe JPG/JPEG.</li>
+                    <li>Ukuran minimal file pasfoto adalah 40 KB.</li>
+                    <li>Ukuran maksimal file pasfoto adalah 1 MB</li>
+                    <li>File bertipe PDF, selain dari pasfoto.</li>
+                    <li>Orientasi pasfoto adalah vertikal/potrait</li>
+                    <li>Posisi badan dan kepala tegak sejajar menghadap kamera.</li>
+                    <li>Kualitas foto harus tajam dan fokus</li>
+                    <li>Tidak ada bagian kepala yang terpotong dan wajah tidak boleh tertutupi ornamen</li>
+                    <li>Kepala terletak di tengah secara horisontal (jarak kepala ke batas kiri kurang lebih sama dengan jarak kepala ke batas kanan)</li>
+                    dengan resolusi minimal 200pxx300px (+250 dpl) dan rasio aspek 2:3
+                </ul>
+                    We&apos;re not always in the position that we want to be at. We&apos;re constantly
+                    growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
+                    ourselves and actualize our dreams.
+                  </AccordionBody>
+                </Accordion>
                 </div>
               </div>
+            </div> */}
 
             </div>
           </section>

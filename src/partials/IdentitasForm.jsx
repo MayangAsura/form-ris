@@ -107,6 +107,8 @@ function IdentitasForm(props) {
         // getDataWilayahDistritc()
         console.log('loading',props.loading)
         console.log('current',props.currentStep)
+        console.log('applicant',props.dataApplicant)
+        console.log('participant',props.dataParticipant)
     },[props.dataApplicant, props.dataParticipant])
 
     const formatDate = (date) => {
@@ -276,14 +278,16 @@ function IdentitasForm(props) {
                                         {/* <input id="medical_history" name="medical_history" type="text" autoComplete="medical_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                     </div>
                                     </div>
-                                    
-                                    <div className="sm:col-span-4">
-                                    <label htmlFor="sickness_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Penyakit Tertentu</label>
-                                    <span className="text-sm italic">Sebutkan riwayat penyakit yang diderita (jika ada)</span>
-                                    <div className="mt-2">
-                                        <input id="sickness_history" name="sickness_history" value={sickness_history} onChange={(e) => setSicknessHistory(e.target.value)} type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
-                                    </div>
-                                    </div>
+                                    {medical_history==='have' && (
+                                        <div className="sm:col-span-4">
+                                        <label htmlFor="sickness_history" className="block text-sm/6 font-medium text-gray-900">Riwayat Penyakit Tertentu</label>
+                                        <span className="text-sm italic">Tuliskan riwayat penyakit yang diderita</span>
+                                        <div className="mt-2">
+                                            <input id="sickness_history" name="sickness_history" value={sickness_history} onChange={(e) => setSicknessHistory(e.target.value)} type="text" autoComplete="sickness_history" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"/>
+                                        </div>
+                                        </div>
+
+                                    )}
                                     <div className="sm:col-span-4">
                                     <label htmlFor="address" className="block text-sm/6 font-medium text-gray-900">Alamat Rumah Lengkap <span className="text-red-600">*</span></label>
                                     <span className="text-sm italic">Contoh: JL. Cimandiri 8B No. 34 A Perum Graha Asri, Desa Jatireja, Kec Cikarang Timur, Kab Bekasi 17530</span>
@@ -452,6 +456,12 @@ function IdentitasForm(props) {
                                      
                                      {!props.complete && (
                                          <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
+                                            onClick={(e) => {
+                                                // setTimeout(() => {
+                                                    props.setParamNavigasi(props.currentStep +1)
+                                                // }, 1000);
+                                            }
+                                            }
                                             // onClick={() => {
                                             //     props.setParamNavigasi(props.currentStep+1)
                                             // }}
@@ -470,6 +480,7 @@ function IdentitasForm(props) {
      
                                                      
                                                  // }}
+                                                 
                                                  > 
                                                     {props.isPending || props.loading? (
                                                         <div>

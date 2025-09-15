@@ -76,6 +76,7 @@ function Status(props) {
                                                         if(props.currentStep === 9){
                                                         // props.handledComplete(true)
                                                         props.getCurrentStep(2)
+                                                        props.setParamNavigasi(2)
                                                         props.getEdit(true)
                                                         }else{
                                                           

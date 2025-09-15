@@ -144,6 +144,12 @@ function DataWaliForm(props) {
                                             <div className='flex flex-col gap-2 w-full my-5'>
                                                 
                                                 <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
+                                                    onClick={(e) => {
+                                                        setTimeout(() => {
+                                                            setParamNavigasi(currentStep)
+                                                        }, 1000);
+                                                    }
+                                                    }
                                                         >
                                                             {(props.isPending || props.loading) ? (
                                                                 <div>
@@ -177,6 +183,11 @@ function DataWaliForm(props) {
                                                     // props.setCurrentStep((prev) => prev + 1);
                                                     // callback(data)
                                                     }
+                                                    
+                                                    setTimeout(() => {
+                                                        props.setParamNavigasi(props.currentStep+1)
+                                                    }, 1000);
+                                            
                                                     // props.setParamNavigasi(props.currentStep + 1)
                                                 //     // handleSubmit
     

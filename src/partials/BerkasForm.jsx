@@ -181,6 +181,11 @@ function BerkasForm(props) {
                                             accept="image/png, image/jpeg, .pdf"/>
                                             { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
                                         </div>
+                                        {(dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/PDF' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PDF' && dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url !== "") && (
+                                            <div className="max-w-2xl max-auto my-10">
+                                                <iframe src={dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url} width={'100%'} height={'500px'} />
+                                            </div>                  
+                                        )}
                                         {(dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === '/JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPEG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'JPG' || dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_type === 'PNG') && (
                                             <img src={props.dataBerkas.find(e => e.file_title == 'Bird-Certificate')?.file_url?dataBerkas.find(e => e.file_title == 'Pas-Photo')?.file_url:""} alt="" width="50%"/>
                                         )}
@@ -326,7 +331,7 @@ function BerkasForm(props) {
                                         <label htmlFor="kk" className="block text-sm/6 font-medium text-gray-900">Kartu Keluarga (KK)
                                             <span className="text-red-600">*</span>
                                         </label>
-                                        <p className="text-xs/5 text-gray-600">PDF, maks 2MB</p>
+                                        <p className="text-xs/5 text-gray-600">PNG, JPG, PDF maks 2MB</p>
                                         <div className="relative inline-block">
                                                 <input id="kk" name="kk" onChange={(e) => validateImage(e.target.files[0], 2, 'KK')} type="file" 
                                                 className='w-full p-3 mt-3 file:bg-green-500 file:text-white file:border-0
@@ -334,7 +339,7 @@ function BerkasForm(props) {
                                                     file:shadow-xl file:shadow-green-500/30
                                                     text-gray-600'
                                                 // className="p-1 py-6 w-full block text-slate-500 text-sm rounded-lg leading-12 file:absolute file:top-6 file:right-0 file:bg-violet-200 file:text-green-700 file:font-semibold file:text-center file:border-none file:px-4 file:py-0 file:mr-2  file:rounded-sm hover:file:bg-violet-100 border border-gray-300"
-                                                accept=".pdf"/>
+                                                accept="image/png, image/jpeg, .pdf"/>
                                                 { error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
                                                 {/* <input id="kk" name="kk" type="file" autoComplete="kk" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/> */}
                                             </div>
@@ -459,6 +464,12 @@ function BerkasForm(props) {
                                      
                                         {!props.complete && (
                                             <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
+                                                onClick={(e) => {
+                                                    setTimeout(() => {
+                                                        props.setParamNavigasi(props.currentStep+1)
+                                                    }, 1000);
+                                                    }
+                                                }
                                                     // onClick={() => {
                                                     //     // currentStep === steps.length
                                                     //     //   ? setComplete(true)

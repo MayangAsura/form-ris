@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
@@ -23,6 +23,7 @@ function Payment() {
     const queryParams = queryString.parse(window.location.search)
     const { userToken, userInfo } = useSelector((state) => state.auth)
     const { onSubmit, form, results, loading } = useLogin();
+    const [isloading, setIsLoading] = useState(false)
     const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
     const [applicantData, setApplicantData] = useState({applicant_orders: [], applicant_schools: [], applicant_id: "",school_id: "", school_name:"", full_name: "",phone_number: "",email: "", order_id:"", order_status:""})
     const [applicantDataOrder, setApplicantDataOrder] = useState({item_id: "",foundation_id: "",description: "",total_amount: "",created_by: "",applicant_id:""} )
@@ -430,7 +431,7 @@ function Payment() {
 
     const create_order = async (e) => {
       e.preventDefault()
-      
+      setIsLoading(true)
       // console.log(applicantDataPayment.expired_at)
       // console.log("enter")
       if(applicantDataPayment?.expired_at > new Date()){
@@ -504,13 +505,13 @@ function Payment() {
                   // currency: "USD", //optional to set rate estimation
                   successEvent: function(result){
                   
-                      setInvoiceCreated(true)
-                      
-                      console.log('success');
-                      console.log(result)
-                      getApplicantData()
-                      getApplicantPayment()
-                      redirect(res.data.payment_url)
+                    setInvoiceCreated(true)
+                    console.log('success');
+                    console.log(result)
+                    getApplicantData()
+                    getApplicantPayment()
+                    redirect(res.data.payment_url)
+                    setIsLoading(false)
                       // alert('Payment Success');
     
     
@@ -523,6 +524,7 @@ function Payment() {
                       getApplicantData()
                       getApplicantPayment()
                       console.log(result);
+                      setIsLoading(false)
                       // alert('Payment Pending');
                   },
                   errorEvent: function(result){
@@ -533,6 +535,7 @@ function Payment() {
                       getApplicantPayment()
                       modal_data.title = "Pembayaran Gagal"
                       modal_data.message = "Error : ", result?? "Pembayaran tidak ditemukan."
+                      setIsLoading(false)
                       setModalShow(true)
                       // merchantOrderId: "ed9936d0-ff04-4b9f-a5f4-2b4682d13f0d"
                       // reference: "D1818225BR6YN8ESXLU4D5X"
@@ -547,6 +550,7 @@ function Payment() {
                       console.log(result);
                       getApplicantData()
                       getApplicantPayment()
+                      setIsLoading(false)
                       navigate(-1, {fallback: '/pay'})
                       
                       // alert('customer closed the popup without finishing the payment');
@@ -556,6 +560,7 @@ function Payment() {
             });
         } catch (error) {
          console.log(Error) 
+         setIsLoading(false)
         }
     }
 
@@ -666,22 +671,57 @@ function Payment() {
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
                       {((applicantData.applicant_orders.length===0 || applicantData.applicant_orders[0]?.status=='pending') && applicantData.applicant_schools[0]?.applicant_id)? (
-                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                            onClick={create_order}
-                          >Buat Transaksi
+                        <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                          onClick={create_order}
+                          disabled={isloading}
+                        >
+                        {isloading ? (<>
+                          <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                            {/* SVG path for your spinner */}
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                            {/* <Spinner aria-label="Spinner button example" size="sm" light /> */}
+                          <span className='pl-3'>Loading...</span>
+                        </>) : (
+                          <>
+                          Buat Transaksi 
                           <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                      </svg></button>
+                            <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                          </svg>
+                          </>
+                        ) 
+                        }
+                            
+                          </button>
                       ) : (
                         (applicantData.applicant_orders[0]?.status!=='' && applicantData.applicant_orders[0]?.status!=='finished') ? ( 
                           (Date.now() > new Date(applicantDataPayment?.expired_at).getTime()?(
-                          <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
-                              onClick={create_order}
-                          >Buat Transaksi Baru
-                          <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                          </svg></button>
-
+                            <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
+                                onClick={create_order}
+                                disabled={isloading}
+                                
+                            >
+                            {isloading ? (
+                              <>
+                              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                            {/* SVG path for your spinner */}
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                            {/* <Spinner aria-label="Spinner button example" size="sm" light /> */}
+                          <span className='pl-3'>Loading...</span>
+                              </>
+                            ) : (
+                              <>
+                                Buat Transaksi Baru
+                              <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                              </svg>
+                              
+                              </>
+                            )}
+                            </button>
                           ):(
                             <button className="btn text-white bg-green-700 hover:bg-green-600 w-full"
                               onClick={()=> window.location.href=applicantDataPayment.payment_url}
