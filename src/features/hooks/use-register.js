@@ -37,12 +37,12 @@ const useRegister = () => {
       setFullName(data.full_name)
       console.log('data', data, phone_number, requestData)
       return AuthService.register(
+        data.full_name,
+        data.gender,
+        data.phone_number,
             data.email,
-            data.full_name,
-            data.gender,
-            data.media,
             data.password,
-            data.phone_number,
+            data.media,
             data.school_id,
             data.subschool,
             data.dob,

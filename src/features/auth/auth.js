@@ -82,6 +82,35 @@ export class AuthService {
 
     return data_appl
   }
+  static async register(
+            full_name,
+            gender,
+            phone_number,
+            email,
+            password,
+            media,
+            school_id,
+            subschool,
+            dob
+        ){
+    const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
+            _full_name : full_name,
+            _gender : gender,
+            _phone_number : phone_number,
+            _email : email,
+            _password : password,
+            _media : media,
+            _school_id : parseInt(school_id),
+            _subschool : subschool,
+            _dob : dob
+          });
+
+    if (error) {
+      throw new Error("Pendaftaran gagal.");
+    }
+
+    return data_appl
+  }
 //   static async logout(): Promise<void> {
 //     const { error } = await supabase.auth.signOut();
 
