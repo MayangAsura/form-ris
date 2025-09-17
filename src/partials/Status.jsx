@@ -88,7 +88,7 @@ function Status(props) {
                                                     }}
                                                     >Edit Data</button>
                                                   )}
-                                                  {(status_submission === 'accepted' || status_submission === 'on_measurement') && (
+                                                  {(props.dataStatus == 'accepted'|| props.dataStatus == 'on_measurement'|| status_submission === 'accepted' || status_submission === 'on_measurement') && (
                                                       <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                       onClick={() => {
                                                           // currentStep === steps.length
