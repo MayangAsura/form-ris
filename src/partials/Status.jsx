@@ -66,7 +66,7 @@ function Status(props) {
                                                   }}
                                                   >Selesaikan</button> */}
                                                   {/* status_submission */}
-                                                  {(status_submission === 'initial_submission') && (
+                                                  {(status_submission === 'initial_submission' || props.dataStatus=='initial_submission') && (
 
                                                     <button type="submit" className='btn w-full block btn-sm my-12 text-sm text-white bg-black hover:bg-gray-800'
                                                     onClick={() => {
