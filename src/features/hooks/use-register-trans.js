@@ -14,7 +14,7 @@ import axios from '../../api/prod-server';
 // import { useRoutes } from "react-router-dom";
 // import { useRouter } from "next/navigation";
 
-const useRegister = () => {
+const useRegisterTrans = () => {
   // const { sonner } = useSonner();
   // const { replace } = useRoutes();
   const navigate = useNavigate()
@@ -30,22 +30,24 @@ const useRegister = () => {
     defaultValues: defaultRegisterValues,
   });
 
-  const { mutate: onRegister, isPending } = useMutation({
+  const { mutate: onRegisterTrans, isPending } = useMutation({
     mutationFn: (data) => {
       setRequestData(prev => ({...prev, phone_number: data.phone_number, full_name: data.full_name}))
       setPhoneNumber(data.phone_number)
       setFullName(data.full_name)
       console.log('data', data, phone_number, requestData)
-      return AuthService.register(
-            data.email,
+      return AuthService.register_trans(
             data.full_name,
             data.gender,
-            data.media,
-            data.password,
             data.phone_number,
+            data.email,
+            data.password,
+            data.media,
             data.school_id,
             data.subschool,
-            data.dob,
+            data.is_new,
+            data.class_code,
+            data.dob
           );
     },
     onSuccess: (data) => {
@@ -124,7 +126,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
 
   const onSubmit = (data) => {
     console.log('data on register', data)
-    onRegister(data);
+    onRegisterTrans(data);
   };
 
   return {
@@ -137,4 +139,4 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
   };
 };
 
-export { useRegister };
+export { useRegisterTrans };

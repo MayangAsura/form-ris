@@ -72,7 +72,7 @@ ditetapkan sekolah</li>
     {img: "./images/schools_thumbnails/Gedung-Rabbaanii-Islamic-School-1.png", title: "SMAI Putri Rabbaanii Islamic School", code:'smai', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'JJl. Cimandiri 8 B RT 06/08 Graha Asri 17550, Jatireja, Kec. Cikarang Tim., Kabupaten Bekasi, Jawa Barat 17550 ', registration_requirements: 'Open ', registration_fee: 'Rp400.000'},
     {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMP Pesantren Rabbaanii Islamic School", code:'smp-pesantren', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
     {img: "./images/schools_thumbnails/Gedung-Pesantren.jpg", title: "SMA Pesantren Rabbaanii Islamic School", code:'sma-pesantren', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Kp. Pamahan Pesantren Rabbaanii Islamic School RT.001/006 Desa Jati Reja, Kec. Cikarang Timur, Kab. Bekasi, 17530.', registration_requirements: 'Open ', registration_fee: 'Rp500.000'},
-    {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Closed ', registration_fee: 'Rp0.000'}
+    // {img: "./images/schools_thumbnails/hani-fildzah-14A6o9BGovo-unsplash.jpg", title: "Rabbaanii Ciwidey", code:'rabbaanii-ciwidey', schedule:'15 Agustus 2025 - 31 Oktober 2025', address: 'Jl. Cilame Cibaga, No. 25 Sukawening, Kec. Ciwidey, Kab. Bandung Jawa Barat.', registration_requirements: 'Closed ', registration_fee: 'Rp0.000'}
   ] 
   // console.log(jenjangData)
 
@@ -154,12 +154,12 @@ ditetapkan sekolah</li>
                         <tbody>
 
                         <tr className='text-start leading-tight'>
-                          <td><TbMapPin2 className='ounded-lg shadow-green-100 '/>  </td>
+                          <td><TbMapPin2 className='rounded-sm shadow-green-100 bg-green-200'/>  </td>
                           <td className=''><small className='text-xs'>{d.schools?.address??d.address}</small></td>
                           {/* <td></td> */}
                         </tr>
                         <tr>
-                          <td><TbCalendarTime/>  </td>
+                          <td><TbCalendarTime className='rounded-sm shadow-green-100 bg-green-200'/>  </td>
                           <td><small className='text-xs'>{d.started_at?formatDate(d.started_at) -  formatDate(d.ended_at): d.schedule}</small></td>
                           {/* <td></td> */}
                         </tr>
@@ -169,7 +169,7 @@ ditetapkan sekolah</li>
                           <td></td>
                         </tr> */}
                         <tr>
-                          <td><BiMoney/>  </td>
+                          <td><BiMoney className='rounded-sm shadow-green-100 bg-green-200'/>  </td>
                           <td><small className='text-xs'>{d.admission_fee??d.registration_fee}</small></td>
                           {/* <td></td> */}
                         </tr>

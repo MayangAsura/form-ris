@@ -49,26 +49,30 @@ export class AuthService {
     return data;
   }
 
-  static async register(
-            email,
+  static async register_trans(
             full_name,
             gender,
+            phone_number,
+            email,
             media,
             password,
-            phone_number,
             school_id,
             subschool,
+            is_new,
+            class_code,
             dob
         ){
     const { data: data_appl, error } = await supabase.rpc("add_new_applicant", {
-            _email : email,
             _full_name : full_name,
             _gender : gender,
-            _media : media,
-            _password : password,
             _phone_number : phone_number,
+            _email : email,
+            _password : password,
+            _media : media,
             _school_id : parseInt(school_id),
             _subschool : subschool,
+            _is_new : is_new,
+            _class_code : class_code,
             _dob : dob
           });
 

@@ -1325,6 +1325,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
               // currentStep === steps.length
               //   ? setComplete(true)
               //   : setCurrentStep((prev) => prev + 1); 
+              setParamNavigasi(2)
               setLoading(true)
               if(currentStep === steps.length){
                 setComplete(true)
@@ -1346,7 +1347,6 @@ const HorizontalStepper = forwardRef((props, ref) => {
                 
                 // setParamNavigasi(currentStep)
                 // }, 1000);
-                setParamNavigasi(2)
                 setLoading(false)
               scroll('right')
             }}

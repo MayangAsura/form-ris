@@ -11,9 +11,11 @@ export const registerSchema = z.object({
   // dob : z.string().datetime({date: true}),
   school_id : z.string().max(1, { message: "Jenjang tidak valid." }),
   subschool : z.string().min(0, { message: "Kelas tidak valid." }),
-  password : z.string().min(6, { message: "Password minimal 6 karakter." }),
-  confirm_password : z.string().min(1, { message: "Konfirmasi Password tidak valid" }),
-  media : z.string().min(3, { message: "Media tidak valid." })
+  // password : z.string().min(6, { message: "Password minimal 6 karakter." }),
+  // confirm_password : z.string().min(6, { message: "Konfirmasi Password tidak valid" }),
+  // media : z.string().min(3, { message: "Media tidak valid." }),
+  is_new : z.boolean(),
+  // class_code: z.string().min(1, { message: "Kode Kelas tidak valid." })
 })
 .superRefine((data, ctx) => {
         if (data.password !== data.confirm_password) {
@@ -33,10 +35,12 @@ export const defaultRegisterValues= {
   gender : "",
   phone_number : "",
   email : "",
-  dob : "" ,
+  password : "",
+  media : "",
   school_id : "" ,
   subschool : "",
-  password : "",
   confirm_password : "",
-  media : ""
+  is_new : "",
+  class_code : "",
+  dob : "" ,
 };

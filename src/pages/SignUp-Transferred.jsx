@@ -6,6 +6,7 @@ import Banner from '../partials/Banner';
 import supabase from '../client/supabase_client'
 import { createClient } from '@supabase/supabase-js'
 import { ScaleIcon } from '@heroicons/react/24/solid';
+import { TbEye, TbEyeOff } from "react-icons/tb";
 import Modal from '../utils/Modal';
 // import {Toaster, Position} from  @blue
 import Swal from '../utils/Swal'
@@ -13,6 +14,7 @@ import Swal from '../utils/Swal'
 // import axios from '../api/axios';
 // import axios from 'axios';
 // import ax
+import { useRegisterTrans } from '../features/hooks/use-register-trans';
 import wablas from '../api/wablas';
 // import axios from '../api/local-server';
 import axios from '../api/prod-server';
@@ -41,14 +43,19 @@ function SignUp() {
   const [media, setMedia] = useState("website")
   const [dob, setDob] = useState("")
   const [class_code, setClassCode] = useState("")
+  const [is_new, setIsNew] = useState(false)
+  const { onSubmit, results, form, loading, error, notified } = useRegisterTrans()
+  const { register, handleSubmit, formState: { errors }} = form;
   const [is_loading, setIsLoading] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [isVisibleConfirm, setIsVisibleConfirm] = useState(false)
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
     type: "",
     title: "",
     message: "",
     text: "OK",
-    url: "location.reload()",
+    url: "/login",
     // text: "Konfirmasi Pendaftaran ke CS",
     // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
     text2: "",
@@ -91,9 +98,25 @@ function SignUp() {
       modal_data.type = "static"
       setModalShow(true)
     }
+
+    if(results?.f1){
+      // console.log('masuk', results)
+      handleResults(results)
+    }
+
+    if(code || !school_id || !is_new){
+      setSchoolId(getSchoolIdSchoolName(code).substring(0,1))
+      setIsNew(true)
+      // setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2))
+
+      form.setValue('school_id', school_id)
+      form.setValue('is_new', true)
+      // form.setValue('subschool', subschool)
+      console.log('id',school_id, is_new)
+    }
     // getSchoolIdSchoolName()
     // getSchoolIdSchoolName()
-  },[code])
+  },[code, results, form, password, confirm_password, school_id, subschool])
   // const [applicants, setApplicants] = useState({
   //   full_name: "",
   //   gender: "",
@@ -140,6 +163,126 @@ function SignUp() {
   //   //   .then(response => response.json())
   //   //   .then(json => setApplicants(json))
   // }, [])
+
+  const handleResults = async (_results) => {
+
+    // const _full_name = full_name
+    // const _gender = gender
+    // const _phone_number = phone_number
+    // const _email = email
+    // const _school_id = parseInt(getSchoolIdSchoolName(code).substring(0,1)) 
+    // const _subschool = getSchoolIdSchoolName(code).split("-")[0].substring(1,2)
+    // const _password = password
+    // const _media = media
+    console.log('handl',results, error)
+    if(error){
+      console.log('not valid')
+      // setIsValidated(true)
+      // setIsLoading(false)
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = "Mohon periksa kembali data Anda"
+      // modal_data.url2 = "/"
+      // modal_data.text2 = "Halaman Utama"
+      setModalShow(true)
+    }
+
+
+    if(results?.f1 === '01'){
+      // setIsLoading(false)
+      console.log('masuk', results  )
+      // console.log(Object.values(results)[0] )
+      setSuccess(false)
+      modal_data.title = "Pendaftaran Gagal"
+      modal_data.message = results?.f2
+      if(results?.f2!== 'No. WhatsApp sudah terdaftar'){
+        modal_data.url2 = "/"
+      }
+      // modal_data.text2 = "Kembali"
+      setModalShow(true)
+      return
+    }
+    
+    if(results && results?.f1 !== '01'){
+      console.log('masuk', results)
+
+      console.log('_phone_number', _phone_number)
+      const new_phone_number = '62'+ _phone_number.slice(1)
+      // console.log(data_appl)
+      // _phone_number.replace()
+      setFullName("")
+      setGender("")
+      setPhoneNumber("")
+      setEmail("")
+      setSchoolId("")
+      setSchoolName("")
+      setSubschool("")
+      setPassword("")
+      setConfirmPassword("")
+      modal_data.type= "basic",
+      modal_data.title= "Pendaftaran Berhasil",
+      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
+      // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
+      // tex.t: "Konfirmasi Pendaftaran ke CS",
+      // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
+      modal_data.text2= "Lanjut Pembayaran",
+      modal_data.url2= "/login"
+      
+      const type ='form-success'
+      
+      // console.log(new_phone_number)
+      const data = [{
+        "phone": new_phone_number,
+        // "phone": "6285778650040",
+        "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. 
+        No. Pendaftaran: ${results?.f3}
+        Login Aplikasi: https://psb.rabbaanii.sch.id/login
+        
+        Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+        
+        Jazaakumullahu khayran wa Baarakallaahu fiikum.
+        
+        -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+        - Mohon simpan nomor ini untuk mendapatkan update informasi -`
+        // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
+
+      }]
+      // console.log(data)
+      // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
+
+      if(notified){
+        modal_data.url2 = "/login"
+        setSuccess(true)
+        setModalShow(true)
+      }
+
+      
+          // try {
+          //   const response = await axios.post("/api/auth/send-notif", {message: data , type: type, token: null},
+          //   {
+          //     headers: {'Content-Type': 'application/json' }
+          //   }
+          //   );
+          //   // 
+          //   console.log(JSON.stringify(response)); //console.log(JSON.stringify(response));
+          //   if(response.status==200 || response.status==204){
+              
+          //     // persistor.purge();
+          //     // // Reset to default state reset: async () => { useCart.persist.clearStorage(); set((state) => ({ ...initialState, })); },
+          //     // localStorage.removeItem("persist:auth")
+          //     // Cookies.remove("jwt")
+          //     // dispatch(logout())
+          //     // navigate('/login')
+          //   }
+          // } catch (error) {
+          //   console.log(error)
+          // } finally {
+          //   // setIsLoading(false)
+          // }
+        }
+
+  }
+
 
 
   const addApplicants = async (e) =>{
@@ -434,6 +577,13 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
     }
   }
 
+  const hanledVisible = () => {
+    setIsVisible(prevState => !prevState)
+  }
+  const hanledVisibleConfirm = () => {
+    setIsVisibleConfirm(prevState => !prevState)
+  }
+
 
   
   return (
@@ -466,30 +616,30 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} value={full_name}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'male'} type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value={gender?gender:'female'} type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='male' type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='female' type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="phone_number">No. WhatsApp <span className="text-red-600">*</span></label>
-                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} value={phone_number} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -508,60 +658,82 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       {/* {code} */}
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
                       {/* <input id="subschool" name='subschool' type="text" hidden disabled value={} onChange={e => (setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2)))}  className="form-input w-full text-gray-800" placeholder="" required /> */}
-                      <input id="school_id" name='school_id' type="number" hidden disabled value={getSchoolIdSchoolName(code).substring(0,1)} onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
+                      {/* value={getSchoolIdSchoolName(code).substring(0,1)}  */}
+                      <input id="school_id" name='school_id' type="number" hidden disabled onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
+                      {/* <input id="subschool" name='subschool' type="text" hidden disabled onChange={(e) => setSubschool(e.target.value)} {...register('subschool')} className="form-input w-full text-gray-800" placeholder="" required /> */}
+                      {errors.school_id &&(
+                        <p className="text-xs text-red-500"> {errors.school_id.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="sm:col-span-4">
-                      <label htmlFor="media" className="block text-sm font-medium text-gray-900">Kelas</label>
+                      <label htmlFor="class_code" className="block text-sm font-medium text-gray-900">Kelas</label>
                       <div className="mt-2 grid grid-cols-1">
                             {code == 'sdit' && (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
-                                <option value={class_code== '2'? class_code:"2"}>Kelas 2 </option>
-                                <option value={class_code== '3'? class_code:"3"}>Kelas 3</option>
-                                <option value={class_code== '4'? class_code:"4"}>Kelas 4 </option>
-                                <option value={class_code== '5'? class_code:"5"}>Kelas 5 </option>
-                                <option value={class_code== '6'? class_code:"6"}>Kelas 6 </option>
+                                <option value="2">Kelas 2 </option>
+                                <option value='3'>Kelas 3</option>
+                                <option value="4">Kelas 4 </option>
+                                <option value="5">Kelas 5 </option>
+                                <option value="6">Kelas 6 </option>
 
                           </select>
                           )}
                             {(code == 'smpi' || code == 'smp-pesantren')&& (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
-                                <option value={class_code== '8'? class_code:"8"}>Kelas 8 </option>
-                                <option value={class_code== '9'? class_code:"9"}>Kelas 9</option>
+                                <option value="8">Kelas 8 </option>
+                                <option value="9">Kelas 9</option>
 
                           </select>
                           )}
                             {(code == 'sma-pesantren' || code == 'smai') && (
                           <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
-                                <option value={class_code== '11'? class_code:"11"}>Kelas 11 </option>
-                                <option value={class_code== '12'? class_code:"12"}>Kelas 12 </option>
+                                <option value="11">Kelas 11 </option>
+                                <option value="12">Kelas 12 </option>
                           </select>
                           )}
                           {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                           <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                           </svg> */}
+                          {errors.class_code &&(
+                            <p className="text-xs text-red-500"> {errors.class_code.message} </p>
+                          )}
                       </div>
                   </div>
                   <div className='h4 separator'>Informasi Akun</div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3 ">
-                      {/* <div></div> */}
                       <label className="block text-gray-900 text-sm font-medium mb-1 tooltip tooltip-open tooltip-right" data-tip="Buatlah password yang mudah diingat" htmlFor="password">Password <span className="text-red-600">*</span></label>
-                      <input id="password" name='password' onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                      <div className='flex'>
+                        <input id="password" name='password'  onChange={(e) => setPassword(e.target.value)} type={isVisible?"text":"password"} className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                        <button type="button" onClick={hanledVisible} 
+                                    className="flex justify-around items-center">
+                                      {isVisible? (
+                                        <TbEyeOff size={20} className='absolute mr-10'></TbEyeOff>
+                                      ):(
+                                        <TbEye size={20} className='absolute mr-10'></TbEye>
+                                      ) }
+                                      
+                                    </button>
+
+                      </div>
+                      {errors.password &&(
+                        <p className="text-xs text-red-500"> {errors.password.message} </p>
+                      )}
                       <div className="flex items-center p-4 mb-4 my-1 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-  <svg className="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-  </svg>
-  {/* Info alert! */}
-  <span className="sr-only">Info</span>
-  <div>
-    <span className="font-thin text-sm">Buatlah password yang sederhana dan mudah diingat.</span>
-  </div>
-</div>
+                        <svg className="shrink-0 inline w-6 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        {/* Info alert! */}
+                        <span className="sr-only">Info</span>
+                        <div>
+                          <span className="font-thin text-sm">Buatlah password yang sederhana dan mudah diingat.</span>
+                        </div>
+                      </div>
                       {/* <ul>
                         <li>lebih dari 8 karakter</li>
                         <li>kombinasi huruf besar dan kecil</li>
@@ -572,17 +744,33 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
-                      <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} value={confirm_password} pattern={password} type="password" className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
-                      <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+                      <div className='flex'>
+                        <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} type={isVisibleConfirm?"text":"password"} className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
+                        <button type="button" onClick={hanledVisibleConfirm} 
+                                      className="flex justify-around items-center">
+                                        {isVisibleConfirm? (
+                                          <TbEyeOff size={20} className='absolute mr-10'></TbEyeOff>
+                                        ):(
+                                          <TbEye size={20} className='absolute mr-10'></TbEye>
+                                        ) }
+                                        
+                                      </button>
+                        
+                      </div>
+                      {errors.confirm_password &&(
+                        <p className="text-xs text-red-500"> {errors.confirm_password.message} </p>
+                      )}
+                      
+                      {/* <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                           Konfirmasi password tidak sama dengan password
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   <div className="sm:col-span-4">
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
                           <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                          <option value={media== 'website'? media:"website"}>Website Rabbaanii </option>
+                          <option value="website">Website Rabbaanii </option>
                           <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
                           <option value={media== 'karyawan/guru'? media:"karyawan/guru"}>Karyawan/Guru </option>
                           <option value={media== 'kajian'? media:"kajian"}>Kajian</option>
@@ -600,11 +788,15 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                           {/* <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                           <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                           </svg> */}
+                          {errors.media &&(
+                            <p className="text-xs text-red-500"> {errors.media.message} </p>
+                          )}
+                          
                       </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button onClick={addApplicants} className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_loading}>
+                      <button className="btn text-white bg-green-600 hover:bg-green-700 w-full" disabled={is_loading}>
                         {is_loading ? (
                           <>
                           <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">

@@ -33,7 +33,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
 
         console.log('props.participant',props.participant)
         props.participant? setParticipantId(props.participant): ""
-    },[formModels])
+    },[formModels, props.schoolUniformModel, props.dataSeragam])
 
     useImperativeHandle(ref, () => ({
         scrollTo: () => {
