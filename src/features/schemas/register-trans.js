@@ -7,7 +7,7 @@ export const registerSchema = z.object({
   gender : z.string().min(1, { message: "Jenis kelamin tidak valid." }),
   phone_number : z.string().min(3, { message: "No. WhatsApp tidak valid." }),
   email : z.email("Email tidak valid."),
-  dob : z.string().date(),
+  // dob : z.string().date(),
   // dob : z.string().datetime({date: true}),
   school_id : z.string().max(1, { message: "Jenjang tidak valid." }),
   subschool : z.string().min(0, { message: "Kelas tidak valid." }),
@@ -40,7 +40,7 @@ export const defaultRegisterValues= {
   school_id : "" ,
   subschool : "",
   confirm_password : "",
-  is_new : "",
+  is_new : false,
   class_code : "",
-  dob : "" ,
+  // dob : "" ,
 };

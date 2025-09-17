@@ -271,18 +271,7 @@ console.log(text, value)
                     </span>
 
                     {/* <AdmissionFlowShort/> */}
-                    {props.participant.submission_status === 'on_exam' && (
-                      <div className='flex flex-col gap-2 my-2'>
-                      <span className='my-5'>Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan berhak melanjutkan ke tahap Seleksi.
-                      </span>
-                      <p className='text-sm'>Silakan klik login untuk melaksanakan ujian.</p>
-                      <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-700 hover:bg-gray-700 my-5'
-                      onClick={() => loginExamWithParams()}>
-                        Login Ujian
-                        <FiExternalLink className='ml-1'/>
-                      </button>
-                      </div>
-                        )}
+                    
                   
                    
                     <div className='flex flex-col gap-1 px-2 mt-10'>
@@ -329,6 +318,20 @@ console.log(text, value)
                       // onClick={window.open("")}
                       //                             >Download Undangan Seleksi</button>
                       )}
+
+                      {props.participant.submission_status === 'on_exam' && (
+                      <div className='flex flex-col gap-2 my-2'>
+                      <span className='my-5'>Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan berhak melanjutkan ke tahap Seleksi.
+                      </span>
+                      <p className='text-sm'>Silakan klik login untuk melaksanakan ujian.</p>
+                      <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-700 hover:bg-gray-700 my-5'
+                      onClick={() => loginExamWithParams()}>
+                        Login Ujian
+                        <FiExternalLink className='ml-1'/>
+                      </button>
+                      </div>
+                        )}
+                        
                       {submission_status == 'accepted' && (
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                       onClick=""

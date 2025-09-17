@@ -46,8 +46,8 @@ const useRegisterTrans = () => {
             data.school_id,
             data.subschool,
             data.is_new,
-            data.class_code,
-            data.dob
+            data.class_code
+            // data.dob
           );
     },
     onSuccess: (data) => {
