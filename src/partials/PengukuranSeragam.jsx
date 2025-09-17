@@ -33,7 +33,11 @@ const PengukuranSeragam = forwardRef((props, ref) => {
 
         console.log('props.participant',props.participant)
         props.participant? setParticipantId(props.participant): ""
-    },[formModels, props.schoolUniformModel, props.dataSeragam])
+
+        // if(props.schoolUniformModel.length==0){
+            getSchoolUniformModel_(props.school)
+        // }
+    },[formModels, props.schoolUniformModel, props.dataSeragam, props.school])
 
     useImperativeHandle(ref, () => ({
         scrollTo: () => {
@@ -42,6 +46,22 @@ const PengukuranSeragam = forwardRef((props, ref) => {
       }));
 
     const models = []
+
+    const getSchoolUniformModel_ = async (id) => {
+
+    const { data, err} = await supabase.from('school_uniform_models') 
+                        .select('model_name, model_size_charts, model_url, model_gender, id, model_code, school_id')
+                        .eq('school_id', id)
+                        // .single()
+    if(err){
+      ////console.log(err)
+      return
+    }
+
+    setSchoolUniformModel_(data)
+    ////console.log('schoolUniformModel >' , schoolUniformModel)
+
+  }
 
     const getSchoolUniformModel = async (pid) => {
         const { data, err} = await supabase.from('participant_size_charts')
@@ -254,7 +274,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
                                                 // onClick={saveData_}
                                                 disabled={props.isPending}
                                             >
-                                                {/* {(props.isPending || props.loading)? (
+                                            {/* {(props.isPending || props.loading)? (
                                                     <div className="flex items-center justify-center">
                                                         <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
