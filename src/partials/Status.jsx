@@ -41,7 +41,7 @@ function Status(props) {
                           {/* <TiInputCheckedOutline  size={512} className='items-center'/> */}
                           {/* <p className="pb-1">Status Pembayaran</p> */}
                           <p className="pb-1">Status Pengisian formulir selesai. Informasi selanjutnya dapat dilihat melalui Pengumuman. 
-                            {status_submission === 'initial_submission' ? (
+                            {(status_submission === 'initial_submission' || props.dataStatus == 'initial_submission') ? (
                               " Ananda dapat melakukan pembaruan data sebelum tanggal berakhir pendaftaran."
                             ) : ( 
                               " Ananda tidak dapat lagi melakukan pembaruan data tanggal pendaftaran telah berakhir."
