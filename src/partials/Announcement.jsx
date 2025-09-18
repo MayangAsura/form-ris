@@ -76,6 +76,7 @@ function Announcement(props) {
       console.log('props.applicant', props.applicant)
       getDataExam()
       getProfileData()
+      console.log('examData', examData)
     }
     
     if(props.applicant[0]){
@@ -112,6 +113,7 @@ function Announcement(props) {
         setExamData(exam_tests)
       }
           
+      console.log('examData', examData)
   }
 
   const handleOpen = (value) => {
@@ -298,7 +300,7 @@ console.log(text, value)
                                                   // }}
                                                   >Download Surat Pengumuman</button> <br /> */}
                                                   
-                      {props.participant.submission_status==='on_exam' && (
+                      {(props.participant.submission_status==='on_exam' || props.participant.submission_status==='initial_submission') && props.participant.is_complete && (
                         <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} dataApplicant={props.applicant[0]} />} fileName="Kartu-Seleksi.pdf">
                           {/* <div className="flex flex-col justify-between item-center"> */}
                                                   <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
@@ -319,9 +321,9 @@ console.log(text, value)
                       //                             >Download Undangan Seleksi</button>
                       )}
 
-                      {props.participant.submission_status === 'on_exam' && (
+                      {(examData?.started_at == new Date()) && (
                       <div className='flex flex-col gap-2 my-2'>
-                      <span className='my-5'>Ananda {participant.full_name} dinyatakan LULUS tahap administrasi dan berhak melanjutkan ke tahap Seleksi.
+                      <span className='my-5'>Ananda {participant.full_name} disilahkan melanjutkan ke tahap Seleksi.
                       </span>
                       <p className='text-sm'>Silakan klik login untuk melaksanakan ujian.</p>
                       <button className='btn w-full block btn-sm text-sm text-gray-200 bg-orange-700 hover:bg-gray-700 my-5'
@@ -331,16 +333,16 @@ console.log(text, value)
                       </button>
                       </div>
                         )}
-                        
-                      {submission_status == 'accepted' && (
+
+                      {/* {submission_status == 'accepted' && (
                       <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                       onClick=""
                       >
                         Download Surat Pernyataan Wali Santri</button>
-                        )}
+                        )} */}
                                               
                     </div>
-                    {props.participant.submission_status === 'on_measurement' && (
+                    {props.participant.submission_status === 'on_measurement' || props.participant.submission_status === 'accepted' && (
                       <div className='flex flex-grow gap-4 px-2 mt-2'>
                         <button type="submit" className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
                                                     onClick={() => {

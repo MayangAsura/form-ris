@@ -15,8 +15,8 @@ export default function AdmissionFlow({submission_status}) {
     if(value==='initial_submission') setActiveStep(3)
     if(value==='submission_processed') setActiveStep(3)
     if(value==='on_exam') setActiveStep(4)
-    if(value==='accepted' || value==='not_accepted') setActiveStep(5)
-    if(value==='on_measurement') setActiveStep(6)
+    // if(value==='accepted' || value==='not_accepted') setActiveStep(5)
+    if(value==='accepted' || value==='not_accepted' || value==='on_measurement') setActiveStep(6)
   }
 
   const steps = [
