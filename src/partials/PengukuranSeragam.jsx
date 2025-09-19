@@ -37,7 +37,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
         // if(props.schoolUniformModel.length==0){
             getSchoolUniformModel_(props.school)
         // }
-    },[formModels, props.schoolUniformModel, props.dataSeragam, props.school])
+    },[props.schoolUniformModel, props.dataSeragam, props.school])
 
     useImperativeHandle(ref, () => ({
         scrollTo: () => {
@@ -52,6 +52,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
     const { data, err} = await supabase.from('school_uniform_models') 
                         .select('model_name, model_size_charts, model_url, model_gender, id, model_code, school_id')
                         .eq('school_id', id)
+                        .eq('model_gender', props.gender)
                         // .single()
     if(err){
       ////console.log(err)

@@ -104,13 +104,13 @@ function SignUp() {
       handleResults(results)
     }
 
-    if(code || !school_id || !is_new){
+    if(code || !school_id){
       setSchoolId(getSchoolIdSchoolName(code).substring(0,1))
       setIsNew(true)
       // setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2))
 
       form.setValue('school_id', school_id)
-      form.setValue('is_new', true)
+      form.setValue('is_new', false)
       // form.setValue('subschool', subschool)
       console.log('id',school_id, is_new)
     }
@@ -175,7 +175,7 @@ function SignUp() {
     // const _password = password
     // const _media = media
     console.log('handl',results, error)
-    if(error){
+    if(!results || Object.keys(results),length==0){
       console.log('not valid')
       // setIsValidated(true)
       // setIsLoading(false)
@@ -206,8 +206,8 @@ function SignUp() {
     if(results && results?.f1 !== '01'){
       console.log('masuk', results)
 
-      console.log('_phone_number', _phone_number)
-      const new_phone_number = '62'+ _phone_number.slice(1)
+      // console.log('_phone_number', _phone_number)
+      // const new_phone_number = '62'+ _phone_number.slice(1)
       // console.log(data_appl)
       // _phone_number.replace()
       setFullName("")
@@ -219,42 +219,47 @@ function SignUp() {
       setSubschool("")
       setPassword("")
       setConfirmPassword("")
-      modal_data.type= "basic",
-      modal_data.title= "Pendaftaran Berhasil",
-      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi.",
+      modal_data.type= "basic"
+      modal_data.title= "Pendaftaran Berhasil"
+      modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melanjutkan pembayaran melalui aplikasi."
       // modal_data.message= "Alhamdulillah, tahap pra pendaftaran berhasil. Selanjutnya Ananda dapat melakukan konfirmasi pendaftaran ke nomor CS melalui pesan masuk ke no WhatsApp terdaftar. Ananda juga dapat melanjutkan pembayaran langsung melalui website.",
       // tex.t: "Konfirmasi Pendaftaran ke CS",
       // url: "https://wa.me/628123523434?text=Assalamu'alaikum%20warahmatullah%20wabarakatuh%2C%20ustadz%2Fustadzah.%20Alhamdulillah%20ananda%20telah%20menyelesaikan%20formulir%20pra%20pendaftaran.%20Jazaakumullahu%20khayran.",
-      modal_data.text2= "Lanjut Pembayaran",
+      modal_data.text2= "Lanjut Pembayaran"
       modal_data.url2= "/login"
       
       const type ='form-success'
+      // modal_data.url2 = "/login"
+      //   setSuccess(true)
+      //   setModalShow(true)
       
-      // console.log(new_phone_number)
-      const data = [{
-        "phone": new_phone_number,
-        // "phone": "6285778650040",
-        "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. 
-        No. Pendaftaran: ${results?.f3}
-        Login Aplikasi: https://psb.rabbaanii.sch.id/login
-        
-        Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
-        
-        Jazaakumullahu khayran wa Baarakallaahu fiikum.
-        
-        -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
-        - Mohon simpan nomor ini untuk mendapatkan update informasi -`
-        // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
-
-      }]
-      // console.log(data)
-      // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
-
-      if(notified){
+      if(notified || !notified){
         modal_data.url2 = "/login"
         setSuccess(true)
         setModalShow(true)
       }
+      
+      // console.log(new_phone_number)
+      // const data = [{
+      //   "phone": new_phone_number,
+      //   // "phone": "6285778650040",
+      //   "message": `Assalamu'alaikum, Alhamdulillah Ananda ${full_name} telah terdaftar di Aplikasi PSB RIS TA. 26/27. 
+      //   No. Pendaftaran: ${results?.f3}
+      //   Login Aplikasi: https://psb.rabbaanii.sch.id/login
+        
+      //   Ananda dapat login dengan No. Pendaftaran atau No. WhatsApp terdaftar untuk melanjutkan pendaftaran.
+        
+      //   Jazaakumullahu khayran wa Baarakallaahu fiikum.
+        
+      //   -- PSB RABBAANII ISLAMIC SCHOOL - CS RABBAANII --
+      //   - Mohon simpan nomor ini untuk mendapatkan update informasi -`
+      //   // "message": "Assalamu'alaikum, Alhamdulillah ananda telah terdaftar di sistem kami dengan No. Registrasi . "
+
+      // }]
+      // console.log(data)
+      // Ayah/Bunda disilahkan bergabung ke tautan Grup WA Pendaftar https://bit.ly/GROUPWA-PPDBRIS2627 untuk informasi lebih lanjut.
+
+      
 
       
           // try {
@@ -620,32 +625,32 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
-                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)} type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)}  {...register('full_name')}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='male' type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
-                      <input name="gender" onChange={(e) => setGender(e.target.value)} value='female' type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)}  {...register('gender')}  value='male' type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
+                      <input name="gender" onChange={(e) => setGender(e.target.value)}  {...register('gender')}  value='female' type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="phone_number">No. WhatsApp <span className="text-red-600">*</span></label>
-                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)}  {...register('phone_number')} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)} className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                      <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)}  {...register('email')}  className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Tanggal Lahir <span className="text-red-600">*</span></label>
-                    <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} {...register('dob')} type="date" className="form-input w-full text-gray-800" required/>
+                    <input id="dob" name="dob" onChange={(e) => setDob(e.target.value)} {...register('dob')}  type="date" className="form-input w-full text-gray-800" required/>
                       {errors.dob && (
                         <p className="text-xs text-red-500"> {errors.dob.message} </p>
                       )}
@@ -659,7 +664,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
                       {/* <input id="subschool" name='subschool' type="text" hidden disabled value={} onChange={e => (setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2)))}  className="form-input w-full text-gray-800" placeholder="" required /> */}
                       {/* value={getSchoolIdSchoolName(code).substring(0,1)}  */}
-                      <input id="school_id" name='school_id' type="number" hidden disabled onChange={e => (setSchoolId(e.target.value))}  className="form-input w-full text-gray-800" placeholder="" required />
+                      <input id="school_id" name='school_id' type="number" hidden disabled onChange={e => (setSchoolId(e.target.value))}  {...register('school_id')}  className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
                       {/* <input id="subschool" name='subschool' type="text" hidden disabled onChange={(e) => setSubschool(e.target.value)} {...register('subschool')} className="form-input w-full text-gray-800" placeholder="" required /> */}
                       {errors.school_id &&(
@@ -671,7 +676,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       <label htmlFor="class_code" className="block text-sm font-medium text-gray-900">Kelas</label>
                       <div className="mt-2 grid grid-cols-1">
                             {code == 'sdit' && (
-                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)}  {...register('class_code')}  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
                                 <option value="2">Kelas 2 </option>
                                 <option value='3'>Kelas 3</option>
@@ -682,7 +687,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                           </select>
                           )}
                             {(code == 'smpi' || code == 'smp-pesantren')&& (
-                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)}  {...register('class_code')}  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
                                 <option value="8">Kelas 8 </option>
                                 <option value="9">Kelas 9</option>
@@ -690,7 +695,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                           </select>
                           )}
                             {(code == 'sma-pesantren' || code == 'smai') && (
-                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <select id="class_code" name="class_code" onChange={(e) => setClassCode(e.target.value)}  {...register('class_code')} className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
                                 <option >-Pilih Kelas-</option>
                                 <option value="11">Kelas 11 </option>
                                 <option value="12">Kelas 12 </option>
@@ -709,7 +714,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                     <div className="w-full px-3 ">
                       <label className="block text-gray-900 text-sm font-medium mb-1 tooltip tooltip-open tooltip-right" data-tip="Buatlah password yang mudah diingat" htmlFor="password">Password <span className="text-red-600">*</span></label>
                       <div className='flex'>
-                        <input id="password" name='password'  onChange={(e) => setPassword(e.target.value)} type={isVisible?"text":"password"} className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
+                        <input id="password" name='password'  onChange={(e) => setPassword(e.target.value)}  {...register('password')}  type={isVisible?"text":"password"} className="form-input w-full text-gray-800" placeholder="Masukkan Password" required />
                         <button type="button" onClick={hanledVisible} 
                                     className="flex justify-around items-center">
                                       {isVisible? (
@@ -745,7 +750,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="confirm_password">Konfimasi Password <span className="text-red-600">*</span></label>
                       <div className='flex'>
-                        <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)} type={isVisibleConfirm?"text":"password"} className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
+                        <input id="confirm_password" name='confirm_password' onChange={(e) => setConfirmPassword(e.target.value)}  {...register('confirm_password')}  type={isVisibleConfirm?"text":"password"} className="form-input w-full text-gray-800 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" placeholder="Masukkan Konfirmasi Password" required />
                         <button type="button" onClick={hanledVisibleConfirm} 
                                       className="flex justify-around items-center">
                                         {isVisibleConfirm? (
@@ -769,7 +774,7 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                   <div className="sm:col-span-4">
                       <label htmlFor="media" className="block text-sm font-medium text-gray-900">Darimana Bapak/Ibu Mendapatkan Informasi tentang Rabbaanii Islamic School?</label>
                       <div className="mt-2 grid grid-cols-1">
-                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                          <select id="media" name="media" onChange={(e) => setMedia(e.target.value)}  {...register('media')}  autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                           <option value="website">Website Rabbaanii </option>
                           <option value={media== 'teman/saudara'? media:"teman/saudara"} >Teman / Saudara</option>
                           <option value={media== 'karyawan/guru'? media:"karyawan/guru"}>Karyawan/Guru </option>

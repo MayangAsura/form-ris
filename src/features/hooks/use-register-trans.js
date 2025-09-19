@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "../../utils/Swal";
 import { useState } from "react";
 import { da } from "zod/v4/locales";
-// import axios from '../../api/local-server';
-import axios from '../../api/prod-server';
+import axios from '../../api/local-server';
+// import axios from '../../api/prod-server';
 // import { useSonner } from "@/hooks/use-sonner";
 // import { useRoutes } from "react-router-dom";
 // import { useRouter } from "next/navigation";
@@ -44,7 +44,7 @@ const useRegisterTrans = () => {
             data.password,
             data.media,
             data.school_id,
-            data.subschool,
+            data.subschool??"",
             data.is_new,
             data.class_code
             // data.dob

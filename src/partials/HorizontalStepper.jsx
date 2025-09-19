@@ -1077,7 +1077,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             getParticipantData(data[0].id)
           }  
           if(to == 'participant_size_charts'){
-            modal_data.url = '/home'
+            modal_data.url = '/home#pengukuran_seragam'
             modal_data.text = 'OK'
           }
           modal_data.title = "Data Berhasil Disimpan"
@@ -1128,6 +1128,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
         ////console.log('data>', data[0])
         ////console.log('err >', err)
         if(data){
+          if(to == 'participant_size_charts'){
+            modal_data.url = '/home#pengukuran_seragam'
+            modal_data.text = 'OK'
+          }
+          modal_data.title = "Data Berhasil Disimpan"
           modal_data.title = "Data Berhasil Disimpan"
           setModalShow(true)
         }else{
@@ -1159,6 +1164,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
         });
 
         if(!error){
+          if(to == 'participant_size_charts'){
+            modal_data.url = '/home#pengukuran_seragam'
+            modal_data.text = 'OK'
+          }
+          modal_data.title = "Data Berhasil Disimpan"
           dataAlert.title = "Data Berhasil Diedit"
           setDataAlertShow(true)
         }else{
