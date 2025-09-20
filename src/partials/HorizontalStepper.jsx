@@ -26,6 +26,10 @@ import { da } from 'zod/v4/locales';
 const PATH_URL = import.meta.env.URL_LOCAL
 
 const HorizontalStepper = forwardRef((props, ref) => {
+
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const step = parseInt(searchParams.get('step') || '1');
+
   
   const stepperRef = useRef(null);
   const [currentStep, setCurrentStep] = useState(1);

@@ -74,7 +74,7 @@ function IdentitasForm(props) {
     }
 
     useEffect(()=> {
-        //console.log('dataParticipant >', props.dataParticipant)
+        console.log('dataParticipant >', props.currentStep)
         setLastUpdate(props.dataParticipant.updated_at)
         setFull_name(props.dataApplicant.full_name); 
         setGender(props.dataApplicant.gender);
