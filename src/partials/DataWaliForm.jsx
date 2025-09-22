@@ -30,7 +30,7 @@ function DataWaliForm(props) {
         const nextStep = () => {
             //console.log("NEXTSTEP")
             // if(!data || data.wali_name=="") 
-                props.setCurrentStep(props.currentStep + 1)
+                props.setCurrentStep(prev => prev + 1)
         }
 
         const formatDate = (date) => {
@@ -145,9 +145,9 @@ function DataWaliForm(props) {
                                                 
                                                 <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                     onClick={(e) => {
-                                                        // setTimeout(() => {
-                                                        //     setParamNavigasi(currentStep)
-                                                        // }, 1000);
+                                                        setTimeout(() => {
+                                                            props.setParamNavigasi(props.currentStep +1)
+                                                        }, 1000);
                                                     }
                                                     }
                                                         >

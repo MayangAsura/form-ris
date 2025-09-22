@@ -37,7 +37,11 @@ function MetodeUangPangkal(props) {
         setMetodeUangPangkal(props.dataMetodeUangPangkal?.metode_uang_pangkal)
         setLastUpdate(props.dataMetodeUangPangkal?.updated_at)
 
-        setApplicantStudentCategory(props.dataApplicantCategory?.student_category)
+        if(props.applicantStudentCategory){
+
+            setApplicantStudentCategory(props.dataApplicantCategory?.student_category)
+
+        }
 
         
         getSchoolCode(props.dataApplicant?.id)

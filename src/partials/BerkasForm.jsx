@@ -54,7 +54,7 @@ function BerkasForm(props) {
             // setMotherSalary(props.dataIbu.mother_salary)
             // setMotherJob(props.dataIbu.mother_job)
             // setLastUpdate(props.dataIbu.updated_at)
-        },[props.dataBerkas, props.school, props.currentStep])
+        },[])
 
     const data = { bird_certificate:bird_certificate, pas_photo:pas_photo, parent_ktp:parent_ktp, surat_kesanggupan:surat_kesanggupan, kk:kk, certificate:certificate}
 
@@ -107,8 +107,8 @@ function BerkasForm(props) {
         props.onSubmit(berkasFile)
         
         setBerkasFile([])
-        setTimeout(() => {
-        }, 1000);
+        // setTimeout(() => {
+        // }, 1000);
     }
 
     const formatDate = (date) => {

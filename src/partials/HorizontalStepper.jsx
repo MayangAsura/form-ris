@@ -100,8 +100,6 @@ const HorizontalStepper = forwardRef((props, ref) => {
   useEffect(() => {
     
     
-    // return 
-    localStorage.setItem('lastActiveStep', currentStep.toString());
     
     // Update URL parameter
     const params = { step: currentStep };
@@ -110,6 +108,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
     }, { replace: true }); // Use replace to avoid adding to history
     if (nstep) return setCurrentStep(parseInt(nstep));
     
+    // return 
+    localStorage.setItem('lastActiveStep', currentStep.toString());
     const savedStep = localStorage.getItem('lastActiveStep');
     if (savedStep) return setCurrentStep(parseInt(savedStep));
   }, [currentStep, navigate]);
@@ -467,8 +467,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
   }
    const getVerifikasiKeluarga = () => {
+    getParticipantData(participant_id?participant_id:participant.id)
       const dataVerifikasiKeluarga = {
-        student_category: props.applicant[0].participants[0].student_category,
+        student_category: props.applicant[0].participants[0].student_category?? participant.student_category,
         updated_at : props.applicant[0].participants[0].updated_at,
         photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
       }
@@ -728,7 +729,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     })
   }
   const getDataVerifikasiKeluarga = (data) => {
-    ////console.log("Data VerifikasiKeluarga >", data)
+    console.log("Data VerifikasiKeluarga >", data)
     setLoading(true)
     startTransition(()=> {
       setTimeout(() => {
@@ -751,9 +752,16 @@ const HorizontalStepper = forwardRef((props, ref) => {
         }
       }, 2000);
       
-      // getParticipantData(participant.id?participant.id:participant_id)
+      getParticipantData(participant.id?participant.id:participant_id)
       getParticipantDocuments(participant.id?participant.id:participant_id)
       getVerifikasiKeluarga()
+      const dataVerifikasiKeluarga = {
+        student_category: data?.student_category,
+        updated_at : props.applicant[0].participants[0].updated_at,
+        photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
+      }
+      console.log(dataVerifikasiKeluarga, 'dataVerifikasiKeluarga')
+      setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
       setLoading(false)
       if(!isPending || !loading){
         scroll('right')
@@ -853,49 +861,53 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
   const upload = async (file, name ) => {
 
-    const filepath = `${name}-${Date.now()}`
-    const pid = participant.id?participant.id:participant_id
-    const { data_, error_ } = await supabase
-        .storage
-        .from('participant-documents')
-        .upload(pid + "/" + filepath, file,
-          {cacheControl: '3600', upsert: true}
-        )
-    if (error_) {
-      ////console.error("Gagal Upload Berkas", error_.message)
-      return null
+    if(file){
+      const filepath = `${name}-${Date.now()}`
+      const pid = participant.id?participant.id:participant_id
+      const { data_, error_ } = await supabase
+          .storage
+          .from('participant-documents')
+          .upload(pid + "/" + filepath, file,
+            {cacheControl: '3600', upsert: true}
+          )
+      if (error_) {
+        ////console.error("Gagal Upload Berkas", error_.message)
+        return null
+      }
+      const { data } = await supabase.storage.from("participant-documents").getPublicUrl(pid+ "/" +filepath)
+      const data_url = {
+        path: data.publicUrl
+      }
+      ////console.log(data.publicUrl)
+      setBerkasUrl(data.publicUrl)
+      // setBerkasUrl((data.publicUrl).toString())
+      // if(name == "Bird-Certificate"){
+      //   berkasUrl.a = data.publicUrl.toString()
+      // }
+      // if(name == "KK"){
+      //   berkasUrl.b = data.publicUrl.toString()
+      // }
+      // if(name == "Parent-KTP"){
+      //   berkasUrl.c = data.publicUrl.toString()
+      // }
+      // if(name == "Pas-Photo"){
+      //   berkasUrl.d = data.publicUrl.toString()
+      // }
+      // if(name == "Surat-Kesanggupan"){
+      //   berkasUrl.e = data.publicUrl.toString()
+      // }
+      // if(name == "Syahadah"){
+      //   berkasUrl.f = data.publicUrl.toString()
+      // }
+      // if(name == "Photo-Sampul-Ijazah"){
+      //   berkasUrl.g = data.publicUrl.toString()
+      // }
+      // berkasUrl.a = data.publicUrl.toString()
+      // ////console.log(berkasUrl)
+      return data.publicUrl??null
+
     }
-    const { data } = await supabase.storage.from("participant-documents").getPublicUrl(pid+ "/" +filepath)
-    const data_url = {
-      path: data.publicUrl
-    }
-    ////console.log(data.publicUrl)
-    setBerkasUrl(data.publicUrl)
-    // setBerkasUrl((data.publicUrl).toString())
-    // if(name == "Bird-Certificate"){
-    //   berkasUrl.a = data.publicUrl.toString()
-    // }
-    // if(name == "KK"){
-    //   berkasUrl.b = data.publicUrl.toString()
-    // }
-    // if(name == "Parent-KTP"){
-    //   berkasUrl.c = data.publicUrl.toString()
-    // }
-    // if(name == "Pas-Photo"){
-    //   berkasUrl.d = data.publicUrl.toString()
-    // }
-    // if(name == "Surat-Kesanggupan"){
-    //   berkasUrl.e = data.publicUrl.toString()
-    // }
-    // if(name == "Syahadah"){
-    //   berkasUrl.f = data.publicUrl.toString()
-    // }
-    // if(name == "Photo-Sampul-Ijazah"){
-    //   berkasUrl.g = data.publicUrl.toString()
-    // }
-    // berkasUrl.a = data.publicUrl.toString()
-    // ////console.log(berkasUrl)
-    return data.publicUrl??null
+    
     // const { data, error } = await supabase.storage.from('participant-documents').createSignedUrl(participant_id+ "/" +filepath, 3600)
 
     // const path = {
@@ -962,7 +974,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
               file_url: file_url? file_url : berkasUrl,
               file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
               file_size: d.size?.toString(),
-              file_type: d.type.slice(d.type.indexOf("/")+1).toUpperCase(),
+              file_type: d.type?.slice(d.type.indexOf("/")+1).toUpperCase(),
               file_title: d.name
             }
             ////console.log(dataItem)
@@ -1031,8 +1043,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
       }else{
         const d = dataInput
         // ////console.logO
-        
-        const file_url = await upload(d.file, d.name)
+        if(d.file){
+          const file_url = await upload(d.file, d.name)
         console.log('file', file_url)
 
           const pid = participant.id?participant.id:participant_id
@@ -1042,7 +1054,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             file_url: file_url? file_url : berkasUrl,
             file_name: participant_id+'/'+`${d.name}-${Date.now()}`,
             file_size: d.size?.toString(),
-            file_type: d.type.slice(d.type.indexOf("/")).toUpperCase(),
+            file_type: d.type?.slice(d.type.indexOf("/")).toUpperCase(),
             file_title: d.name
           }
           ////console.log(dataItem)
@@ -1085,6 +1097,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
               }
               ////console.log('err >', err)
             }
+        }
+        
 
             // berkasUrl.g = ""
             
