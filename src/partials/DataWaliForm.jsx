@@ -145,9 +145,9 @@ function DataWaliForm(props) {
                                                 
                                                 <button type="submit" className='btn w-full py-3 block btn-sm  text-gray-200 bg-green-900 hover:bg-gray-800' disabled={props.isPending}
                                                     onClick={(e) => {
-                                                        setTimeout(() => {
-                                                            setParamNavigasi(currentStep)
-                                                        }, 1000);
+                                                        // setTimeout(() => {
+                                                        //     setParamNavigasi(currentStep)
+                                                        // }, 1000);
                                                     }
                                                     }
                                                         >
@@ -184,9 +184,9 @@ function DataWaliForm(props) {
                                                     // callback(data)
                                                     }
                                                     
-                                                    setTimeout(() => {
-                                                        props.setParamNavigasi(props.currentStep+1)
-                                                    }, 1000);
+                                                    // setTimeout(() => {
+                                                    //     props.setParamNavigasi(props.currentStep+1)
+                                                    // }, 1000);
                                             
                                                     // props.setParamNavigasi(props.currentStep + 1)
                                                 //     // handleSubmit

@@ -184,7 +184,7 @@ function SignUp() {
     // const _password = password
     // const _media = media
     console.log('handl',results, error)
-    if(result){
+    if(results){
       console.log('not valid')
       // setIsValidated(true)
       // setIsLoading(false)
