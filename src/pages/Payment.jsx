@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
@@ -213,7 +213,7 @@ function Payment() {
 
       const getApplicantPayment = async () => {
         // console.log('on payment')
-        // console.log(applicantData.order_status)
+        // console.log(applicantDaata.order_status)
         // if(applicantData.applicant_orders.length!== 0 && applicantData.applicant_orders.length?.status!=='finished')
         
         console.log('or in paymein',r)

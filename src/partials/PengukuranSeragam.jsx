@@ -165,7 +165,7 @@ const PengukuranSeragam = forwardRef((props, ref) => {
 
     // Render table using React components instead of HTML strings
     const renderUniformTable = () => {
-        if (!schoolUniformModel_.length) return null;
+        if (!schoolUniformModel_?.length) return null;
 
         return schoolUniformModel_
             .filter(m => props.gender === m.model_gender && props.school === m.school_id)

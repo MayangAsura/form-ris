@@ -43,6 +43,7 @@ function Home() {
     console.log(data)
     // console.log('sub', data[0].participants[0].submission_status)
     if(data[0].participants.length > 0){
+      setParticipantData(data[0].participants[0])
       const submission_status = data[0].participants[0].submission_status
       // setParticipantData({submission_status: submission_status})
       participantData.full_name = data[0].full_name

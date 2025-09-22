@@ -32,7 +32,9 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
   
   const stepperRef = useRef(null);
-  const [currentStep, setCurrentStep] = useState(1);
+  // const [currentStep, setCurrentStep] = useState(1);
+  // Initialize currentStep with priority: URL param > localStorage > default
+  
   const [complete, setComplete] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -43,6 +45,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
   const [searchParams] = useSearchParams();
   const nstep = searchParams.get('step');
   const [last_step, setLastStep] = useState("")
+  const [currentStep, setCurrentStep] = useState(1);
   // const [ pengSeragam, setPengSeragam ] = useRef()
 
   const [participant, setParticipant] = useState({})
@@ -92,6 +95,31 @@ const HorizontalStepper = forwardRef((props, ref) => {
   };
   
   // {applicant} = props
+
+  // Save current step whenever it changes
+  useEffect(() => {
+    
+    
+    // return 
+    localStorage.setItem('lastActiveStep', currentStep.toString());
+    
+    // Update URL parameter
+    const params = { step: currentStep };
+    navigate({
+      search: `?${createSearchParams(params)}`,
+    }, { replace: true }); // Use replace to avoid adding to history
+    if (nstep) return setCurrentStep(parseInt(nstep));
+    
+    const savedStep = localStorage.getItem('lastActiveStep');
+    if (savedStep) return setCurrentStep(parseInt(savedStep));
+  }, [currentStep, navigate]);
+
+  // Clear saved step when form is completed
+  useEffect(() => {
+    if (complete) {
+      localStorage.removeItem('lastActiveStep');
+    }
+  }, [complete]);
 
   useEffect(() => {
     // console.log('ref', ref)
@@ -244,8 +272,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
             }
           }
         }, 500);
+        if(nstep!= steps.length-1){
 
-        setCurrentStep(nstep)
+          setCurrentStep(nstep)
+        }
         // }, 1000);
     }
     ////console.log('isPending > ',isPending)
@@ -266,7 +296,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
       // console.log('params', params)
       navigate({
         // pathname: `/home`,
-        search: `?${createSearchParams(params)}`,
+        // search: `?${createSearchParams(params)}`,
       });
     };
   // ////console.log('from props > ', props)
@@ -1269,6 +1299,26 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
       {/* Stepper Container */}
       <div
+  ref={stepperRef}
+  className="flex overflow-x-auto space-x-4 scrollbar-hide"
+>
+  {steps.map((step, index) => (
+    <div 
+      key={index}
+      className={`flex-shrink-0 w-64 p-6 bg-white rounded-lg shadow-md flex items-center justify-center ${
+        currentStep === index + 1 ? "border-2 border-blue-500" : "border border-gray-200"
+      } ${
+        (index === 0 || index + 1 < currentStep || complete) ? "complete" : ""
+      }`}
+    >
+      <div className="step">
+        {index === 0 || index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1}
+      </div>
+      <span className="text-sm/6 font-medium ml-2">{step}</span>
+    </div>
+  ))}
+</div>
+      {/* <div
         ref={stepperRef}
         className="flex overflow-x-auto space-x-4 scrollbar-hide" // scrollbar-hide requires plugin
       >
@@ -1279,9 +1329,6 @@ const HorizontalStepper = forwardRef((props, ref) => {
                   ( index == 0 || index + 1 < currentStep || complete ) && "complete"
                 } `}
           >
-            {/* <div className="step">
-              {index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1}
-            </div> */}
             <div className="step">
               {index == 0 || index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1}
             </div>
@@ -1290,7 +1337,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
           
         ))}
         
-      </div>
+      </div> */}
       
       {/* Right Scroll Button */}
       <button 
@@ -1317,24 +1364,29 @@ const HorizontalStepper = forwardRef((props, ref) => {
       scroll('right')
     )} */}
 
-    {steps.map((step, index) => (
+    <div className="flex justify-center">
+      {form[currentStep - 1]}
+    </div>
+
+    {/* {steps.map((step, index) => (
 
       <div key={index} className={`flex justify-center ${currentStep !== index  + 1 && "hide"}`}>
           {form[currentStep-1]}
       </div>
-    ))}
+    ))} */}
     
 
     <div className='flex-wrap justify-center px-5'>
       {/* {isPending} */}
         {!complete &&  (
+          
           <div className=''>
             {/* <div className="flex-wrap">
               
             </div> */}
             <div className=" w-full">
               <button
-            className={`btn w-full block btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3 ${currentStep!==1?"invisible":''}`}
+            className={`btn w-full block btn-sm text-gray-200 bg-green-900 hover:bg-gray-800 ml-3 ${currentStep!=1?"invisible":''}`}
             onClick={() => {
               // currentStep === steps.length
               //   ? setComplete(true)
@@ -1353,7 +1405,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                 setParamNavigasi(currentStep)
               }
               else{
-                setCurrentStep((prev) => prev + 1);
+                setCurrentStep((prev) => prev + parseInt(1));
                 // callback(data)
               }
               // handleSubmit
@@ -1402,7 +1454,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                     //   ? setComplete(true)
                     //   : setCurrentStep((prev) => prev + 1); 
                     setLoading(true)
-                    setCurrentStep((prev) => prev - 1);
+                    setCurrentStep((prev) => prev - parseInt(1));
                     // callback(data)
                     
                     // handleSubmit
@@ -1506,7 +1558,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                   //   ? setComplete(true)
                   //   : setCurrentStep((prev) => prev + 1); 
                   setLoading(true)
-                    setCurrentStep((prev) => prev - 1);
+                    setCurrentStep((prev) => prev - parseInt(1));
                     // callback(data)
                     
                     // handleSubmit
@@ -1571,7 +1623,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
                   //   ? setComplete(true)
                     setLoading(true)
                     setParamNavigasi(currentStep+1)
-                    setCurrentStep((prev) => prev + 1);
+                    setCurrentStep((prev) => prev + parseInt(1));
                     // callback(data)
                   // handleSubmit
                   // setTimeout(() => {

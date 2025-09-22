@@ -78,6 +78,7 @@ function Announcement(props) {
       getProfileData()
       console.log('examData', examData)
     }
+    console.log('props.participant', props.participant.is_complete)
     
     if(props.applicant[0]){
       console.log('props.applicant', props.applicant)
@@ -85,6 +86,7 @@ function Announcement(props) {
       setApplicantSchool(props.applicant[0].applicant_schools[0].schools.school_id)
       console.log('applicantSchool', applicantSchool)
     }
+    getDataExam()
     
   },[props.participant.submission_status, props.applicant, auth_token])
 
@@ -104,14 +106,17 @@ function Announcement(props) {
 
   const getDataExam = async () => {
     
-    let { data: exam_tests, error } = await supabase
-      .from('exam_test_participants')
-      .select('*, exam_tests!inner(*) ')
-      .eq('appl_id', props.applicant[0]?.id)
-      .is('deleted_at', null)
-      if(exam_tests){
-        setExamData(exam_tests)
-      }
+    if(props.applicant[0]?.id){
+
+      let { data: exam_tests, error } = await supabase
+        .from('exam_test_participants')
+        .select('*, exam_tests!inner(*) ')
+        .eq('appl_id', props.applicant[0]?.id)
+        .is('deleted_at', null)
+        if(exam_tests){
+          setExamData(exam_tests)
+        }
+    }
           
       console.log('examData', examData)
   }
@@ -239,6 +244,18 @@ console.log(text, value)
             });
         });
     };
+  const download_kartu_seleksi = () => {
+        fetch("https://cnpcpmdrblvjfzzeqoau.supabase.co/storage/v1/object/public/exams/uploads/templates/Kartu-Seleksi-Sample.pdf").then((response) => {
+            response.blob().then((blob) => {
+                const fileURL =
+                    window.URL.createObjectURL(blob);
+                let alink = document.createElement("a");
+                alink.href = fileURL;
+                alink.download = "Kartu Seleksi.pdf";
+                alink.click();
+            });
+        });
+    };
 
   const getToken = () => {
     console.log('auth_token', auth_token)
@@ -300,7 +317,7 @@ console.log(text, value)
                                                   // }}
                                                   >Download Surat Pengumuman</button> <br /> */}
                                                   
-                      {(props.participant.submission_status==='on_exam' || props.participant.submission_status==='initial_submission') && props.participant.is_complete && (
+                      {(props.participant.submission_status==='on_exam' || props.participant.submission_status==='initial_submission') && props.participant.is_complete && new Date() == examData.started_at && (
                         <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} dataApplicant={props.applicant[0]} />} fileName="Kartu-Seleksi.pdf">
                           {/* <div className="flex flex-col justify-between item-center"> */}
                                                   <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
@@ -316,6 +333,29 @@ console.log(text, value)
                                                               Download PDF
                                                             </button> */}
                                                           </PDFDownloadLink>
+                      // <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                      // onClick={window.open("")}
+                      //                             >Download Undangan Seleksi</button>
+                      )}
+                      {(props.participant.submission_status==='on_exam' || props.participant.submission_status==='initial_submission') && props.participant.is_complete && examData?.length==0 && (
+<button onClick={download_kartu_seleksi} className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
+                      >Cetak Kartu Seleksi<TbDownload className='ml-2'/>
+                      </button> 
+                        // <PDFDownloadLink document={<ExamInvitationCard examData={examData} profileData={profileData} dataApplicant={props.applicant[0]} />} fileName="Kartu-Seleksi.pdf">
+                          // {/* <div className="flex flex-col justify-between item-center"> */}
+                                                  // <button  className='btn w-full btn-sm my-5 text-center text-gray-200 bg-green-900 hover:bg-gray-800'
+                                                  //                         onClick={() => {
+                                                                              
+                                                  //                         }}
+                                                  //                         >Cetak Kartu Seleksi 
+                                                  //                         <TbDownload className='ml-2'/>
+                                                  //                         </button>
+
+                          // {/* </div> */}
+                                                            // {/* <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                                                            //   Download PDF
+                                                            // </button> */}
+                                                          // </PDFDownloadLink>
                       // <button type="submit" className='btn w-full block btn-sm m-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800'
                       // onClick={window.open("")}
                       //                             >Download Undangan Seleksi</button>
