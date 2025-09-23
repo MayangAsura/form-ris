@@ -42,6 +42,7 @@ function SignUp() {
   const [confirm_password, setConfirmPassword] = useState("")
   const [media, setMedia] = useState("website")
   const [dob, setDob] = useState("")
+  const [schoolOptions, setSchoolOptions] = useState([])
   const [modal_show, setModalShow] = useState(false)
   const [modal_data, setModalData] = useState({
     type: "",
@@ -114,6 +115,7 @@ function SignUp() {
 
     // getSchoolIdSchoolName()
     // getSchoolIdSchoolName()
+    getSchoolsOptions()
   },[code, results, form, password, confirm_password, school_id, subschool])
 
   // const handleResults = () => {
@@ -292,6 +294,26 @@ function SignUp() {
 
   }
 
+  const getSchoolsOptions = async () => {
+        let { data: schools, error } = await supabase
+            .from('schools')
+            .select('*')
+            console.log(schools)
+            if(!error){
+                setSchoolOptions(schools)
+                schools.map((e)=>(
+                        // setaccountOptions( e => {
+                        schoolOptions.push({ name:e.school_id, value: e.school_name})
+                        
+                    ))
+                    console.log('schoolOptions', schoolOptions)
+            // //     // accountsOptions e.name
+
+            // }))
+            // name: account
+            // setaccountOptions(account => {.})
+        }
+    }
 
   const addApplicants = async (e) =>{
     // setIsLoading(true)
@@ -687,6 +709,19 @@ console.log(Object.values(data_appl)[0] !== '01')
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="school">Jenjang <span className="text-red-600">*</span></label>
                       {/* <input id="subschool" name='subschool' type="text" hidden disabled value={} onChange={e => (setSubschool(getSchoolIdSchoolName(code).split("-")[0].substring(1,2)))}  className="form-input w-full text-gray-800" placeholder="" required /> */}
                       <input id="school_id" name='school_id' type="text" hidden disabled onChange={(e) => setSchoolId(e.target.value)} {...register('school_id')} className="form-input w-full text-gray-800" placeholder="" required />
+                      {/* <div className="mt-2 grid grid-cols-1">
+                          <select id="media" name="" onChange={(e) => setSchoolId(e.target.value)} {...register('media')} autoComplete="media" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>
+                          <option value="">-Pilih Media-</option>
+                          {schoolOptions.map((value) => {
+
+                          <option value={school_id== value.name? school_id:value.name}>{value.value} </option>
+                          })}
+                        
+                          </select>
+                          {errors.media && (
+                            <p className="text-xs text-red-500"> {errors.media.message} </p>
+                          )}
+                      </div> */}
                       <input id="school_name" name='school_name' type="text" disabled value={getSchoolIdSchoolName(code).split("-")[1]} className="form-input w-full text-gray-800" placeholder="" required />
                       <input id="subschool" name='subschool' type="text" hidden disabled onChange={(e) => setSubschool(e.target.value)} {...register('subschool')} className="form-input w-full text-gray-800" placeholder="" required />
                       {errors.school_id &&(

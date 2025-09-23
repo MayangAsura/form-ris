@@ -40,8 +40,8 @@ function SignIn(props) {
   const [modal_data, setmodal_data] = useState({
     title: "Login Berhasil",
     message: "Mengarahkan ke halaman pengisian formulir.",
-    text: "OK",
-    url: "/home"
+    // text: "OK",
+    // url: "/home"
   })
   const {
     register,
@@ -144,8 +144,8 @@ function SignIn(props) {
   useEffect(() => {
     // const userPayment = getPaymentInfo()
     
+    getPaymentInfo()
     if(auth_token){
-      getPaymentInfo()
       getUserInfo()
 
     }
@@ -164,20 +164,43 @@ function SignIn(props) {
     // }sd
     // if(!loading){
 
-      if ( (results.code === '00' || auth_token) && isObjectEmpty(userPayment)  && !loading ) {
-        modal_data.url = "/pay"
-        setModalShow(true)
-        console.log('results', results, )
-        navigate('/pay')
-        
-      }
-      if((results.code === '00' || auth_token) && !isObjectEmpty(userPayment) && !loading)
-      {
-        console.log('results.', results, userInfo, userPayment)
-        setModalShow(true)
-        navigate('/home')
-      }
+    if(!loading && (results.code === '00' || auth_token)){
+
+      if(!isObjectEmpty(userPayment))
+        {
+          console.log('results.', results, userInfo, userPayment)
+          modal_data.url = "/home"
+          modal_data.text = "OK"
+          // modal_data.url2 = "/login"
+          // modal_data.text2 = "Cancel"
+          setModalShow(true)
+          navigate('/home')
+        }
+        if (isObjectEmpty(userPayment)) {
+          modal_data.url = "/pay"
+          modal_data.text = "OK"
+          // modal_data.url2 = "/login"
+          // modal_data.text2 = "Cancel"
+          // modal_data.message = "Login Berhasil Mengarahkan ke halaman pembayaran"
+          setModalShow(true)
+          console.log('results>', results, )
+          // navigate('/pay')
+          
+        }
+        //  && results.data
+    }
+    if(!loading && (results.code === '01' || !auth_token) && results?.data) {
+
+      modal_data.title = "Login Gagal"
+      modal_data.url = "/login"
+      modal_data.text = "OK"
+      modal_data.message = results.data?? "Periksa kembali Username atau Password Anda"
+          setModalShow(true)
+          console.log('results>>', results, )
+    }
+    // if(){
     // }
+      // }
 
     // if((results)){
     //   console.log('results', results, userInfo)
@@ -187,7 +210,7 @@ function SignIn(props) {
     //   modal_data.url = "/home"
     //   navigate('/home')
     // }
-  }, [results, userInfo, userPayment, userToken])
+  }, [results, userPayment, userInfo, userToken, modal_show])
 
   const isObjectEmpty = async (objectName) => {
     return (
@@ -299,6 +322,10 @@ function SignIn(props) {
   // const destroyDataModal = () {
   //   set 
   // }
+
+  const setClose = (value) => {
+    setModalShow(!value)
+  }
   
   return (
     <div className="flex flex-col max-w-lg min-w-screen my-0 mx-auto shadow-lg bg-white overflow-hidden relative">
@@ -320,7 +347,7 @@ function SignIn(props) {
                 <p>Aplikasi Penerimaan Santri Baru Rabbaanii Islamic School </p>
               </div>
               {modal_show && (
-                <Swal dataModal={modal_data}  />
+                <Swal dataModal={modal_data} setClose={setClose}  />
                 // setDestroy={setDestroy}
               )}
 

@@ -102,13 +102,14 @@ export default function Swal(props) {
                   {props.dataModal.text2}
                 </button>
               ): (
-              <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:w-auto"
-                >
-                  Cancel
-                </button>
+                <></>
+              // <button
+              //     type="button"
+              //     onClick={() => setOpen(false)}
+              //     className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:w-auto"
+              //   >
+              //     Cancel
+              //   </button>
 
               )
               }

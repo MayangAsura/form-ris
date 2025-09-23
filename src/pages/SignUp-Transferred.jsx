@@ -626,6 +626,9 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="full_name">Nama Lengkap <span className="text-red-600">*</span></label>
                       <input id="full_name" name='full_name' onChange={(e) => setFullName(e.target.value)}  {...register('full_name')}  type="text" pattern="^[A-Za-z0-9.']{3,50}$" className="form-input w-full text-gray-800" placeholder="Masukkan Nama" required />
+                      {errors.full_name && (
+                        <p className="text-xs text-red-500"> {errors.full_name.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
@@ -633,18 +636,27 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="jenis_kelamin">Jenis Kelamin <span className="text-red-600">*</span></label>
                       <input name="gender" onChange={(e) => setGender(e.target.value)}  {...register('gender')}  value='male' type="radio" className="form-input text-gray-800" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Laki-Laki</span>
                       <input name="gender" onChange={(e) => setGender(e.target.value)}  {...register('gender')}  value='female' type="radio" className="form-input text-gray-800 ml-3" placeholder="" required /> <span className='text-gray-800 text-sm font-medium'>Perempuan</span>
+                      {errors.gender && (
+                        <p className="text-xs text-red-500"> {errors.gender.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="phone_number">No. WhatsApp <span className="text-red-600">*</span></label>
                       <input id="phone_number" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)}  {...register('phone_number')} className="form-input w-full text-gray-800" placeholder="No. WhatsApp aktif" required />
+                      {errors.phone_number && (
+                        <p className="text-xs text-red-500"> {errors.phone_number.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-900 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
                       <input id="email" name='email' type="email" onChange={(e) => setEmail(e.target.value)}  {...register('email')}  className="form-input w-full text-gray-800" placeholder="Masukkan Email Aktif" />
+                      {errors.email && (
+                        <p className="text-xs text-red-500"> {errors.email.message} </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">

@@ -20,7 +20,7 @@ const useLogin = () => {
   //   text: "OK",
   //   url: "/home"
   // })
-  const [results, setResults] = useState({code: '01', data: null})
+  const [results, setResults] = useState({code: '', data: null})
   // let results
   const navigate = useNavigate()
 
@@ -34,6 +34,9 @@ const useLogin = () => {
       return AuthService.login(data.username, data.password);
     },
     onSuccess: (data) => {
+      // if(data.message){
+        
+      // }
       if(data.token){
         // {modal_show && (xx
         setResults(prev => ({...prev, code: '00', data: data}))
@@ -60,14 +63,20 @@ const useLogin = () => {
           // setDestroy={setDestroy}
         // )}
         // navigate("/home");
+      }else{                                                                                                                                                                    
+        console.log('masuk>> ')
+        setResults(prev => ({...prev, code: '01', data: data.message}))
       }
+      
       // sonner.success("Login berhasil!");
 
       // Redirect to dashboard
     },
     onError: (error) => {
+      console.log('masuk>> ',error)
+      setResults({code: '01', data: error.response.message??"Periksa kembali Username atau Password Anda"})
       // sonner.error((error).message || "Login gagal. Silakan coba lagi.");
-    },
+    }
   });
 
   const onSubmit = (data) => {

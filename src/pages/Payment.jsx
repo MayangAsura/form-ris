@@ -10,7 +10,7 @@ import Banner from '../partials/Banner';
 import { redirect, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import queryString from "query-string"
-import { useSearchParams } from 'react-router-dom';
+import {Link, useSearchParams } from 'react-router-dom';
 
 import Swal from '../utils/Swal';
 import { data } from 'autoprefixer';
@@ -564,6 +564,10 @@ function Payment() {
         }
     }
 
+    const getSchoolCode = () => {
+      applicantData.school_id
+    }
+
     // const create_order = async (req, res) => {
     //   try {
     //     const {}
@@ -762,6 +766,21 @@ function Payment() {
                     )
                   } */}
                     </div>
+                    {/* <div className="flex items-center my-6">
+                      <div className="border-t border-gray-700 flex-grow mr-3" aria-hidden="true"></div>
+                      <div className="text-gray-600">Salah Jenjang?</div>
+                      <div className="border-t border-gray-700 flex-grow ml-3" aria-hidden="true"></div>
+                    </div>
+                    <form>
+                      <div className="flex flex-wrap -mx-3 mb-3">
+                        <div className="w-full px-3">
+                          <Link to={'/'+getSchoolCode()} className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
+                            <span className="">PENDAFTARAN</span>
+                          </Link>
+                        </div>
+                      </div>
+                      </form> */}
+
                   </div>
                 {/* <form>
                   <div className="flex flex-wrap -mx-3 mb-4">
