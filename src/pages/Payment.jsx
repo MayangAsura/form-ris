@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import Footer from '../partials/Footer';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-// import axios from '../api/local-server';
-import axios from '../api/prod-server';
+import axios from '../api/local-server';
+// import axios from '../api/prod-server';
 
 import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
@@ -175,6 +176,7 @@ function Payment() {
           applicantData.applicant_id = data.applicant_schools[0]?.applicant_id
           applicantData.school_id = data.applicant_schools[0]?.schools?.school_id
           applicantData.school_name = data.applicant_schools[0]?.schools?.school_name
+          applicantData.subschool = data.applicant_schools[0]?.schools?.subschool
             
             applicantDataOrder.item_id = data.applicant_schools[0]?.schools?.school_id
             applicantDataOrder.created_by = data.applicant_schools[0]?.applicant_id
@@ -565,7 +567,44 @@ function Payment() {
     }
 
     const getSchoolCode = () => {
-      applicantData.school_id
+      const code = applicantData?.school_id? applicantData.school_id: applicantData.applicant_schools[0]?.schools.school_id
+      console.log('code', code, applicantData)
+    //   const getSchoolIdSchoolName = (code) => {
+    // const allowed_codes = [
+    //   'tkit-a',
+    //   'tkit-b',
+    //   'sdit',
+    //   'smpi',
+    //   'smai',
+    //   'smp-pesantren',
+    //   'rabbaanii-ciwidey'
+    // ]
+    // if(!allowed_codes.includes(code)){
+      
+    // }
+    if(code == 2 && applicantData.subschool=='A'){
+      return 'tkit-a'
+    }
+    if(code == 2 && applicantData.subschool=='B'){
+      return 'tkit-a'
+    }
+    if(code == 1){
+      return 'sdit'
+    }
+    if(code == 3){
+      return 'smpi'
+    }
+    if(code == 4){
+      return 'smp-pesantren'
+    }
+    if(code == 5){
+      return 'sma-pesantren'
+    }
+    if(code == 6){
+      return 'smai'
+    }
+
+  // }
     }
 
     // const create_order = async (req, res) => {
@@ -607,13 +646,22 @@ function Payment() {
               <div className="flex flex-col max-w-sm mx-auto bg-green-100 rounded-2xl px-4 md:px-8 md:py-5">
                 <div className="flex flex-wrap -mx-3 mb-4 ">
                     <div className="w-full px-3">
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">No. Registrasi</label>
+                      <h2 className='text-lg font-800 font-medium flex justify-start'> {applicantData?.regist_number??'-'}</h2>
+                    {/* flex-wrap */}
+                      {/* <h2>{applicantOrder?.applicants?.full_name?? '-'}</h2> */}
+                      {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
+                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4 ">
+                    <div className="w-full px-3">
                     {/* flex-wrap */}
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Nama</label>
                       <h2 className='text-lg font-800 font-medium flex justify-start'> {applicantData?.full_name??'-'}</h2>
                       {/* <h2>{applicantOrder?.applicants?.full_name?? '-'}</h2> */}
                       {/* <input id="kode" type="text" className="form-input w-full text-gray-800" placeholder="" required /> */}
                     </div>
-                  </div>
+                </div>
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Jenjang</label>
@@ -766,20 +814,35 @@ function Payment() {
                     )
                   } */}
                     </div>
-                    {/* <div className="flex items-center my-6">
-                      <div className="border-t border-gray-700 flex-grow mr-3" aria-hidden="true"></div>
-                      <div className="text-gray-600">Salah Jenjang?</div>
-                      <div className="border-t border-gray-700 flex-grow ml-3" aria-hidden="true"></div>
-                    </div>
-                    <form>
-                      <div className="flex flex-wrap -mx-3 mb-3">
-                        <div className="w-full px-3">
-                          <Link to={'/'+getSchoolCode()} className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
-                            <span className="">PENDAFTARAN</span>
-                          </Link>
+                    <div className="w-full mx-auto">
+                      <div className="flex justify-center flex-wrap items-center max-w-sm">
+                        {/* <div className="left-separator border-t border-gray-300 flex-wrap mr-3"></div> */}
+                        <div className="h6 separator">Salah pilih Jenjang?</div>
+                        {/* <div className="left-separator border-gray-300 flex-wrap ml-3" ></div> */}
+                      </div>
+
+                      <div className="flex flex-wrap mb-3">
+                        <div className="w-full flex flex-wrap ml-3 mr-3">
+                           <button type='button' onClick={() => navigate(`/${getSchoolCode()}/${applicantData.regist_number}`)} className="btn text-white bg-gray-900 hover:bg-gray-800 w-full block"
+                        > Ubah Jenjang
+                        {/* <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                    </svg> */}
+                    </button>
+                          {/* <Link to={`/${getSchoolCode()}/${applicantData.regist_number}`} className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
+                            <svg className="w-4 h-4 fill-current text-white opacity-75 flex-shrink-0 mx-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7.95 0C3.578 0 0 3.578 0 7.95c0 3.479 2.286 6.46 5.466 7.553.397.1.497-.199.497-.397v-1.392c-2.187.497-2.683-.993-2.683-.993-.398-.895-.895-1.193-.895-1.193-.696-.497.1-.497.1-.497.795.1 1.192.795 1.192.795.696 1.292 1.888.895 2.286.696.1-.497.298-.895.497-1.093-1.79-.2-3.578-.895-3.578-3.975 0-.895.298-1.59.795-2.087-.1-.2-.397-.994.1-2.087 0 0 .695-.2 2.186.795a6.408 6.408 0 011.987-.299c.696 0 1.392.1 1.988.299 1.49-.994 2.186-.795 2.186-.795.398 1.093.199 1.888.1 2.087.496.596.795 1.291.795 2.087 0 3.08-1.889 3.677-3.677 3.875.298.398.596.895.596 1.59v2.187c0 .198.1.497.596.397C13.714 14.41 16 11.43 16 7.95 15.9 3.578 12.323 0 7.95 0z" />
+                            </svg>
+                            <span className="">Ubah Jenjang</span>
+                            <svg className="w-4 h-4 fill-current text-gray-400 " viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
+                            </svg>
+                          </Link> */}
                         </div>
                       </div>
-                      </form> */}
+                    </div>
+                    {/* <form> */}
+                      {/* </form> */}
 
                   </div>
                 {/* <form>
@@ -804,6 +867,8 @@ function Payment() {
       </main>
 
       <Banner />
+      {/*  Site footer */}
+      <Footer />
 
     </div>
   );

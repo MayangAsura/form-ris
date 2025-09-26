@@ -86,6 +86,7 @@ function App() {
         })
         } */}
         <Route path="/:code" element={<SignUp />} />
+        <Route path="/:code/:pid" element={<SignUp />} />
         <Route path="/transfer/:code" element={<SignUp_Transferred />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/landing" element={<RedirectPayment />} />

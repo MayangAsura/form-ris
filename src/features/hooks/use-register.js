@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { defaultRegisterValues, registerSchema } from "../schemas/register";
+import { defaultRegisterValues, registerSchema, editSchema } from "../schemas/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AuthService } from "../auth/auth";
@@ -24,10 +24,16 @@ const useRegister = () => {
   const [phone_number, setPhoneNumber] = useState("")
   const [full_name, setFullName] = useState("")
   const [notified, setNotified] = useState(false)
+  const [defaultValues, setDefaultValues] = useState({})
+  const [pid, setPID] = useState("")
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
-    defaultValues: defaultRegisterValues,
+    defaultValues: pid?defaultValues: defaultRegisterValues,
+  });
+  const form_ = useForm({
+    resolver: zodResolver(editSchema),
+    defaultValues: pid?defaultValues: defaultRegisterValues,
   });
 
   const { mutate: onRegister, isPending } = useMutation({
@@ -45,7 +51,45 @@ const useRegister = () => {
             data.media,
             data.school_id,
             data.subschool,
-            data.dob,
+            data.dob
+          );
+    },
+    onSuccess: (data) => {
+      if(data){
+        setResults(data)
+
+        if(data.f1 !== '01'){
+          sendNotif(data)
+        }
+      }
+      // sonner.success("Register berhasil!");
+
+      // Redirect to dashboard
+      // if()
+      // navigate("/login");
+    },
+    onError: (error) => {
+      setError(error)
+      console.log('pendaftaran error ', error)
+      // sonner.error((error).message || "Register gagal. Silakan coba lagi.");
+    },
+  });
+  const { mutate: onChangeSchool, isPending_ } = useMutation({
+    mutationFn: (data) => {
+      setRequestData(prev => ({...prev, phone_number: data.phone_number, full_name: data.full_name}))
+      setPhoneNumber(data.phone_number)
+      setFullName(data.full_name)
+      console.log('data', data, phone_number, requestData)
+      return AuthService.change_school(
+        data.email,
+        data.gender,
+        data.full_name,
+        data.media,
+        data.password,
+        data.phone_number,
+        data.regist_number,
+        data.school_id,
+        data.subschool
           );
     },
     onSuccess: (data) => {
@@ -124,14 +168,21 @@ Jazaakumullahu khayran wa Baarakallaahu fiikum.
 
   const onSubmit = (data) => {
     console.log('data on register', data)
-    onRegister(data);
+    if(data.pid){
+      setPID(data.pid)
+    setDefaultValues(data.defaults)
+      onChangeSchool(data)
+    }else{
+      onRegister(data);
+    }
   };
 
   return {
     onSubmit,
     results,
     form,
-    loading: isPending,
+    form_,
+    loading: isPending || isPending_,
     error, 
     notified
   };

@@ -31,6 +31,7 @@ function DataWaliForm(props) {
             //console.log("NEXTSTEP")
             // if(!data || data.wali_name=="") 
                 props.setCurrentStep(prev => prev + 1)
+            localStorage.setItem('lastActiveStep', (props.currentStep + 1).toString());
         }
 
         const formatDate = (date) => {

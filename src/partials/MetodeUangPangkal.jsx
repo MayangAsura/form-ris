@@ -37,13 +37,13 @@ function MetodeUangPangkal(props) {
         setMetodeUangPangkal(props.dataMetodeUangPangkal?.metode_uang_pangkal)
         setLastUpdate(props.dataMetodeUangPangkal?.updated_at)
 
-        if(props.applicantStudentCategory){
+        if(props.dataApplicantCategory){
 
             setApplicantStudentCategory(props.dataApplicantCategory?.student_category)
 
+            console.log('props.dataApplicantCategory', data.dataApplicantCategory)
         }
 
-        
         getSchoolCode(props.dataApplicant?.id)
         // console.log('schoolCode > ', applicantSchoolCode)
 
@@ -262,7 +262,7 @@ function MetodeUangPangkal(props) {
                                                      
                                                  // }}
                                                  >
-                                                    {(props.isPending || props.loading)? (
+                                                    {(props.isPending)? (
                                                         <div>
                                                             {/* // <button type="button" class="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white" disabled> */}
                                                                 <svg class="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

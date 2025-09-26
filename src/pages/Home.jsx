@@ -26,6 +26,7 @@ function Home() {
   const [applicantData, setApplicantData] = useState([])
   const [participantData, setParticipantData] = useState({full_name: "", submission_status:""})
   const [is_refresh, setIsRefresh] = useState(false)
+  const [complete, setComplete] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams();
   const step = searchParams.get('step'); 
 
@@ -44,6 +45,7 @@ function Home() {
     // console.log('sub', data[0].participants[0].submission_status)
     if(data[0].participants.length > 0){
       setParticipantData(data[0].participants[0])
+      setComplete(data[0].participants[0].is_complete)
       const submission_status = data[0].participants[0].submission_status
       // setParticipantData({submission_status: submission_status})
       participantData.full_name = data[0].full_name
@@ -86,7 +88,7 @@ function Home() {
     
 
          
-  }, [step, currentStep])
+  }, [step, currentStep, applicantData])
 
   const getCurrentStep = (value) => {
     setCurrentStep(value)
@@ -129,7 +131,7 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
-        <Announcement applicant={applicantData} participant={participantData} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
+        <Announcement applicant={applicantData} participant={participantData} complete={complete} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
         {/* toUniformClick={toUniformClick} */}
         <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} currentStep={currentStep} ref={pengSeragam} />
         {/* <Jenjang/> */}

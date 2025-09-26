@@ -13,7 +13,33 @@ export const registerSchema = z.object({
   subschool : z.string().min(0, { message: "Kelas tidak valid." }),
   password : z.string().min(6, { message: "Password minimal 6 karakter." }),
   confirm_password : z.string().min(1, { message: "Konfirmasi Password tidak valid" }),
-  media : z.string().min(3, { message: "Media tidak valid." })
+  media : z.string().min(3, { message: "Media tidak valid." }),
+  // pid : z.string().min(3, { message: "PID tidak valid." })
+})
+.superRefine((data, ctx) => {
+        if (data.password !== data.confirm_password) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Konfirmasi password tidak sama',
+            path: ['confirm_password'], // Attach the error to the confirmPassword field
+          });
+        }
+      });
+export const editSchema = z.object({
+  // username: z.string().min(3, { message: "Username tidak valid." }),
+  // password: z.string().min(6, { message: "Password minimal 6 karakter." }),
+  full_name : z.string().min(3, { message: "Nama Lengkap tidak valid." }),
+  gender : z.string().min(1, { message: "Jenis kelamin tidak valid." }),
+  phone_number : z.string().min(3, { message: "No. WhatsApp tidak valid." }),
+  email : z.email("Email tidak valid."),
+  dob : z.string().date(),
+  // dob : z.string().datetime({date: true}),
+  school_id : z.string().max(1, { message: "Jenjang tidak valid." }),
+  subschool : z.string().min(0, { message: "Kelas tidak valid." }),
+  password : z.string(),
+  confirm_password : z.string(),
+  media : z.string().min(3, { message: "Media tidak valid." }),
+  pid : z.string().min(3, { message: "PID tidak valid." })
 })
 .superRefine((data, ctx) => {
         if (data.password !== data.confirm_password) {
@@ -38,5 +64,6 @@ export const defaultRegisterValues= {
   subschool : "",
   password : "",
   confirm_password : "",
-  media : ""
+  media : "",
+  pid : ""
 };

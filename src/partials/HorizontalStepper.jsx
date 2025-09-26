@@ -12,6 +12,7 @@ import Status from './Status';
 import MetodeUangPangkal from './MetodeUangPangkal';
 import supabase from '../client/supabase_client';
 import PengukuranSeragam from './PengukuranSeragam';
+// import CompressorComp from "../components/compressor";
 // import { createClient } from '@supabase/supabase-js';
 
 import SmallAlert from '../utils/SmallAlert';
@@ -82,7 +83,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     })
   const navigate = useNavigate()
   // const { applicant, setIsRefresh, currentStep} = props
-  
+
   const scroll = (direction) => {
     ////console.log(direction)
     if (stepperRef.current) {
@@ -93,26 +94,33 @@ const HorizontalStepper = forwardRef((props, ref) => {
       });
     }
   };
-  
-  // {applicant} = props
-
+    
   // Save current step whenever it changes
   useEffect(() => {
     
+    // const savedStep = localStorage.getItem('lastActiveStep');
+    // if (savedStep) return setCurrentStep(parseInt(savedStep));
     
+    localStorage.setItem('lastActiveStep', currentStep.toString());
     
     // Update URL parameter
     const params = { step: currentStep };
     navigate({
       search: `?${createSearchParams(params)}`,
     }, { replace: true }); // Use replace to avoid adding to history
-    if (nstep) return setCurrentStep(parseInt(nstep));
+    if (nstep){ return setCurrentStep(parseInt(nstep))};
+
     
+    const savedStep_ = localStorage.getItem('lastActiveStep');
+    if (savedStep_) return setCurrentStep(parseInt(savedStep_));
     // return 
-    localStorage.setItem('lastActiveStep', currentStep.toString());
-    const savedStep = localStorage.getItem('lastActiveStep');
-    if (savedStep) return setCurrentStep(parseInt(savedStep));
-  }, [currentStep, navigate]);
+    // if(nstep > savedStep){
+    //   return setCurrentStep(parseInt(nstep))
+    // }
+  
+    
+    
+  }, []);
 
   // Clear saved step when form is completed
   useEffect(() => {
@@ -130,18 +138,23 @@ const HorizontalStepper = forwardRef((props, ref) => {
       if(props.applicant[0].participants.length > 0){
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
-        if(participant.is_complete && participant.submission_status!== 'accepted' && participant.submission_status!== 'on_measurement' ){
+        if(participant.is_complete && (participant.submission_status!== 'accepted' || participant.submission_status!== 'on_measurement' )){
           console.log(participant.is_complete)
           setIsComplete(true)
           setCurrentStep(steps.length - 1 )
+          localStorage.setItem('lastActiveStep', (steps.length - 1).toString());
           // setComplete(true)
         }else if(participant.is_complete && (participant.submission_status== 'accepted' || participant.submission_status== 'on_measurement') ){
           // setIsComplete(true)
           setCurrentStep(steps.length)
+          localStorage.setItem('lastActiveStep', (steps.length).toString());
           // if(ref){
             
           // }
-        }
+        } 
+        // if(participant.is_complete && (participant.submission_status!== 'accepted' || participant.submission_status!== 'on_measurement' )){
+
+        // }
         getStatus()
         setEdit(props.applicant[0].participants[0].is_draft)
         if(props.applicant[0].participants[0].participant_father_data.length>0){
@@ -232,6 +245,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     if(props.currentStep && (participant?.submission_status== 'accepted' || participant.submission_status== 'on_measurement' )) {
       console.log('currentStep from stepper', props.currentStep)
       setCurrentStep(props.currentStep)
+      localStorage.setItem('lastActiveStep',(props.currentStep).toString());
       getStatus()
       // setParamNavigasi(props.currentStep)
     }
@@ -272,10 +286,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
             }
           }
         }, 500);
-        if(nstep!= steps.length-1){
+        // if(nstep!= steps.length-1){
 
-          setCurrentStep(nstep)
-        }
+        //   setCurrentStep(nstep)
+        // }
         // }, 1000);
     }
     ////console.log('isPending > ',isPending)
@@ -312,13 +326,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
     }
 
     setLastStep(data[0].last_step)
-    setCurrentStep(last_step)
+    // setCurrentStep(last_step)
 
   }
-  // const getPaymentData = (data) =>{
-    
-  // }
-
+  
   const getSeragamData = async (id) => {
 
     const { data, err} = await supabase.from('participant_size_charts')
@@ -335,7 +346,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     if(data && (participant?.submission_status=='accepted'|| participant.submission_status== 'on_measurement')){
       setCurrentStep(10)
       setComplete(true)
-
+      localStorage.setItem('lastActiveStep', (steps.length).toString());
     }
     ////console.log('dataSeragam >', dataSeragam)
 
@@ -723,7 +734,12 @@ const HorizontalStepper = forwardRef((props, ref) => {
         setLoading(false)
         if(!isPending || !loading){
           scroll('right')
-
+          // setCurrentStep(currentStep + 1)
+          console.log('masuk', currentStep)
+// if(!isPending || !loading){
+      
+//       scroll('right')
+//     }
         }
         // setParamNavigasi(currentStep + 1)
     })
@@ -748,23 +764,34 @@ const HorizontalStepper = forwardRef((props, ref) => {
             
             saveData(photo_sampul_ijazah, 'participant_documents', 'file')
           }
-          setCurrentStep(currentStep + 1)
+          
         }
       }, 2000);
       
       getParticipantData(participant.id?participant.id:participant_id)
-      getParticipantDocuments(participant.id?participant.id:participant_id)
-      getVerifikasiKeluarga()
-      const dataVerifikasiKeluarga = {
-        student_category: data?.student_category,
-        updated_at : props.applicant[0].participants[0].updated_at,
-        photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
-      }
-      console.log(dataVerifikasiKeluarga, 'dataVerifikasiKeluarga')
-      setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
+      // getParticipantDocuments(participant.id?participant.id:participant_id)
+      // getVerifikasiKeluarga()
       setLoading(false)
+      // const dataVerifikasiKeluarga = {
+      //   student_category: data?.student_category,
+      //   updated_at : props.applicant[0].participants[0].updated_at,
+      //   photo_sampul_ijazah: dataBerkas.find(e => e.file_title == 'Photo-Sampul-Ijazah')?.file_url
+      // }
+      // console.log(dataVerifikasiKeluarga, 'dataVerifikasiKeluarga')
+      // setDataVerifikasiKeluarga(dataVerifikasiKeluarga)
+      setTimeout(() => {
+        
+        console.log("participant.student_category", participant.student_category)
+        const dataStudentCategory = {
+            student_category : data.student_category,
+            updated_at : new Date()
+          }
+          setApplicantStudentCategory(dataStudentCategory)
+      }, 1000);
+      
       if(!isPending || !loading){
         scroll('right')
+        setCurrentStep(currentStep + 1)
       }
 
     })
@@ -783,7 +810,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
           ////console.log('pid > ', pid)
           updateData(data, 'participants', pid, 'id')
         }
-        setCurrentStep(currentStep + 1)
+        setCurrentStep(prev => prev + 1)
         getComplete(true)
       }, 2000);
 
@@ -1246,7 +1273,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
                             .select()
                             ////console.log('data participant after klik edit >', data)
                             ////console.log(error)
-                            getParticipantDocuments(participant.id?participant.id:participant_id)
+                            if(data){
+
+                              getParticipantDocuments(participant.id?participant.id:participant_id)
+                              localStorage.setItem('lastActiveStep', (2).toString());
+                            }
   }
   const getComplete = async (value) => {
     // setComplete(value)
@@ -1289,7 +1320,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
   // const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4', 'Step 5', 'Step 6'];
     const steps = ["Pembayaran", "Identitas Calon Santri", "Data Ayah", "Data Ibu", "Data Wali", "Upload Berkas", "Verifikasi Keluarga", "Konfirmasi Uang Pangkal", "Status", "Pengukuran Seragam"];
-    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} student_category={participant.student_category} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant_id?participant_id:participant.id} school={applicantSchool.id} gender={applicant.gender} ref={ref} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
+    const form = [<Pembayaran scroll={scroll} applicantOrder={applicantOrder} /> , <IdentitasForm onSubmit={getIdentitas} dataApplicant={applicant} dataParticipant={participant} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} />, <DataAyahForm onSubmit={getDataAyah} dataAyah={dataAyah} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <DataIbuForm onSubmit={getDataIbu} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataIbu={dataIbu} />, <DataWaliForm onSubmit={getDataWali} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setCurrentStep={setCurrentStep} setComplete={setComplete} dataWali={dataWali} />,  <BerkasForm  onSubmit={getDataBerkas} retrieveData={getParticipantDocuments} dataBerkas={dataBerkas} participant={participant.id?participant.id:participant_id} school={applicantSchool.id} isPending={isPending} loading={loading} setParamNavigasi={setParamNavigasi} edit={edit} complete={complete} currentStep={currentStep} setComplete={setComplete} />, <VerifikasiKeluargaForm onSubmit={getDataVerifikasiKeluarga} dataVerifikasiKeluarga={dataVerifikasiKeluarga} dataBerkas={dataBerkas} student_category={participant.student_category} retrieveData={getDataVerifikasiKeluarga} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>, <MetodeUangPangkal onSubmit={getDataMetodeUangPangkal} dataApplicant={applicantSchool} dataMetodeUangPangkal={dataMetodeUangPangkal} dataApplicantCategory={applicantStudentCategory} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} edit={edit} currentStep={currentStep} setComplete={setComplete}/>,<Status onSubmit={getStatus} participant={participant} applicant={applicant} dataStatus={dataStatus} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} scrollToStep={scrollToStep} getEdit={getEdit} getComplete={getComplete}/>, <PengukuranSeragam onSubmit={getPengukuranSeragam} participant={participant_id?participant_id:participant.id} school={applicantSchool.id} gender={applicant.gender} ref={ref} dataSeragam={dataSeragam} schoolUniformModel={schoolUniformModel} isPending={isPending} loading={loading} complete={complete} setParamNavigasi={setParamNavigasi} currentStep={currentStep} getCurrentStep={getCurrentStep} getEdit={getEdit} getComplete={getComplete}/>];
 
   return (
     <>
@@ -1392,7 +1423,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
     <div className='flex-wrap justify-center px-5'>
       {/* {isPending} */}
-        {!complete &&  (
+        { (
           
           <div className=''>
             {/* <div className="flex-wrap">
@@ -1405,21 +1436,24 @@ const HorizontalStepper = forwardRef((props, ref) => {
               // currentStep === steps.length
               //   ? setComplete(true)
               //   : setCurrentStep((prev) => prev + 1); 
-              setParamNavigasi(2)
               setLoading(true)
+              setParamNavigasi(2)
               if(currentStep === steps.length){
                 setComplete(true)
                 props.setIsRefresh(true)
-
+                
               }else if (currentStep == steps.length -1){
                 getComplete(true)
                 props.setIsRefresh(true)
-                setCurrentStep((prev) => prev + 1);
-
+                setCurrentStep((prev) => prev + parseInt(1));
+                
                 setParamNavigasi(currentStep)
               }
               else{
-                setCurrentStep((prev) => prev + parseInt(1));
+                // setCurrentStep((prev) => prev + parseInt(1));  
+                setCurrentStep(currentStep +1)
+                localStorage.setItem('lastActiveStep', currentStep.toString());
+                // setCurrentStep(2)              
                 // callback(data)
               }
               // handleSubmit
@@ -1468,11 +1502,12 @@ const HorizontalStepper = forwardRef((props, ref) => {
                     //   ? setComplete(true)
                     //   : setCurrentStep((prev) => prev + 1); 
                     setLoading(true)
-                    setCurrentStep((prev) => prev - parseInt(1));
+                    setCurrentStep((prev) => prev - 1);
+                    localStorage.setItem('lastActiveStep', currentStep.toString());
                     // callback(data)
                     
                     // handleSubmit
-                    console.log(currentStep, 'current')
+                    console.log(currentStep, 'current') 
                     // startTransition(()=>{
                       
                       // if(currentStep===2){
@@ -1572,7 +1607,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
                   //   ? setComplete(true)
                   //   : setCurrentStep((prev) => prev + 1); 
                   setLoading(true)
-                    setCurrentStep((prev) => prev - parseInt(1));
+                    setCurrentStep((prev) => prev - 1);
+                    localStorage.setItem('lastActiveStep', currentStep.toString());
                     // callback(data)
                     
                     // handleSubmit
@@ -1637,7 +1673,8 @@ const HorizontalStepper = forwardRef((props, ref) => {
                   //   ? setComplete(true)
                     setLoading(true)
                     setParamNavigasi(currentStep+1)
-                    setCurrentStep((prev) => prev + parseInt(1));
+                    setCurrentStep((prev) => prev + 1);
+                    localStorage.setItem('lastActiveStep', currentStep.toString());
                     // callback(data)
                   // handleSubmit
                   // setTimeout(() => {

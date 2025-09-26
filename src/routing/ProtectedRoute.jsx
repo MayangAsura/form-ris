@@ -10,7 +10,7 @@ const ProtectedRoute = () => {
   const { userInfo, userToken } = useSelector((state) => state.auth)
   const { onSubmit, form, results, loading } = useLogin();
   const userTokenRefresh = localStorage.getItem('token-refresh')
-    ? localStorage.getItem('token-refresh')
+    ? localStorage.getItem('token')
     : null
   // const nuserTokenJwt = localStorage.getItem('token-refresh')
   //   ? localStorage.getItem('token-refresh')
