@@ -127,7 +127,7 @@ export class AuthService {
             _full_name : full_name,
             _gender : gender,
             _media : media,
-            _password : password,
+            _password : password=='default'?'-':password,
             _phone_number : phone_number,
             _regist_number : regist_number,
             _school_id : parseInt(school_id),

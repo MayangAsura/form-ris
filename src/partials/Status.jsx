@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import supabase from "../client/supabase_client";
 
 function Status(props) {
   const [status_submission, setSubmissionStatus] =
     useState("initial_submission");
   const [examTestSeeds, setExamTestSeeds] = useState([]);
+
   useEffect(() => {
     if (props.dataStatus) {
       setSubmissionStatus(props.dataStatus);
@@ -11,7 +13,8 @@ function Status(props) {
     console.log("dataStatus", props.dataStatus, status_submission);
     
     if (props.applicant) {
-      getDataExam();
+      // getDataExam();
+      // console.log('school', props.applicant[0].applicant_schools[0]?.schools?.school_id)
     }
   }, [props.dataStatus, props.applicant]);
 
@@ -56,7 +59,7 @@ function Status(props) {
               {
                 appl_id: props.applicants[0].id,
                 phone_number: props.applicants[0].phone_number,
-                school_id: props.applicants[0].applicant_schools[0]?.school_id,
+                school_id: props.applicants[0].applicant_schools[0]?.schools?.school_id,
                 regist_number: props.applicants[0].regist_number,
                 full_name: props.applicants[0].full_name,
                 refresh_token: props.applicants[0].refresh_token,
@@ -77,12 +80,12 @@ function Status(props) {
         const { data: exam_tests, error1 } = await supabase
           .from("exam_schedule_tests")
           .select(
-            "*, exam_schedules(admission_ays(status), exam_schedules_schools(school_id)) "
+            "*, exam_schedules(admission_ays(status), exam_schedule_schools(school_id)) "
           )
           .eq("exam_schedules.admission_ays.status", "active")
           .eq(
-            "exam_schedules.exam_schedules_schools.school_id",
-            props.applicant[0]?.applicant_schools[0]?.school_id
+            "exam_schedules.exam_schedule_schools.school_id",
+            props.applicants[0].applicant_schools[0]?.schools?.school_id,
           )
           // .eq('id', props.applicant[0]?.id)
           .is("deleted_at", null);
@@ -96,55 +99,59 @@ function Status(props) {
               };
             })
           );
-        }
-        // { exam_test_id: 'ef98fdc4-c363-4f5e-a84d-f488ccfff00a', appl_id: props.applicant[0].appl_id, schedule_id: 'fc67ba46-699b-464b-af15-c7e2aa3ad5a6' },
-        //     { exam_test_id: '697f3013-89a1-4f89-86bd-5ffb2bb5ad0d', appl_id: props.applicant[0].appl_id, schedule_id: 'fc67ba46-699b-464b-af15-c7e2aa3ad5a6' }
-        const { data, error2 } = await supabase
-          .from("exam_test_participants")
-          .insert([examTestSeeds])
-          .select();
-        // }, 1000);
 
-        if (data) {
-          const { data: profile, error } = await supabase
-            .from("exam_profiles")
-            .select("*")
-            // .eq('refresh_token', token)
-            .eq("appl_id", props.applicant[0]?.id)
-            .is("deleted_at", null);
-          if (profile && profile.length > 0) {
-            // const {data: profile1, error} = await supabase.from('exam_profiles')
-            //                             .update([
-            //                               {updated_at: new Date().toISOString(), refresh_token: token}
-            //                             ])
-            //                             // .eq('refresh_token', token)
-            //                             .eq('phone_number', decodedToken.username)
-            //                             .is('deleted_at', null)
-            //                             .select()
-            //                             return profile1[0].appl_id
-          } else {
-            const { data: profile2, error } = await supabase
+          const { data: profile2, error } = await supabase
               .from("exam_profiles")
               .insert([
                 {
                   appl_id: props.applicants[0].id,
                   phone_number: props.applicants[0].phone_number,
-                  school_id:
-                    props.applicants[0].applicant_schools[0]?.school_id,
+                  school_id: props.applicants[0].applicant_schools[0]?.schools?.school_id,
                   regist_number: props.applicants[0].regist_number,
                   full_name: props.applicants[0].full_name,
                   refresh_token: props.applicants[0].refresh_token,
                   completion_status: "ongoing",
                 },
               ])
-              // .eq('refresh_token', token)
-              // .eq('phone_number', decodedToken.username)
-              // .is('deleted_at', null)
               .select();
-          }
+
+              if(profile2) {
+                const { data, error2 } = await supabase
+          .from("exam_test_participants")
+          .insert([examTestSeeds])
+          .select();
+              }
+
+
+        }
+        // { exam_test_id: 'ef98fdc4-c363-4f5e-a84d-f488ccfff00a', appl_id: props.applicant[0].appl_id, schedule_id: 'fc67ba46-699b-464b-af15-c7e2aa3ad5a6' },
+        //     { exam_test_id: '697f3013-89a1-4f89-86bd-5ffb2bb5ad0d', appl_id: props.applicant[0].appl_id, schedule_id: 'fc67ba46-699b-464b-af15-c7e2aa3ad5a6' }
+        
+        // }, 1000);
+
+        // if (data) {
+        //   const { data: profile, error } = await supabase
+        //     .from("exam_profiles")
+        //     .select("*")
+        //     // .eq('refresh_token', token)
+        //     .eq("appl_id", props.applicant[0]?.id)
+        //     .is("deleted_at", null);
+        //   if (profile && profile.length > 0) {
+        //     // const {data: profile1, error} = await supabase.from('exam_profiles')
+        //     //                             .update([
+        //     //                                {updated_at: new Date().toISOString(), refresh_token: token}
+        //     //                             ])
+        //     //                             // .eq('refresh_token', token)
+        //     //                             .eq('phone_number', decodedToken.username)
+        //     //                             .is('deleted_at', null)
+        //     //                             .select()
+        //     //                             rpeturn profile1[0].appl_id
+        //   } else {
+            
+        //   }
           // return profile2[0]?.appl_id
         // }
-      }
+      // }
     }
 
     // console.log('examData', examData)
@@ -185,7 +192,7 @@ function Status(props) {
               {
                 appl_id: applicants[0].id,
                 phone_number: applicants[0].phone_number,
-                school_id: applicants[0].applicant_schools[0]?.school_id,
+                school_id: applicants[0].applicant_schools[0]?.schools?.school_id,
                 regist_number: applicants[0].regist_number,
                 full_name: applicants[0].full_name,
                 refresh_token: applicants[0].refresh_token,
