@@ -281,13 +281,13 @@ function Announcement(props) {
   const getCurrentExamData = () => {
     if (examData && examData.length > 0) {
       console.log('examData found:', examData)
-      return examData // Return the first exam
+      return examData[0] // Return the first exam
     }
     return null
   }
 
   const currentExam = getCurrentExamData()
-  const examStartedAt = currentExam[0]?.exam_tests?.started_at
+  const examStartedAt = currentExam?.exam_tests?.started_at
   const isExamCurrentlyActive = isExamActive(examStartedAt)
   const isExamTodayActive = isExamToday(examStartedAt)
 
@@ -340,7 +340,7 @@ function Announcement(props) {
                       <PDFDownloadLink 
                         document={
                           <ExamInvitationCard 
-                            examData={currentExam} 
+                            examData={examData} 
                             profileData={profileData} 
                             dataApplicant={props.applicant?.[0]} 
                           />

@@ -2,8 +2,8 @@
 // import { AuthReturn } from "../types";
 // import PATHS from "@/configs/route";
 import { email } from 'zod';
-import axios from '../../api/local-server'
-// import axios from '../../api/prod-server'
+// import axios from '../../api/local-server'
+import axios from '../../api/prod-server'
 import Cookies from 'js-cookie'
 import supabase from '../../client/supabase_client';
 // import supabase from "../../client/supabase_client";
