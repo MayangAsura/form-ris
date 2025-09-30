@@ -300,7 +300,7 @@ function SignUp() {
                         {...register("phone_number")}
                         onChange={handlePhoneChange}
                         className="form-input w-full text-gray-800" 
-                        placeholder="08xxxxxxxxxx" 
+                        placeholder="No. WhatsApp Aktif" 
                         disabled={isEditMode}
                       />
                       {errors.phone_number && (

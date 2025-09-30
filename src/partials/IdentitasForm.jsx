@@ -214,7 +214,7 @@ function IdentitasForm(props) {
                                     <div className="sm:col-span-4">
                                     <label htmlFor="prev_school_address" className="block text-sm/6 font-medium text-gray-900">Alamat Sekolah Asal <span className="text-red-600">*</span></label>
                                     <div className="mt-2">
-                                        <input id="prev_school_address" name="prev_school_address" value={prev_school_address} onChange={(e) => setPrevSchoolAddress(e.target.value)} type="text" autoComplete="prev_school_address" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
+                                        <input id="prev_school_address" name="prev_school_address" value={prev_school_address} onChange={(e) => setPrevSchoolAddress(e.target.value)} type="text" autoComplete="prev_school_address"  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 peer invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500" required/>
                                         <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
                                             Alamat Sekolah Asal tidak boleh kosong
                                         </span>

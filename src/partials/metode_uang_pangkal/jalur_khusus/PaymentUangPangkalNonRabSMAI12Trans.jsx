@@ -1,15 +1,15 @@
 import React from 'react'
 
-function PaymentUangPangkalNonRabSMAPesantren() {
+function PaymentUangPangkalNonRabSMAI() {
   return (
     <div>
-      <p>SMA PESANTREN ISLAMIC SCHOOL (NON KELUARGA RABBAANII)</p>
+      <p>SMAI RABBAANII ISLAMIC SCHOOL (NON KELUARGA RABBAANII)</p>
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
-      <p>- Uang Pangkal = Rp 16,350,000,-</p>
-      <p>&nbsp; Diskon = Rp 2,500,000,-&nbsp;</p>
-      <p>&nbsp; Total Bayar = Rp 13,850,000,-&nbsp;</p>
-      <p>- SPP per bulan = Rp 2.500.000,-</p>
+      <p>- Uang Pangkal = Rp 9,500,000,-</p>
+      <p>&nbsp; Diskon = Rp 3,000,000,-&nbsp;</p>
+      <p>&nbsp; Total Bayar = Rp 6,500,000,-&nbsp;</p>
+      <p>- SPP per bulan = Rp 600.000,-</p>
       {/* <p>- Uang Tahunan = Rp 3.500.000,-</p> */}
       <p><br/></p>
       <p>Catatan :</p>
@@ -20,7 +20,6 @@ function PaymentUangPangkalNonRabSMAPesantren() {
       <p>5.⁠ ⁠SPP flat selama 3 tahun</p>
       <p>6. Mengisi form ini berarti Ayah/Bunda telah setuju dengan semua syarat &amp; ketentuan yang berlaku di atas</p>
       <p>7.⁠ ⁠Contact Person: CS (0853 1364 2033)</p>
-
         {/* <ul>
             <li>Kenaikan SPP maksimal Rp 40.000,- per tahun</li>
             <li>Fasilitas : Seragam 5 stel, Buku Paket Tahun Pertama, SPP Juli 2024</li>
@@ -34,4 +33,4 @@ function PaymentUangPangkalNonRabSMAPesantren() {
   )
 }
 
-export default PaymentUangPangkalNonRabSMAPesantren
+export default PaymentUangPangkalNonRabSMAI

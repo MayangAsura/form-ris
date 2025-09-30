@@ -139,12 +139,23 @@ const HorizontalStepper = forwardRef((props, ref) => {
         setParticipant(props.applicant[0].participants[0])
         // participant.is_complete??setCurrentStep(steps.length)
         if(participant.is_complete && (participant.submission_status!== 'accepted' || participant.submission_status!== 'on_measurement' )){
-          console.log(participant.is_complete)
-          setIsComplete(true)
-          setCurrentStep(steps.length - 1 )
-          localStorage.setItem('lastActiveStep', (steps.length - 1).toString());
+          if(!dataSeragam || dataSeragam.length ==0 ){
+            console.log(participant.is_complete)
+            setIsComplete(true)
+            setCurrentStep(steps.length - 1 )
+            localStorage.setItem('lastActiveStep', (steps.length - 1).toString());
+
+          }
           // setComplete(true)
-        }else if(participant.is_complete && (participant.submission_status== 'accepted' || participant.submission_status== 'on_measurement') ){
+        }else if(participant.is_complete && (participant.submission_status== 'accepted' || participant.submission_status== 'on_measurement') && dataSeragam && dataSeragam.length>0 ){
+          // setIsComplete(false)
+          // setCurrentStep(steps.length)
+          // localStorage.setItem('lastActiveStep', (steps.length).toString());
+          // if(ref){
+            
+          // }
+        } 
+        else if(participant.is_complete && (participant.submission_status!== 'accepted' || participant.submission_status!== 'on_measurement') && par ){
           // setIsComplete(true)
           setCurrentStep(steps.length)
           localStorage.setItem('lastActiveStep', (steps.length).toString());
@@ -193,6 +204,14 @@ const HorizontalStepper = forwardRef((props, ref) => {
         }
         setDataMetodeUangPangkal(dataMetodeUangPangkal)
 
+        const dataSchool = {
+          id : props.applicant[0]?.applicant_schools[0]?.schools?.school_id,
+          name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name, 
+          subschool : props.applicant[0]?.applicant_schools[0]?.subschool || "", 
+          class_id : props.applicant[0]?.applicant_schools[0]?.class_id || 0
+        }
+        setApplicantSchool(dataSchool)
+
         if(nstep==2){
             // getApplicantData(props.applicant[0].id)
             getParticipantData(props.applicant[0].participants[0].id)
@@ -228,13 +247,6 @@ const HorizontalStepper = forwardRef((props, ref) => {
         // })
       }
       ////console.log('applicantOrder > ', applicantOrder) 
-
-    
-      const dataSchool = {
-        id : props.applicant[0]?.applicant_schools[0]?.schools?.school_id,
-        name : props.applicant[0]?.applicant_schools[0]?.schools?.school_name 
-      }
-      setApplicantSchool(dataSchool)
     
       
 
@@ -343,7 +355,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
 
     setDataSeragam(data)
     // if()
-    if(data && (participant?.submission_status=='accepted'|| participant.submission_status== 'on_measurement')){
+    if(data && data.length>0 && (participant?.submission_status=='accepted'|| participant?.submission_status== 'on_measurement')){
       setCurrentStep(10)
       setComplete(true)
       localStorage.setItem('lastActiveStep', (steps.length).toString());
@@ -1353,7 +1365,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
       className={`flex-shrink-0 w-64 p-6 bg-white rounded-lg shadow-md flex items-center justify-center ${
         currentStep === index + 1 ? "border-2 border-blue-500" : "border border-gray-200"
       } ${
-        (index === 0 || index + 1 < currentStep || complete) ? "complete" : ""
+         (index < steps.length -1)&&( index = steps.length-1 || index === 0 || index + 1 < currentStep && complete) ? "complete" : (dataSeragam && dataSeragam.length >0) ? "complete" : ""
       }`}
     >
       <div className="step">

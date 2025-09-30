@@ -6,11 +6,11 @@ function PaymentUangPangkalNonRabSMAPesantren() {
       <p>SMA PESANTREN ISLAMIC SCHOOL (NON KELUARGA RABBAANII)</p>
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
-      <p>- Uang Pangkal = Rp 20.000.000,-</p>
-      <p>&nbsp; Diskon = Rp 3.000.000,-&nbsp;</p>
-      <p>&nbsp; Total Bayar = Rp 17,000,000,-&nbsp;</p>
-      <p>- SPP per bulan = Rp 2.500.000,-</p>
-      <p>- Uang Tahunan = Rp 3.500.000,-</p>
+      <p>- Uang Pangkal = Rp 12,700,000,-</p>
+      <p>&nbsp; Diskon = Rp 2,500,000,-&nbsp;</p>
+      <p>&nbsp; Total Bayar = Rp 10,200,000,-&nbsp;</p>
+      <p>- SPP per bulan = Rp 2,500,000,-</p>
+      {/* <p>- Uang Tahunan = Rp 3.500.000,-</p> */}
       <p><br/></p>
       <p>Catatan :</p>
       <p>1.⁠ ⁠Fasilitas: Seragam 5 Stel, dan Buku Paket Tahun Pertama</p>

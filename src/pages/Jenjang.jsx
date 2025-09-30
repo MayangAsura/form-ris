@@ -11,8 +11,10 @@ import { useLogin } from '../features/hooks/use-login';
 import '../css/additional-styles/card.css';
 import { TbExternalLink, TbCalendarTime, TbMapPin2, TbNotebook } from "react-icons/tb";
 import { BiMoney } from "react-icons/bi";
-import Swal from '../utils/Swal';
 import { MdOutlineLaunch } from 'react-icons/md'
+import Swal from '../utils/Swal';
+import SwalComponent from '../utils/SwalComponent';
+import AdmissionFlow from '../partials/AdmissionFlow';
 
 function Jenjang() {
   const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
@@ -22,6 +24,7 @@ function Jenjang() {
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
   const navigate = useNavigate()
   const [modal_show, setModalShow] = useState(false)
+  const [modal_flow_show, setModalFlowShow] = useState(false)
   const [modal_data, setmodal_data] = useState({
     title: "Persyaratan Umum Pendaftaran",
     message: <ul> 
@@ -102,6 +105,15 @@ ditetapkan sekolah</li>
       return indonesianFormat
     }
 
+    const openFlow = () => {
+      setModalFlowShow(true)
+    }
+
+    const setClose = (value) => {
+      setModalFlowShow(!value)
+    }
+
+
   return (
     // <div>Jenjang</div>
     <div className="flex flex-col max-w-lg min-h-screen my-0 mx-auto min-w-screen shadow-lg bg-white overflow-hidden">
@@ -132,13 +144,17 @@ ditetapkan sekolah</li>
                           Persyaratan Umum Pendaftaran <TbExternalLink />
                         </span> */}
             </div>
-            {/* <div className='flex flex-row justify-center items-center my-3'>
-              <button onClick={open}>
+            {/* <div className=''></div> */}
+            <div className='flex flex-row justify-center items-center my-3'>
+              <button onClick={openFlow}>
                 <span className="flex items-center gap-1 rounded-md w-42 bg-green-50 px-2 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                Peta Pendaftaran <MdOutlineLaunch/></span>
+                Lihat Peta Pendaftaran <MdOutlineLaunch/></span>
               </button>
 
-            </div> */}
+            </div>
+            {modal_flow_show && (
+              <SwalComponent dataModal={{title: "Alur Pendaftaran PSB TA. 26/27", message: <AdmissionFlow/>}} setClose={setClose} ></SwalComponent>
+            )}
             {modal_show && (
               <Swal dataModal={modal_data}></Swal>
             )}

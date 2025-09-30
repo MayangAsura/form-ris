@@ -1,16 +1,16 @@
 import React from 'react'
 
-function PaymentUangPangkalNonRabSDIT() {
+function PaymentUangPangkalRabSDIT2Trans() {
   return (
     <div>
-      <p className='font-semibold'>SDIT RABBAANII ISLAMIC SCHOOL (NON KELUARGA RABBAANII)</p>
+      <p className='font-semibold'>SDIT RABBAANII ISLAMIC SCHOOL (KELUARGA RABBAANII)</p>
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
-      <p>- Uang Pangkal = Rp 16,500,000,-</p>
-      <p>&nbsp; Diskon = Rp 3.000.000,-&nbsp;</p>
-      <p>&nbsp; Total Bayar = Rp 13,500,000,-&nbsp;</p>
+      <p>- Uang Pangkal = Rp 15.000.000,-</p>
+      <p>&nbsp; Diskon = Rp 4.000.000,-&nbsp;</p>
+      <p>&nbsp; Total Bayar = Rp 11,000,000,-&nbsp;</p>
       <p>- SPP per bulan = Rp 725.000,-</p>
-      <p>- Uang Tahunan = Rp 2.500.000,-</p>
+      {/* <p>- Uang Tahunan = Rp 2.500.000,-</p> */}
       <p><br/></p>
       <p>Catatan :</p>
       <p>1.⁠ ⁠Fasilitas: Seragam 5 Stel, dan Buku Paket Tahun Pertama</p>
@@ -27,4 +27,4 @@ function PaymentUangPangkalNonRabSDIT() {
   )
 }
 
-export default PaymentUangPangkalNonRabSDIT
+export default PaymentUangPangkalRabSDIT2Trans

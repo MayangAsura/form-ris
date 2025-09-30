@@ -4,6 +4,10 @@ export default function AdmissionFlow({submission_status}) {
   const [activeStep, setActiveStep] = useState(3);
 
   useEffect(()=> {
+    if(!submission_status){
+        setActiveValue(1)
+        console.log('admissionflow', activeStep, submission_status)
+    }
     if(submission_status){
         setActiveValue(submission_status)
         console.log('admissionflow', activeStep, submission_status)

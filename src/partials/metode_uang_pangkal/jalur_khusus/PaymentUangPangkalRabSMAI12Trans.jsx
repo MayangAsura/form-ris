@@ -1,16 +1,16 @@
 import React from 'react'
 
-function PaymentUangPangkalNonRabSMAPesantren() {
+function PaymentUangPangkalRabSMAI() {
   return (
     <div>
-      <p>SMA PESANTREN ISLAMIC SCHOOL (NON KELUARGA RABBAANII)</p>
+      <p>SMAI RABBAANII ISLAMIC SCHOOL (KELUARGA RABBAANII)</p>
       <p><br/></p>
       <p>JALUR KHUSUS&nbsp;</p>
-      <p>- Uang Pangkal = Rp 16,350,000,-</p>
-      <p>&nbsp; Diskon = Rp 2,500,000,-&nbsp;</p>
-      <p>&nbsp; Total Bayar = Rp 13,850,000,-&nbsp;</p>
-      <p>- SPP per bulan = Rp 2.500.000,-</p>
-      {/* <p>- Uang Tahunan = Rp 3.500.000,-</p> */}
+      <p>- Uang Pangkal = Rp 15.000.000,-</p>
+      <p>&nbsp; Diskon = Rp 6.000.000,-&nbsp;</p>
+      <p>&nbsp; Total Bayar = Rp 9,000,000,-&nbsp;</p>
+      <p>- SPP per bulan = Rp 600.000,-</p>
+      <p>- Uang Tahunan = Rp 3.500.000,-</p>
       <p><br/></p>
       <p>Catatan :</p>
       <p>1.⁠ ⁠Fasilitas: Seragam 5 Stel, dan Buku Paket Tahun Pertama</p>
@@ -34,4 +34,4 @@ function PaymentUangPangkalNonRabSMAPesantren() {
   )
 }
 
-export default PaymentUangPangkalNonRabSMAPesantren
+export default PaymentUangPangkalRabSMAI
