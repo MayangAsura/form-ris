@@ -169,62 +169,62 @@ function MetodeUangPangkal(props) {
                                 <div className="mt-10 grid grid-cols- gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-5">
                                     
-                                        {   applicantSchoolCode === 'tkit' && props.dataApplicant.class_id == 0 && (applicantStudentCategory ==='alumni' || applicantStudentCategory==='hasfamily' ) && (
+                                        {   applicantSchoolCode === 'tkit' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory ==='alumni' || applicantStudentCategory==='hasfamily' ) && (
                                                 <PaymentUangPangkalRabTKIT/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode === 'tkit' && props.dataApplicant.class_id == 0 && (applicantStudentCategory !=='alumni' && applicantStudentCategory!=='hasfamily' ) &&
+                                            applicantSchoolCode === 'tkit' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory !=='alumni' && applicantStudentCategory!=='hasfamily' ) &&
                                             (
                                                 <PaymentUangPangkalNonRabTKIT/>
                                             )
                                         }
-                                        {   applicantSchoolCode == 'sdit' && props.dataApplicant.class_id == 0 && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
+                                        {   applicantSchoolCode == 'sdit' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSDIT/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'sdit' && props.dataApplicant.class_id == 0 && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' )&& (
+                                            applicantSchoolCode == 'sdit' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' )&& (
                                                 <PaymentUangPangkalNonRabSDIT/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smpi' && props.dataApplicant.class_id == 0 && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smpi' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMPI/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smpi' && props.dataApplicant.class_id == 0 && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smpi' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMPI/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smai' && props.dataApplicant.class_id == 0 && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smai' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMAI/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smai' && props.dataApplicant.class_id == 0 && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smai' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMAI/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smp-pesantren' && props.dataApplicant.class_id == 0 && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smp-pesantren'&& (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMPPesantren/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'smp-pesantren' && props.dataApplicant.class_id == 0 && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
+                                            applicantSchoolCode == 'smp-pesantren' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMPPesantren/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'sma-pesantren' && props.dataApplicant.class_id == 0 && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
+                                            applicantSchoolCode == 'sma-pesantren' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory=='alumni' || applicantStudentCategory=='hasfamily' ) && (
                                                 <PaymentUangPangkalRabSMAPesantren/>
                                             )
                                         }
                                         {
-                                            applicantSchoolCode == 'sma-pesantren' && props.dataApplicant.class_id == 0 && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
+                                            applicantSchoolCode == 'sma-pesantren' && (props.dataApplicant.class_id == 0 || !props.dataApplicant.class_id ) && (applicantStudentCategory!=='alumni' && applicantStudentCategory!=='hasfamily' ) && (
                                                 <PaymentUangPangkalNonRabSMAPesantren/>
                                             )
                                         }

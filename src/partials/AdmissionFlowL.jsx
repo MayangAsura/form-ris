@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AdmissionFlow({submission_status}) {
-  const [activeStep, setActiveStep] = useState(3);
+  const [activeStep, setActiveStep] = useState(1);
 
   useEffect(()=> {
     if(submission_status){

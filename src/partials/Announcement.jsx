@@ -46,7 +46,9 @@ function Announcement(props) {
       getToken()
     }
 
-    if(props.applicant && props.participant?.submission_status === 'on_exam'){
+    getDataExam()
+    getProfileData()
+    if(props.applicant && (props.participant?.submission_status === 'on_exam' || props.participant?.submission_status === 'initial_submission')){
       getDataExam()
       getProfileData()
     }
@@ -56,6 +58,8 @@ function Announcement(props) {
       setApplicantSchool(schoolId || "")
       getDataExam()
     }
+
+    console.log('examData', examData)
     
   }, [props.participant?.submission_status, props.applicant, auth_token])
 
@@ -80,11 +84,12 @@ function Announcement(props) {
       // Check if exam data already exists
       let { data: exam_tests, error } = await supabase
         .from('exam_test_participants')
-        .select('*, exam_tests!inner(*)')
+        .select('*, exam_tests(*)')
         .eq('appl_id', props.applicant[0]?.id)
         .is('deleted_at', null)
 
       if (exam_tests && exam_tests.length > 0) {
+        
         setExamData(exam_tests)
         await ensureExamProfileExists()
       } else {
@@ -276,13 +281,13 @@ function Announcement(props) {
   const getCurrentExamData = () => {
     if (examData && examData.length > 0) {
       console.log('examData found:', examData)
-      return examData[0] // Return the first exam
+      return examData // Return the first exam
     }
     return null
   }
 
   const currentExam = getCurrentExamData()
-  const examStartedAt = currentExam?.exam_tests?.started_at
+  const examStartedAt = currentExam[0]?.exam_tests?.started_at
   const isExamCurrentlyActive = isExamActive(examStartedAt)
   const isExamTodayActive = isExamToday(examStartedAt)
 
@@ -385,7 +390,7 @@ function Announcement(props) {
                 )}
 
                 {/* Show message if exam is scheduled for future */}
-                {isExamCurrentlyActive && !isExamTodayActive && examStartedAt && (
+                {(isExamCurrentlyActive && !isExamTodayActive && examStartedAt)  && (
                   <div className='flex flex-col gap-2 my-2 p-4 bg-yellow-50 rounded-lg'>
                     <span className='text-yellow-800'>
                       Ujian akan dilaksanakan pada: {new Date(examStartedAt).toLocaleDateString('id-ID', {

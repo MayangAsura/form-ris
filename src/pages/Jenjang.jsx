@@ -14,7 +14,7 @@ import { BiMoney } from "react-icons/bi";
 import { MdOutlineLaunch } from 'react-icons/md'
 import Swal from '../utils/Swal';
 import SwalComponent from '../utils/SwalComponent';
-import AdmissionFlow from '../partials/AdmissionFlow';
+import AdmissionFlowL from '../partials/AdmissionFlowL';
 
 function Jenjang() {
   const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
@@ -153,7 +153,7 @@ ditetapkan sekolah</li>
 
             </div>
             {modal_flow_show && (
-              <SwalComponent dataModal={{title: "Alur Pendaftaran PSB TA. 26/27", message: <AdmissionFlow/>}} setClose={setClose} ></SwalComponent>
+              <SwalComponent dataModal={{title: "Alur Pendaftaran PSB TA. 26/27", message: <AdmissionFlowL/>}} setClose={setClose} ></SwalComponent>
             )}
             {modal_show && (
               <Swal dataModal={modal_data}></Swal>

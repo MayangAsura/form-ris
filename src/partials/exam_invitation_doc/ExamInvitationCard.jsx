@@ -236,13 +236,13 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
 
   useEffect(() => {
     if(examData){
-      console.log('examData', examData)
+      console.log('examData>>', examData)
     }
     if(dataApplicant){
-      console.log('dataApplicant', dataApplicant)
+      console.log('dataApplicant>>', dataApplicant)
     }
     if(profileData){
-      console.log('profileData', profileData)
+      console.log('profileData>>', profileData)
     }
   },[examData, dataApplicant, profileData])
   return (
