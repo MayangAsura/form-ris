@@ -1365,11 +1365,12 @@ const HorizontalStepper = forwardRef((props, ref) => {
       className={`flex-shrink-0 w-64 p-6 bg-white rounded-lg shadow-md flex items-center justify-center ${
         currentStep === index + 1 ? "border-2 border-blue-500" : "border border-gray-200"
       } ${
-         (index < steps.length -1)&&( index = steps.length-1 || index === 0 || index + 1 < currentStep && complete) ? "complete" : (dataSeragam && dataSeragam.length >0) ? "complete" : ""
+           ( index+1 <= steps.length-1 || index === 0 || index + 1 < currentStep && complete) ? "complete" : (dataSeragam && dataSeragam.length >0) ? "complete" : ""
       }`}
     >
       <div className="step">
-        {index === 0 || index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1}
+        {  ( index + 1 <= steps.length-1 || index === 0 || index + 1 < currentStep && complete)? <TiTick size={24} /> : (dataSeragam && dataSeragam.length >0) ? <TiTick size={24} /> : index + 1} 
+        {/* {index === 0 || index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1} */}
       </div>
       <span className="text-sm/6 font-medium ml-2">{step}</span>
     </div>
