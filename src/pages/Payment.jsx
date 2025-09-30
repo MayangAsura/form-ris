@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Footer from '../partials/Footer';
 import supabase from '../client/supabase_client';
 import { createClient } from '@supabase/supabase-js';
-import axios from '../api/local-server';
-// import axios from '../api/prod-server';
+// import axios from '../api/local-server';
+import axios from '../api/prod-server';
 
 import { useLogin } from '../features/hooks/use-login';
 import Header from '../partials/Header';
