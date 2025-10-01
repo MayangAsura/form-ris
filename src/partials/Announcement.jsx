@@ -361,6 +361,25 @@ function Announcement(props) {
     return null
   }
 
+  const getJumlah = async (id, metode, is_rabbaanii) => {
+    
+let { data: school_fees, error } = await supabase
+  .from('school_fees')
+  .select('amount')
+  .eq('school_id', id)
+  .eq('fee_type_id', 5)
+  .eq('metode', metode)
+  .eq('is_rabbaanii', is_rabbaanii)
+
+  if(school_fees){
+    return school_fees[0].amount
+  }
+  return '-'
+  
+
+  }
+
+
   const currentExam = getCurrentExamData()
   const examStartedAt = currentExam?.exam_tests?.started_at
   const isExamCurrentlyActive = isExamActive(examStartedAt)
@@ -398,10 +417,11 @@ function Announcement(props) {
                 {getSubmissionStatus(props.participant?.submission_status) || 'Pengisian Formulir'}
               </span>
 
+            {/* {getJumlah(props.applicant?.[0]?.applicant_schools?.[0].school_id, props.participant.metode_uang_pangkal, props.participant.student_category == 'newstudent')} */}
               {props.participant?.submission_status === 'accepted' && 
               <>
-              <p>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran.</p>
-                <a className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href={`https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20${props.applicant?.[0]?.full_name}%20-%20${props.applicant?.[0]?.regist_number}%20ingin%20membayar%20uang%20pangkal.`}> Hubungi CS</a>
+              <p className='my-5'>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah yang dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran.</p>
+              <a className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href={`https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20${props.applicant?.[0]?.full_name}%20-%20${props.applicant?.[0]?.regist_number}%20ingin%20membayar%20uang%20pangkal.`}> Hubungi CS</a>
               </>
               
               }
