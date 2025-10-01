@@ -74,7 +74,7 @@ function Announcement(props) {
     }
 
     console.log('examData', examData)
-    
+
   }, [props.participant?.submission_status, props.applicant, auth_token, props.complete])
 
   const getProfileData = async () => {
@@ -148,7 +148,7 @@ function Announcement(props) {
         await supabase
           .from('exam_profiles')
           .update({ refresh_token: auth_token })
-          .eq('id', profile[0].id)
+          .eq('appl_id', profile[0].id)
       }
     }
   }
@@ -398,6 +398,14 @@ function Announcement(props) {
                 {getSubmissionStatus(props.participant?.submission_status) || 'Pengisian Formulir'}
               </span>
 
+              {props.participant?.submission_status === 'accepted' && 
+              <>
+              <p>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah yang dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran</p>
+                <a className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href="https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20(nama)%20membayar%20bertanya%20terkait%20PSB."> Hubungi CS</a>
+              </>
+              
+              }
+
               <div className='flex flex-col gap-1 px-2 mt-10'>
                 {/* Debug token info - remove in production */}
                 {/* {process.env.NODE_ENV === 'development' && (
@@ -459,7 +467,7 @@ function Announcement(props) {
                 )} */}
 
                 {/* Login Ujian Button - FIXED CONDITION */}
-                {isExamCurrentlyActive && isExamTodayActive && token && (
+                {isExamCurrentlyActive && isExamTodayActive && token && props.participant?.submission_status!== 'accepted' (
                   <div className='flex flex-col gap-2 my-2'>
                     <span className='my-5'>
                       Ananda {props.applicant?.[0]?.full_name || 'peserta'} disilahkan melanjutkan ke tahap Seleksi.
