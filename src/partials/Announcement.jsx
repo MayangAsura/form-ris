@@ -421,7 +421,7 @@ let { data: school_fees, error } = await supabase
               {props.participant?.submission_status === 'accepted' && 
               <>
               <p className='my-5'>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah yang dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran.</p>
-              <a className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href={`https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20${props.applicant?.[0]?.full_name}%20-%20${props.applicant?.[0]?.regist_number}%20ingin%20membayar%20uang%20pangkal.`}> Hubungi CS</a>
+              <a className='btn w-full block btn-sm -p-2 text-sm mx-10 text-gray-200 bg-green-900 hover:bg-gray-800' href={`https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20${props.applicant?.[0]?.full_name}%20-%20${props.applicant?.[0]?.regist_number}%20ingin%20membayar%20uang%20pangkal.`}> Hubungi CS</a>
               </>
               
               }
@@ -530,7 +530,9 @@ let { data: school_fees, error } = await supabase
 
                 {/* Pengukuran Seragam Button */}
                 {(props.participant?.submission_status === 'on_measurement' || props.participant?.submission_status === 'accepted') && (
-                  <div className='flex flex-grow gap-4 px-2 mt-2'>
+                  <div className='flex flex-col gap-4 px-2'>
+                    <p className='my-5'>Pengukuran seragam sudah dibuka, Ananda dapat melanjutkan melengkapi data seragam.</p>
+                    <span>Klik untuk melanjutkan pengukuran seragam.</span>
                     <button 
                       type="button"
                       className='btn w-full block btn-sm -p-2 text-sm text-gray-200 bg-orange-900 hover:bg-gray-800'
