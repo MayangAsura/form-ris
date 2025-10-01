@@ -400,8 +400,8 @@ function Announcement(props) {
 
               {props.participant?.submission_status === 'accepted' && 
               <>
-              <p>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah yang dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran</p>
-                <a className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href="https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20(nama)%20membayar%20bertanya%20terkait%20PSB."> Hubungi CS</a>
+              <p>Alhamdulillah Ananda {props.applicant?.[0]?.full_name || 'peserta'} diterima sebagai Peserta Didik Baru {props.applicant?.[0]?.applicant_schools?.[0]?.schools.school_name || 'Rabbaanii Islamic School'}. Dan membayar uang pangkal sejumlah dipilih. Informasi selanjutnya dapat menghubungi CS untuk pembayaran</p>
+                <a className='btn w-full block btn-sm text-sm text-gray-200 bg-green-900 hover:bg-gray-800' href={`https://wa.me/6285313642033?text=Assalamu%27alaikum%2C%20ustadz%2Fustadzah%2C%0AAna%20${props.applicant?.[0]?.full_name}%20-%20${props.applicant?.[0]?.regist_number}%20ingin%20membayar%20uang%20pangkal.`}> Hubungi CS</a>
               </>
               
               }
