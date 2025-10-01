@@ -65,13 +65,17 @@ function Announcement(props) {
     if(props.applicant?.[0]){
       const schoolId = props.applicant[0].applicant_schools?.[0]?.schools?.school_id
       setApplicantSchool(schoolId || "")
+      
+    }
+
+    if(props.complete){
       getDataExam()
       getProfileData()
     }
 
     console.log('examData', examData)
     
-  }, [props.participant?.submission_status, props.applicant, auth_token])
+  }, [props.participant?.submission_status, props.applicant, auth_token, props.complete])
 
   const getProfileData = async () => {
     if (!props.applicant?.[0]?.participants?.[0]?.id) return
@@ -196,7 +200,13 @@ function Announcement(props) {
           
         if (data) {
           console.log('Exam participants created:', data)
-          setExamData(data)
+          let { data: exam_tests, error } = await supabase
+            .from('exam_test_participants')
+            .select('*, exam_tests(*)')
+            .eq('appl_id', props.applicant[0]?.id)
+            .is('deleted_at', null)
+          if(exam_tests)
+            setExamData(exam_tests)
         } else {
           console.error('Error creating exam participants:', error)
         }
@@ -438,7 +448,7 @@ function Announcement(props) {
                 )}
 
                 {/* Fallback Kartu Seleksi */}
-                {(props.participant?.submission_status === 'on_exam' || props.participant?.submission_status === 'initial_submission') && 
+                {/* {(props.participant?.submission_status === 'on_exam' || props.participant?.submission_status === 'initial_submission') && 
                  props.participant?.is_complete && (!currentExam || examData.length === 0) && (
                   <button 
                     onClick={download_kartu_seleksi}
@@ -446,7 +456,7 @@ function Announcement(props) {
                   >
                     Cetak Kartu Seleksi <TbDownload className='ml-2'/>
                   </button>
-                )}
+                )} */}
 
                 {/* Login Ujian Button - FIXED CONDITION */}
                 {isExamCurrentlyActive && isExamTodayActive && token && (

@@ -313,9 +313,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
     // if(complete && participant.submission_status== 'accepted'){
     //   setCurrentStep(steps.length )
     // }
+    if(complete && currentStep == steps.length -1){
+
+    }
     
-    
-  }, [props.applicant, nstep]) 
+  }, [props.applicant, nstep, complete]) 
 // props.applicant, participant, isPending, complete
   const setParamNavigasi  = (nstep) => {
       const params = { step: nstep};
@@ -1306,6 +1308,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
     ////console.log(error)
     if(data){
       setComplete(value)
+      props.getComplete(value)
     }
 
   }

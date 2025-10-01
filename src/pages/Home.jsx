@@ -88,10 +88,15 @@ function Home() {
     
 
          
-  }, [step, currentStep, applicantData])
+  }, [step, currentStep, applicantData, complete])
 
   const getCurrentStep = (value) => {
     setCurrentStep(value)
+  }
+
+  const getComplete = (value) => {
+    console.log('home', value)
+    setComplete(value)
   }
   
   const toUniformClick = () => {
@@ -133,7 +138,7 @@ function Home() {
         <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
         <Announcement applicant={applicantData} participant={participantData} complete={complete} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
         {/* toUniformClick={toUniformClick} */}
-        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} currentStep={currentStep} ref={pengSeragam} />
+        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} getComplete={getComplete} currentStep={currentStep} ref={pengSeragam} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}
