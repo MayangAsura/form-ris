@@ -581,7 +581,7 @@ const HorizontalStepper = forwardRef((props, ref) => {
             // console.log('data ayah',!props.applicant[0].participants[0].participant_father_data)
             // console.log('data ayah',props.applicant[0].participants[0].participant_father_data.length ===0, props.applicant[0].participants[0].participant_father_data.length)
             console.log('data ayah',!dataAyah)
-            if(!edit && (!props.applicant[0].participants[0]?.participant_father_data || !dataAyah) ){
+            if(!edit && (!dataAyah) ){
               // console.log("Data Ayah >,", data)
               
               saveData(data, 'participant_father_data')
@@ -589,10 +589,10 @@ const HorizontalStepper = forwardRef((props, ref) => {
               // console.log("Data Ayah U>,", data)
               updateData(data, 'participant_father_data', pid, 'participant_id')
             }
-
+            setDataAyah(data)
           }
         }
-        setDataAyah(data)
+        // setDataAyah(data)
         
         
         ////console.log('dataAyah ', dataAyah)
@@ -628,12 +628,12 @@ const HorizontalStepper = forwardRef((props, ref) => {
         
         if(!complete){
           if(props.applicant[0].participants.length>0 || participant){
-            // console.log('dataibu', data)
-            // console.log('data ibu',props.applicant[0].participants[0])
-            // console.log('data ibu',!props.applicant[0].participants[0]?.participant_mother_data)
-            // console.log('data ibu',props.applicant[0].participants[0].participant_mother_data.length ===0, props.applicant[0].participants[0].participant_mother_data.length)
+            console.log('dataibu', data)
+            console.log('data ibu',props.applicant[0].participants[0])
+            console.log('data ibu',!props.applicant[0].participants[0]?.participant_mother_data)
+            console.log('data ibu',props.applicant[0].participants[0].participant_mother_data.length ===0, props.applicant[0].participants[0].participant_mother_data.length)
             console.log('data ibu',!dataIbu)
-            if(!edit && (!dataIbu)){
+            if(!edit && (!dataIbu) ){
               console.log("masuk")
               // console.log('dataibu', data)
               // console.log('dataibu', props.applicant[0].participants[0].participant_mother_data)
@@ -642,11 +642,13 @@ const HorizontalStepper = forwardRef((props, ref) => {
               console.log('dataibu-', data)
               updateData(data, 'participant_mother_data', pid, 'participant_id')
             }
+            setDataIbu(data)
 
           }
           
         }
-          setDataIbu(data)
+          
+          
           // getMotherData(pid)
           setCurrentStep(currentStep + 1)
         
@@ -685,16 +687,16 @@ const HorizontalStepper = forwardRef((props, ref) => {
             // console.log('data wali',props.applicant[0].participants[0].participant_wali_data.length ===0, props.applicant[0].participants[0].participant_wali_data.length)
             // console.log('data wali',!dataWali)
             // || props.applicant[0].participants[0].participant_wali_data.length === 0 ||
-            if(!edit && (!props.applicant[0].participants[0]?.participant_wali_data || !dataWali)){
+            if(!edit && (!dataWali)){
               ////console.log("masuk")
               saveData(data, 'participant_wali_data')
             }else{
               updateData(data, 'participant_wali_data', pid, 'participant_id')
             }
+            setDataWali(data)
 
           }
         }
-        setDataWali(data)
         // getWaliData(pid)
         setCurrentStep(currentStep + 1)
 
@@ -1365,11 +1367,11 @@ const HorizontalStepper = forwardRef((props, ref) => {
       className={`flex-shrink-0 w-64 p-6 bg-white rounded-lg shadow-md flex items-center justify-center ${
         currentStep === index + 1 ? "border-2 border-blue-500" : "border border-gray-200"
       } ${
-           ( index+1 <= steps.length-1 || index === 0 || index + 1 < currentStep && complete) ? "complete" : (dataSeragam && dataSeragam.length >0) ? "complete" : ""
+          ( index + 1 <= steps.length-1 && index === 0 || index + 1 < currentStep && complete)? "complete" : index+1 == steps.length && (dataSeragam && dataSeragam.length >0) ? "complete" : ""
       }`}
     >
       <div className="step">
-        {  ( index + 1 <= steps.length-1 || index === 0 || index + 1 < currentStep && complete)? <TiTick size={24} /> : (dataSeragam && dataSeragam.length >0) ? <TiTick size={24} /> : index + 1} 
+        {  ( index + 1 <= steps.length-1 && index === 0 || index + 1 < currentStep && complete)? <TiTick size={24} /> : index+1 == steps.length && (dataSeragam && dataSeragam.length >0) ? <TiTick size={24} /> : index + 1} 
         {/* {index === 0 || index + 1 < currentStep || complete ? <TiTick size={24} /> : index + 1} */}
       </div>
       <span className="text-sm/6 font-medium ml-2">{step}</span>

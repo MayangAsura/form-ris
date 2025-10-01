@@ -290,7 +290,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
                 <Text style={styles.tableCell}>NO. TELEPON</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {dataApplicant.phone_number || '-'}</Text>
+                <Text style={styles.tableCell}>: {dataApplicant?.phone_number || '-'}</Text>
               </View>
             </View>
             <View style={styles.tableRow}>
@@ -298,7 +298,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
                 <Text style={styles.tableCell}>TANGGAL LAHIR</Text>
               </View>
               <View style={styles.tableCol2}>
-                <Text style={styles.tableCell}>: {dataApplicant.participants[0].dob || '-'}</Text>
+                <Text style={styles.tableCell}>: {dataApplicant?.participants?.[0]?.dob || '-'}</Text>
               </View>
             </View>
             
@@ -317,14 +317,14 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
         {examData && examData.length > 0 && examData.map((exam, index) => (
           <>
           <View key={index} style={styles.section}>
-            <Text style={styles.sectionSubTitle}>JADWAL - {exam.exam_tests.name || `Seleksi ${index + 1}`}</Text>
+            <Text style={styles.sectionSubTitle}>JADWAL - {exam.exam_tests?.name || `Seleksi ${index + 1}`}</Text>
             <View style={styles.table}>
               <View style={styles.tableRow}>
                 <View style={styles.tableColHeader}>
                   <Text style={styles.tableCell2}>SKEMA UJIAN</Text>
                 </View>
                 <View style={styles.tableCol2}>
-                  <Text style={styles.tableCell2}>: {exam.exam_tests.scheme || '-'}</Text>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests?.scheme || '-'}</Text>
                 </View>
               </View>
               <View style={styles.tableRow}>
@@ -332,7 +332,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
                   <Text style={styles.tableCell2}>LOKASI</Text>
                 </View>
                 <View style={styles.tableCol2}>
-                  <Text style={styles.tableCell2}>: {exam.exam_tests.location || '-'}</Text>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests?.location || '-'}</Text>
                 </View>
               </View>
               <View style={styles.tableRow}>
@@ -340,7 +340,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
                   <Text style={styles.tableCell2}>RUANGAN</Text>
                 </View>
                 <View style={styles.tableCol2}>
-                  <Text style={styles.tableCell2}>: {exam.exam_tests.room || '-'}</Text>
+                  <Text style={styles.tableCell2}>: {exam.exam_tests?.room || '-'}</Text>
                 </View>
               </View>
               <View style={styles.tableRow}>
@@ -348,7 +348,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
                   <Text style={styles.tableCell2}>WAKTU MULAI</Text>
                 </View>
                 <View style={styles.tableCol2}>
-                  <Text style={styles.tableCell2}>: {formatDate(exam.exam_tests.started_at) || '-'}</Text>
+                  <Text style={styles.tableCell2}>: {formatDate(exam.exam_tests?.started_at) || '-'}</Text>
                 </View>
               </View>
             </View>
@@ -427,7 +427,7 @@ const ExamInvitationCard = ({ examData, profileData, dataApplicant }) => {
           <Text style={styles.noteItem}>• Kartu Peserta Seleksi PSB 2026/2027</Text>
           {/* <Text style={styles.noteItem}>• Bagi Angkatan 2025: Surat Keterangan Kelas 12 asli yang ditandatangani oleh Kepala Sekolah serta berisi nama siswa, NISN, NPSN sekolah, dan pasfoto siswa terbaru (3 bulan terakhir)</Text>
           <Text style={styles.noteItem}>• Bagi lulusan 2023 dan 2024: Ijazah/Legalisir Ijazah</Text> */}
-          <Text style={styles.noteItem}>• Identitas diri seperti KTP </Text>
+          {/* <Text style={styles.noteItem}>• Identitas diri seperti KTP </Text> */}
           
           {/* <Text style={[styles.noteTitle, {marginTop: 10}]}>CATATAN PENTING:</Text> */}
           {/* <Text style={styles.noteItem}>• LOKASI UTBK HARUS DILIHAT SATU HARI SEBELUM PELAKSANAAN UJIAN.</Text> */}
