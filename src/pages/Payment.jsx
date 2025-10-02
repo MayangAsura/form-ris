@@ -153,6 +153,7 @@ function Payment() {
           const {data: dataSchool, errorSchool} = await supabase.from('school_fees')
               .select('amount, fee_type_id')
               .eq('school_id', data.applicant_schools[0]?.schools?.school_id)
+              .eq('fee_type_id', 3)
               .single() 
   
               if(dataSchool){
