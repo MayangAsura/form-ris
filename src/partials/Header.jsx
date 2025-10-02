@@ -52,10 +52,11 @@ function Header(props) {
         const token = auth_token
         console.log('token >', token)
           if (token) {
-          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name), subschool, class_id), applicant_orders(status, invoice_number), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, dob, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
+          const {data, error} = await supabase.from('applicants').select('applicant_schools(schools(school_id, school_name), subschool, class_id), applicant_orders(status, invoice_number, deleted_at), id, full_name, gender, email, phone_number, regist_number, created_at, refresh_token, dob, participants(id, dob, aspiration, nisn, prev_school_address, kk_number, pob, medical_history, sickness_history, home_address, child_status, child_number, live_with, parent_phone_number, distance, student_category, metode_uang_pangkal, prev_school, nationality, province, region, postal_code, aspiration, nik, parent_email, is_complete, submission_status, updated_at, is_uniform_sizing, participant_father_data(father_name,father_academic,father_job,father_salary, why_chooses),participant_mother_data(mother_name,mother_academic,mother_job,mother_salary),participant_wali_data(wali_name,wali_academic,wali_job,wali_salary) ))')
                               .eq('refresh_token', token)
                               .eq('status', 'active')
                               .is('deleted_at', null)
+                              .is('applicant_orders.deleted_at', null)
           if(error || data.length === 0){
             // modal_data.title = "Token tidak valid."
             // modal_data.message = "Informasi Akun tidak ditemukan"

@@ -127,9 +127,10 @@ function Payment() {
         // console.log('on applicantdata')
         // const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA4NTIxNjUyNzM5NyIsImlhdCI6MTc1NDE0ODg1NCwiZXhwIjoxNzU0MjM1MjU0fQ.eG-_ZkjYmzJqJuK1sAELeRiuYSDOnOr5NyAxAyQCqBA';
         // console.log('qp', o, r)
-        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status, is_notif_sended)')
+        const {data, error} = await supabase.from('applicants').select('applicant_schools(applicant_id, schools(school_name, school_id)), applicant_orders(id, status, invoice_number, deleted_at), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, status, is_notif_sended)')
                             .eq('refresh_token', auth_token)                 
                             .eq('status', 'active')
+                            .is('applicant_orders.deleted_at', null)
                             .single()
         if(error){
           console.log(error)
@@ -609,6 +610,10 @@ function Payment() {
   // }
     }
 
+    const removeHistory = () =>{
+      setApplicantDataPayment({started_at: "",expired_at: "",payment_url:"",status:"", amount: "", settlement_at: ""})
+    }
+
     // const create_order = async (req, res) => {
     //   try {
     //     const {}
@@ -825,7 +830,7 @@ function Payment() {
 
                       <div className="flex flex-wrap mb-3">
                         <div className="w-full flex flex-wrap ml-3 mr-3">
-                           <button type='button' onClick={() => navigate(`/${getSchoolCode()}/${applicantData.regist_number}`)} className="btn text-white bg-gray-900 hover:bg-gray-800 w-full block"
+                           <button type='button' onClick={() => {navigate(`/${getSchoolCode()}/${applicantData.regist_number}`), removeHistory()}} className="btn text-white bg-gray-900 hover:bg-gray-800 w-full block"
                         > Ubah Jenjang
                         {/* <svg className="w-3 h-3 fill-current text-white-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                       <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
