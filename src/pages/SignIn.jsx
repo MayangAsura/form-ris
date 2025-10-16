@@ -10,6 +10,7 @@ import supabase from '../client/supabase_client';
 import { TbEye, TbEyeOff } from "react-icons/tb";
 
 import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode';
 
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
@@ -20,6 +21,7 @@ import useSignIn from 'react-auth-kit/hooks/useSignIn'
 import axios from '../api/prod-server'
 
 import { useLogin } from "../features/hooks/use-login";
+import { configureStore } from '@reduxjs/toolkit';
 const LOGIN_URL = 'api/auth/login'
 
 function SignIn(props) {
@@ -54,6 +56,10 @@ function SignIn(props) {
   const getUserInfo = async () =>{
     // setTimeout(() => {
       const token = auth_token
+
+      if(!verify_token(token)){
+        return null
+      }
       // console.log('token >', token)
         if (token) {
         const {data, error} = await supabase.from('applicants')
@@ -78,6 +84,23 @@ function SignIn(props) {
     // }, 900000);
 
   } 
+
+  const verify_token = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      
+      const exp = new Date(decoded.exp * 1000).toISOString()
+      console.log('exp', exp)
+      if(exp < new Date().toISOString()){
+        return false
+      }else{
+        return true
+      }
+    } catch (error) {
+      console.error("Error decoding JWT:", error);
+    }
+  }
+  
   const getPaymentInfo = async () => {
     // const user, error = await
     // const token = Cookies.jwt
@@ -164,7 +187,7 @@ function SignIn(props) {
     // }sd
     // if(!loading){
 
-    if(!loading && (results.code === '00' || auth_token)){
+    if(!loading && (results.code === '00' || verify_token(auth_token))){
 
       if(!isObjectEmpty(userPayment))
         {

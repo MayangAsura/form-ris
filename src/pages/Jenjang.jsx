@@ -15,10 +15,11 @@ import { MdOutlineLaunch } from 'react-icons/md'
 import Swal from '../utils/Swal';
 import SwalComponent from '../utils/SwalComponent';
 import AdmissionFlowL from '../partials/AdmissionFlowL';
-
+const FND_ID = process.env.FND_ID?? "25573656-ce58-4bd2-9b89-fadf4ebbea60"
 function Jenjang() {
   const id = "e63830b4-c751-4714-9279-fd57c4be5f10"
   const [admission_schools, setAdmissionSchools] = useState([])
+  const [admissions, setAdmissions] = useState({})
   const { userToken, userInfo } = useSelector((state) => state.auth)
   const { onSubmit, form, results, loading } = useLogin();
   const auth_token = localStorage.getItem('token-refresh') || results.data?.token_refresh || userToken
@@ -42,9 +43,9 @@ ditetapkan sekolah</li>
   })
 
   useEffect(()=> {
-    if(id){
+    if(id || FND_ID){
       getAdmissionsAys(id)
-
+      getAdmissions(FND_ID)
     }
     if(auth_token){
       navigate('/home')
@@ -70,6 +71,25 @@ ditetapkan sekolah</li>
       console.log(error)
     }else{
       setAdmissionSchools(admission_schools)
+      // console.log(admission_schools)
+      // setAdmissionSchools(admission_schools.map(prev => [...prev, {img}])
+    }
+
+    }
+  const getAdmissions = async (id) => {
+    let { data: admissions, error } = await supabase
+    .from('admissions')
+    .select(`
+      *
+    `)
+    .eq('foundation_id', id)
+    .eq('is_active', true)
+    .is('deleted_at', null)
+
+    if(error){
+      console.log(error)
+    }else{
+      setAdmissions(admissions[0])
       // console.log(admission_schools)
       // setAdmissionSchools(admission_schools.map(prev => [...prev, {img}])
     }
@@ -130,9 +150,15 @@ ditetapkan sekolah</li>
       <section className="relative">
          {/* Section background (needs .relative class on parent and next sibling elements) */}
       {/* <div className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-gray-900 pointer-events-none" aria-hidden="true"></div> */}
-      {/* <div className="absolute left-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div> */}
-      <h3 className="text-3xl md:text-4xl text-center font-bold leading-tighter tracking-tighter mt-32 mb-5 px-1" data-aos="zoom-y-out">
-              Ahlan wa Sahlan, <br /><span className="text-3xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-orange-400 ">Buku Tamu Penerimaan Santri Baru <br /> Rabbaanii Islamic School</span>
+      {/* <div className="absolute lefsdt-0 right-0 bottom-0 m-auto w-px p-px h-20 bg-gray-200 transform translate-y-1/2"></div> */}
+      <h3 className="text-3xl md:text-4xl text-center font-bold leading-snug tracking-tighter mt-32 mb-5 px-1" data-aos="zoom-y-out">
+              Ahlan wa Sahlan, <br /><div className="text-4xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-orange-400 "
+              dangerouslySetInnerHTML={{ __html: admissions.title }}
+              >
+                
+                {/* {admissions.title} */}
+                {/* Buku Tamu Penerimaan Santri Baru <br /> Rabbaanii Islamic School */}
+                </div>
               
             </h3>
             <hr className='w-24 h-1 mx-auto my-4 text-transparent bg-gradient-to-l from-gray-100 to-green-400 border-0 rounded-sm md:my-8 '/>

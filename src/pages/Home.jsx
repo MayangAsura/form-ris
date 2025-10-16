@@ -20,9 +20,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useLogin } from '../features/hooks/use-login';
+import supabase from '../client/supabase_client';
+
+const FND_ID = process.env.FND_ID?? "25573656-ce58-4bd2-9b89-fadf4ebbea60"
 
 function Home() {
   // const {userToken} = useSelector(state => state.auth)
+  const [admissions, setAdmissions] = useState({})
   const [applicantData, setApplicantData] = useState([])
   const [participantData, setParticipantData] = useState({full_name: "", submission_status:""})
   const [is_refresh, setIsRefresh] = useState(false)
@@ -86,9 +90,78 @@ function Home() {
       console.log('current from home', currentStep)
     }
     
+    if(auth_token){
+      getUserInfo()
+    }
+
+    if(FND_ID){
+      getAdmissions(FND_ID)
+    }
 
          
   }, [step, currentStep, applicantData, complete])
+
+  const getUserInfo = async () =>{
+    // setTimeout(() => {
+      const token = auth_token
+
+      if(!verify_token(token)){
+        return null
+      }
+      // console.log('token >', token)
+        if (token) {
+        const {data, error} = await supabase.from('applicants')
+                              .select('applicant_schools(schools(school_name)), applicant_orders(status), full_name, gender, email, phone_number, regist_number, created_at, refresh_token, participants(dob, aspiration))')
+                              .eq('refresh_token', token)
+        if(error){
+          console.log(error)
+          return null
+        
+        }else{
+          
+          return data
+        }
+      }
+      
+    // }, 900000);
+
+  }
+
+  const getAdmissions = async (id) => {
+    let { data: admissions, error } = await supabase
+    .from('admissions')
+    .select(`
+      *
+    `)
+    .eq('foundation_id', id)
+    .eq('is_active', true)
+    .is('deleted_at', null)
+
+    if(error){
+      console.log(error)
+    }else{
+      setAdmissions(admissions[0])
+      // console.log(admission_schools)
+      // setAdmissionSchools(admission_schools.map(prev => [...prev, {img}])
+    }
+
+    }
+
+  const verify_token = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      
+      const exp = new Date(decoded.exp * 1000).toISOString()
+      console.log('exp', exp)
+      if(exp < new Date().toISOString()){
+        return false
+      }else{
+        return true
+      }
+    } catch (error) {
+      console.error("Error decoding JWT:", error);
+    }
+  }
 
   const getCurrentStep = (value) => {
     setCurrentStep(value)
@@ -136,9 +209,9 @@ function Home() {
         {/*  Page sections */}
         {/* <Pro */}
         <ProfileCard applicant={applicantData} setIsRefresh={setIsRefresh} />
-        <Announcement applicant={applicantData} participant={participantData} complete={complete} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
+        <Announcement applicant={applicantData} participant={participantData} admissions={admissions} complete={complete} setCurrentStep={setCurrentStep} toUniformClick={toUniformClick} />
         {/* toUniformClick={toUniformClick} */}
-        <HorizontalStepper applicant={applicantData} setIsRefresh={setIsRefresh} getComplete={getComplete} currentStep={currentStep} ref={pengSeragam} />
+        <HorizontalStepper applicant={applicantData} admissions={admissions} setIsRefresh={setIsRefresh} getComplete={getComplete} currentStep={currentStep} ref={pengSeragam} />
         {/* <Jenjang/> */}
         {/* <HeroHome /> */}
         {/* <Stepper/> */}
@@ -153,10 +226,10 @@ function Home() {
 
       </main>
 
-      {/* <Banner /> */}
+      <Banner admissions={admissions} />
 
       {/*  Site footer */}
-      <Footer />
+      <Footer admissions={admissions} />
 
     </div>
   );

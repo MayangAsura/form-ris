@@ -276,6 +276,7 @@ function Announcement(props) {
     return text;
   }
 
+
   const download_surat_kesanggupan = () => {
     const isFullday = [1, 2, 3, 6].includes(parseInt(applicantSchool))
     const url = isFullday 
