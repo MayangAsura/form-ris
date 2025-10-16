@@ -149,7 +149,7 @@ function Home() {
 
   const verify_token = (token) => {
     try {
-      const decoded = jwtDecode(token);
+      const decoded = jwtDecode(token.toString());
       
       const exp = new Date(decoded.exp * 1000).toISOString()
       console.log('exp', exp)

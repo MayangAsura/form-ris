@@ -86,21 +86,21 @@ function SignIn(props) {
   } 
 
   const verify_token = (token) => {
-    try {
-      const decoded = jwtDecode(token);
-      
-      const exp = new Date(decoded.exp * 1000).toISOString()
-      console.log('exp', exp)
-      if(exp < new Date().toISOString()){
-        return false
-      }else{
-        return true
+      try {
+        const decoded = jwtDecode(token.toString());
+        
+        const exp = new Date(decoded.exp * 1000).toISOString()
+        console.log('exp', exp)
+        if(exp < new Date().toISOString()){
+          return false
+        }else{
+          return true
+        }
+      } catch (error) {
+        console.error("Error decoding JWT:", error);
       }
-    } catch (error) {
-      console.error("Error decoding JWT:", error);
-    }
   }
-  
+
   const getPaymentInfo = async () => {
     // const user, error = await
     // const token = Cookies.jwt
@@ -167,9 +167,9 @@ function SignIn(props) {
   useEffect(() => {
     // const userPayment = getPaymentInfo()
     
-    getPaymentInfo()
     if(auth_token){
       getUserInfo()
+      getPaymentInfo()
 
     }
     
@@ -187,9 +187,9 @@ function SignIn(props) {
     // }sd
     // if(!loading){
 
-    if(!loading && (results.code === '00' || verify_token(auth_token))){
+    if(!loading && (results.code === '00' || (auth_token && verify_token(auth_token)))){
 
-      if(!isObjectEmpty(userPayment))
+      if(!isObjectEmpty(userPayment) || getPaymentInfo())
         {
           console.log('results.', results, userInfo, userPayment)
           modal_data.url = "/home"
@@ -199,14 +199,14 @@ function SignIn(props) {
           setModalShow(true)
           navigate('/home')
         }
-        if (isObjectEmpty(userPayment)) {
+        if (isObjectEmpty(userPayment) || !getPaymentInfo()) {
           modal_data.url = "/pay"
           modal_data.text = "OK"
           // modal_data.url2 = "/login"
           // modal_data.text2 = "Cancel"
           // modal_data.message = "Login Berhasil Mengarahkan ke halaman pembayaran"
           setModalShow(true)
-          console.log('results>', results, )
+          console.log('results>', results)
           // navigate('/pay')
           
         }
